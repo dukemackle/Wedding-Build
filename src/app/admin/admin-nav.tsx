@@ -5,92 +5,32 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { pageWidthClass, type PageWidth } from "@/lib/layout";
+import { AdminIcon } from "./admin-icons";
+import { activePage, adminGroups, pageFor, type PendingClaims } from "./admin-pages";
 import { AdminSearch } from "./admin-search";
 
-/** Claim submissions waiting for review, per list. */
-export type PendingClaims = { venues: number; vendors: number; reports: number; market: number };
-
-// `keywords` are other words the search box should find the page by.
-type NavLink = { href: string; label: string; badge?: number; soon?: boolean; keywords?: string };
-
-function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
-  return [
-    {
-      links: [
-        { href: "/admin", label: "Home", keywords: "overview dashboard stats summary needs attention queue coverage health" },
-        { href: "/admin/ask", label: "Ask Wren", keywords: "ai assistant question chat" },
-        { href: "/admin/notifications", label: "Notifications", soon: true },
-      ],
-    },
-    {
-      title: "Marketplace",
-      links: [
-        { href: "/admin/coverage", label: "Coverage", keywords: "states gaps targets 50-state plan thin missing categories opportunity ranking" },
-        { href: "/admin/venues", label: "Venues", keywords: "listings import batches export audit map" },
-        { href: "/admin/vendors", label: "Vendors", keywords: "listings import batches export audit photographers florists caterers" },
-        { href: "/admin/venues/claims", label: "Venue claims", keywords: "submissions approve review", badge: claims.venues },
-        { href: "/admin/vendors/claims", label: "Vendor claims", keywords: "submissions approve review", badge: claims.vendors },
-        { href: "/admin/leads", label: "Unlisted bookings", keywords: "couples booked unlisted purchased from missing businesses research" },
-        { href: "/admin/listing-health", label: "Listing health", keywords: "reports wrong closed bounces accuracy problems", badge: claims.reports },
-        { href: "/admin/marketplace", label: "Buy & sell", keywords: "marketplace resale listings reports moderation take down scams", badge: claims.market },
-      ],
-    },
-    {
-      title: "Customers",
-      links: [
-        { href: "/admin/couples", label: "Couples", keywords: "users accounts weddings signups customers" },
-        { href: "/admin/feedback", label: "Feedback", keywords: "help bugs messages chat themes" },
-        { href: "/admin/photo-wall", label: "Photo wall", keywords: "photos gallery images uploads" },
-      ],
-    },
-    {
-      title: "Business",
-      links: [
-        { href: "/admin/revenue", label: "Reported bookings", keywords: "revenue money referrals payments income gmv booked" },
-        { href: "/admin/spend", label: "Spend & renewals", keywords: "expenses costs bills subscriptions renewals domain workspace llc finance burn" },
-        { href: "/admin/growth", label: "Growth", keywords: "signups funnel coverage states" },
-        { href: "/admin/analytics", label: "Funnels", keywords: "analytics events activation retention drop off conversion couples listings" },
-        { href: "/admin/audit-log", label: "Admin log", keywords: "audit history who changed deleted approved activity accountability" },
-        { href: "/admin/errors", label: "Errors", keywords: "app errors crashes broken failures bugs health logs" },
-      ],
-    },
-    {
-      title: "Content",
-      links: [
-        { href: "/admin/attire", label: "Attire", keywords: "dresses suits rings catalog" },
-        { href: "/admin/cost-data", label: "Cost data", keywords: "budget estimator prices regional csv" },
-      ],
-    },
-  ];
-}
+export type { PendingClaims } from "./admin-pages";
 
 // Every built page, for the search box's "Pages" group.
 function searchablePages(claims: PendingClaims) {
-  return groups(claims)
+  return adminGroups(claims)
     .flatMap((g) => g.links)
     .filter((l) => !l.soon)
     .map((l) => ({ href: l.href, title: l.label, keywords: l.keywords }));
 }
 
-// The most specific link that contains the current path, so the Claims page
-// lights up Claims rather than Venues too.
-function activeHref(pathname: string, links: NavLink[]) {
-  return links
-    .filter((l) => pathname === l.href || (l.href !== "/admin" && pathname.startsWith(`${l.href}/`)))
-    .sort((a, b) => b.href.length - a.href.length)[0]?.href;
-}
-
 function NavList({ pendingClaims, onNavigate }: { pendingClaims: PendingClaims; onNavigate?: () => void }) {
   const pathname = usePathname();
-  const all = groups(pendingClaims);
-  const active = activeHref(pathname, all.flatMap((g) => g.links));
+  const all = adminGroups(pendingClaims);
+  const active = activePage(pathname, all.flatMap((g) => g.links))?.href;
 
   return (
     <nav className="flex flex-col">
       {all.map((group, i) => (
         <div key={group.title ?? i} className={i > 0 ? "mt-5" : ""}>
           {group.title && (
-            <p className="mb-1.5 px-2 font-mono-numbers text-[10.5px] uppercase tracking-[0.12em] text-ink/45">
+            <p className="mb-1.5 flex items-center gap-2 px-2 font-mono-numbers text-[10.5px] uppercase tracking-[0.14em] text-white/60">
+              <span className={`h-2 w-2 rounded-[2px] ${group.dot}`} aria-hidden />
               {group.title}
             </p>
           )}
@@ -99,25 +39,26 @@ function NavList({ pendingClaims, onNavigate }: { pendingClaims: PendingClaims; 
               <span
                 key={link.href}
                 title="Not built yet"
-                className="flex items-center justify-between rounded-md px-2 py-1.5 text-sm text-ink/35"
+                className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-white/35"
               >
+                <AdminIcon name={link.icon} />
                 {link.label}
-                <span className="rounded-full border border-hairline px-1.5 text-[10px]">soon</span>
+                <span className="ml-auto rounded-full border border-white/20 px-1.5 text-[10px]">soon</span>
               </span>
             ) : (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={onNavigate}
-                className={`flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${
-                  active === link.href
-                    ? "bg-forest/10 font-medium text-forest"
-                    : "text-ink/75 hover:bg-parchment hover:text-forest"
+                aria-current={active === link.href ? "page" : undefined}
+                className={`flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-[#FFD301] ${
+                  active === link.href ? "bg-white/15 font-medium text-white" : "text-white/75 hover:bg-white/10 hover:text-white"
                 }`}
               >
+                <AdminIcon name={link.icon} className={`h-4 w-4 shrink-0 ${link.icon === "wren" ? "text-[#00BFFE]" : "opacity-80"}`} />
                 {link.label}
                 {!!link.badge && (
-                  <span className="rounded-full bg-brass px-1.5 font-mono-numbers text-[11px] text-ink">
+                  <span className="ml-auto rounded-full bg-[#FFD301] px-1.5 font-mono-numbers text-[11px] font-medium text-forest">
                     {link.badge}
                   </span>
                 )}
@@ -133,8 +74,8 @@ function NavList({ pendingClaims, onNavigate }: { pendingClaims: PendingClaims; 
 function Brand() {
   return (
     <Link href="/admin" className="flex items-center gap-2">
-      <Image src="/icon.png" alt="You Do, I Do" width={28} height={28} className="h-7 w-7 shrink-0" />
-      <span className="rounded-full bg-brass/10 px-2 py-0.5 font-mono-numbers text-xs uppercase tracking-wide text-brass">
+      <Image src="/icon.png" alt="You Do, I Do" width={28} height={28} className="h-7 w-7 shrink-0 rounded-md bg-white p-0.5" />
+      <span className="rounded-full bg-[#FFD301] px-2 py-0.5 font-mono-numbers text-xs font-medium uppercase tracking-wide text-forest">
         Admin
       </span>
     </Link>
@@ -142,22 +83,23 @@ function Brand() {
 }
 
 const backToApp = (
-  <a href="https://youdoido.com/dashboard" className="font-mono-numbers text-sm text-brass hover:underline">
+  <a href="https://youdoido.com/dashboard" className="font-mono-numbers text-sm text-[#FFD301] hover:underline">
     &larr; Back to app
   </a>
 );
 
 /**
- * The admin menu: a sidebar on a wide screen, a top bar with a menu button on
- * a phone. Grouped rather than one long strip, because the panel keeps growing
- * and a strip of eleven links wraps into a paragraph.
+ * The admin menu: a navy sidebar on a wide screen, a navy top bar with a menu
+ * button on a phone. Each link has its own icon and each group its own colour
+ * dot, so pages can be found by shape and colour, not only by reading.
  */
 export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
   const [open, setOpen] = useState(false);
+  const waiting = pendingClaims.venues + pendingClaims.vendors + pendingClaims.reports + pendingClaims.market;
 
   return (
     <>
-      <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col overflow-y-auto border-r border-hairline bg-card px-3 py-5 lg:flex">
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-y-auto bg-[#14203d] px-3 py-5 lg:flex">
         <div className="mb-4 px-2">
           <Brand />
         </div>
@@ -166,7 +108,7 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
         <NavList pendingClaims={pendingClaims} />
       </aside>
 
-      <div className="sticky top-0 z-30 border-b border-hairline bg-card lg:hidden">
+      <div className="sticky top-0 z-30 bg-[#14203d] lg:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <Brand />
           <button
@@ -174,12 +116,10 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"}
-            className="relative rounded-md border border-hairline px-3 py-1.5 text-sm text-ink"
+            className="relative rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-sm text-white"
           >
             {open ? "Close" : "Menu"}
-            {!open && pendingClaims.venues + pendingClaims.vendors > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 h-3 w-3 rounded-full bg-brass" />
-            )}
+            {!open && waiting > 0 && <span className="absolute -top-1.5 -right-1.5 h-3 w-3 rounded-full bg-[#FFD301]" />}
           </button>
         </div>
         <div className="px-4 pb-3">
@@ -187,12 +127,29 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
           <div className="mt-2 px-1">{backToApp}</div>
         </div>
         {open && (
-          <div className="max-h-[calc(100vh-57px)] overflow-y-auto border-t border-hairline px-3 py-4">
+          <div className="max-h-[calc(100vh-57px)] overflow-y-auto border-t border-white/10 px-3 py-4">
             <NavList pendingClaims={pendingClaims} onNavigate={() => setOpen(false)} />
           </div>
         )}
       </div>
     </>
+  );
+}
+
+/**
+ * The line above every admin page title: the page's icon in its group's
+ * colour and the group name, so each page shows where it sits.
+ */
+export function AdminEyebrow({ label }: { label?: string }) {
+  const found = pageFor(usePathname());
+  const tile = found?.group.tile ?? "bg-forest text-white";
+  return (
+    <p className="flex items-center gap-2.5 font-mono-numbers text-xs uppercase tracking-[0.16em] text-ink/60">
+      <span className={`grid h-8 w-8 place-items-center rounded-lg ${tile}`} aria-hidden>
+        <AdminIcon name={found?.page.icon ?? "home"} className="h-[18px] w-[18px]" />
+      </span>
+      {label ?? found?.group.title ?? "Admin"}
+    </p>
   );
 }
 
