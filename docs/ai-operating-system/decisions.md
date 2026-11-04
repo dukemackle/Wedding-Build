@@ -310,13 +310,13 @@ rules, batch self-merge, 50-state coverage, page widths) and
 
 ## 2026-11-04: App icon is gold rings on a Royal tile with an Aqua diamond
 
-- Decision (owner chose from ChatGPT drafts, then approved the redraw): the
-  app icon, favicon and Apple icon are the linked rings in Gold `#FFD301` and
-  Lemon `#FFF12F` on a flat Royal `#2243B6` tile, with an Aqua `#5AE4FF`
-  diamond shaped like the owner's chosen draft (a little taller than wide).
-  Master: `public/logo/app-icon.svg`.
+- Decision (owner): the app icon, favicon and Apple icon use the owner's
+  chosen ChatGPT draft as-is: gold linked rings on a Royal-blue tile with a
+  Sky/Aqua diamond. Source: `public/logo/app-icon.png` (1024px). A clean
+  vector redraw was tried and set aside; the owner preferred the draft.
 - Why: brightest of the options on both light and dark wallpapers, the rings
   stay gold, and it still reads as two rings at 32px. The navy tile vanished
   on dark wallpapers; the gold tile lost the gold rings.
 - Trade-off: blue is Wren's colour, so the tile leans "Wren", with gold as
-  the brand on top. Owner accepted.
+  the brand on top. No vector master exists; a print or very large use would
+  need one drawn.
