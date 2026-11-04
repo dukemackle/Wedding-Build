@@ -725,6 +725,24 @@ export const TEMPLATES: Template[] = [
   },
 ];
 
+/** The families, in the library's order, for the filter chips. */
+export const FAMILIES = [...new Set(TEMPLATES.map((t) => t.family))];
+/** Chip labels: one or two words, so the row stays short. */
+export const SHORT: Record<string, string> = {
+  "Editorial luxury": "Editorial",
+  "Romantic florals": "Florals",
+  "Celestial & black tie": "Black tie",
+  "Modern minimalist": "Minimal",
+  "Vintage & retro": "Retro",
+  "Mediterranean destination": "Destination",
+  "Western & ranch": "Western",
+  "Coastal & beach": "Coastal",
+  "Classic traditional": "Classic",
+  "Full-bleed photography": "Photo",
+  "Whimsical garden": "Whimsical",
+  "Rustic botanical": "Rustic",
+};
+
 export function templateById(id: string): Template {
   return TEMPLATES.find((t) => t.id === id) ?? TEMPLATES[0];
 }

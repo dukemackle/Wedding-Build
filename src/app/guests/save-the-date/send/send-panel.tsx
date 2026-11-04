@@ -207,7 +207,7 @@ export function SendPanel({
   return (
     <div className="text-ink">
       <link rel="stylesheet" href={fontsHref} precedence="default" />
-      <Link href="/guests/save-the-date" className="text-sm text-ink/60 hover:text-ink">
+      <Link href="/guests/save-the-date/edit" className="text-sm text-ink/60 hover:text-ink">
         ← Back to your card
       </Link>
 

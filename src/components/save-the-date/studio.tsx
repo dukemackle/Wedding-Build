@@ -7,19 +7,13 @@ import { putToSignedUrl } from "@/lib/signed-upload";
 import { ART } from "./art";
 import { CardSvg } from "./card-svg";
 import { Reveal } from "./reveal";
-import { FONTS, fontById, fontsHrefFor } from "@/lib/site-design";
+import { FONTS, fontById } from "@/lib/site-design";
+import { FONTS_HREF } from "@/lib/save-the-date/fonts";
 import { cardPdf, cardPng, saveBlob } from "@/lib/save-the-date/export";
-import { TEMPLATES, newCard, templateById } from "@/lib/save-the-date/templates";
+import { FAMILIES, SHORT, TEMPLATES, newCard, templateById } from "@/lib/save-the-date/templates";
 import type { CardContent, CardDoc, LayerOverride, Photo } from "@/lib/save-the-date/types";
 
-const STUDIO_FONTS = [
-  ...new Set([
-    ...TEMPLATES.flatMap((t) => t.pairings.flatMap((p) => [p.display, p.script, p.sans])),
-    ...FONTS.map((f) => f.id),
-  ]),
-];
-/** Every face the studio can show, as one Google Fonts stylesheet. */
-export const FONTS_HREF = fontsHrefFor(STUDIO_FONTS.map((id) => fontById(id)?.css ?? ""));
+export { FONTS_HREF };
 
 // ---------------------------------------------------------------- history
 
@@ -119,24 +113,6 @@ const RedoIcon = () => (
 // ---------------------------------------------------------------- panels
 
 type Panel = "templates" | "details" | "style" | "photo" | "layers";
-
-/** The families, in the library's order, for the filter chips. */
-const FAMILIES = [...new Set(TEMPLATES.map((t) => t.family))];
-/** Chip labels: one or two words, so the row stays short. */
-const SHORT: Record<string, string> = {
-  "Editorial luxury": "Editorial",
-  "Romantic florals": "Florals",
-  "Celestial & black tie": "Black tie",
-  "Modern minimalist": "Minimal",
-  "Vintage & retro": "Retro",
-  "Mediterranean destination": "Destination",
-  "Western & ranch": "Western",
-  "Coastal & beach": "Coastal",
-  "Classic traditional": "Classic",
-  "Full-bleed photography": "Photo",
-  "Whimsical garden": "Whimsical",
-  "Rustic botanical": "Rustic",
-};
 
 function TemplatePicker({ doc, choose, row, samples }: { doc: CardDoc; choose: (id: string) => void; row?: boolean; samples: boolean }) {
   const [family, setFamily] = useState<string | null>(null);
@@ -514,12 +490,16 @@ type StudioProps = {
   /** Photos the couple already has, offered in the Photo panel. */
   photos?: string[];
   backHref?: string;
+  /** The back link's word on desktop. */
+  backLabel?: string;
   /** Prototype screenshots open on a panel or mode ("advanced", "preview", "mobile-style"). */
   view?: string;
   /** Shown in place of the save status when nothing is saved (the prototype, a view-only partner). */
   note?: string;
   /** Where Send goes (the couple's real card only). */
   sendHref?: string;
+  /** A design picked on the save-the-date home: applied on open, as an undoable step that autosaves. */
+  startTemplate?: string;
 };
 
 /**
@@ -527,7 +507,7 @@ type StudioProps = {
  * settings on the right (a tool bar and sheets on a phone). See
  * docs/save-the-date-studio.md.
  */
-export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", view = "", note = "Prototype · nothing is saved", sendHref }: StudioProps) {
+export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, startTemplate }: StudioProps) {
   const [h, dispatch] = useReducer(reducer, null, () => ({
     past: [],
     present: initial,
@@ -629,6 +609,19 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     setSelected(null);
   };
 
+  // A design picked on the home page: swap to it once (after a starting
+  // photo's proportions are read), then drop ?t so a reload doesn't redo it.
+  const started = useRef(false);
+  useEffect(() => {
+    if (started.current || !startTemplate || (doc.photo && doc.photo.aspect === 0)) return;
+    started.current = true;
+    window.history.replaceState(null, "", window.location.pathname);
+    // A one-off, undoable step that should autosave, so it goes through choose().
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (startTemplate !== doc.template && TEMPLATES.some((x) => x.id === startTemplate)) choose(startTemplate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startTemplate, doc]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const typing = (e.target as HTMLElement)?.closest("input, textarea, select");
@@ -715,7 +708,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
             <path d="M15 18l-6-6 6-6" />
           </svg>
-          <span className="hidden sm:inline">Guests</span>
+          <span className="hidden sm:inline">{backLabel}</span>
         </a>
         <div className="min-w-0">
           <h1 className="truncate font-display text-lg leading-tight lg:text-xl">Save the date</h1>
