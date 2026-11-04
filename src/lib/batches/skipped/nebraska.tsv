@@ -1,5 +1,5 @@
 Kind	Name	Category	City	State	Reason	Link	Date
-Vendor	The Wedding Planner Omaha, LLC	Planning	Omaha	Nebraska	Site back up	https://theweddingplanneromaha.com/	2026-10-11
+Vendor	The Wedding Planner Omaha, LLC	Planning	Omaha	Nebraska	Site dead	https://theweddingplanneromaha.com/	2026-10-11
 Vendor	Occasion Designed	Planning	Omaha	Nebraska	No website	https://www.theknot.com/marketplace/occasion-designed-omaha-ne-220339	2026-10-11
 Vendor	Joining Hearts Weddings	Planning	Eagle	Nebraska	No website	https://theknot.com/marketplace/joining-hearts-weddings-eagle-ne-1060596	2026-10-11
 Vendor	Earthy Events	Planning	Omaha	Nebraska	No website	https://theknot.com/marketplace/earthy-events-omaha-ne-2060119	2026-10-11
@@ -41,7 +41,6 @@ Venue	The Friedhof Oak Room		Columbus	Nebraska	No website	https://zola.com/weddi
 Venue	Brader Country Barn		Blue Hill	Nebraska	No website	https://www.eventective.com/blue-hill-ne/wedding-venues/	2026-10-11
 Venue	Apothecary Lofts & Ridnour Room		Lincoln	Nebraska	No website	https://www.wedding-spot.com/venue/13489/Apothecary-Lofts-and-Ridnour-Room/	2026-10-11
 Venue	Magnolia Hotel Omaha		Omaha	Nebraska	Franchise	https://www.magnoliahotels.com/omaha/	2026-10-11
-Vendor	Garbo's Salon & Spa	Hair & Makeup	Omaha	Nebraska	Site back up	https://garbossalons.com/weddings/	2026-10-11
 Vendor	Piccolo's Florist	Florals	Omaha	Nebraska	Site blocks automated visits, unconfirmed	https://www.piccolosflorist.com/weddings-and-events/	2026-10-11
 Venue	The Well Event Center		Lexington	Nebraska	Inactive	https://thewelleventcenter.com/	2026-10-18
 Venue	Holiday Inn Express Hotel & Suites Lexington		Lexington	Nebraska	Franchise	https://bridebook.com/us-en/wedding-venues/holiday-inn-express-hotel-suites-lexington-an-ihg-hotel-lexington-nebraska-usy8JNvv8l	2026-10-18
@@ -70,3 +69,66 @@ Vendor	Special Occasions Florist	Florals	Columbus	Nebraska	Social only	https://w
 Vendor	Seasons Floral Gifts & Home Decor	Florals	Columbus	Nebraska	No website	https://www.weddingwire.com/biz/seasons-floral-gifts-home-decor-columbus/60ce3e913a3402d4.html	2026-10-18
 Vendor	Tangles Salon	Hair & Makeup	Columbus	Nebraska	No website	https://www.theknot.com/marketplace/tangles-salon-columbus-ne-807920	2026-10-18
 Venue	North Platte Community Playhouse		North Platte	Nebraska	Site blocks automated visits, unconfirmed	https://northplattecommunityplayhouse.com/rentals/	2026-10-18
+Vendor	Fimbres Creative	Videography	Omaha	Nebraska	No wedding page	https://fimbrescreative.com/	2026-11-04
+Vendor	Videomaha (Burns Enterprises)	Videography	Omaha	Nebraska	Inactive	https://burns-enterprises.com/wedding-reels/	2026-11-04
+Vendor	Blue Fern	Florals	Omaha	Nebraska	Site dead	https://bluefernomaha.com/	2026-11-04
+Vendor	Florist of Omaha	Florals	Omaha	Nebraska	No wedding page	https://floristofomaha.com/	2026-11-04
+Vendor	Fancy Plants Flowers & Design	Florals	Omaha	Nebraska	No wedding page	https://fancyplantsomaha.com/	2026-11-04
+Vendor	A Flower Basket	Florals	Omaha	Nebraska	Site dead	https://aflowerbasket.com/	2026-11-04
+Vendor	Memorable Moments	Planning	Omaha	Nebraska	Inactive	https://memorablemomentsne.com/services-and-reviews	2026-11-04
+Vendor	Rebirth Entertainment	Music	Omaha	Nebraska	No wedding page	https://www.rebirthentertainment.com/	2026-11-04
+Vendor	Dynamic Air DJ's	Music	Omaha	Nebraska	No wedding page	https://dynamicairdjs.com/	2026-11-04
+Vendor	Chaos Productions	Music	Louisville	Nebraska	Site blocks automated visits, unconfirmed	https://djchaosproductions.com/	2026-11-04
+Vendor	Elegant Edge Events	Catering	Omaha	Nebraska	No wedding page	https://elegantedgeomaha.com/	2026-11-04
+Vendor	All Inclusive Catering	Catering	Omaha	Nebraska	No wedding page	https://allinclusivecatering.net/	2026-11-04
+Vendor	Pleasure Your Pallet	Catering	Omaha	Nebraska	Site blocks automated visits, unconfirmed	https://pleasureyourpalletcatering.com/	2026-11-04
+Vendor	The Walking Taco	Catering	Omaha	Nebraska	Franchise	https://thewalkingtaco.com/omaha-nebraska/	2026-11-04
+Vendor	Porky Butts BBQ	Catering	Omaha	Nebraska	Site blocks automated visits, unconfirmed	https://porkybuttsbbq.com/	2026-11-04
+Vendor	Street Side Foods	Catering	Omaha	Nebraska	Site blocks automated visits, unconfirmed	https://streetsidefoods.net/weddings/	2026-11-04
+Vendor	Savina Artistry Salon & Spa	Hair & Makeup	Omaha	Nebraska	No wedding page	https://www.savinaartistry.com/	2026-11-04
+Vendor	Ethereal Beauty + Wellness	Hair & Makeup	Omaha	Nebraska	Inactive	https://etherealbeautyandwellness.com/	2026-11-04
+Vendor	Omaha Wedding Hair	Hair & Makeup	Omaha	Nebraska	No wedding page	https://www.omahaweddinghair.com/	2026-11-04
+Vendor	STAIY Salon	Hair & Makeup	Omaha	Nebraska	No wedding page	https://www.staiysalon.com/	2026-11-04
+Vendor	Kara McLaughlin Artistry	Hair & Makeup	Omaha	Nebraska	Social only	https://www.instagram.com/karamclaughlinartistry/	2026-11-04
+Vendor	Emmy's Sweet Dreams	Cake	Omaha	Nebraska	Inactive	https://www.emmyssweetdreams.com/	2026-11-04
+Vendor	Katie's Cakery	Cake	Omaha	Nebraska	No wedding page	https://katiescakery.com/	2026-11-04
+Vendor	Rebel Rise GF Bistro & Bakery	Cake	Omaha	Nebraska	No wedding page	https://rebelrisegf.com/	2026-11-04
+Vendor	SmallCakes Omaha	Cake	Omaha	Nebraska	Franchise	https://smallcakesomaha.com/	2026-11-04
+Vendor	Gigi's Cupcakes Omaha	Cake	Omaha	Nebraska	Franchise	https://www.gigisomaha.com/	2026-11-04
+Vendor	Kaitlyn Neeley Photography	Photography	Omaha	Nebraska	Inactive	https://kaitlynneeley.com/	2026-11-04
+Vendor	A Better Exposure	Photography	Omaha	Nebraska	Inactive	https://www.abetterexposure.com/	2026-11-04
+Vendor	TLC Photography	Photography	Omaha	Nebraska	Site blocks automated visits, unconfirmed	https://www.tlcphotography.net/	2026-11-04
+Vendor	Poppy Events	Planning	Lincoln	Nebraska	No wedding page	https://www.poppyweddingevents.com/	2026-11-04
+Vendor	1432 Events	Planning	Lincoln	Nebraska	No wedding page	https://1432events.com/	2026-11-04
+Vendor	Something Blue Events	Planning	Hickman	Nebraska	No wedding page	https://www.something-blue-events.com/	2026-11-04
+Vendor	Reverie Wedding and Events	Florals	Lincoln	Nebraska	No wedding page	https://reverieweddingandevents.com/	2026-11-04
+Vendor	Esskay Entertainment	Music	Lincoln	Nebraska	Site blocks automated visits, unconfirmed	https://esskayentertainment.com/home	2026-11-04
+Vendor	ARC Music and Entertainment	Music	Lincoln	Nebraska	Site blocks automated visits, unconfirmed	https://weddingdjne.com/	2026-11-04
+Vendor	Steele Productions	Music	Lincoln	Nebraska	Inactive	https://midweststeeleproductions.com/	2026-11-04
+Vendor	Irina Dubina Photo	Photography	Lincoln	Nebraska	Site blocks automated visits, unconfirmed	https://www.irinadubinaphoto.com/	2026-11-04
+Vendor	JLauren Creative	Photography	Lincoln	Nebraska	Site blocks automated visits, unconfirmed	https://www.jlaurencreative.co/	2026-11-04
+Vendor	Emily Nix Photography	Photography	Seward	Nebraska	Site blocks automated visits, unconfirmed	https://www.emilynixphotography.com/	2026-11-04
+Vendor	Prairie and Pine Photography	Photography	Lincoln	Nebraska	Site blocks automated visits, unconfirmed	https://www.prairieandpinephotography.com/	2026-11-04
+Vendor	40 Nights Photography	Photography	Waverly	Nebraska	Site dead	https://www.40nightsphotography.com/	2026-11-04
+Vendor	Three Pillars Media	Videography	Lincoln	Nebraska	No wedding page	https://threepillarsmedia.com/	2026-11-04
+Vendor	Story Beauty	Hair & Makeup	Lincoln	Nebraska	Social only	https://storybeauty.glossgenius.com/about	2026-11-04
+Vendor	Hickory Road BBQ & Catering	Catering	Lincoln	Nebraska	No wedding page	https://hickoryroadbbq.com/	2026-11-04
+Vendor	Annette's Catering	Catering	Lincoln	Nebraska	Site dead	https://www.annettescatering.com	2026-11-04
+Vendor	Venue Catering & Events	Catering	Lincoln	Nebraska	Site blocks automated visits, unconfirmed	https://yourvenue.net/catering/	2026-11-04
+Vendor	Nothing Bundt Cakes Lincoln	Cake	Lincoln	Nebraska	Franchise	https://www.nothingbundtcakes.com/bakery/NE/lincoln	2026-11-04
+Vendor	Hinkel Productions	Videography	Kearney	Nebraska	No wedding page	https://www.hinkelproductions.com/	2026-11-04
+Vendor	Divas at Kearney Floral Co.	Florals	Kearney	Nebraska	No wedding page	https://kearneyfloral.com/	2026-11-04
+Vendor	Roses For You!	Florals	Grand Island	Nebraska	Site blocks automated visits, unconfirmed	http://www.rosesforyou.com	2026-11-04
+Vendor	Kirstina E Photography	Photography	Kearney	Nebraska	Site blocks automated visits, unconfirmed	https://www.kirstinaephotography.com/	2026-11-04
+Vendor	Wildflower Lane Photography	Photography	Grand Island	Nebraska	Site blocks automated visits, unconfirmed	https://wildflowerlanephoto.mypixieset.com/	2026-11-04
+Vendor	Tara Jean Photography	Photography	Kearney	Nebraska	Inactive	https://tarajeanphotography.com/	2026-11-04
+Vendor	Kaptured Photography	Photography	Kenesaw	Nebraska	Site dead	https://kapturedphotography.com/	2026-11-04
+Vendor	Simple Steele Skin	Hair & Makeup	Kearney	Nebraska	Site dead	https://simplysteeleskin.com/	2026-11-04
+Vendor	Aldama Custom Cakes & Desserts	Cake	Grand Island	Nebraska	Social only	https://www.facebook.com/profile.php?id=61562736611171	2026-11-04
+Vendor	DeliboardsGI	Catering	Grand Island	Nebraska	Social only	https://www.facebook.com/deliboardsgi	2026-11-04
+Vendor	NaMaw's Smokehouse	Catering	Grand Island	Nebraska	Social only	https://www.facebook.com/namawsmokehouse	2026-11-04
+Vendor	Blissfully Luxe Co	Planning	Kearney	Nebraska	Social only	https://www.facebook.com/people/Blissfully-Luxe-Co/61554155585392/	2026-11-04
+Vendor	Bare Glam by Dee	Hair & Makeup	Grand Island	Nebraska	No website	https://www.weddingwire.com/biz/bare-glam-by-dee/0bfcdffb6426ef99.html	2026-11-04
+Vendor	Beauty in the Braid LLC	Hair & Makeup	Kearney	Nebraska	No website	https://www.weddingwire.com/biz/beauty-in-the-braid-l-l-c/174e9b0b609f6b46.html	2026-11-04
+Vendor	Nico Films	Videography	Grand Island	Nebraska	No website	https://www.weddingwire.com/biz/nico-films/0fea66c70f001927.html	2026-11-04
+Vendor	Iris Photography Studios	Photography	Grand Island	Nebraska	No website	https://www.weddingwire.com/biz/iris-photography-studios-grand-island/d07016fe9a8976a9.html	2026-11-04
