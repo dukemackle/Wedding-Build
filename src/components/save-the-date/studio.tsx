@@ -112,7 +112,7 @@ const RedoIcon = () => (
 
 // ---------------------------------------------------------------- panels
 
-type Panel = "templates" | "details" | "style" | "photo" | "layers";
+type Panel = "templates" | "details" | "style" | "photo" | "layers" | "download";
 
 function TemplatePicker({ doc, choose, row, samples }: { doc: CardDoc; choose: (id: string) => void; row?: boolean; samples: boolean }) {
   const [family, setFamily] = useState<string | null>(null);
@@ -440,6 +440,31 @@ type StudioProps = {
  * settings on the right (a tool bar and sheets on a phone). See
  * docs/save-the-date-studio.md.
  */
+/** The two downloads and how to get the card printed: the desktop menu and the phone sheet. */
+function DownloadOptions({ download, sheet }: { download: (kind: "png" | "pdf") => void; sheet?: boolean }) {
+  const item = sheet
+    ? "block w-full rounded-xl border border-hairline px-4 py-3 text-left text-[15px] hover:bg-ink/5"
+    : "block w-full px-4 py-2.5 text-left text-sm hover:bg-ink/5";
+  return (
+    <div className={sheet ? "space-y-2" : ""}>
+      <button type="button" onClick={() => download("png")} className={item}>
+        PNG image<span className="block text-xs text-ink/50">3000 × 4200, for texting or posting</span>
+      </button>
+      <button type="button" onClick={() => download("pdf")} className={item}>
+        PDF for printing<span className="block text-xs text-ink/50">5 × 7 in at 600 dpi, with ⅛ in bleed</span>
+      </button>
+      <div className={`${sheet ? "" : "mx-3 mb-2 mt-1"} rounded-lg bg-parchment px-3 py-2.5 text-xs leading-relaxed text-ink/70`}>
+        <p className="font-medium text-ink">Printing it</p>
+        <p className="mt-1">
+          Take the PDF to any print shop (FedEx Office, Staples or a local printer) and ask for 5 × 7 on
+          matte cardstock, 110–130 lb, trimmed to size.
+        </p>
+        <p className="mt-1">Order one per household plus about ten spares. A7 envelopes fit.</p>
+      </div>
+    </div>
+  );
+}
+
 export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, cardId, title = "Save the date" }: StudioProps) {
   const [h, dispatch] = useReducer(reducer, null, () => ({
     past: [],
@@ -621,6 +646,8 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         return <PhotoPanel photo={doc.photo} set={(photo, key) => patch({ photo }, key)} library={photos} persist={persist} />;
       case "layers":
         return <LayersPanel doc={doc} selected={selected} select={pick} override={override} />;
+      case "download":
+        return <DownloadOptions download={download} sheet />;
     }
   };
 
@@ -658,20 +685,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
             </button>
             {menu && (
               <div className="absolute right-0 top-12 z-30 w-72 overflow-hidden rounded-xl border border-hairline bg-white py-1 shadow-xl">
-                <button type="button" onClick={() => download("png")} className="block w-full px-4 py-2.5 text-left text-sm hover:bg-ink/5">
-                  PNG image<span className="block text-xs text-ink/50">3000 × 4200, for texting or posting</span>
-                </button>
-                <button type="button" onClick={() => download("pdf")} className="block w-full px-4 py-2.5 text-left text-sm hover:bg-ink/5">
-                  PDF for printing<span className="block text-xs text-ink/50">5 × 7 in at 600 dpi, with ⅛ in bleed</span>
-                </button>
-                <div className="mx-3 mb-2 mt-1 rounded-lg bg-parchment px-3 py-2.5 text-xs leading-relaxed text-ink/70">
-                  <p className="font-medium text-ink">Printing it</p>
-                  <p className="mt-1">
-                    Take the PDF to any print shop (FedEx Office, Staples or a local printer) and ask for 5 × 7 on
-                    matte cardstock, 110–130 lb, trimmed to size.
-                  </p>
-                  <p className="mt-1">Order one per household plus about ten spares. A7 envelopes fit.</p>
-                </div>
+                <DownloadOptions download={download} />
               </div>
             )}
           </div>
@@ -788,7 +802,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         )}
         <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-hairline bg-white pb-[env(safe-area-inset-bottom)]">
           <div className="flex items-center justify-between gap-1 px-2 pt-1.5">
-            {panels.map((p) => (
+            {[...panels, { id: "download" as const, label: "Download" }].map((p) => (
               <button
                 key={p.id}
                 type="button"
