@@ -5,6 +5,7 @@ import { SITE_URL } from "@/lib/public-listings";
 import { MARKET_REPORT_REASONS, formatPrice, listedAgo } from "@/lib/marketplace";
 import type { MarketListing, MarketMessage } from "@/lib/supabase/types";
 import { dismissReport, takeDownListing } from "./actions";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 type Report = {
   id: string;
@@ -63,7 +64,7 @@ export default async function AdminMarketplacePage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Marketplace</h1>
       <p className="mt-2 max-w-2xl text-sm text-ink/70">
         Reports from buyers and sellers, and the newest listings. Taking a listing down hides it, closes its

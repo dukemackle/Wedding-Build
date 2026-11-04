@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { type OpsService } from "@/lib/spend";
 import { SpendManager } from "./spend-manager";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 /**
  * What the company pays for and when each thing renews, entered by hand.
@@ -19,7 +20,7 @@ export default async function AdminSpendPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Spend &amp; renewals</h1>
       <p className="mb-6 max-w-2xl text-sm text-ink/70">
         Everything You Do, I Do pays for, what it costs and when it renews. These are your own running notes. For

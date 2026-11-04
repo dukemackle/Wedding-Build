@@ -1,4 +1,5 @@
 import { CORE_CATEGORIES, type StateTarget } from "@/lib/coverage-targets";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 /** One state's row from admin_coverage() (migration 0131). */
 export type StateCounts = {
@@ -131,7 +132,7 @@ export function CoverageView({ rows, days }: { rows: Ranked[] | null; days: numb
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Coverage</h1>
       <p className="mt-2 max-w-3xl text-sm text-ink/70">
         Live listings in each state against the coverage plan&apos;s current targets, most needed first. A state with
