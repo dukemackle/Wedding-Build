@@ -73,10 +73,16 @@ Names shared with a guest-site template let one choice style both the card and t
 
 ## UX
 
-- **Simple mode** (default): pick a design, type details, pick a colourway and lettering, adjust
-  the photo. There are no layout controls to get wrong.
-- **Advanced mode:** drag anything; size, nudge, font and colour per layer; hide/show layers;
-  undo/redo (typing in a field coalesces to one step).
+- **One editor, no modes** (Simple mode removed 2026-11-04: couples want to make it their own).
+  Pick a design, type details, pick a colourway and lettering, adjust the photo, and drag
+  anything on the card. Dragging snaps edges and centres to the card's centre lines and to the
+  other pieces (⌥ turns it off), with a Sky guide line.
+- **Toolbar over the card** for whatever is picked (docked above the card on desktop, above the
+  tool bar on a phone): Edit words, font, size, colour, bold, italic, all caps, letter spacing,
+  and a More menu with Centre on the card, Hide and Reset. Double-click words to retype them.
+  Retyping names, place, headline or closing line edits the detail itself; dates, monograms and
+  fixed lines keep their own wording per layer (`LayerOverride.text`).
+- Layers panel lists every piece to pick, hide or show. Undo/redo (typing coalesces to one step).
 - **Desktop:** designs on the left, the card in the middle, settings on the right. **Phone:** the
   card is the page, with a five-tab tool bar opening sheets, and the card shrinks above an open
   sheet so changes stay visible.
