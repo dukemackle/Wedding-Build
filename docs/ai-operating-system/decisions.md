@@ -270,3 +270,16 @@ rules, batch self-merge, 50-state coverage, page widths) and
   (more admin drawing before anyone has used plans).
 - Also: approving a claim used to delete and reinsert a venue's spaces, which
   would have dropped their plans; it now updates spaces in place by name.
+
+## 2026-11-04 — Printed save-the-dates: print-on-demand later, no local-shop partnerships
+
+- Decision: the owner wants to make money from printed stationery later,
+  through a print-on-demand API (Prodigi, Gelato, Lob or similar) ordered
+  inside the app at a markup. That waits for real couples using the studio and
+  the phase rules in `docs/monetization.md`. For now the studio's PDF has 1/8 in
+  bleed and a "Printing it" note so couples can take it to any print shop.
+- Why: FedEx Office or Staples deals happen at corporate level, and local
+  printers would each be a one-off deal. A print API needs no negotiation, and
+  the couple never leaves the app.
+- Rough money (estimate, not quoted): ~100 cards at $1.50–3 each, 20–40% margin,
+  so about $30–100 per couple. It repeats for invitations and thank-yous.
