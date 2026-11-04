@@ -1,5 +1,6 @@
 import { COLOR_FAMILIES } from "@/lib/site-design";
 import type { MarketListing, MarketSet } from "@/lib/supabase/types";
+import { supabaseUrl } from "@/lib/supabase/env";
 
 /**
  * The marketplace's fixed vocabularies, shared by the browse screen, the
@@ -206,7 +207,7 @@ export function listedAgo(iso: string, now = Date.now()) {
  * server checks every one rather than storing whatever it was sent.
  */
 export function isOwnMarketPhoto(url: string, sellerId: string) {
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const base = supabaseUrl();
   if (!base) return false;
   return !url.includes("..") && url.startsWith(`${base}/storage/v1/object/public/market-photos/${sellerId}/`);
 }

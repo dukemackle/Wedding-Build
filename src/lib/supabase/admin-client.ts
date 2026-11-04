@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@supabase/supabase-js";
+import { supabaseUrl } from "@/lib/supabase/env";
 
 // Bypasses row-level security entirely via the service-role key -- only
 // construct this after requireAdmin()/isCurrentUserAdmin() has confirmed
@@ -15,7 +16,7 @@ import { createClient } from "@supabase/supabase-js";
 // this from client code.
 export function createAdminSupabaseClient() {
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseUrl(),
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     { auth: { autoRefreshToken: false, persistSession: false } },
   );
