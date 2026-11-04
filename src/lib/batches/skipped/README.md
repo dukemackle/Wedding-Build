@@ -22,7 +22,7 @@ Kind	Name	Category	City	State	Reason	Link	Date
   - `No website`: no website or active social profile found.
   - `Site dead`: website down or parked, and nothing else to confirm it.
   - `Site blocks automated visits, unconfirmed`: the site turns our checker
-    away (401/403/429/503), so the business is probably real but needs a
+    away (401/403/429/502/503/520), so the business is probably real but needs a
     second source before it can be listed. Never disguise the checker to get
     past it.
   - `Site back up`: was `Site dead`, loaded on a later `npm run
