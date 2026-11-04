@@ -141,7 +141,9 @@ export function CardHome({
       </div>
       <div className="mt-5 grid grid-cols-2 gap-x-3.5 gap-y-5 sm:grid-cols-3 sm:gap-6 lg:grid-cols-6">
         {shown.map((t) => {
-          const preview: CardDoc = newCard(t.id, words, photo, false);
+          // With no photo of theirs, a photo design shows its sample so it reads as
+          // one that takes a photo. Starting from it still leaves the photo empty.
+          const preview: CardDoc = newCard(t.id, words, photo, true);
           return (
             <button
               key={t.id}
