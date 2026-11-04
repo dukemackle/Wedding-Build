@@ -131,6 +131,23 @@ Steele Hollow Estates	130 Steele Hollow Rd	Spencer	West Virginia			Ballroom	Indo
 Chuck Mathena Center	2 Stafford Commons	Princeton	West Virginia			Ballroom	Indoor	300			Performing arts center whose Grand Hall and rotunda gallery are rented for weddings, with tables and chairs included.	info@cmcwv.org	(304) 425-5128	https://chuckmathenacenter.org/rentcmc
 `,
   },
+  {
+    name: "West Virginia venues, statewide resorts, Panhandle, Greenbrier and New River Gorge",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Alpine Lake Resort	700 West Alpine Drive	Terra Alta	West Virginia			Hotel & Resort	Indoor & Outdoor	150			Lakeside mountain resort whose lodge dining room seats receptions, with lake-view outdoor options and wedding and catering packages.		304-789-2481	https://alpinelake.com/weddings/
+The Country Barn WV	300 Rector Rd	Vienna	West Virginia			Barn & Farm	Indoor & Outdoor		1500	Package	Wood horse barn on the Vienna and Parkersburg line with two indoor floors, an outdoor ceremony area and country views.	GoldstarRPM@gmail.com	304-494-9331	https://countrybarnwv.com/
+Capon Crossing Farm	12279 Carpers Pike	Wardensville	West Virginia			Barn & Farm	Indoor & Outdoor	180			Working family farm with a restored 100-year-old two-story barn, a yard with fire pits and the Capon River on the property.	caponcrossing@gmail.com	(540) 636-8829	https://www.caponcrossingfarm.com/capon-crossing-barn
+North Fork Mountain Inn	235 Canyon View Ln	Cabins	West Virginia			Mountain & Lodge	Indoor & Outdoor	40			Small mountain inn that arranges intimate weddings, elopements and vow renewals with ceremonies inside or outside.	NFMountainInn@gmail.com	681-271-3185	https://northforkmountaininn.com/weddings
+Smoke Hole Caverns & Log Cabin Resort	8290 N Fork Hwy	Cabins	West Virginia			Mountain & Lodge	Indoor & Outdoor				Log-cabin resort near Seneca Rocks with lawn and pondside gazebo ceremonies, plus an elopement package that includes a two-night cabin stay.	info@smokehole.com	304-257-4442	https://www.smokehole.com/weddings--elopements.htm
+The Country Inn of Berkeley Springs		Berkeley Springs	West Virginia			Hotel & Resort	Indoor	200			Historic downtown inn whose skylit Parkview Garden Room hosts wedding receptions, with a smaller banquet room as well.		(304) 258-1200	https://www.thecountryinnwv.com/weddings-meetings
+Wheeling Scottish Rite Event Center	83 14th Street	Wheeling	West Virginia			Ballroom	Indoor	250			Historic Wheeling building with a ballroom, rotunda, library and theater that rents for weddings.	rentals@riteeventcenter.com	304-233-3747	https://www.riteeventcenter.com/
+Pocahontas County Opera House	818 Third Avenue	Marlinton	West Virginia			Museum, Gallery & Rooftop	Indoor		600	Rental	Historic Marlinton opera house rented for weddings, with a wedding rate covering two half days and one full day.	rentals@pocahontasoperahouse.org	304-799-6645	https://pocahontasoperahouse.org/rentals
+River City Restaurant & Banquets	1400 Main Street	Wheeling	West Virginia			Restaurant & Brewery	Indoor				Third-floor banquet hall in Wheeling's Artisan Center that hosts wedding receptions.		304-233-4555	https://www.rivercitybanquets.com/
+Sleepy Hollow Golf Club	3780 Sleepy Hollow Dr	Hurricane	West Virginia			Country Club & Golf	Indoor	150			Golf clubhouse between Charleston and Huntington that hosts weddings and receptions in dining rooms overlooking the course.	events@sleepyhollowgolfclub.com	(304) 757-9416	https://sleepyhollowgolfclub.com/special-events/
+Twin Hollow Mountaintop Wedding & Event Venue	703 Twin Hollow	Gilbert	West Virginia			Mountain & Lodge	Outdoor	100	2500	Rental	Mountaintop campground site in southern West Virginia where couples exchange vows with a mountain view, rented by the day with chairs set up.	wayne@twinhollowcampground.com	304-664-8864	https://twinhollowcampground.com/mountaintop-weddings-events/
+Marshall Health Network Arena Convention Center	One Civic Center Plaza	Huntington	West Virginia			Ballroom	Indoor				Renovated downtown convention center with ballrooms for weddings and rehearsal dinners, with an on-site coordinator and in-house catering.	econzett@mhnarena.com	304-696-5990	https://www.mhnarena.com/p/book/weddings--special-events
+Page Vawter House	20 Page St	Ansted	West Virginia			Historic Mansion & Estate					An 1890 Victorian mansion run as a historic inn that also hosts weddings, receptions and other private events by appointment.	pagevawterhouse@gmail.com	321-223-3769	https://pagevawterhouse.com/`,
+  },
 ];
 
 export default batches;

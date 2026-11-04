@@ -284,6 +284,29 @@ Rentals Galore	Rentals		Harpers Ferry	West Virginia	Harpers Ferry, Shepherdstown
 Frosted Fantasies Cakes	Cake		Martinsburg	West Virginia	Martinsburg and parts of Berkeley County	Martinsburg custom cake maker producing wedding and bridal cakes, as well as 3D and celebration cakes.		304-886-7097	https://www.frostedfantasiescakeswv.com/			
 `,
   },
+  {
+    name: "Charleston: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Bella botanica	Florals	3526 Teays Valley Rd	Hurricane	West Virginia	Hurricane, Nitro, Scott Depot, Winfield	Family florist with a shop in Hurricane that designs wedding packages with bouquets, ceremony decor and reception flowers by consultation.	info@bellabotanica.org	(304) 757-9252	https://www.bellabotanica.org/			`,
+  },
+  {
+    name: "New River Gorge: photography and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Marlyn McClendon Photography	Photography		Hillsboro	West Virginia	Lewisburg, Snowshoe and the surrounding region	Film-inspired wedding and elopement photographer in Hillsboro, offering six-hour coverage and a full gallery with printing rights within eight weeks.			https://www.marlynmcclendon.com/	https://www.instagram.com/marlynphotographs/	4000	package
+Browns Flower Shop	Florals	284 Athens Rd	Princeton	West Virginia	Princeton	Princeton florist making bridal bouquets, boutonnieres, corsages and ceremony and reception flowers, with wedding consultations by appointment.		(304) 425-2113	https://www.brownsflowershopllc.com/			`,
+  },
+  {
+    name: "Eastern Panhandle: photography and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sweet Lemon Photography	Photography		Moorefield	West Virginia		Moorefield photographer shooting weddings and senior portraits, with collections that include an associate and an engagement session.	info@sweetlemonphotographywv.com	304-851-9000	https://www.sweetlemonphotographywv.com	https://www.instagram.com/sweetlemonphotography/	1800	package
+Pangtography	Photography		Shepherdstown	West Virginia	West Virginia, Washington DC, Baltimore, Northern Virginia and the East Coast	Documentary-style wedding and family photographer in Shepherdstown, who also offers tintype sessions and elopement coverage.			https://pangtography.com	https://www.instagram.com/pangtography/		
+Tiffany's Florist & Gifts	Florals	74 East Main	Romney	West Virginia	Romney and surrounding areas	Romney florist and gift shop offering wedding bouquets, wedding party flowers, and ceremony and reception arrangements.	tiffwalters15@gmail.com	(304) 822-4300	https://www.tiffanysfloralandgifts.com			`,
+  },
+  {
+    name: "Morgantown: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Hannah Barlow Photography	Photography		Wellsburg	West Virginia	Tri-state area: Ohio Valley and Pittsburgh	Wellsburg wedding photographer covering the Ohio Valley, with a second shooter and an engagement session in every collection.	info@hannahbarlowphotography.com	304-794-8131	https://www.hannahbarlowphotography.com	https://www.instagram.com/hannahbarlowphotography/	4600	package`,
+  },
 ];
 
 export default batches;
