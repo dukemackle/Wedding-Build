@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { FONTS } from "@/lib/site-design";
 import { layerText } from "@/lib/save-the-date/format";
-import { templateById } from "@/lib/save-the-date/templates";
+import { cardPalette } from "@/lib/save-the-date/templates";
 import type { CardContent, CardDoc, Layer, LayerOverride, TextLayer } from "@/lib/save-the-date/types";
 import { ART } from "./art";
 
@@ -44,8 +44,7 @@ export function CardToolbar({
   centre: () => void;
   onDone: () => void;
 }) {
-  const t = templateById(doc.template);
-  const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
+  const palette = cardPalette(doc);
   const o = doc.overrides[layer.id] ?? {};
   const isText = layer.kind === "text";
   const colourable = layer.kind === "text" || (layer.kind === "art" && ART[layer.art]?.kind !== "image");

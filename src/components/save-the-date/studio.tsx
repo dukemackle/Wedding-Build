@@ -7,11 +7,11 @@ import { putToSignedUrl } from "@/lib/signed-upload";
 import { CardSvg, layerBox } from "./card-svg";
 import { CardToolbar } from "./card-toolbar";
 import { Reveal } from "./reveal";
-import { FONTS, fontById } from "@/lib/site-design";
+import { FONTS, contrast, fontById } from "@/lib/site-design";
 import { FONTS_HREF } from "@/lib/save-the-date/fonts";
 import { cardPdf, cardPng, saveBlob } from "@/lib/save-the-date/export";
-import { FAMILIES, SHORT, TEMPLATES, newCard, templateById } from "@/lib/save-the-date/templates";
-import type { CardContent, CardDoc, LayerOverride, Photo } from "@/lib/save-the-date/types";
+import { CUSTOM_PALETTE, FAMILIES, SHORT, TEMPLATES, cardPalette, keepColours, newCard, templateById } from "@/lib/save-the-date/templates";
+import type { CardColours, CardContent, CardDoc, LayerOverride, Photo } from "@/lib/save-the-date/types";
 
 export { FONTS_HREF };
 
@@ -160,7 +160,7 @@ function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: strin
         {shown.map((t) => {
           // Photo designs show a sample photo until the couple adds theirs, so it's
           // clear which ones take one. Choosing one doesn't carry the sample over.
-          const preview: CardDoc = { ...newCard(t.id, doc.content, doc.photo, true), overrides: {} };
+          const preview: CardDoc = keepColours({ ...newCard(t.id, doc.content, doc.photo, true), overrides: {} }, doc);
           const active = t.id === doc.template;
           return (
             <button
@@ -212,25 +212,73 @@ function DetailsPanel({ c, set }: { c: CardContent; set: (patch: Partial<CardCon
   );
 }
 
+const COLOUR_FIELDS: { key: keyof CardColours; label: string }[] = [
+  { key: "paper", label: "Background" },
+  { key: "ink", label: "Lettering" },
+  { key: "accent", label: "Accent" },
+];
+
 function ColoursPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDoc>, key?: string) => void }) {
   const t = templateById(doc.template);
+  const custom = doc.palette === CUSTOM_PALETTE && !!doc.colours;
+  const ring = (active: boolean) => `flex h-14 w-14 items-center justify-center rounded-full ring-offset-2 transition ${active ? "ring-2 ring-[#2243B6]" : "ring-1 ring-ink/15"}`;
+  // First time in: start from the colourway on screen, so the card doesn't jump.
+  const useOwn = () => {
+    const now = cardPalette(doc);
+    patch({ palette: CUSTOM_PALETTE, colours: doc.colours ?? { paper: now.paper, ink: now.ink, accent: now.metal ? now.metal[1] : now.accent } });
+  };
+  const own = doc.colours;
+  const hard = custom && own && contrast(own.ink, own.paper) < 3;
   return (
-    <div className="flex flex-wrap gap-3">
-      {t.palettes.map((p) => {
-        const active = p.id === doc.palette;
-        return (
-          <button key={p.id} type="button" onClick={() => patch({ palette: p.id })} className="text-center" aria-pressed={active}>
-            <span
-              className={`flex h-14 w-14 items-center justify-center rounded-full ring-offset-2 transition ${active ? "ring-2 ring-[#2243B6]" : "ring-1 ring-ink/15"}`}
-              style={{ background: p.paper }}
-            >
-              <span className="h-6 w-6 rounded-full" style={{ background: p.metal ? `linear-gradient(135deg, ${p.metal[0]}, ${p.metal[2]})` : p.accent }} />
-              <span className="-ml-2 h-6 w-6 rounded-full border-2" style={{ background: p.ink, borderColor: p.paper }} />
-            </span>
-            <span className="mt-1 block text-[11px] text-ink/70">{p.label}</span>
-          </button>
-        );
-      })}
+    <div>
+      <div className="flex flex-wrap gap-3">
+        {t.palettes.map((p) => {
+          const active = !custom && p.id === doc.palette;
+          return (
+            <button key={p.id} type="button" onClick={() => patch({ palette: p.id })} className="text-center" aria-pressed={active}>
+              <span className={ring(active)} style={{ background: p.paper }}>
+                <span className="h-6 w-6 rounded-full" style={{ background: p.metal ? `linear-gradient(135deg, ${p.metal[0]}, ${p.metal[2]})` : p.accent }} />
+                <span className="-ml-2 h-6 w-6 rounded-full border-2" style={{ background: p.ink, borderColor: p.paper }} />
+              </span>
+              <span className="mt-1 block text-[11px] text-ink/70">{p.label}</span>
+            </button>
+          );
+        })}
+        <button type="button" onClick={useOwn} className="text-center" aria-pressed={custom}>
+          <span className={ring(custom)} style={{ background: own ? own.paper : "conic-gradient(#2243B6, #00BFFE, #5AE4FF, #FFF12F, #FFD301, #2243B6)" }}>
+            {own ? (
+              <>
+                <span className="h-6 w-6 rounded-full" style={{ background: own.accent }} />
+                <span className="-ml-2 h-6 w-6 rounded-full border-2" style={{ background: own.ink, borderColor: own.paper }} />
+              </>
+            ) : (
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-lg leading-none text-[#14203d] shadow-sm">+</span>
+            )}
+          </span>
+          <span className="mt-1 block text-[11px] text-ink/70">Your colours</span>
+        </button>
+      </div>
+      {custom && own && (
+        <div className="mt-4 space-y-2 rounded-xl border border-hairline bg-white p-3">
+          <p className="text-xs text-ink/70">Match your wedding colours. They stay with you if you change design.</p>
+          {COLOUR_FIELDS.map((f) => (
+            <label key={f.key} className="flex cursor-pointer items-center gap-3 rounded-lg px-1 py-1 hover:bg-ink/[0.03]">
+              <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-ink/20" style={{ background: own[f.key] }}>
+                <input
+                  type="color"
+                  value={own[f.key]}
+                  onChange={(e) => patch({ colours: { ...own, [f.key]: e.target.value } }, `colour-${f.key}`)}
+                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                  aria-label={`${f.label} colour`}
+                />
+              </span>
+              <span className="flex-1 text-sm font-medium text-ink">{f.label}</span>
+              <span className="font-mono text-xs uppercase text-ink/55">{own[f.key]}</span>
+            </label>
+          ))}
+          {hard && <p className="text-xs text-[#9a6b00]">Your lettering may be hard to read on this background. Try a darker or lighter shade.</p>}
+        </div>
+      )}
     </div>
   );
 }
@@ -659,7 +707,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     />
   );
   const choose = (id: string) => {
-    const fresh = newCard(id, doc.content, doc.photo, !persist);
+    const fresh = keepColours(newCard(id, doc.content, doc.photo, !persist), doc);
     commit({ type: "set", doc: fresh });
     setSelected(null);
   };
@@ -858,7 +906,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           >
             {panelBody("details", false)}
           </Fold>
-          <Fold title="Colours" summary={(t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0]).label} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
+          <Fold title="Colours" summary={cardPalette(doc).label} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
             <ColoursPicker doc={doc} patch={patch} />
           </Fold>
           <Fold title="Lettering" summary={(t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0]).label} open={shownFold === "lettering"} onToggle={() => openFold("lettering")}>

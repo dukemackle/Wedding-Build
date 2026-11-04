@@ -3,7 +3,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
 import { hasNumericDate, layerText, wrapText } from "@/lib/save-the-date/format";
-import { templateById } from "@/lib/save-the-date/templates";
+import { cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { ARTBOARD, type CardDoc, type ColorRole, type Layer, type LayerOverride, type Palette, type TextLayer } from "@/lib/save-the-date/types";
 import { ART } from "./art";
 
@@ -63,7 +63,7 @@ function overrideTransform(layer: Layer, o: LayerOverride | undefined, live: [nu
 export function CardSvg({ doc, className, editable, selected, onSelect, onMove, onEdit, svgRef, title, onAddPhoto }: Props) {
   const uid = useId().replace(/:/g, "");
   const t = templateById(doc.template);
-  const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
+  const palette = cardPalette(doc);
   const pairing = t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0];
   const own = useRef<SVGSVGElement | null>(null);
 

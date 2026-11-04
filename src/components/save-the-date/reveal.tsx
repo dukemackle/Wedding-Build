@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { downloadIcs } from "@/lib/ics";
-import { templateById } from "@/lib/save-the-date/templates";
+import { cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { fontById } from "@/lib/site-design";
 import type { CardDoc } from "@/lib/save-the-date/types";
 import type { ItineraryEvent } from "@/lib/supabase/types";
@@ -46,7 +46,7 @@ export function Reveal({
   onOpen?: () => void;
 }) {
   const t = templateById(doc.template);
-  const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
+  const palette = cardPalette(doc);
   const pairing = t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0];
   const dark = luminance(palette.paper) < 0.35;
   const envelope = dark ? shade(palette.paper, 0.08) : shade(palette.paper, -0.05);
