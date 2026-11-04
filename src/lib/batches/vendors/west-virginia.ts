@@ -241,6 +241,49 @@ Greenbrier Limo	Transportation	584 Airport Rd, Hangar 1	Lewisburg	West Virginia	
 Wonderwall Events	Music		Spencer	West Virginia	West Virginia statewide, with pages for Huntington and Lewisburg	DJ duo with 360 and mirror photo booths, audio guestbooks and day-of coordination, run as one team for weddings across West Virginia.	info@wonderwallevents.com		https://www.wonderwallevents.com/	https://www.instagram.com/wonderwall.events.wv/		
 `,
   },
+  {
+    name: "Charleston: Photo Booth, Bridal & Formalwear, Photography, Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Spin My Party	Photo Booth		Charleston	West Virginia	Charleston, South Charleston, Nitro, St. Albans, Dunbar, Hurricane, Teays Valley, Huntington, Barboursville and surrounding West Virginia communities	Family-run photo booth hire for weddings, with 360 video booths, stationary booths and custom backdrops across Charleston and Huntington.	Events@spinmyparty.com	304-964-4660	https://www.spinmyparty.com/			
+Zylvie Bridal	Bridal & Formalwear	5130 MacCorkle Ave SE	Charleston	West Virginia		Bridal boutique in Charleston offering curated wedding gowns and accessories by appointment in an intimate setting.	zylviebridal@gmail.com	(681) 205-2285	https://www.zylviebridal.com/	https://www.instagram.com/zylvie_bridal/		
+The Boutique by B.Belle Events	Bridal & Formalwear	602 Virginia Street East, Suite 101	Charleston	West Virginia		Charleston boutique selling designer bridal gowns with in-house tailoring, plus wedding florals and event planning.			http://www.bbelleevents.com/	https://www.instagram.com/theboutiquebybelle/		
+Tracy A Toler Photography	Photography	2215 2nd Avenue	Nitro	West Virginia		Studio photographer in Nitro covering weddings, with photo and video packages alongside portrait and family sessions.	tracytoler@yahoo.com	304-541-1835	https://www.tracyatolerphotography.com/	https://www.instagram.com/tracyatolerphotography/		
+Bravo Live DJ	Music		Scott Depot	West Virginia	West Virginia, Kentucky and Ohio	Mobile wedding DJ company with a team of professional DJs, also offering uplighting and monogram lighting.			https://www.bravolivedj.com/	https://www.instagram.com/bravolivedj/		
+`,
+  },
+  {
+    name: "Huntington: Bridal & Formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Skeffington's Formal Wear	Bridal & Formalwear	1035 6th Avenue	Huntington	West Virginia		Family-owned tuxedo and suit rental and sales shop in Huntington for wedding parties, proms and formal events.	Hello@Skeffingtonstux.com	304-523-8423	https://www.skeffingtonstux.com/			
+`,
+  },
+  {
+    name: "Morgantown: Music, Florals, Photography, Photo Booth, Transportation, Rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Soundtech DJ Service LLC	Music		Wheeling	West Virginia		Mobile DJ service based in Wheeling that specialises in weddings, school formals and private events.	wvsoundtech@yahoo.com	304-639-2692	https://www.djyelenix.com/	https://www.instagram.com/soundtechdj/		
+Perennial Floral	Florals	1320 Locust Ave	Fairmont	West Virginia		Fairmont florist with a shop on Locust Avenue that designs wedding flowers alongside everyday arrangements.	perennialfloralinfo@gmail.com	(304) 677-6961	https://perennialfloral.com/	https://www.instagram.com/perennialfloral		
+Wheeling Flower Shop	Florals		Wheeling	West Virginia		Wheeling florist offering ceremony and reception flowers, wedding collection sets and floral consultations for couples.		304-233-3320	https://wheelingflowershop.net/pages/wedding-page			
+Anne Marie Silvis Photography	Photography		Parkersburg	West Virginia		Parkersburg photographer covering weddings alongside family, senior and branding sessions.	anne@amsilvisphotography.com		https://www.amsilvisphotography.com/	https://www.instagram.com/amsilvisphotography/		
+TSG Photography Co	Photography		Wheeling	West Virginia		Wheeling photography team offering customised wedding photography and videography packages.	kbizanovich@tsgleads.com		https://www.tsgphotography.com/			
+Rocha Co Photo Booths	Photo Booth		Fairmont	West Virginia	Fairmont, with travel available	Fairmont photo booth company for weddings, with personalised prints, digital keepsakes and a digital gallery for guests.			https://photobooths.rochacophoto.com/	https://www.instagram.com/rochacophotobooths/		
+Metro Limousine Service	Transportation		Morgantown	West Virginia	Greater Morgantown area	Locally owned Morgantown limousine company offering wedding transportation, hotel shuttles and rehearsal dinner transport.		304-602-2333	https://www.metrolimowv.com/point.php			
+Wheeling Canvas Products	Rentals		Wheeling	West Virginia		Wheeling tent and canopy supplier that also hires tables, chairs, linens and dance floors for wedding receptions.	lisamartin247@aol.com	800-695-3443	https://www.wheelingcanvasawnings.com/event-rentals/1293084			
+Rooted in Flora	Florals		Buckhannon	West Virginia	West Virginia	Buckhannon wedding florist making bouquets and table arrangements for couples across West Virginia and for destination weddings.	hello@rootedinflora.com		https://rootedinflora.com/	https://www.instagram.com/rootedinflora/		
+Fish Hawk Acres	Catering	5 W. Main Street	Buckhannon	West Virginia		Farm market and caterer in Buckhannon providing farm-fresh menus for weddings and smaller gatherings.	fishhawkacres@gmail.com	304-473-7741	https://www.fishhawkacreswv.com/	https://www.instagram.com/fishhawkacres/		
+Beander's Restaurant & Tavern	Catering	314 Davis Ave	Elkins	West Virginia		Restaurant and tavern in Elkins offering formal wedding catering, with menus built around the couple's preferences for small or large receptions.		304-636-6000	https://beanderswv.com/formal-catering-menu/			
+`,
+  },
+  {
+    name: "Eastern Panhandle: Photography, Music, Hair & Makeup, Rentals, Catering, Cake, Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Haley Willingham Photography	Photography		Shepherdstown	West Virginia		Wedding photographer working from a Shepherdstown studio, photographing weddings since 2010 and travelling to destination weddings in several states.			https://haleywillingham.com/	https://www.instagram.com/haleywillinghamphotography/	2000	package
+Pure Bliss Images	Photography		Berkeley Springs	West Virginia		Berkeley Springs photographer covering weddings, portraits, family events and sports.			https://www.pureblissimages.com/			
+Glitter Hair Salon	Hair & Makeup	287 Rock Cliff Drive	Martinsburg	West Virginia		Martinsburg hair salon with a dedicated bridal stylist for wedding-day hair and other special occasions.	glitterhairsalon@comcast.net	(304) 839-7777	https://www.glitterhairsalon.com/	https://www.instagram.com/GlitterHairSalon		
+Rick Rohn Disc Jockey Productions	Music		Martinsburg	West Virginia		Martinsburg DJ and master of ceremonies with 45 years of experience focused on wedding ceremonies and receptions.		304-579-8745	https://rickrohn.com/	https://www.instagram.com/rickrohndj/		
+Rentals Galore	Rentals		Harpers Ferry	West Virginia	Harpers Ferry, Shepherdstown, Martinsburg, Charles Town	Harpers Ferry hire company renting wedding photo booths plus tables and chairs for events across the Eastern Panhandle.	info@rentalsgalore.org	(304) 504-7368	https://rentalsgalore.org/			
+Frosted Fantasies Cakes	Cake		Martinsburg	West Virginia	Martinsburg and parts of Berkeley County	Martinsburg custom cake maker producing wedding and bridal cakes, as well as 3D and celebration cakes.		304-886-7097	https://www.frostedfantasiescakeswv.com/			
+`,
+  },
 ];
 
 export default batches;
