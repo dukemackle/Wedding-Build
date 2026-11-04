@@ -292,10 +292,12 @@ messages** (`/admin/usage`, under Business) counts the paid AI calls by
 feature, save-the-dates, inquiries, texts (`sms_sent` event), bounces,
 complaints and opt-outs. Attire and Cost data stay in Content (what we curate).
 
-Still open from the 2026-11-04 audit: an automations log (Batches import,
-spend reminders, routines: last run, pass or fail); invite codes (migration
-0141) aren't shown anywhere; migration numbers 0143, 0144, 0147, 0149 and
-0157 are each used twice.
+Also 2026-11-04: **Automations** (`/admin/automations`, migration 0158)
+logs the Batches Action, spend reminders and batch-builder routines, and
+flags a failed or overdue job on Home. The backup, venue-details backfill and
+stuck-batch routines don't report yet. Usage shows RSVPs from personal
+invite-code links vs typed names. `npm run lint` rejects a reused migration
+number (the 15 older pairs are grandfathered; they're tracked by file name).
 
 This regroups the existing pages; nothing is removed. The visual design goes
 through `design-expert`, with a preview before any build.
