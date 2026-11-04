@@ -743,6 +743,9 @@ export const SHORT: Record<string, string> = {
   "Rustic botanical": "Rustic",
 };
 
+/** How many save-the-date designs a couple can keep at once. */
+export const MAX_CARDS = 6;
+
 export function templateById(id: string): Template {
   return TEMPLATES.find((t) => t.id === id) ?? TEMPLATES[0];
 }

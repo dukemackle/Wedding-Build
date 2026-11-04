@@ -17,7 +17,12 @@ export const metadata: Metadata = { title: "Send your save the date" };
  * emailed, opened, bounced), a personal link to copy or share, and email for
  * the ones the couple picks, after a confirm step.
  */
-export default async function SendSaveTheDatePage() {
+export default async function SendSaveTheDatePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const { card: wanted } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -31,8 +36,13 @@ export default async function SendSaveTheDatePage() {
     .maybeSingle<Wedding>();
   if (!wedding) redirect("/guests/save-the-date");
 
-  const [{ data: row }, { data: guests }, canEdit] = await Promise.all([
-    supabase.from("save_the_dates").select("*").eq("wedding_id", wedding.id).maybeSingle<SaveTheDateRow>(),
+  const [{ data: cards }, { data: guests }, canEdit] = await Promise.all([
+    supabase
+      .from("save_the_dates")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("updated_at", { ascending: false })
+      .returns<SaveTheDateRow[]>(),
     supabase
       .from("guests")
       .select("*")
@@ -42,6 +52,9 @@ export default async function SendSaveTheDatePage() {
       .returns<Guest[]>(),
     canEditWedding(supabase, wedding, user.id),
   ]);
+  // The design asked for (Send in the studio), else the one guests see, else the newest.
+  const row =
+    (cards ?? []).find((c) => c.id === wanted) ?? (cards ?? []).find((c) => c.chosen) ?? (cards ?? [])[0] ?? null;
   const doc = row ? parseCardDoc(row.doc) : null;
 
   if (!row || !doc) {
@@ -54,7 +67,7 @@ export default async function SendSaveTheDatePage() {
             href="/guests/save-the-date"
             className="mt-6 inline-block rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90"
           >
-            Open the studio
+            Pick a design
           </Link>
         </div>
       </PageShell>
@@ -77,6 +90,9 @@ export default async function SendSaveTheDatePage() {
   return (
     <PageShell email={user.email ?? ""} width="wide">
       <SendPanel
+        cardId={row.id}
+        cardName={row.name}
+        chosen={row.chosen}
         doc={doc}
         version={row.updated_at}
         imageVersion={row.image_version}

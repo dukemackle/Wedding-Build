@@ -498,8 +498,10 @@ type StudioProps = {
   note?: string;
   /** Where Send goes (the couple's real card only). */
   sendHref?: string;
-  /** A design picked on the save-the-date home: applied on open, as an undoable step that autosaves. */
-  startTemplate?: string;
+  /** The heading in the top bar: the design's name on a couple's card. */
+  title?: string;
+  /** The saved card's id, for autosave (the couple's real card only). */
+  cardId?: string;
 };
 
 /**
@@ -507,7 +509,7 @@ type StudioProps = {
  * settings on the right (a tool bar and sheets on a phone). See
  * docs/save-the-date-studio.md.
  */
-export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, startTemplate }: StudioProps) {
+export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, cardId, title = "Save the date" }: StudioProps) {
   const [h, dispatch] = useReducer(reducer, null, () => ({
     past: [],
     present: initial,
@@ -548,7 +550,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           const res = await fetch("/api/save-the-date", {
             method: "POST",
             headers: { "content-type": "application/json" },
-            body: JSON.stringify({ doc, version: version.current }),
+            body: JSON.stringify({ id: cardId, doc, version: version.current }),
           });
           const out: { error?: string; stale?: boolean; version?: string } = await res.json();
           if (out.version) {
@@ -568,7 +570,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       });
     }, 900);
     return () => clearTimeout(timer);
-  }, [doc, persist]);
+  }, [doc, persist, cardId]);
   // Leaving with changes not yet saved asks first.
   useEffect(() => {
     if (!persist || save === "saved") return;
@@ -608,19 +610,6 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     commit({ type: "set", doc: fresh });
     setSelected(null);
   };
-
-  // A design picked on the home page: swap to it once (after a starting
-  // photo's proportions are read), then drop ?t so a reload doesn't redo it.
-  const started = useRef(false);
-  useEffect(() => {
-    if (started.current || !startTemplate || (doc.photo && doc.photo.aspect === 0)) return;
-    started.current = true;
-    window.history.replaceState(null, "", window.location.pathname);
-    // A one-off, undoable step that should autosave, so it goes through choose().
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (startTemplate !== doc.template && TEMPLATES.some((x) => x.id === startTemplate)) choose(startTemplate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startTemplate, doc]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -711,7 +700,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           <span className="hidden sm:inline">{backLabel}</span>
         </a>
         <div className="min-w-0">
-          <h1 className="truncate font-display text-lg leading-tight lg:text-xl">Save the date</h1>
+          <h1 className="truncate font-display text-lg leading-tight lg:text-xl">{title}</h1>
           <p className={`truncate text-[11px] ${save === "error" || save === "stale" ? "text-[#b42318]" : "text-ink/50"}`} role="status">
             {status}
           </p>

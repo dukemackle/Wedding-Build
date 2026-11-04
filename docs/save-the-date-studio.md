@@ -123,7 +123,14 @@ Names shared with a guest-site template let one choice style both the card and t
      first time the guest taps Open on the envelope). Page loads don't count, because chat
      apps load links to draw previews, and nor do the couple's own taps. There's no tracking
      pixel.
-5. **Polish:** per-template envelope liners, a social preview image, and save-the-date → invitation
+5. **Several designs:** built 2026-11-04 (needs migration `0157_save_the_date_designs.sql`):
+   - **Home** `/guests/save-the-date`: the couple's designs (up to `MAX_CARDS`, 6) with a menu
+     each (open, send this one, show at guests' links, rename, duplicate, delete), and all
+     templates below, drawn with their own names, date and photo. Picking one makes a new design
+     and opens it at `/guests/save-the-date/edit/[id]`.
+   - One card is `chosen`: the one guests' links show. Sending a card makes it the chosen one;
+     the first card made starts chosen.
+6. **Polish:** per-template envelope liners, a social preview image, and save-the-date → invitation
    suite matching.
 
 ## Owner decisions needed

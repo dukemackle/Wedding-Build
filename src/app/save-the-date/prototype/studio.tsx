@@ -23,6 +23,7 @@ export function Studio({ view }: { view: string }) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
         <SendPanel
+          cardId="sample"
           doc={newCard("heirloom")}
           version="v1"
           imageVersion="v1"
@@ -36,7 +37,7 @@ export function Studio({ view }: { view: string }) {
       </div>
     );
   // "autosave": the real card's saving, against a stubbed /api/save-the-date (tests only).
-  if (view === "autosave") return <SaveTheDateStudio initial={newCard("heirloom", undefined, null, false)} persist photos={["/landing/hero-couple-1000.webp"]} />;
+  if (view === "autosave") return <SaveTheDateStudio initial={newCard("heirloom", undefined, null, false)} cardId="sample" version="v1" persist photos={["/landing/hero-couple-1000.webp"]} />;
   return <SaveTheDateStudio initial={newCard(TEMPLATES.some((t) => t.id === view) ? view : "editorial")} view={view} />;
 }
 

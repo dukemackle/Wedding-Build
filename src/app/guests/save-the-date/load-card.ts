@@ -9,11 +9,15 @@ import { canEditWedding } from "@/lib/wedding-access";
 /** At most this many of the couple's photos are offered in the Photo panel. */
 const MAX_LIBRARY = 24;
 
+export type Card = { id: string; name: string; chosen: boolean; updatedAt: string; imageVersion: string | null; doc: CardDoc };
+
+type Db = Awaited<ReturnType<typeof createClient>>;
+
 /**
- * What both save-the-date screens (the home and the studio) start from: the
- * couple's saved card, or the starter card built from their wedding details.
+ * What the save-the-date screens start from: the signed-in couple's wedding
+ * and every card they've made, newest first.
  */
-export async function loadCard() {
+export async function loadCards() {
   const supabase = await createClient();
   const {
     data: { user },
@@ -27,44 +31,46 @@ export async function loadCard() {
     .maybeSingle<Wedding>();
   if (!wedding) return { supabase, user, wedding: null } as const;
 
-  const [{ data: row }, { data: gallery }, { data: venue }, canEdit] = await Promise.all([
-    supabase.from("save_the_dates").select("*").eq("wedding_id", wedding.id).maybeSingle<SaveTheDateRow>(),
+  const [{ data: rows }, canEdit] = await Promise.all([
     supabase
-      .from("wedding_gallery_photos")
-      .select("photo_url")
+      .from("save_the_dates")
+      .select("*")
       .eq("wedding_id", wedding.id)
-      .order("sort_order")
-      .returns<{ photo_url: string }[]>(),
-    wedding.venue_id
-      ? supabase.from("venues").select("city, state").eq("id", wedding.venue_id).maybeSingle<Pick<Venue, "city" | "state">>()
-      : Promise.resolve({ data: null }),
+      .order("updated_at", { ascending: false })
+      .returns<SaveTheDateRow[]>(),
     canEditWedding(supabase, wedding, user.id),
   ]);
+  const cards: Card[] = (rows ?? []).flatMap((r) => {
+    const doc = parseCardDoc(r.doc);
+    return doc ? [{ id: r.id, name: r.name, chosen: r.chosen, updatedAt: r.updated_at, imageVersion: r.image_version, doc }] : [];
+  });
+  return { supabase, user, wedding, cards, canEdit } as const;
+}
 
-  const photos = [
+/** The couple's photos, offered in the studio's Photo panel. */
+export async function photoLibrary(supabase: Db, wedding: Wedding) {
+  const { data: gallery } = await supabase
+    .from("wedding_gallery_photos")
+    .select("photo_url")
+    .eq("wedding_id", wedding.id)
+    .order("sort_order")
+    .returns<{ photo_url: string }[]>();
+  return [
     ...new Set([wedding.hero_photo_url, ...(wedding.dashboard_photo_urls ?? []), ...(gallery ?? []).map((g) => g.photo_url)]),
   ]
     .filter((u): u is string => Boolean(u))
     .slice(0, MAX_LIBRARY);
-
-  const saved = row ? parseCardDoc(row.doc) : null;
-  return {
-    supabase,
-    user,
-    wedding,
-    row: saved ? row : null,
-    card: saved ?? starterCard(wedding, venue),
-    photos,
-    canEdit,
-  } as const;
 }
 
 /**
- * The card a couple sees first: their names, date and place on Editorial
- * with their banner photo, or on Heirloom Garden when they have none yet.
- * The photo's proportions are read in the browser (aspect 0 until then).
+ * A couple's first card: their names, date and place on Editorial with their
+ * banner photo, or on Heirloom Garden when they have none yet. The photo's
+ * proportions are read in the browser (aspect 0 until then).
  */
-function starterCard(wedding: Wedding, venue: Pick<Venue, "city" | "state"> | null): CardDoc {
+export async function starterCard(supabase: Db, wedding: Wedding): Promise<CardDoc> {
+  const { data: venue } = wedding.venue_id
+    ? await supabase.from("venues").select("city, state").eq("id", wedding.venue_id).maybeSingle<Pick<Venue, "city" | "state">>()
+    : { data: null };
   const city = wedding.own_venue_city ?? venue?.city ?? null;
   const state = wedding.own_venue_state ?? venue?.state ?? wedding.state ?? null;
   const content = {
