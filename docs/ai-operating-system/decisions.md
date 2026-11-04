@@ -283,3 +283,14 @@ rules, batch self-merge, 50-state coverage, page widths) and
   the couple never leaves the app.
 - Rough money (estimate, not quoted): ~100 cards at $1.50–3 each, 20–40% margin,
   so about $30–100 per couple. It repeats for invitations and thank-yous.
+
+## 2026-11-04 — Venue catalog target raised toward ~25,000 (pass 5)
+
+- Decision: once a state meets its pass 4 stage 2 venue target, that target
+  rises 1.6× (`PASS5_VENUE_FACTOR` in `scripts/coverage-plan.mjs`), about 25.7k
+  venues nationally. Vendor targets are unchanged for now. Routine pace is not
+  changed.
+- Why: outside estimates (Rentech, MMCG, unverified) put US wedding venues at
+  27k–36k, but research skips about a third of what it finds, so ~25k is a
+  realistic ceiling to aim at. A state whose skips outnumber its new pass 5
+  venues is probably near full.
