@@ -15,6 +15,7 @@
     "venue-details": "node scripts/venue-details.mjs",
     "verify:batches": "node scripts/verify-batches.mjs",
     "recheck:skipped": "node scripts/recheck-skipped.mjs",
+    "places:check": "node scripts/places-check.mjs",
     "backup": "node scripts/backup.mjs",
     "restore": "node scripts/restore.mjs",
     "import:batches": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-batches.mjs",

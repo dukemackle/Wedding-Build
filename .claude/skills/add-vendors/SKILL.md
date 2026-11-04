@@ -75,6 +75,13 @@ than be padded with weak listings.
   cheapest real listings left. Research each like any new row. One that makes it
   into the batch comes out of the skipped file; one that still fails gets its
   real reason (`No wedding page`, `Closed`...) in place of `Site back up`.
+  Then the `Confirmed on Google, site blocks us` rows: the batch checker passes
+  them on Google's listing (`src/lib/batches/places/<state>.tsv`). Leave Email
+  and Phone blank. Take any address and the description from directories and
+  search results, never from Google Maps (its terms forbid copying); the
+  checker compares an address with Google's. With GOOGLE_PLACES_API_KEY set, a new
+  row whose site blocks us gets the same Google check (150 lookups a day, to
+  stay in Google's free tier); commit the `places/` file with the batch.
 - **Record what you leave out.** Every real business found and left out goes on a line in
 `src/lib/batches/skipped/<state>.tsv`, with its reason and best link (format
 and reasons in that folder's README). That's how we count what exists but

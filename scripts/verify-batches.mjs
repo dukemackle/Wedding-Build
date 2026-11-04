@@ -11,11 +11,12 @@
 // for-sale domain, names the business, and carries the phone and email we
 // list, and for venues the capacity. A field the site doesn't show is a failure -- the fix is to blank it
 // or source it properly, because a blank field is better than a wrong one.
-// Sites that block automated visits fail too: confirm by hand and replace the
-// row, or drop it. Exits 1 on any failure; warnings are worth a look.
+// A site that blocks automated visits fails unless Google's listing confirms
+// the business (scripts/places.mjs, needs GOOGLE_PLACES_API_KEY). Exits 1 on any failure; warnings are worth a look.
 
 import { execFileSync } from "node:child_process";
 import { readFileSync, readdirSync } from "node:fs";
+import * as places from "./places.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(name);
@@ -208,6 +209,40 @@ const PARKED =
 const CLOSED =
   /permanently closed|(?:we have|we've|has) (?:officially )?closed|no longer (?:in business|operating|accepting (?:new )?(?:bookings|weddings|inquiries))|closing our doors|retired from (?:weddings|photography)/i;
 
+// A site that blocks us can still pass on a second source: Google's listing
+// (scripts/places.mjs) showing the business open, with the same name, in the
+// same state. Google's basic lookup can't vouch for phone, email or capacity,
+// so those must be blank. An address must come from somewhere else (Google's
+// terms bar copying it) and match Google's street number.
+async function blockedSite(r, status) {
+  const blocked = `site blocks automated visits (${status})`;
+  let g;
+  try {
+    g = await places.lookup({ name: r.Name, city: r.City, state: r.State, website: r.Website });
+  } catch (e) {
+    return { fails: [`${blocked}, and the Google check failed: ${e.message}`], warns: [] };
+  }
+  if (!g)
+    return { fails: [`${blocked}; no Google check (no GOOGLE_PLACES_API_KEY or today's cap is spent). Confirm by hand or drop the row`], warns: [] };
+  if (g.Result === places.CLOSED) return { fails: [`${blocked}, and Google lists it as permanently closed`], warns: [] };
+  if (g.Result !== places.OPEN) return { fails: [`${blocked}, and Google has no matching open listing; drop the row`], warns: [] };
+  const fails = [];
+  for (const f of ["Phone", "Email", "Capacity"])
+    if (r[f]) fails.push(`${f.toLowerCase()} can't be checked (site blocks us, Google check covers name and address only); blank it`);
+  if (r.Address) {
+    let theirs = null;
+    try {
+      theirs = await places.addressOf(g["Place ID"]);
+    } catch (e) {
+      fails.push(`address can't be checked against Google (${e.message}); blank it or retry`);
+    }
+    const number = r.Address.match(/^\d+/)?.[0];
+    if (theirs && !(number && new RegExp(`(^|\\D)${number}\\b`).test(theirs)))
+      fails.push(`address "${r.Address}" doesn't match Google's listing; find the right one elsewhere or blank it`);
+  }
+  return { fails, warns: [`site blocks us; confirmed open on Google (place ${g["Place ID"]})`] };
+}
+
 // ---- run --------------------------------------------------------------------
 
 async function verify(r) {
@@ -229,7 +264,7 @@ async function verify(r) {
   if (first.error) return { fails: [`website didn't load (${first.error})`], warns };
   // 202 with an empty body is a bot challenge page, not the site.
   if ([401, 403, 429, 503].includes(first.status) || (first.status === 202 && first.html.length < 2000))
-    return { fails: [`site blocks automated visits (${first.status}); confirm by hand or drop the row`], warns };
+    return blockedSite(r, first.status);
   if (first.status >= 400) return { fails: [`website returns ${first.status}`], warns };
   if (PARKED.test(all)) fails.push("domain looks parked, expired or for sale");
   if (!all.trim() || all.trim().length < 200)
