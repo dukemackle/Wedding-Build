@@ -1,4 +1,4 @@
-Status: draft (plan, waiting on owner OK)
+Status: approved 2026-11-04; Phase 1 built (`/venues/in/<metro>`, `/vendors/in/<metro>`)
 
 # SEO plan: metro hub pages and state cost pages
 
@@ -9,6 +9,11 @@ crawlable links pointing to them (live sitemap.xml, 2026-11-04).
 Inference: hub pages give Google a path to the listings and match how couples
 search ("wedding venues in Austin"). Unknown until Search Console is live:
 which queries already show us.
+
+## Search Console, 2026-11-04 (owner screenshot)
+11 indexed; 14,851 "Discovered - currently not indexed"; 0 "Crawled - currently not indexed".
+Live HTML: /venues and /vendors each link to only 24 listings; the homepage links to none.
+So the blocker is that Google can't find a path to the listings (crawl priority), not that it judged them low quality.
 
 ## Phase 1: launch-metro hubs (one PR, design preview first)
 - `/venues/in/<metro>` and `/vendors/in/<metro>` for the launch metros in

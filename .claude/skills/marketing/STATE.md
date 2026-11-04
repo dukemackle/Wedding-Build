@@ -44,5 +44,5 @@ signups and activity but not where anyone came from.
 ## In flight
 
 - 2026-11-04 SEO basics PR (homepage title/description, Organization+WebSite JSON-LD, `/llms.txt`).
-- Search Console: decided 2026-10-21, **not yet verified** (owner step, `specialists/seo.md`).
-- Hub-page plan: `drafts/2026-11-04-seo-local-hubs-plan.md`, waiting on owner OK.
+- Search Console verified; 2026-11-04: 11 indexed, 14,851 "Discovered - currently not indexed" (no internal links to listings).
+- Metro hub pages built 2026-11-04 (plan approved). Re-check indexed count in Search Console ~4 weeks after deploy.

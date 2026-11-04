@@ -11,6 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-04:** Metro hub pages (`/venues/in/<metro>`, `/vendors/in/<metro>`,
+  `src/components/metro-hub.tsx`) approved from a static mockup: heading with
+  the metro name on a gold underline, a cream fact panel beside it (one gold
+  highlighted number), town/style chips, priced cards with the type drawings
+  when there's no photo, every listing as a plain grouped link list, then
+  vendors, the navy estimator band and nearby areas. Royal primary button.
+
 - **2026-11-04:** Couple app top nav is an icon dock (direction "B, with
   colours", chosen over bold pills, a two-tone dock and a navy band; mockup
   https://claude.ai/artifact/3YpWFLLCXKnvSTRXtr7eNY). Each tab is a coloured
