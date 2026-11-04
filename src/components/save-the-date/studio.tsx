@@ -657,13 +657,21 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               Download
             </button>
             {menu && (
-              <div className="absolute right-0 top-12 z-30 w-60 overflow-hidden rounded-xl border border-hairline bg-white py-1 shadow-xl">
+              <div className="absolute right-0 top-12 z-30 w-72 overflow-hidden rounded-xl border border-hairline bg-white py-1 shadow-xl">
                 <button type="button" onClick={() => download("png")} className="block w-full px-4 py-2.5 text-left text-sm hover:bg-ink/5">
                   PNG image<span className="block text-xs text-ink/50">3000 × 4200, for texting or posting</span>
                 </button>
                 <button type="button" onClick={() => download("pdf")} className="block w-full px-4 py-2.5 text-left text-sm hover:bg-ink/5">
-                  PDF for printing<span className="block text-xs text-ink/50">5 × 7 in at 600 dpi</span>
+                  PDF for printing<span className="block text-xs text-ink/50">5 × 7 in at 600 dpi, with ⅛ in bleed</span>
                 </button>
+                <div className="mx-3 mb-2 mt-1 rounded-lg bg-parchment px-3 py-2.5 text-xs leading-relaxed text-ink/70">
+                  <p className="font-medium text-ink">Printing it</p>
+                  <p className="mt-1">
+                    Take the PDF to any print shop (FedEx Office, Staples or a local printer) and ask for 5 × 7 on
+                    matte cardstock, 110–130 lb, trimmed to size.
+                  </p>
+                  <p className="mt-1">Order one per household plus about ten spares. A7 envelopes fit.</p>
+                </div>
               </div>
             )}
           </div>
