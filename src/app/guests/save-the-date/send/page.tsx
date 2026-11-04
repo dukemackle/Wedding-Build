@@ -64,7 +64,7 @@ export default async function SendSaveTheDatePage({
           <h1 className="font-display text-3xl font-semibold text-forest">Design your card first</h1>
           <p className="mt-4 text-ink/70">Pick a design and add your details, then come back here to send it.</p>
           <Link
-            href="/guests/save-the-date"
+            href="/guests/save-the-date?designs"
             className="mt-6 inline-block rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90"
           >
             Pick a design

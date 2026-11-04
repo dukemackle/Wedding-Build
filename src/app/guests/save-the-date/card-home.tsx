@@ -8,6 +8,7 @@ import { actionFailed } from "@/lib/action-error";
 import { FONTS_HREF } from "@/lib/save-the-date/fonts";
 import { FAMILIES, MAX_CARDS, SHORT, TEMPLATES, newCard } from "@/lib/save-the-date/templates";
 import type { CardContent, CardDoc, Photo } from "@/lib/save-the-date/types";
+import { forgetCard } from "./resume";
 import { chooseCard, createCard, deleteCard, renameCard } from "./actions";
 import type { Card } from "./load-card";
 
@@ -37,6 +38,8 @@ export function CardHome({
   const [error, setError] = useState<string | null>(null);
   const [menuFor, setMenuFor] = useState<string | null>(null);
   const [family, setFamily] = useState<string | null>(null);
+  // Back on the list, the list is where they left off.
+  useEffect(() => forgetCard(), []);
   const banner = useAspect(cards.length ? null : bannerPhoto);
   const latest = cards[0]?.doc;
   const words = latest?.content ?? sample;

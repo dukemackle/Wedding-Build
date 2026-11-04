@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
 import { CardHome } from "./card-home";
 import { loadCards } from "./load-card";
 import { NoWedding } from "./no-wedding";
+import { LAST_CARD_COOKIE } from "./resume";
 
 export const metadata: Metadata = { title: "Save the date" };
 
@@ -10,9 +13,19 @@ export const metadata: Metadata = { title: "Save the date" };
  * Guests › Save the date: the couple's designs (the one guests see marked)
  * and every template to start another from, like the guest site's home.
  * Each design opens in the studio at /guests/save-the-date/edit/[id].
+ * Coming back here reopens the card last being edited on this device, unless
+ * "Designs" (?designs) asked for the list.
  */
-export default async function SaveTheDateHomePage() {
-  const loaded = await loadCards();
+export default async function SaveTheDateHomePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const [loaded, query, jar] = await Promise.all([loadCards(), searchParams, cookies()]);
+  const last = jar.get(LAST_CARD_COOKIE)?.value;
+  if (!("designs" in query) && last && loaded.cards?.some((c) => c.id === last)) {
+    redirect(`/guests/save-the-date/edit/${encodeURIComponent(last)}`);
+  }
   if (!loaded.wedding) {
     return (
       <PageShell email={loaded.user.email ?? ""} width="reading">

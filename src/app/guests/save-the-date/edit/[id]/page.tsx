@@ -5,6 +5,8 @@ import { PageShell } from "@/components/page-shell";
 import { SaveTheDateStudio } from "@/components/save-the-date/studio";
 import { loadCards, photoLibrary } from "../../load-card";
 import { NoWedding } from "../../no-wedding";
+import { CARDS_LIST_HREF } from "../../resume";
+import { RememberCard } from "../../remember-card";
 
 export const metadata: Metadata = { title: "Save the date" };
 
@@ -27,6 +29,7 @@ export default async function EditSaveTheDatePage({ params }: { params: Promise<
 
   return (
     <main className="flex flex-1 flex-col pt-16">
+      <RememberCard id={card.id} />
       <AppNav email={loaded.user.email ?? ""} />
       <div className="border-t border-hairline">
         <SaveTheDateStudio
@@ -37,7 +40,7 @@ export default async function EditSaveTheDatePage({ params }: { params: Promise<
           version={card.updatedAt}
           persist={loaded.canEdit}
           photos={photos}
-          backHref="/guests/save-the-date"
+          backHref={CARDS_LIST_HREF}
           backLabel="Designs"
           sendHref={`/guests/save-the-date/send?card=${card.id}`}
           note="View only · ask the owner for edit access to change the card"
