@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
+import { supabaseAnonKey, supabaseUrl } from "@/lib/supabase/env";
 
 // Keeps the admin panel off the public domain entirely: the couple-facing
 // site never serves /admin, and the admin panel only responds on its own
@@ -30,11 +31,11 @@ async function listingSlugRedirect(request: NextRequest): Promise<NextResponse |
   const [, table, id] = match;
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/${table}?select=slug&id=eq.${id}&active=eq.true`,
+      `${supabaseUrl()}/rest/v1/${table}?select=slug&id=eq.${id}&active=eq.true`,
       {
         headers: {
-          apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+          apikey: supabaseAnonKey(),
+          Authorization: `Bearer ${supabaseAnonKey()}`,
         },
       },
     );
