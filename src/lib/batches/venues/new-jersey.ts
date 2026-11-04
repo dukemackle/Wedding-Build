@@ -245,6 +245,22 @@ Whitechapel Projects	15 2nd Avenue	Long Branch	New Jersey			Industrial Loft & Wa
 The Imperia by Dhaba	1714 Easton Avenue	Somerset	New Jersey			Ballroom	Indoor & Outdoor				A banquet venue in Somerset with three ballrooms and an outdoor stone patio, waterfall garden and gazebo, hosting American, South Asian and international weddings.		732-469-2522	https://imperianj.com/weddings/
 Parker's Garage & Oyster Saloon	116 Northwest Avenue	Beach Haven	New Jersey			Restaurant & Brewery	Indoor	180			A waterfront restaurant in Beach Haven's Maritime District that takes wedding reservations for up to 180 guests.	info@parkersgaragelbi.com	(609) 492-1066	https://www.parkersgaragelbi.com/private-events`,
   },
+  {
+    name: "New Jersey: Princeton, Jersey Shore, Cape May and South Jersey venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Yogi Berra Museum & Learning Center	8 Yogi Berra Dr	Little Falls	New Jersey			Museum, Gallery & Rooftop		125			Baseball museum on the Montclair State University campus that rents its space for weddings and receptions.		973-655-2378	https://www.yogiberramuseum.org/visit/rentals/
+Stone Harbor Golf Club	905 Route 9 North	Cape May Court House	New Jersey			Country Club & Golf					A golf club on more than 350 acres that hosts weddings and other events minutes from the South Jersey beaches.		(609) 465-9270	https://www.stoneharborgolf.com
+ICONA Diamond Beach	9701 Atlantic Ave	Wildwood Crest	New Jersey			Beach & Coast	Indoor & Outdoor				An oceanfront hotel in Wildwood Crest that offers barefoot beach ceremonies and receptions.	diamondbeach@icona.com	(609) 551-0102	https://www.icona.com/diamond-beach
+ICONA Avalon	7849 Dune Dr	Avalon	New Jersey			Beach & Coast	Indoor & Outdoor				An Avalon beach resort that hosts ceremonies, receptions and rehearsal dinners, from barefoot beach vows to formal events.		609-368-5155	https://www.icona.com/avalon
+The Venue at Lenola	229 North Lenola Road	Moorestown	New Jersey			Ballroom	Indoor				An indoor Moorestown hall rented year-round for weddings and other celebrations.			https://thevenueatlenola.com/
+Hard Rock Hotel & Casino Atlantic City	1000 Boardwalk	Atlantic City	New Jersey			Hotel & Resort					A boardwalk casino resort with several ballrooms that hosts weddings.		609-449-1000	https://casino.hardrock.com/atlantic-city
+The Haddon Fortnightly	301 Kings Hwy E	Haddonfield	New Jersey			Historic Mansion & Estate	Indoor				A historic Haddonfield landmark with a club room, tea room and auditorium, and a bridal suite for weddings.	Rentals@thehaddonfortnightly.org	(856) 428-9040	https://www.thehaddonfortnightly.org/venue
+Valleybrook Country Club	200 Golfview Drive	Blackwood	New Jersey			Country Club & Golf	Indoor & Outdoor				A Gloucester County golf club with indoor and outdoor spaces for wedding ceremonies and receptions.		856-227-3171	https://www.valleybrookgolf.com
+Borgata Hotel Casino & Spa	1 Borgata Way	Atlantic City	New Jersey			Hotel & Resort	Indoor				A casino resort with ballrooms and an event center that offers wedding services together with the MGM Tower.		609-317-1000	https://marriott.com/en-gb/hotels/acybg-borgata-hotel-casino-and-spa-mgm-collection/events
+Atlantis Ballroom at the Days Hotel Toms River	290 Route 37 East	Toms River	New Jersey			Ballroom	Indoor				A hotel ballroom, with a smaller Coral Ballroom alongside, offering all-inclusive wedding packages a short drive from the beach.		(732) 731-8000	https://atlantisballroom.com
+Burlington County Agricultural Center	500 Centerton Road	Moorestown	New Jersey			Barn & Farm	Indoor & Outdoor	175			A county-run farm site whose open-sided Market Barn holds 175, with an 1850s farmhouse for smaller groups and a tented plaza.	agcenter@co.burlington.nj.us	856-778-0107	https://www.burlcoagcenter.com/event-rentals/wedding-events/
+Maggie's at the Claflin House	145 Country Club Dr	Lakewood	New Jersey			Country Club & Golf	Indoor & Outdoor				A mansion-style banquet hall on the grounds of a golf course, with a gazebo and patios for outdoor ceremonies.		(732) 363-8125	https://www.maggies-lcc.com/weddings`,
+  },
 ];
 
 export default batches;
