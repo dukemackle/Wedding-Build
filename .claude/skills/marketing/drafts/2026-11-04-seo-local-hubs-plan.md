@@ -1,4 +1,4 @@
-Status: draft (plan, waiting on owner OK)
+Status: approved 2026-11-04; Phase 1 built (`/venues/in/<metro>`, `/vendors/in/<metro>`)
 
 # SEO plan: metro hub pages and state cost pages
 

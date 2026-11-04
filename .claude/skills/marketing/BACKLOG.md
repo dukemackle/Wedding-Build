@@ -5,7 +5,6 @@ Priority = I×C×E×R. Work at most three at a time. Updated 2026-10-20.
 
 | # | Opportunity | Area | I | C | E | R | Score | Gate / owner action |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Verify youdoido.com in Google Search Console and submit the sitemap | SEO | 3 | 5 | 5 | 5 | 375 | Owner: 10 min DNS step (`seo.md`) |
 | 2 | Pick a postal-address option to open commercial email | Compliance | 5 | 5 | 3 | 5 | 375 | Owner getting a PO box (2026-10-20); code: unsubscribe + opt-out check |
 | 4 | Capture signup source (UTM, `ref`, landing path) on the profile | Analytics | 4 | 5 | 4 | 4 | 320 | Code PR + Privacy line |
 | 5 | Sharpen the inquiry footer and claim / `/list` pages for conversion | Listings | 4 | 4 | 4 | 4 | 256 | Copy ships directly; layout → preview |
@@ -16,7 +15,6 @@ Priority = I×C×E×R. Work at most three at a time. Updated 2026-10-20.
 | 10 | "Wedding cost in <state>" pages from estimator data | SEO | 4 | 3 | 3 | 4 | 144 | Plan + preview |
 | 11 | Planning-stage in-app nudges (lifecycle map) | Lifecycle | 4 | 3 | 2 | 5 | 120 | `/design-expert` |
 | 12 | Pinterest pilot: 3 pins/week from real product screenshots | Social | 3 | 2 | 3 | 5 | 90 | Needs #3 to measure; owner posts |
-| 13 | Launch-metro hub pages (only where 8+ listings) | SEO | 4 | 3 | 2 | 3 | 72 | Plan in `drafts/2026-11-04-seo-local-hubs-plan.md`; preview |
 | 14 | Paid search test in one metro | Paid | 3 | 2 | 3 | 3 | 54 | Blocked: needs #3, #4 and a budget |
 
 Note: ROADMAP.md line 9 says West Virginia is still short, but `npm run
