@@ -51,7 +51,7 @@ draws it, so export and fit-to-width work unchanged. The QR code is drawn as an 
 on the lighter of paper/ink (a tile on dark papers, white when the two are too close), above the grain.
 The print PDF is two pages (front, back) once the website is on; with the site off the studio says
 so and the PDF prints the front only. The guest reveal gets "Turn it over" and tap-to-turn. QA sheet:
-`?view=backs` (all 24 decode with a QR reader); studio on a back: `?view=back`.
+`?view=backs` (all 24 decode with a QR reader); studio on a back: `?view=back`, side by side: `?view=both`. Desktop has Front / Back / Both (the front stays editable in Both; clicking the back opens its settings); a phone has Front / Back.
 
 ## Design system for cards
 

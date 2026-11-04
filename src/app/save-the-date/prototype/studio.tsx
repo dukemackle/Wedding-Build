@@ -58,7 +58,7 @@ export function Studio({ view }: { view: string }) {
   // "autosave": the real card's saving, against a stubbed /api/save-the-date (tests only).
   if (view === "autosave") return <SaveTheDateStudio initial={newCard("heirloom", undefined, null, false)} cardId="sample" version="v1" persist photos={["/landing/hero-couple-1000.webp"]} />;
   // "back": the studio showing a card's back (Heirloom), as a couple sees it after adding one.
-  if (view === "back")
+  if (view === "back" || view === "both")
     return <SaveTheDateStudio initial={{ ...newCard("heirloom"), back: { on: true, travel: "Rooms held at the Hotel Californian until May 1" } }} view={view} site="youdoido.com/w/alex-and-jordan" />;
   return <SaveTheDateStudio initial={newCard(TEMPLATES.some((t) => t.id === view) ? view : "editorial")} view={view} site="youdoido.com/w/alex-and-jordan" />;
 }

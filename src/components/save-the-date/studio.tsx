@@ -544,6 +544,9 @@ function LayersPanel({
 
 type SaveState = "saved" | "pending" | "saving" | "error" | "stale";
 
+/** Which side the card area shows. "both" is desktop only: a phone shows the front. */
+type Side = "front" | "back" | "both";
+
 type StudioProps = {
   initial: CardDoc;
   /** The saved row's updated_at; null before the first save. */
@@ -622,7 +625,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   const [busy, setBusy] = useState<string | null>(null);
   const svg = useRef<SVGSVGElement | null>(null);
   const backSvg = useRef<SVGSVGElement | null>(null);
-  const [side, setSide] = useState<"front" | "back">(view === "back" ? "back" : "front");
+  const [side, setSide] = useState<Side>(view === "back" ? "back" : view === "both" ? "both" : "front");
 
   // Autosave: a change marks the card unsaved; 900ms after the last change it
   // goes to /api/save-the-date. Saves run one after another so each carries
@@ -735,7 +738,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     patch({ overrides: next }, key);
   };
   const pick = (id: string | null) => {
-    if (id) setSide("front");
+    if (id && side === "back") setSide("front");
     setSelected(id);
     setEditing(false);
     if (id) setPanel(null);
@@ -809,20 +812,28 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   };
 
   const backState = !withBack ? null : !site ? "nosite" : side === "back" ? "back-shown" : "on";
-  const showBack = (s: "front" | "back") => {
+  const showBack = (s: Side) => {
     setSide(s);
     if (s === "back") pick(null);
   };
+  const both = withBack && side === "both";
+  /** The back's settings, from a click on the back itself. */
+  const backSettings = () => {
+    if (window.matchMedia("(min-width: 1024px)").matches) {
+      if (shownFold !== "back") openFold("back");
+    } else setPanel("details");
+  };
 
-  const sideSwitch = (
+  // Desktop offers Both; a phone is too narrow for two cards.
+  const sideSwitch = (sides: Side[]) => (
     <div className="inline-flex rounded-full border border-hairline bg-white p-1 text-[13px] shadow-sm" role="group" aria-label="Side of the card">
-      {(["front", "back"] as const).map((s) => (
+      {sides.map((s) => (
         <button
           key={s}
           type="button"
           onClick={() => showBack(s)}
-          aria-pressed={side === s}
-          className={`rounded-full px-4 py-1.5 capitalize ${side === s ? "bg-ink text-white" : "text-ink/70 hover:text-ink"}`}
+          aria-pressed={side === s || (s === "front" && side === "both" && !sides.includes("both"))}
+          className={`rounded-full px-4 py-1.5 capitalize ${side === s || (s === "front" && side === "both" && !sides.includes("both")) ? "bg-ink text-white" : "text-ink/70 hover:text-ink"}`}
         >
           {s}
         </button>
@@ -951,25 +962,36 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           <div className="absolute inset-x-4 top-4 z-10 hidden text-center lg:block" onPointerDown={(e) => e.stopPropagation()}>
             {toolbar ??
               (withBack ? (
-                sideSwitch
+                sideSwitch(["front", "back", "both"])
               ) : (
                 <p className="pointer-events-none mt-2 inline-block rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white">Drag anything to move it, click it to style it</p>
               ))}
           </div>
           <div
-            className={`relative lg:w-[min(100%,calc((100dvh-164px)*0.714))] ${panel ? "-mt-[46dvh] w-[min(100%,calc((54dvh-170px)*0.714))] lg:mt-0" : "w-[min(100%,calc((100dvh-180px)*0.714))]"}`}
+            className={`relative ${both ? "lg:w-[min(calc(50%-12px),calc((100dvh-164px)*0.714))] lg:-translate-x-[calc(50%+12px)]" : "lg:w-[min(100%,calc((100dvh-164px)*0.714))]"} ${panel ? "-mt-[46dvh] w-[min(100%,calc((54dvh-170px)*0.714))] lg:mt-0" : "w-[min(100%,calc((100dvh-180px)*0.714))]"}`}
             style={{ aspectRatio: "1000 / 1400" }}
           >
             {withBack && (
-              <CardSvg
-                doc={doc}
-                side="back"
-                site={site}
-                svgRef={(el) => {
-                  backSvg.current = el;
+              <div
+                role="button"
+                tabIndex={-1}
+                aria-label="Back of the card: open its settings"
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  backSettings();
                 }}
-                className={`absolute inset-0 h-full w-full rounded-[3px] bg-white shadow-[0_1px_2px_rgba(20,32,61,.08),0_24px_60px_-18px_rgba(20,32,61,.35)] ${side === "back" ? "" : "invisible"}`}
-              />
+                className={`absolute left-0 top-0 h-full w-full cursor-pointer ${side === "back" ? "" : both ? "invisible lg:visible lg:left-[calc(100%+24px)]" : "invisible"}`}
+              >
+                <CardSvg
+                  doc={doc}
+                  side="back"
+                  site={site}
+                  svgRef={(el) => {
+                    backSvg.current = el;
+                  }}
+                  className="h-full w-full rounded-[3px] bg-white shadow-[0_1px_2px_rgba(20,32,61,.08),0_24px_60px_-18px_rgba(20,32,61,.35)]"
+                />
+              </div>
             )}
             <CardSvg
               doc={doc}
@@ -993,7 +1015,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
             {/* Phone: the side switch under the card (desktop has it in the strip above). */}
             {withBack && !panel && (
               <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 lg:hidden" onPointerDown={(e) => e.stopPropagation()}>
-                {sideSwitch}
+                {sideSwitch(["front", "back"])}
               </div>
             )}
           </div>
