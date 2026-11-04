@@ -226,7 +226,7 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
         names.toLowerCase().includes(q) ||
         (email ?? "").toLowerCase().includes(q) ||
         (wedding.state ?? "").toLowerCase().includes(q) ||
-        (wedding.referral_code ?? "").toLowerCase().includes(q) ||
+        (wedding.referral_code ?? "").toLowerCase().includes(q.replace(/^wren-/, "ido-")) ||
         tags.some((tag) => tag.toLowerCase().includes(q))
       );
     });
