@@ -8,7 +8,7 @@ description: The shared instructions for the four scheduled "Batch builder" rout
 You are running unattended. Your scheduled prompt gives YOUR REGION (a list of
 states) and YOUR LAUNCH METROS in priority order. Add batches toward the
 coverage plan for ONE state in your region, as one PR of 40-60 rows. Finish
-within 100 minutes (the next run in your region starts 3 hours after this one).
+within 100 minutes (each region runs twice a day, 15 hours apart).
 Three other builders cover the other regions at the same time. Never touch a
 state outside your region, so you can never collide with them.
 
