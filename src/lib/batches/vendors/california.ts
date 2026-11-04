@@ -2772,6 +2772,15 @@ Julie Simon Cakes	Cake		Los Angeles	California	Los Angeles	Los Angeles confectio
 Piece of Cake L.A.	Cake		West Hollywood	California	Los Angeles	West Hollywood bakery run by a Le Cordon Bleu-trained pastry chef, baking custom wedding cakes, cookies and cupcakes from scratch.	maryn@pieceofcakela.com	(323) 521-9701	https://www.pieceofcakela.com	https://www.instagram.com/pieceofcakela/		
 `,
   },
+  {
+    name: "California: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sukanya Singh Photography	Photography		Folsom	California	Folsom and Sacramento area	Folsom wedding photographer with a classic style, covering full wedding days and elopements, with a second shooter available.			https://www.sukanyasinghphoto.com			
+Sugar Pine Bakery	Cake	3564 Lake Tahoe Blvd	South Lake Tahoe	California	South Lake Tahoe	South Lake Tahoe bakery that grew out of a wedding cake business, making custom wedding cakes alongside its everyday cakes and pastries.			https://www.sugarpinetahoe.com/			
+First Class Catering Service	Catering	73900 Dinah Shore Dr, Unit 204	Palm Desert	California	Coachella Valley and San Diego	Palm Desert caterer offering plated, buffet or drop-off wedding menus from American to Mexican, Italian and BBQ, with bar service and rentals.			https://www.firstclasscateringservice.com/			
+The Wedding Connection	Planning		Aptos	California	Santa Cruz County	Aptos wedding planning and day-of coordination team, running Santa Cruz County weddings and managing vendors and the flow of the day.			https://www.weddingconnection.net/			
+`,
+  },
 ];
 
 export default batches;

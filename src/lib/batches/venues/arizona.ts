@@ -312,6 +312,24 @@ Kelly's Cottage	6601 S El Mirage Rd	Tolleson	Arizona			Barn & Farm	Indoor & Outd
 Blu Ranch Weddings & Events	48109 N Black Canyon Hwy	New River	Arizona			Ranch	Outdoor				A rustic outdoor ranch venue in New River that hosts weddings, private parties and company events.		602-480-5238	https://www.3zranch.com
 `,
   },
+  {
+    name: "Arizona: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Crowne Plaza Phoenix Chandler Golf Resort		Chandler	Arizona			Hotel & Resort	Indoor & Outdoor				Golf resort built around the 1913 San Marcos hotel in downtown Chandler, with a ballroom, terrace rooms and lawns beside the course.			https://www.crowneplaza.com/phoenix-chandler-golf-resort/weddings
+Tempe Mission Palms	60 E 5th St	Tempe	Arizona			Hotel & Resort	Indoor & Outdoor				Mission-style hotel in downtown Tempe off Mill Avenue, with a palm-lined central courtyard, a front fountain circle and a ballroom.			https://www.hyatt.com/destination-by-hyatt/en-US/phxdt-tempe-mission-palms/weddings
+Four Seasons Scottsdale at Troon North		Scottsdale	Arizona			Hotel & Resort	Indoor & Outdoor				Casita-style desert resort at the foot of Pinnacle Peak in north Scottsdale, set among boulders and saguaros next to the Troon North golf courses.			https://www.fourseasons.com/scottsdale/weddings/
+Omni Montelucia	4949 E Lincoln Dr	Scottsdale	Arizona			Hotel & Resort	Indoor & Outdoor				Andalusian-style resort below Camelback Mountain in Paradise Valley, with a ceremony lawn, a courtyard plaza and a ballroom.			https://www.omnihotels.com/hotels/scottsdale-montelucia/meetings/weddings
+El Conquistador Tucson	10000 N Oracle Rd	Tucson	Arizona			Hotel & Resort	Indoor & Outdoor				Golf and tennis resort on about 500 acres in the Pusch Ridge foothills of Oro Valley, with ballrooms, landscaped lawns and mountain views.			https://www.hilton.com/en/hotels/tushthh-el-conquistador-tucson/events/
+Museum of Northern Arizona	3101 N Fort Valley Rd	Flagstaff	Arizona			Museum, Gallery & Rooftop	Indoor & Outdoor				Natural history and Native art museum founded in 1928, set in stone buildings among ponderosa pines below the San Francisco Peaks.			https://musnaz.org/
+Lake Havasu State Park	699 London Bridge Rd	Lake Havasu City	Arizona			Lake & River	Outdoor				State park on the eastern shore of Lake Havasu north of the London Bridge, with beaches and day-use areas that can be reserved for casual ceremonies.			https://azstateparks.com/lake-havasu/group-planning/weddings
+Peoria Pines Golf & Restaurant	8411 N 107th Ave	Peoria	Arizona			Country Club & Golf	Indoor & Outdoor				Public golf course in Peoria with an on-site restaurant and lawns among pine trees used for ceremonies and receptions.			https://www.peoriapines.com/weddings-events/
+The Venue at Sedona Center	300 N State Route 89A	Sedona	Arizona			Museum, Gallery & Rooftop	Indoor & Outdoor				A 2,200 sq ft event space tucked behind the Sedona Center shops in Uptown Sedona, with red rock views, mainly used for elopements and small weddings.			https://www.thevenueatsedonacenter.com/
+Kartchner Caverns State Park	2980 Highway 90	Benson	Arizona			Garden & Park	Outdoor				State park in the Whetstone Mountain foothills south of Benson, known for its living limestone cave, with outdoor desert sites for ceremonies.			https://azstateparks.com/kartchner/weddings
+The Rim Golf Club	300 S Clubhouse Rd	Payson	Arizona			Country Club & Golf	Indoor & Outdoor				Private mountain golf club in Payson with a clubhouse event space and outdoor ceremony sites looking over the course toward the Mogollon Rim.			https://arcisgolf.com/clubs/the_rim_golf_club/weddings
+Yuma Civic Center	1440 Desert Hills Dr	Yuma	Arizona			Ballroom	Indoor & Outdoor				City-owned event center in Yuma with banquet halls, outdoor rental space and in-house catering.			https://www.yumaaz.gov/visitors/yuma-civic-center
+IronOaks at Sun Lakes	24218 S Oakwood Blvd	Sun Lakes	Arizona			Country Club & Golf	Indoor & Outdoor				Golf clubhouse in the Sun Lakes community south of Chandler, with a tree-lined ceremony grove and a large ballroom.			https://www.ironoaksaz.com/weddings-catering/weddings-celebrations
+`,
+  },
 ];
 
 export default batches;
