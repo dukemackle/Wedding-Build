@@ -79,7 +79,7 @@ type GoogleGlobal = {
     PickerBuilder: new () => PickerBuilder;
     DocsView: new () => DocsView;
     DocsViewMode: { LIST: string; GRID: string };
-    Action: { PICKED: string; CANCEL: string };
+    Action: { PICKED: string; CANCEL: string; LOADED?: string };
   };
 };
 
@@ -259,6 +259,14 @@ export function DrivePickerButton({
       .setOAuthToken(token)
       .setDeveloperKey(apiKey!)
       .setCallback((data) => {
+        // The dialog arrived, so the escape hatch below has done its job.
+        // Without this the timer kept running and closed a Picker someone
+        // was still browsing, 20 seconds in, blaming Safari for it.
+        if (data.action === (picker.Action.LOADED ?? "loaded")) {
+          if (stuck) clearTimeout(stuck);
+          stuck = null;
+          return;
+        }
         if (data.action === picker.Action.CANCEL) {
           close();
           setBusy(false);
@@ -313,7 +321,7 @@ export function DrivePickerButton({
       close();
       setBusy(false);
       setError(
-        "Google Drive didn't open. Safari blocks it when cross-site tracking prevention is on — either turn that off for this site, or upload the file directly instead.",
+        "Google Drive didn't open. Safari blocks it while \"Prevent cross-site tracking\" is on (Safari › Settings › Privacy) — turn that off, try Chrome, or upload the file directly instead.",
       );
     }, 20000);
   }
