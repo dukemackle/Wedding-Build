@@ -262,8 +262,10 @@ async function verify(r) {
   const { first, all = "", html = "" } = await siteText(r.Website, need);
 
   if (first.error) return { fails: [`website didn't load (${first.error})`], warns };
-  // 202 with an empty body is a bot challenge page, not the site.
-  if ([401, 403, 429, 503].includes(first.status) || (first.status === 202 && first.html.length < 2000))
+  // 202 with an empty body is a bot challenge page, not the site. 502 and 520
+  // come back from sites that load fine for a person (the firewall turning the
+  // bot away), so they go to the Google check too rather than failing as dead.
+  if ([401, 403, 429, 502, 503, 520].includes(first.status) || (first.status === 202 && first.html.length < 2000))
     return blockedSite(r, first.status);
   if (first.status >= 400) return { fails: [`website returns ${first.status}`], warns };
   if (PARKED.test(all)) fails.push("domain looks parked, expired or for sale");

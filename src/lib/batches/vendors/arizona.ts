@@ -365,6 +365,17 @@ Sola Flower Obsessions	Florals	10466 S Sundown Drive	Yuma	Arizona	Yuma and the F
 Own The Night Entertainment	Music		Yuma	Arizona	Yuma (travels, call for fees)	Yuma DJ company focused on weddings, quinceañera and Sweet 16 events, with photo booths and event coordination available.		(928) 446-9439	https://ownthenightent.com/	https://www.instagram.com/djrelentless_928/
 The Beauty Bar	Hair & Makeup	1200 S Castle Dome Ave, Suite B	Yuma	Arizona		Yuma makeup studio led by Jackie Alves offering bridal makeup with a trial beforehand and wedding-day service for the bridal party.		(928) 597-0378	https://yumabeautybar.com/bridal-and-special-occasion-makeup	https://www.instagram.com/yumabeautybar/`,
   },
+  {
+    name: "Arizona: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Honeymoon Sweets	Cake	606 W Southern Ave, Suite 1	Tempe	Arizona	Phoenix metro	Tempe bakery making custom wedding cakes from petite single tiers to sculpted multi-tier designs, with gluten-free and vegan options.			https://honeymoonsweets.com/	https://www.instagram.com/honeymoonsweetsbakery/		
+The Flower Mine	Florals	2855 S 8th Ave	Yuma	Arizona	Yuma and surrounding areas	Family-run Yuma florist doing wedding bouquets and arrangements alongside everyday flowers for the town and surrounding area.			https://www.flowermineyuma.com/			
+Sharko's Catering	Catering		Phoenix	Arizona	Phoenix, Scottsdale, Mesa and the wider Valley	Family-owned Phoenix caterer with four decades of wedding receptions, offering a wide range of cuisines plus bar service across the Valley.			https://www.sharkos.com/			
+Let's Lash Out and Make Up	Hair & Makeup		Oro Valley	Arizona		Oro Valley beauty studio offering bridal hair and on-site airbrush or traditional makeup for brides and bridesmaids, plus lash services.			https://www.letslashoutandmakeup.com/bridal-hair-and-makeup			
+Sedona Mountain High Flowers	Florals	3000 W State Rte 89A, Suite 100	Sedona	Arizona	Sedona	Family-owned Sedona florist creating one-off wedding bouquets and event arrangements for ceremonies among the red rocks.			https://www.sedonamountainhighflowers.com/			
+Weddings in Sedona	Planning		Sedona	Arizona	Sedona	Woman-owned coordination firm planning Sedona weddings and elopements, with a strong local vendor network useful to couples marrying from afar.			https://weddingsinsedona.com/			
+`,
+  },
 ];
 
 export default batches;

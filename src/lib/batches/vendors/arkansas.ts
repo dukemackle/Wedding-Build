@@ -296,6 +296,12 @@ She Said Yes Bridal	Bridal & Formalwear	3301 S Market Street, Suite 100	Rogers	A
 Tesori Bridal	Bridal & Formalwear	577 E. Millsap Road, Suite 3	Fayetteville	Arkansas	Northwest Arkansas	Designer bridal salon open since 2010, with a Fayetteville showroom and an off-the-rack store in Bentonville.	ciao@tesoribridal.com	(479) 966-4622	https://www.tesoribridal.com/	https://www.instagram.com/tesori_bridal/		
 `,
   },
+  {
+    name: "Arkansas: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Community Bakery	Cake	1200 Main St	Little Rock	Arkansas		Long-running scratch bakery in Little Rock's SoMa district, decorating wedding and celebration cakes at its Main Street shop.			https://communitybakery.com/wedding-cakes			
+`,
+  },
 ];
 
 export default batches;

@@ -246,6 +246,18 @@ Monroeville Community House	271 Park Drive	Monroeville	Alabama			Ballroom	Indoor
 Camellia Pavilion	309 Fort Dale Street	Greenville	Alabama			Garden & Park	Outdoor				Outdoor pavilion on the Greenville-Butler County Library grounds with a warming kitchen, rented for weddings.		334-382-3216	https://www.greenville-bcpl.org/Default.asp?ID=335&pg=Camellia+Pavilion
 Daphne Civic Center	2603 US Highway 98	Daphne	Alabama			Ballroom	Indoor	1450			City civic center that hosts weddings, balls and other events for groups from about 40 up to 1,450.		251-620-2301	https://www.daphneal.com/188/Civic-Center`,
   },
+  {
+    name: "Alabama: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Oaks at Magnolia Springs	16000 Beasley Rd	Foley	Alabama			Barn & Farm	Indoor & Outdoor				A countryside property outside Foley, renovated by its owners after Hurricane Sally, with an indoor room with a fireplace, covered and open-air outdoor areas and a fire pit.			https://theoaksatmagnoliasprings.com/
+Cragsmere Manor	17871 County Road 89	Mentone	Alabama			Historic Mansion & Estate	Indoor & Outdoor				A post-Civil War estate house on the brow of Lookout Mountain that rents as lodging for up to 24 guests and hosts weddings with views off the bluff.			https://www.mentonevacationrentals.com/weddings
+Barns and Bins	3335 Campground Church Rd	Luverne	Alabama			Barn & Farm	Indoor & Outdoor				A Crenshaw County farm venue about 10 minutes from Luverne and 15 from Troy, with a barn for receptions and grounds for ceremonies.			https://barnsandbins.com/
+The Stables at Russell Crossroads		Alexander City	Alabama			Barn & Farm	Indoor & Outdoor				A working two-story equestrian center in the Russell Crossroads community near Lake Martin, run by Russell Lands and set among the oaks of the Russell Forest.			https://www.russelllands.com/weddings/stables/
+The Ezell House	407 Conti St	Mobile	Alabama			Historic Mansion & Estate	Indoor & Outdoor				An Italianate house from the 1860s a block west of Cathedral Square in downtown Mobile, with a courtyard beside its event rooms.			https://ezellhouse.com/
+Wynlakes Golf & Country Club	7900 Wynlakes Blvd	Montgomery	Alabama			Country Club & Golf	Indoor & Outdoor				A private golf club in east Montgomery with a ballroom and a courtyard for weddings, open to non-members through a member sponsor.			https://www.wynlakes.com/banquets
+Pelham Civic Complex Banquet Hall	500 Amphitheater Rd	Pelham	Alabama			Ballroom	Indoor				A city-run 7,000-square-foot banquet hall at the Pelham Civic Complex that opens as one room or divides into four.			https://www.pelhamalabama.gov/1147/Banquet-Hall
+`,
+  },
 ];
 
 export default batches;

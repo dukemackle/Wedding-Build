@@ -152,6 +152,14 @@ Breeze Inn Catering	Catering		Seward	Alaska		Seward hotel catering team offering
 Sunny Days Events & Rentals	Planning		Juneau	Alaska	Juneau and Southeast Alaska	Juneau planner and rental company offering wedding planning, coordination and elopement packages, plus hire of dishes, tents, tables, chairs and linens.		(907) 465-7022	https://www.sunnydaysevents.com/			
 `,
   },
+  {
+    name: "Alaska: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Alaska Mountain Entertainment	Music		Eagle River	Alaska	Anchorage, Kenai and Homer	Eagle River wedding DJ duo bringing their own sound system, microphones and uplighting to receptions around Anchorage and the Kenai Peninsula.			https://akmountainentertainment.com			
+Alaska Professional Entertainment	Music		Wasilla	Alaska		Southcentral Alaska DJ and MC company known as APE, running wedding receptions with planning help, games and a packed dance floor.			https://gowithape.com/			
+ACE Forty-Nine Photography	Photography		Anchorage	Alaska		Anchorage partnership of two photographers covering weddings, engagements and elopements since 2017 in a natural, lightly vintage style.			https://www.acefortynine.com/			
+`,
+  },
 ];
 
 export default batches;
