@@ -1,9 +1,9 @@
 Kind	Name	Category	City	State	Reason	Link	Date
-Vendor	Erin and Geoffrey Photography	Photography	Lafayette	Louisiana	Site dead	https://erinandgeoffreyphotography.com/	2026-10-07
-Vendor	Mary's Flowers	Florals	Lafayette	Louisiana	Site dead	https://www.marysflowersla.com/wedding-flowers	2026-10-07
-Vendor	Maison D Events and Hospitality	Catering	Lafayette	Louisiana	Site dead	https://maisondevents.com/	2026-10-07
-Vendor	Willofilms	Videography	Lafayette	Louisiana	Site dead	https://willofilms.com/	2026-10-07
-Venue	The Feed and Seed Lafayette		Lafayette	Louisiana	Site dead	https://feedandseedlafayette.com	2026-10-07
+Vendor	Erin and Geoffrey Photography	Photography	Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://erinandgeoffreyphotography.com/	2026-10-07
+Vendor	Mary's Flowers	Florals	Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://www.marysflowersla.com/wedding-flowers	2026-10-07
+Vendor	Maison D Events and Hospitality	Catering	Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://maisondevents.com/	2026-10-07
+Vendor	Willofilms	Videography	Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://willofilms.com/	2026-10-07
+Venue	The Feed and Seed Lafayette		Lafayette	Louisiana	Site back up	https://feedandseedlafayette.com	2026-10-07
 Venue	Le Barn Rouge Bed & Breakfast		Lafayette	Louisiana	Social only	https://www.facebook.com/p/Le-Barn-Rouge-Bed-Breakfast-100054862585644/	2026-10-07
 Venue	Palmettos on the Bayou		Slidell	Louisiana	Site dead	https://www.palmettosonthebayou.com	2026-10-07
 Venue	Chateau LeMoyne		New Orleans	Louisiana	Site dead	https://www.chateaulemoyne.com	2026-10-07
@@ -21,12 +21,12 @@ Vendor	Nirvana Weddings	Planning	New Orleans	Louisiana	Inactive	https://nirvanaw
 Vendor	Herbivore Floral Designs	Florals	New Orleans	Louisiana	Inactive	https://www.herbivorefloraldesigns.com/	2026-10-11
 Vendor	The Royal Cakery	Cake	New Orleans	Louisiana	Inactive	https://royalcakery.com/	2026-10-11
 Vendor	Bride Film	Videography	Metairie	Louisiana	Inactive	https://www.bridefilm.com/	2026-10-11
-Vendor	Pure Cake	Cake	New Orleans	Louisiana	Site dead	https://www.purecakenola.com/	2026-10-11
-Vendor	NOLA Bridal Artistry	Hair & Makeup	New Orleans	Louisiana	Site dead	https://www.nolabridalartistry.com	2026-10-11
+Vendor	Pure Cake	Cake	New Orleans	Louisiana	Site blocks automated visits, unconfirmed	https://www.purecakenola.com/	2026-10-11
+Vendor	NOLA Bridal Artistry	Hair & Makeup	New Orleans	Louisiana	Site blocks automated visits, unconfirmed	https://www.nolabridalartistry.com	2026-10-11
 Vendor	Chelsea L Beauty	Hair & Makeup	New Orleans	Louisiana	Social only	https://www.instagram.com/chelsealbeauty/	2026-10-11
 Vendor	Beauty Studio Inc.	Hair & Makeup	New Orleans	Louisiana	Franchise	https://www.beautystudioinc.com/weddings-new-orleans	2026-10-11
 Vendor	Elevation Films	Videography	New Orleans	Louisiana	Site dead	https://elevationfilms.net/	2026-10-11
-Vendor	New Orleans Classical And Jazz	Music	New Orleans	Louisiana	Site dead	https://www.neworleansclassicalandjazz.com/	2026-10-11
+Vendor	New Orleans Classical And Jazz	Music	New Orleans	Louisiana	Site blocks automated visits, unconfirmed	https://www.neworleansclassicalandjazz.com/	2026-10-11
 Vendor	Zoe's Bakery	Cake	Covington	Louisiana	Site dead	https://www.zoesbakery.com/	2026-10-11
 Vendor	Threaux Events	Planning	Lafayette	Louisiana	Site dead	https://threauxevents.com/	2026-10-11
 Vendor	Cecilia Marie Events	Planning	Lafayette	Louisiana	Site dead	https://ceciliamarieevents.com/	2026-10-11
@@ -36,7 +36,7 @@ Vendor	Bake My Day Acadiana	Cake	Lafayette	Louisiana	No website		2026-10-11
 Vendor	Southern Silks LLC	Florals	Lafayette	Louisiana	No website	https://www.theknot.com/marketplace/southern-silks-llc-lafayette-la-2049956	2026-10-11
 Venue	Southern Stables of West Monroe		West Monroe	Louisiana	Site dead	https://www.theknot.com/marketplace/southern-stables-of-west-monroe-west-monroe-la-2084713	2026-10-12
 Venue	The Stables at Le Bocage		Lake Charles	Louisiana	Site dead	https://www.theknot.com/marketplace/the-stables-at-le-bocage-lake-charles-la-2093462	2026-10-12
-Venue	Maison Lafitte		Mandeville	Louisiana	Site dead	https://www.myneworleans.com/northshore-wedding-venues/	2026-10-12
+Venue	Maison Lafitte		Mandeville	Louisiana	Site back up	https://www.myneworleans.com/northshore-wedding-venues/	2026-10-12
 Venue	Desert Plantation		St. Francisville	Louisiana	No website	https://www.theknot.com/marketplace/desert-plantation-st-francisville-la-445868	2026-10-12
 Venue	Historic Michabelle Inn		Hammond	Louisiana	No website	https://zola.com/wedding-vendors/wedding-venues/the-historic-michabelle-inn-restaurant	2026-10-12
 Venue	The Oaks Wedding & Event Center		Ponchatoula	Louisiana	No website	https://www.theknot.com/marketplace/the-oaks-ponchatoula-la-962428	2026-10-12
@@ -70,10 +70,10 @@ Vendor	Lauren Rinaudo Photography	Photography	Shreveport	Louisiana	Inactive	http
 Vendor	The Simply Elegant Group	Planning	Shreveport	Louisiana	Franchise	https://thesimplyelegantgroup.com/shreveport	2026-10-12
 Vendor	Reverent Wedding Films	Videography	Shreveport	Louisiana	Franchise	https://www.wedding.film/locations/shreveport/	2026-10-12
 Vendor	Nothing Bundt Cakes	Cake	Shreveport	Louisiana	Franchise	https://www.nothingbundtcakes.com/occasions/weddings/	2026-10-12
-Venue	The Sadie Jane		Slidell	Louisiana	Site dead	https://thesadiejane.com	2026-10-12
-Venue	Chadwater Estate (Empire of the Seed)		Lake Charles	Louisiana	Site dead	https://empireoftheseed.com	2026-10-12
-Venue	Southern Oaks Plantation		New Orleans	Louisiana	Site dead	https://www.southernoaksweddings.com	2026-10-12
-Vendor	Poshe Salon	Hair & Makeup	Bossier City	Louisiana	Site dead	https://poshesalonla.com/	2026-10-13
+Venue	The Sadie Jane		Slidell	Louisiana	Site blocks automated visits, unconfirmed	https://thesadiejane.com	2026-10-12
+Venue	Chadwater Estate (Empire of the Seed)		Lake Charles	Louisiana	Site blocks automated visits, unconfirmed	https://empireoftheseed.com	2026-10-12
+Venue	Southern Oaks Plantation		New Orleans	Louisiana	Site back up	https://www.southernoaksweddings.com	2026-10-12
+Vendor	Poshe Salon	Hair & Makeup	Bossier City	Louisiana	Site back up	https://poshesalonla.com/	2026-10-13
 Vendor	Creations From Love Weddings and Events	Catering	Shreveport	Louisiana	Site dead	https://creationsfromlove.com/catering-and-serving	2026-10-13
 Vendor	AEB Films	Videography	Shreveport	Louisiana	Site dead	https://www.aebfilms.com/	2026-10-13
 Vendor	Mason Dies Productions	Videography	Shreveport	Louisiana	Site dead	https://www.masondiesproductions.com/	2026-10-13
@@ -105,19 +105,19 @@ Vendor	Wildflower Hair and Makeup	Hair & Makeup	Ponchatoula	Louisiana	No website
 Vendor	Bounce E Bounce	Rentals	Lafayette	Louisiana	No wedding page	https://www.bounceebouncela.com/	2026-10-14
 Vendor	SnapStar Photos	Photo Booth	Lafayette	Louisiana	No wedding page	https://www.snapstarphotos.com	2026-10-14
 Vendor	Indulge	Cake	Lafayette	Louisiana	Site dead	http://indulgesweetspot.com	2026-10-14
-Vendor	Leona Sue's Florist	Florals	Scott	Louisiana	Site dead	https://www.leonasuesflorist.com	2026-10-14
-Vendor	River Oaks Caters	Catering	Lafayette	Louisiana	Site dead	https://riveroakscaters.com	2026-10-14
-Vendor	Party Central	Rentals	Lafayette	Louisiana	Site dead	https://partycentralweb.com/	2026-10-14
+Vendor	Leona Sue's Florist	Florals	Scott	Louisiana	Site blocks automated visits, unconfirmed	https://www.leonasuesflorist.com	2026-10-14
+Vendor	River Oaks Caters	Catering	Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://riveroakscaters.com	2026-10-14
+Vendor	Party Central	Rentals	Lafayette	Louisiana	Site back up	https://partycentralweb.com/	2026-10-14
 Vendor	Belle Eglise Weddings	Florals	Lafayette	Louisiana	No website	https://weddingwire.com/biz/belle-eglise-weddings/802a4b0e29fb35a4.html	2026-10-14
 Vendor	Mik'D Up Entertainment	Music	Broussard	Louisiana	No website	https://zola.com/wedding-vendors/wedding-bands-djs/mik-d-up-entertainment	2026-10-14
 Vendor	Alyssa Arlene Events	Planning		Louisiana	No website	https://m.weddingwire.com/biz/alyssa-arlene-events-lafayette/cae10588a3d072b2	2026-10-14
-Vendor	Freeze Frame Photobooths	Photo Booth	Lafayette	Louisiana	Site dead	https://freezeframephotobooths.com	2026-10-14
+Vendor	Freeze Frame Photobooths	Photo Booth	Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://freezeframephotobooths.com	2026-10-14
 Vendor	Camellia Belle	Bridal & Formalwear	Lafayette	Louisiana	No website	https://www.weddingwire.com/biz/camellia-belle/4bc8922419e5508b.html	2026-10-14
 Vendor	Podnuh's	Catering	Shreveport	Louisiana	No wedding page	https://www.podnuhs.com/catering	2026-10-14
 Vendor	Summerlin Florist & Gifts	Florals	Shreveport	Louisiana	No wedding page	https://summerlinflorist.com/about/	2026-10-14
-Vendor	Artistry by Delilah	Hair & Makeup	Baton Rouge	Louisiana	Site dead	https://www.artistrybydelilah.com/bridal	2026-10-14
+Vendor	Artistry by Delilah	Hair & Makeup	Baton Rouge	Louisiana	Site back up	https://www.artistrybydelilah.com/bridal	2026-10-14
 Vendor	Bayou Photobooth Co.	Photo Booth	Bossier City	Louisiana	Site dead	https://www.bayouphotoboothco.com/	2026-10-14
-Vendor	ESounds Entertainment	Music	Baton Rouge	Louisiana	Site dead	https://esoundsentertainment.com/	2026-10-14
+Vendor	ESounds Entertainment	Music	Baton Rouge	Louisiana	Site back up	https://esoundsentertainment.com/	2026-10-14
 Vendor	Mike Keith Weddings and Notary	Officiant	Haughton	Louisiana	No website	http://www.bossierjp.com/weddings.html	2026-10-14
 Vendor	Rev. Doug Morgan	Officiant	Bossier City	Louisiana	No website	https://www.gigsalad.com/rev_doug_morgan_haughton	2026-10-14
 Vendor	Vow Standard	Officiant	Shreveport	Louisiana	No website	https://www.weddingwire.com/biz/derrick-warren/f2cdaf90c7aa6ab3.html	2026-10-14
@@ -128,17 +128,17 @@ Vendor	Cheesypix	Photo Booth	Shreveport	Louisiana	Franchise	https://www.cheesypi
 Vendor	Shreveport Party Bus Company	Transportation	Shreveport	Louisiana	Franchise	https://shreveportpartybuscompany.com/	2026-10-14
 Vendor	Debbie Does Doberge	Cake	Kenner	Louisiana	No wedding page	https://debbiedoesdoberge.com	2026-10-14
 Vendor	Hair Loft Studio	Hair & Makeup	New Orleans	Louisiana	No wedding page	https://hairloftstudio.com	2026-10-14
-Vendor	TBC Brass Band	Music		Louisiana	Site dead	https://tbcbrassband.com	2026-10-14
+Vendor	TBC Brass Band	Music		Louisiana	Site blocks automated visits, unconfirmed	https://tbcbrassband.com	2026-10-14
 Vendor	Kinfolk Brass Band	Music	New Orleans	Louisiana	No website	https://m.weddingwire.com/biz/kinfolk-brass-band-new-orleans/3977d9ada0ba1a9e.html	2026-10-14
 Vendor	Knockaz Brass Band	Music	New Orleans	Louisiana	Site dead	https://www.zola.com/wedding-vendors/wedding-bands-djs/knockaz-brass-band	2026-10-14
-Vendor	Trinity Trolleys	Transportation	New Orleans	Louisiana	Site dead	https://trinitytrolleys.com	2026-10-14
+Vendor	Trinity Trolleys	Transportation	New Orleans	Louisiana	Site blocks automated visits, unconfirmed	https://trinitytrolleys.com	2026-10-14
 Vendor	Angel Classics	Transportation	Lacombe	Louisiana	No website	https://weddingwire.com/biz/angel-classics-llc/a004a5f7aa61850a.html	2026-10-14
 Vendor	Pose 4 Dat Photo Booth	Photo Booth	New Orleans	Louisiana	No website	https://m.weddingwire.com/biz/pose-4-dat-photo-booth/dad50a4039a138e6	2026-10-14
 Vendor	Elite Capture Photo Booth	Photo Booth	New Orleans	Louisiana	No website	https://www.weddingwire.com/biz/elite-capture-photo-booth/0dd99f02e974b530.html	2026-10-14
 Vendor	Leigh & Co Events	Planning	Metairie	Louisiana	Site dead	https://www.theknot.com/marketplace/leigh-and-co-events-metairie-la-2095434	2026-10-14
 Vendor	Everly Jane Design	Stationery & Invitations	Metairie	Louisiana	Site dead	https://www.weddingwire.com/c/la-louisiana/new-orleans-baton-rouge-lafayette/wedding-invitations/622-18-rca.html	2026-10-14
-Vendor	Bayou Booths	Photo Booth	Denham Springs	Louisiana	Site dead	https://bayoubooths.com/	2026-10-14
-Venue	The Venue at Celebrity Centre		Ruston	Louisiana	Site dead	https://www.rustonlincoln.com/directory/the-venue-at-celebrity-centre/	2026-10-18
+Vendor	Bayou Booths	Photo Booth	Denham Springs	Louisiana	Site back up	https://bayoubooths.com/	2026-10-14
+Venue	The Venue at Celebrity Centre		Ruston	Louisiana	Site back up	https://www.rustonlincoln.com/directory/the-venue-at-celebrity-centre/	2026-10-18
 Venue	Norton Building		Ruston	Louisiana	No website	https://lincolnparishjournal.com/?p=18707	2026-10-18
 Vendor	Buie Photography	Photography	Ruston	Louisiana	Inactive	https://buiephotographyweddings.com/	2026-10-18
 Vendor	Hannah Williams Photography	Photography	Ruston	Louisiana	Social only	https://www.facebook.com/Hannahpaytonwilliamsphotography/	2026-10-18
@@ -148,19 +148,19 @@ Vendor	Lacie Makeup LLC	Hair & Makeup	Lafayette	Louisiana	No website	https://www
 Vendor	Oriana Blair Makeup and Hair	Hair & Makeup	St. Martinville	Louisiana	No website	https://zola.com/wedding-vendors/search/st-martinville-la--wedding-hair-makeup	2026-10-18
 Vendor	Liz Laine Artistry	Hair & Makeup	Eunice	Louisiana	No website	https://zola.com/wedding-vendors/search/eunice-la--wedding-hair-makeup	2026-10-18
 Vendor	Jolie Posh Salon	Hair & Makeup	Lafayette	Louisiana	No website	https://www.weddingwire.com/biz/jolie-posh-salon-lafayette/ae3c84a93a05d05a.html	2026-10-18
-Vendor	Kaylyn Hoenke Photography	Photography	Ruston	Louisiana	Site dead	https://www.kaylynhoenkephotography.com/	2026-10-18
-Vendor	Natijayz Custom Cakes and Cookies	Cake	Shreveport	Louisiana	Site dead	https://www.visitshreveportbossier.org/listing/natijayz-custom-cakes-and-cookies/5481/	2026-10-28
+Vendor	Kaylyn Hoenke Photography	Photography	Ruston	Louisiana	Site blocks automated visits, unconfirmed	https://www.kaylynhoenkephotography.com/	2026-10-18
+Vendor	Natijayz Custom Cakes and Cookies	Cake	Shreveport	Louisiana	Site back up	https://www.visitshreveportbossier.org/listing/natijayz-custom-cakes-and-cookies/5481/	2026-10-28
 Vendor	Nothing Bundt Cakes (Lake Charles)	Cake	Lake Charles	Louisiana	Franchise	https://www.nothingbundtcakes.com/find-a-bakery/la/lakecharles/wedding-cakes-311.html	2026-10-28
-Vendor	Mikey Offline	Music	New Orleans	Louisiana	Site dead	https://mikeyoffline.com	2026-10-28
+Vendor	Mikey Offline	Music	New Orleans	Louisiana	Site blocks automated visits, unconfirmed	https://mikeyoffline.com	2026-10-28
 Vendor	August Sky Wedding Films	Videography	New Orleans	Louisiana	Site dead	https://augustskyweddingfilms.com	2026-10-28
-Vendor	Your Day Production	Videography	New Orleans	Louisiana	Site dead	https://yourdayproduction.com	2026-10-28
+Vendor	Your Day Production	Videography	New Orleans	Louisiana	Site back up	https://yourdayproduction.com	2026-10-28
 Vendor	Fallon Rae Cakes	Cake	Lafayette	Louisiana	Inactive	http://www.fallonraecakes.com/about.html	2026-10-28
 Vendor	Arbor Films	Videography	Baton Rouge	Louisiana	Site dead	https://arborfilms.com	2026-10-28
-Vendor	Reverent Wedding Films	Videography	Baton Rouge	Louisiana	Site dead	https://www.reverentweddingfilms.com	2026-10-28
-Vendor	Best Catered Events	Catering	Baton Rouge	Louisiana	Site dead	http://www.bestcateredevents.com/	2026-10-28
+Vendor	Reverent Wedding Films	Videography	Baton Rouge	Louisiana	Site blocks automated visits, unconfirmed	https://www.reverentweddingfilms.com	2026-10-28
+Vendor	Best Catered Events	Catering	Baton Rouge	Louisiana	Site back up	http://www.bestcateredevents.com/	2026-10-28
 Vendor	Scarborough's Salon & Day Spa	Hair & Makeup	Lake Charles	Louisiana	Site dead	https://scarboroughssalon.com/bridal-packages	2026-10-28
 Venue	Maison Lafitte		Mandeville	Louisiana	Site dead	https://maison-lafitte.com	2026-10-29
-Venue	Southern Hotel		Covington	Louisiana	Site dead	https://www.southernhotel.com	2026-10-29
+Venue	Southern Hotel		Covington	Louisiana	Site blocks automated visits, unconfirmed	https://www.southernhotel.com	2026-10-29
 Venue	St. Tammany Art Association		Covington	Louisiana	No website		2026-10-29
 Venue	The Foundry		Thibodaux	Louisiana	No website		2026-10-29
 Venue	Chez Felicité		Raceland	Louisiana	No website		2026-10-29
@@ -170,8 +170,8 @@ Venue	Fire House Loft		New Orleans	Louisiana	No wedding page	https://firehouselo
 Venue	Press Street Gardens		New Orleans	Louisiana	No wedding page	https://pressstreetgardens.com	2026-10-29
 Venue	The Hotel Monroe		Monroe	Louisiana	Franchise	https://www.hotelmonroe.com/	2026-10-29
 Venue	West-Cal Arena & Events Center		Sulphur	Louisiana	No wedding page	https://www.westcaleventcenter.com/	2026-10-29
-Venue	The Royal of Lake Charles		Lake Charles	Louisiana	Site dead	https://theroyallc.com/	2026-10-29
-Venue	Consortium Venue		Shreveport	Louisiana	Site dead	http://www.cvenueinc.com/	2026-10-29
+Venue	The Royal of Lake Charles		Lake Charles	Louisiana	Site back up	https://theroyallc.com/	2026-10-29
+Venue	Consortium Venue		Shreveport	Louisiana	Site back up	http://www.cvenueinc.com/	2026-10-29
 Venue	Louisiana Red Oak Event Venue		Sulphur	Louisiana	Social only	https://www.facebook.com/p/Louisiana-Red-Oak-Event-Venue-61560271390114/	2026-10-29
 Venue	Vantage Tower Banquet		Monroe	Louisiana	Social only	https://www.facebook.com/VantageTowerBanquet/	2026-10-29
 Venue	Camellia Gardens		Zachary	Louisiana	No website	https://eventective.com/zachary-la/camellia-gardens-778621.html	2026-10-29
@@ -185,12 +185,12 @@ Venue	Albany Plantation		Albany	Louisiana	Inactive	https://albanyplantation.com	
 Venue	Hotel Bentley		Alexandria	Louisiana	Site dead	https://hotelbentley.com	2026-10-31
 Venue	Fairfield Manor B&B		Shreveport	Louisiana	Site dead	https://fairfieldmanor.com	2026-10-31
 Venue	Juliette Plantation		Boyce	Louisiana	Site dead	http://www.thejulietteplantation.com	2026-10-31
-Venue	Madewood Plantation		Napoleonville	Louisiana	Site dead	https://www.madewood.com	2026-10-31
+Venue	Madewood Plantation		Napoleonville	Louisiana	Site blocks automated visits, unconfirmed	https://www.madewood.com	2026-10-31
 Venue	The Greenwood		Covington	Louisiana	Site dead	https://thegreenwoodcovington.com	2026-10-31
-Venue	Pontchartrain Vineyards		Mandeville	Louisiana	Site dead	https://www.pontchartrainvineyards.com	2026-10-31
+Venue	Pontchartrain Vineyards		Mandeville	Louisiana	Site back up	https://www.pontchartrainvineyards.com	2026-10-31
 Venue	White Oak Fields		Covington	Louisiana	Site dead	https://www.whiteoakfields.com	2026-10-31
-Venue	San Francisco Plantation		Garyville	Louisiana	Site dead	https://sanfranciscoplantation.org	2026-10-31
-Venue	Hamilton House Inn		West Monroe	Louisiana	Site dead	https://hamiltonhouseinn.com	2026-10-31
+Venue	San Francisco Plantation		Garyville	Louisiana	Site blocks automated visits, unconfirmed	https://sanfranciscoplantation.org	2026-10-31
+Venue	Hamilton House Inn		West Monroe	Louisiana	Site back up	https://hamiltonhouseinn.com	2026-10-31
 Venue	Calvert Crossing Golf Club		Calhoun	Louisiana	Site dead	https://www.calvertgolfclub.com	2026-10-31
 Venue	The Mallory		St. Francisville	Louisiana	No website	https://www.theknot.com/marketplace/the-mallory-saint-francisville-la-2079921	2026-10-31
 Venue	Monte Vista Plantation Home		Port Allen	Louisiana	No website	https://www.weddingwire.com/biz/monte-vista-plantation-home-port-allen/ab2c58e1b7877fbc.html	2026-10-31
@@ -204,9 +204,9 @@ Venue	Sugar Chateau		Lake Charles	Louisiana	Social only	https://www.facebook.com
 Venue	The Charleston Ballroom		Lake Charles	Louisiana	Social only	https://www.facebook.com/@ballroomatthecharleston/	2026-10-31
 Venue	Oak Court Event Venue		Holden	Louisiana	Inactive	https://www.oakcourtevents.com	2026-10-31
 Venue	Historic Cash & Carry Building		Lake Charles	Louisiana	Site blocks automated visits, unconfirmed	https://empireoftheseed.com/event-venues/historic-cash-carry/	2026-10-31
-Vendor	121 Artisan Bistro	Catering	Lake Charles	Louisiana	Site dead	https://121artisanbistro.com	2026-11-02
-Vendor	Haley Photo & Video (Sehati Photo & Film)	Videography	Lafayette	Louisiana	Site dead	https://www.sehatiphotofilm.com/	2026-11-02
-Vendor	Mallory Stanford Photography	Photography	Lafayette	Louisiana	Site dead	https://www.mallorystanford.com	2026-11-02
+Vendor	121 Artisan Bistro	Catering	Lake Charles	Louisiana	Site blocks automated visits, unconfirmed	https://121artisanbistro.com	2026-11-02
+Vendor	Haley Photo & Video (Sehati Photo & Film)	Videography	Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://www.sehatiphotofilm.com/	2026-11-02
+Vendor	Mallory Stanford Photography	Photography	Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://www.mallorystanford.com	2026-11-02
 Vendor	Simmons Sentiments	Planning	Lake Charles	Louisiana	Closed	https://www.simmonssentiments.com/	2026-11-02
 Vendor	Kristin's Kitchen LLC	Cake	Lake Charles	Louisiana	Closed	https://www.kristinskitchenswla.com/custom-cakes	2026-11-02
 Vendor	Divinely Favored Photo Collective	Photography	Monroe	Louisiana	Inactive	https://www.divinelyfavoredphotoco.com/	2026-11-02
@@ -221,11 +221,11 @@ Vendor	Linda Peevy Catering	Catering	Ruston	Louisiana	No website		2026-11-02
 Vendor	Moss Bluff Florist & Gift	Florals	Moss Bluff	Louisiana	Social only	https://www.mossblufffloral.com/about_us.php	2026-11-02
 Vendor	Chère Petite Mobile Bar Co.	Bar	Lake Charles	Louisiana	Social only	https://www.instagram.com/cherepetitebarco/	2026-11-02
 Vendor	Dee Olmstead Photography	Photography	Baton Rouge	Louisiana	Inactive	https://www.instagram.com/deeolmstead_photography/	2026-11-02
-Vendor	Press Play Entertainment	Music	Denham Springs	Louisiana	Site dead	https://www.pressplaydj.com/	2026-11-02
+Vendor	Press Play Entertainment	Music	Denham Springs	Louisiana	Site back up	https://www.pressplaydj.com/	2026-11-02
 Vendor	Beauty Studio Inc	Hair & Makeup	Baton Rouge	Louisiana	Franchise	https://www.beautystudioinc.com/events-baton-rouge	2026-11-02
 Vendor	Phillips Celebrations	Music	Baton Rouge	Louisiana	Franchise	https://phillipscelebrations.com/band-baton-rouge-la/	2026-11-02
 Vendor	Couture Cosmetics	Hair & Makeup	Shreveport	Louisiana	Site dead	https://coutureuptown.com/	2026-11-02
-Vendor	Bolgiano Media	Videography	Lafayette	Louisiana	Site dead	https://bolgianomedia.wordpress.com/	2026-11-02
+Vendor	Bolgiano Media	Videography	Lafayette	Louisiana	Site back up	https://bolgianomedia.wordpress.com/	2026-11-02
 Vendor	Lips & Lashes Beauty Co.	Hair & Makeup	Shreveport	Louisiana	Site dead	https://lipsandlashesbeautyco.com/makeup-artist-and-hair-shreveport-louisiana/	2026-11-02
 Vendor	Hannah Kuhary Makeup Artist	Hair & Makeup	Bossier City	Louisiana	Social only	https://www.instagram.com/hkmakeupartist/	2026-11-02
 Vendor	The Simply Elegant Group	Planning	Shreveport	Louisiana	Franchise	https://thesimplyelegantgroup.com/shreveport	2026-11-02
@@ -238,24 +238,24 @@ Venue	Federal Ballroom		New Orleans	Louisiana	Site dead	https://www.theknot.com/
 Venue	Eiffel Society		New Orleans	Louisiana	Site dead		2026-11-03
 Venue	Park Place Events		Houma	Louisiana	Closed	https://www.zola.com/wedding-vendors/search/houma-la--wedding-venues	2026-11-03
 Venue	Vintage Court		Covington	Louisiana	Closed	https://www.theknot.com/marketplace/vintage-court-covington-la-544596	2026-11-03
-Venue	Vermilionville		Lafayette	Louisiana	Site dead	https://bayouvermiliondistrict.org/Vermilionville	2026-11-03
-Venue	BeauBassin Farm & Gardens		Sunset	Louisiana	Site dead	https://beaubassinfarm.com/	2026-11-03
+Venue	Vermilionville		Lafayette	Louisiana	Site blocks automated visits, unconfirmed	https://bayouvermiliondistrict.org/Vermilionville	2026-11-03
+Venue	BeauBassin Farm & Gardens		Sunset	Louisiana	Site blocks automated visits, unconfirmed	https://beaubassinfarm.com/	2026-11-03
 Venue	Woodlawn Chapel		Maurice	Louisiana	No website		2026-11-03
 Venue	Cabin & Courtyard Events		Gonzales	Louisiana	No website	https://www.theknot.com/marketplace/cabin-and-courtyard-events-gonzales-la-2093354	2026-11-03
 Venue	Venue of Southern LA		Gonzales	Louisiana	No website	https://www.theknot.com/marketplace/the-venue-of-southern-la-gonzales-la-2085158	2026-11-03
 Venue	The Carriage House		Gonzales	Louisiana	No website	https://www.wedding-spot.com/venue/14161/The-Carriage-House	2026-11-03
-Venue	Oak Parc Events		Prairieville	Louisiana	Site dead	https://oakparcevents.com/	2026-11-03
-Venue	The Vault Event Center		Prairieville	Louisiana	Site dead	https://vaulteventcenter.com/	2026-11-03
+Venue	Oak Parc Events		Prairieville	Louisiana	Site back up	https://oakparcevents.com/	2026-11-03
+Venue	The Vault Event Center		Prairieville	Louisiana	Site back up	https://vaulteventcenter.com/	2026-11-03
 Venue	Chretien Point Plantation		Sunset	Louisiana	Closed	https://64parishes.org/?p=37844	2026-11-03
 Venue	The Event Center		New Iberia	Louisiana	No website	https://iberiatravel.com/listing/the-event-center/	2026-11-03
 Venue	Mon Ami		Jeanerette	Louisiana	No website	https://iberiatravel.com/listing/mon-ami/	2026-11-03
 Venue	Ballroom of Crowley		Crowley	Louisiana	No website		2026-11-03
 Venue	Lake Charles Event Center		Lake Charles	Louisiana	No website	https://www.visitlakecharles.org/weddings/venues/	2026-11-03
 Venue	The Barn at Leone Farm		Grand Cane	Louisiana	No website	https://www.theknot.com/marketplace/the-barn-at-leone-farm-grand-cane-la-2090642	2026-11-03
-Venue	Royale Oasis Event Space		Bossier City	Louisiana	Site dead	https://www.royaleoasiseventspaceandmore.com/	2026-11-03
-Venue	Lynhaven Events		Hammond	Louisiana	Site dead	https://lynhavenevents.com/	2026-11-03
-Venue	Bella Rouge Venue		Ruston	Louisiana	Site dead	https://bellarougevenue.com/	2026-11-03
+Venue	Royale Oasis Event Space		Bossier City	Louisiana	Site back up	https://www.royaleoasiseventspaceandmore.com/	2026-11-03
+Venue	Lynhaven Events		Hammond	Louisiana	Site back up	https://lynhavenevents.com/	2026-11-03
+Venue	Bella Rouge Venue		Ruston	Louisiana	Site back up	https://bellarougevenue.com/	2026-11-03
 Venue	Cypress Bend Resort		Many	Louisiana	Franchise	https://www.wyndhamhotels.com/wyndham/many-louisiana/cypress-bend-resort-a-wyndham-hotel/meetings-events/weddings	2026-11-03
 Venue	Royal Sonesta New Orleans		New Orleans	Louisiana	Franchise	https://www.sonesta.com/us/louisiana/new-orleans/royal-sonesta-new-orleans/weddings	2026-11-03
 Venue	Oak Lodge		Baton Rouge	Louisiana	No website	https://www.herecomestheguide.com/wedding-venues/louisiana/oak-lodge	2026-11-03
-Venue	Grand Coteau House Ballroom		Grand Coteau	Louisiana	Site dead	https://grandcoteauballroom.com/	2026-11-03
+Venue	Grand Coteau House Ballroom		Grand Coteau	Louisiana	Site blocks automated visits, unconfirmed	https://grandcoteauballroom.com/	2026-11-03

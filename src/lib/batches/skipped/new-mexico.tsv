@@ -1,16 +1,16 @@
 Kind	Name	Category	City	State	Reason	Link	Date
-Vendor	Mila's Mesa	Catering	Albuquerque	New Mexico	Site dead	https://www.milasmesa.com/	2026-10-13
-Vendor	Reyes Photo & Film	Videography	Albuquerque	New Mexico	Site dead	https://Reyesphotoandfilm.com	2026-10-13
-Vendor	The Essential Florist	Florals	Albuquerque	New Mexico	Site dead	https://essentialfloristnm.com/	2026-10-13
-Vendor	Yucca & Yarrow	Photography	Albuquerque	New Mexico	Site dead	https://www.yuccaandyarrow.com	2026-10-13
-Vendor	Good Times DJ Service	Music	Albuquerque	New Mexico	Site dead	https://goodtimesdjservice.com/	2026-10-13
+Vendor	Mila's Mesa	Catering	Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://www.milasmesa.com/	2026-10-13
+Vendor	Reyes Photo & Film	Videography	Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://Reyesphotoandfilm.com	2026-10-13
+Vendor	The Essential Florist	Florals	Albuquerque	New Mexico	Site back up	https://essentialfloristnm.com/	2026-10-13
+Vendor	Yucca & Yarrow	Photography	Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://www.yuccaandyarrow.com	2026-10-13
+Vendor	Good Times DJ Service	Music	Albuquerque	New Mexico	Site back up	https://goodtimesdjservice.com/	2026-10-13
 Vendor	Simply Sweet by Darci	Cake	Albuquerque	New Mexico	Site dead	http://www.simplysweetbydarci.com/	2026-10-13
 Vendor	Bosque Flower Studio	Florals	Albuquerque	New Mexico	Site dead	https://bosqueflowerstudio.com/	2026-10-13
 Vendor	Fleurish	Florals	Albuquerque	New Mexico	Social only	https://www.instagram.com/fleurisheventsnm/	2026-10-13
 Vendor	Oathbound Events	Planning	Albuquerque	New Mexico	Social only	https://www.instagram.com/oathbound.co	2026-10-13
 Vendor	Matt Blasing Photography	Photography	Albuquerque	New Mexico	Closed	https://www.mattblasing.com	2026-10-13
 Vendor	Complete Weddings + Events	Planning	Albuquerque	New Mexico	Franchise	https://completewedo.com/albuquerque/	2026-10-13
-Vendor	Blue Rose Photography	Photography	Santa Fe	New Mexico	Site dead	https://www.bluerosestudios.com/	2026-10-13
+Vendor	Blue Rose Photography	Photography	Santa Fe	New Mexico	Site blocks automated visits, unconfirmed	https://www.bluerosestudios.com/	2026-10-13
 Vendor	Coquette	Cake	Santa Fe	New Mexico	Site dead	https://weddingwire.com/biz/coquette/8ad263b0847eb13e.html	2026-10-13
 Vendor	Dulce Capital	Cake	Santa Fe	New Mexico	Site dead	https://www.dulcecapital.com/	2026-10-13
 Vendor	Kunja Video	Videography	Santa Fe	New Mexico	Social only	https://www.instagram.com/kunjavideo/	2026-10-13
@@ -18,13 +18,13 @@ Vendor	Shrines Divine	Decor & Lighting	Santa Fe	New Mexico	Social only	https://w
 Vendor	Savor Cuban Street Music	Music	Santa Fe	New Mexico	Site dead	http://www.savormusic.com/	2026-10-13
 Vendor	Mariachi Nuevo Sonido	Music	Santa Fe	New Mexico	Site dead	http://www.mariachinuevosonido.net	2026-10-13
 Vendor	Grace and Glow Studio	Hair & Makeup	Santa Fe	New Mexico	No website	https://www.theknot.com/marketplace/grace-and-glow-santa-fe-nm-2089680	2026-10-13
-Venue	Hyatt Regency Tamaya		Santa Ana Pueblo	New Mexico	Site dead	https://www.hyatt.com/hyatt-regency/en-US/tamay-hyatt-regency-tamaya-resort-and-spa/weddings	2026-10-13
-Venue	Hilton Santa Fe Buffalo Thunder		Pojoaque	New Mexico	Site dead	https://www.hilton.com/en/hotels/sfecghh-hilton-santa-fe-buffalo-thunder/events/	2026-10-13
-Venue	Ghost Ranch		Abiquiu	New Mexico	Site dead	https://ghostranch.org	2026-10-13
-Venue	Historic El Rancho Hotel		Gallup	New Mexico	Site dead	https://www.historicelranchohotel.com/banquet.html	2026-10-13
+Venue	Hyatt Regency Tamaya		Santa Ana Pueblo	New Mexico	Site blocks automated visits, unconfirmed	https://www.hyatt.com/hyatt-regency/en-US/tamay-hyatt-regency-tamaya-resort-and-spa/weddings	2026-10-13
+Venue	Hilton Santa Fe Buffalo Thunder		Pojoaque	New Mexico	Site blocks automated visits, unconfirmed	https://www.hilton.com/en/hotels/sfecghh-hilton-santa-fe-buffalo-thunder/events/	2026-10-13
+Venue	Ghost Ranch		Abiquiu	New Mexico	Site back up	https://ghostranch.org	2026-10-13
+Venue	Historic El Rancho Hotel		Gallup	New Mexico	Site blocks automated visits, unconfirmed	https://www.historicelranchohotel.com/banquet.html	2026-10-13
 Venue	Southwest Event Center		Los Lunas	New Mexico	Site dead	https://swecevents.com	2026-10-13
-Venue	Galisteo Inn		Galisteo	New Mexico	Site dead	https://galisteoinn.com	2026-10-13
-Venue	The Hi-Q Venue		Roswell	New Mexico	Site dead	https://thehiqvenue.com	2026-10-13
+Venue	Galisteo Inn		Galisteo	New Mexico	Site back up	https://galisteoinn.com	2026-10-13
+Venue	The Hi-Q Venue		Roswell	New Mexico	Site back up	https://thehiqvenue.com	2026-10-13
 Venue	San Juan Country Club		Farmington	New Mexico	Inactive	https://www.sanjuancountryclub.org/social-events	2026-10-13
 Venue	Tanoan Country Club		Albuquerque	New Mexico	Inactive	https://www.tanoancountryclub.com	2026-10-13
 Vendor	Giovanni String Quartet	Music	Albuquerque	New Mexico	Site dead		2026-10-13
@@ -51,13 +51,13 @@ Vendor	RedCat Photography	Photography	Alamogordo	New Mexico	No website	https://w
 Vendor	Cayla Nimmo Photography	Photography	Gallup	New Mexico	No website	https://www.weddingwire.com/biz/cayla-nimmo-photography-gallup/0ed9a6423e82d4a3.html	2026-10-17
 Venue	Montezuma Manor		Las Vegas	New Mexico	No website	https://www.eventective.com/las-vegas-nm/montezuma-manor-791975.html	2026-10-17
 Vendor	Blessed Moments Photography	Photography	Alamogordo	New Mexico	No wedding page	https://www.blessedmomentsphotography.com/elopement	2026-10-17
-Vendor	Padge's Flowers Shop	Florals	Lovington	New Mexico	Site dead	https://www.padgesflowersshop.com/	2026-10-17
-Vendor	Sherry Moore Photography	Photography	Lovington	New Mexico	Site dead	https://www.sherrymoorephotography.com/	2026-10-17
+Vendor	Padge's Flowers Shop	Florals	Lovington	New Mexico	Site blocks automated visits, unconfirmed	https://www.padgesflowersshop.com/	2026-10-17
+Vendor	Sherry Moore Photography	Photography	Lovington	New Mexico	Site blocks automated visits, unconfirmed	https://www.sherrymoorephotography.com/	2026-10-17
 Vendor	Bryan Swisher Photography	Photography	Lovington	New Mexico	No wedding page	https://www.bryanswisherphotography.com/	2026-10-17
 Vendor	Carlsbad Floral & Gifts	Florals	Carlsbad	New Mexico	Site dead	https://www.weddingwire.com/biz/carlsbad-floral-gifts-llc/1a8134d091bca98c.html	2026-10-17
 Vendor	Agape Floral	Florals	Artesia	New Mexico	No website	https://www.mapquest.com/us/new-mexico/agape-floral-llc-427836539	2026-10-17
 Vendor	Tee's Treats Bakery	Cake	Hobbs	New Mexico	No website	https://www.theknot.com/marketplace/wedding-cake-bakeries-hobbs-nm	2026-10-17
-Venue	Zia Park Casino Hotel & Racetrack		Hobbs	New Mexico	Site dead	https://www.ziaparkcasino.com/banquets	2026-10-17
+Venue	Zia Park Casino Hotel & Racetrack		Hobbs	New Mexico	Site blocks automated visits, unconfirmed	https://www.ziaparkcasino.com/banquets	2026-10-17
 Venue	Hilton Garden Inn Hobbs		Hobbs	New Mexico	Franchise	https://www.hilton.com/en/hotels/hobbggi-hilton-garden-inn-hobbs/events/	2026-10-17
 Venue	Artesia Country Club		Artesia	New Mexico	No wedding page	https://www.artesiacc.com/	2026-10-17
 Venue	La Quinta Inn & Suites Carlsbad		Carlsbad	New Mexico	Franchise	https://www.eventective.com/carlsbad-nm/wedding-venues/	2026-10-17
@@ -74,8 +74,8 @@ Venue	La Castañeda Hotel		Las Vegas	New Mexico	No wedding page	https://castaned
 Venue	The Historic Serf Theatre Hall		Las Vegas	New Mexico	No website	https://www.eventective.com/las-vegas-nm/the-historic-serf-theatre-hall-700206.html	2026-10-17
 Vendor	Clay Benedict Photography	Photography	Portales	New Mexico	No website	https://zola.com/wedding-vendors/search/portales-nm--wedding-photographers--classic	2026-10-17
 Vendor	Moni Cakes	Cake	Alamogordo	New Mexico	Social only	https://facebook.com/MoniCakes	2026-10-17
-Vendor	Blush Beauty Bar	Hair & Makeup	Alamogordo	New Mexico	Site dead	https://blushbeautybar.com	2026-10-17
-Vendor	Infinity Sweets Bakehouse & Cafe	Cake	Alamogordo	New Mexico	Site dead	https://infinitysweets.com	2026-10-17
+Vendor	Blush Beauty Bar	Hair & Makeup	Alamogordo	New Mexico	Site blocks automated visits, unconfirmed	https://blushbeautybar.com	2026-10-17
+Vendor	Infinity Sweets Bakehouse & Cafe	Cake	Alamogordo	New Mexico	Site blocks automated visits, unconfirmed	https://infinitysweets.com	2026-10-17
 Vendor	Roots Flower Co	Florals	Cloudcroft	New Mexico	Site dead	https://rootsflowerco.com	2026-10-17
 Vendor	Journey Free Photography	Photography	Clovis	New Mexico	No wedding page	https://journeyfreephotography.com	2026-10-17
 Vendor	Sarah Z Photography	Photography	Clovis	New Mexico	No website	https://weddingwire.com/biz/sarah-z-photography/d998b97c406fe789.html	2026-10-17
@@ -102,7 +102,7 @@ Vendor	Flowers & Things	Florals	Rio Rancho	New Mexico	No wedding page	https://ww
 Vendor	Snap Happy ABQ	Photo Booth	Albuquerque	New Mexico	No wedding page	https://snaphappyabq.com/	2026-10-23
 Vendor	Vivid Canvas	Videography	Albuquerque	New Mexico	No wedding page	https://vividcanvas.tv/	2026-10-23
 Vendor	Saratori's Pastry Shop	Cake	Albuquerque	New Mexico	No wedding page	https://saratoris.com/	2026-10-23
-Vendor	Enchanted Cookies and Cakes	Cake	Rio Rancho	New Mexico	Site dead	http://enchantedcookiesandcakes.com/	2026-10-23
+Vendor	Enchanted Cookies and Cakes	Cake	Rio Rancho	New Mexico	Site back up	http://enchantedcookiesandcakes.com/	2026-10-23
 Vendor	The Vanity Makeup Studio	Hair & Makeup	Albuquerque	New Mexico	Site dead	https://thevanitymakeup.com/	2026-10-23
 Vendor	Howdy Cakes	Cake	Albuquerque	New Mexico	Social only	https://www.instagram.com/howdycakesabq/	2026-10-23
 Vendor	ABQ Sweet Spot	Desserts	Albuquerque	New Mexico	Closed	https://www.abqsweetspot.net/	2026-10-23
@@ -147,10 +147,10 @@ Vendor	Taste Catering	Catering	Albuquerque	New Mexico	Inactive	https://tasteabq.
 Vendor	Memories to Remember	Music	Albuquerque	New Mexico	Inactive	https://memoriestoremember.com/	2026-10-27
 Vendor	DJ Quico	Music	Albuquerque	New Mexico	Site dead	https://djquico.com/	2026-10-27
 Vendor	Sweet Butter Baking	Cake	Albuquerque	New Mexico	Site dead	https://sweetbutterbakingnm.com/	2026-10-27
-Vendor	Bizzy B Cakes	Cake	Albuquerque	New Mexico	Site dead	https://bizzybcakes.com/	2026-10-27
-Vendor	Jester Photography	Photography	Albuquerque	New Mexico	Site dead	https://www.jesterphotos.com/	2026-10-27
-Vendor	Erika Durdle Photography	Photography	Albuquerque	New Mexico	Site dead	https://www.durdlephotography.com/	2026-10-27
-Vendor	Less Stress Wedding	Planning	Albuquerque	New Mexico	Site dead	https://www.lessstresswedding.com/	2026-10-27
+Vendor	Bizzy B Cakes	Cake	Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://bizzybcakes.com/	2026-10-27
+Vendor	Jester Photography	Photography	Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://www.jesterphotos.com/	2026-10-27
+Vendor	Erika Durdle Photography	Photography	Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://www.durdlephotography.com/	2026-10-27
+Vendor	Less Stress Wedding	Planning	Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://www.lessstresswedding.com/	2026-10-27
 Vendor	Occasions by EMW	Planning	Albuquerque	New Mexico	No website	https://www.theknot.com/marketplace/occasions-by-emw-albuquerque-nm-2069529	2026-10-27
 Vendor	Elope Santa Fe	Photography	Santa Fe	New Mexico	Inactive	https://www.elopesantafe.com/	2026-10-27
 Vendor	The Dressing Room West	Bridal & Formalwear	Santa Fe	New Mexico	Inactive	https://dressingroomwest.com/	2026-10-27
@@ -162,7 +162,7 @@ Vendor	Serenade Events	Music	Albuquerque	New Mexico	Franchise	https://www.serena
 Vendor	With A Twist Bartending	Bar	Santa Fe	New Mexico	Franchise	https://twistbartendingservice.com/nm/santa-fe-bartenders/	2026-10-27
 Vendor	Masterpiece Cuisine	Catering	Santa Fe	New Mexico	Franchise	https://www.masterpiececuisine.com/newmexico	2026-10-27
 Vendor	Wool Warehouse Catering & Event Center	Catering	Taos	New Mexico	Inactive	https://www.thewoolwarehousecateringandeventcenter.com/wedding-services/taos-nm	2026-10-27
-Vendor	Enchanted Florist	Florals	Taos	New Mexico	Site dead	https://taosflorist.com/	2026-10-27
+Vendor	Enchanted Florist	Florals	Taos	New Mexico	Site back up	https://taosflorist.com/	2026-10-27
 Vendor	Soulsticé Santa Fe	Music	Santa Fe	New Mexico	Site dead	https://www.soulsticesantafe.com	2026-10-27
 Vendor	Jocelyn's Cakes	Cake	Taos	New Mexico	Closed	https://taosweddingcakes.com/	2026-10-27
 Vendor	Taos Elopements	Officiant	Taos	New Mexico	Site dead	https://taoselopements.com/	2026-10-27
@@ -170,33 +170,33 @@ Vendor	T and A DJ Services	Music	Santa Fe	New Mexico	Site dead	http://www.tandad
 Vendor	Cymatic Santa Fe	Music	Santa Fe	New Mexico	Site dead	https://cymaticsantafe.com	2026-10-27
 Vendor	Esmé Cadiente Photography	Photography	Santa Fe	New Mexico	Site dead	http://esmecadientephotography.com/	2026-10-27
 Vendor	Santa Fe Makeup by Lia	Hair & Makeup	Santa Fe	New Mexico	Site dead	https://santafemakeup.com/	2026-10-27
-Vendor	Santa Fe Chef	Catering	Santa Fe	New Mexico	Site dead	https://www.santafechef.com/	2026-10-27
+Vendor	Santa Fe Chef	Catering	Santa Fe	New Mexico	Site back up	https://www.santafechef.com/	2026-10-27
 Vendor	Mariachi Calor	Music	Taos	New Mexico	No website	https://stakeouttaos.com/directory/	2026-10-27
 Vendor	Jeanette's Specialty Foods & Catering	Catering	Angel Fire	New Mexico	No website	https://visitangelfirenm.com/listing/jeanettes-specialty-foods-catering/	2026-10-27
-Vendor	Hector Mancha Studio	Photography	Albuquerque	New Mexico	Site dead	https://www.hectormanchastudio.com/	2026-10-27
+Vendor	Hector Mancha Studio	Photography	Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://www.hectormanchastudio.com/	2026-10-27
 Vendor	Soulmate Ceremonies	Officiant	Mesilla	New Mexico	Site dead	https://www.soulmateceremonies.com	2026-10-27
 Vendor	The Cake Dealer	Cake	Farmington	New Mexico	Site dead	https://thecakedealernm.com	2026-10-27
 Vendor	Mirabal Photography	Photography	Farmington	New Mexico	Inactive	https://www.mirabalphotography.com/	2026-10-27
 Vendor	Flowerland	Florals	Las Cruces	New Mexico	No website	https://www.theknot.com/marketplace/flowerland-las-cruces-nm-834423	2026-10-27
 Vendor	Mariachi Jalisciense	Music	Las Cruces	New Mexico	Site dead	https://mariachijaliscienselc.com/	2026-10-27
-Vendor	Blooms by Jo	Florals	Las Cruces	New Mexico	Site dead	https://bloomsbyjo.net/	2026-10-27
-Vendor	Gonzales Photography	Photography	Las Cruces	New Mexico	Site dead	https://www.gonzales-photography.com	2026-10-27
-Vendor	Emily Rose Photography	Photography	Las Cruces	New Mexico	Site dead	https://www.photographybyemily.com/	2026-10-27
+Vendor	Blooms by Jo	Florals	Las Cruces	New Mexico	Site back up	https://bloomsbyjo.net/	2026-10-27
+Vendor	Gonzales Photography	Photography	Las Cruces	New Mexico	Site blocks automated visits, unconfirmed	https://www.gonzales-photography.com	2026-10-27
+Vendor	Emily Rose Photography	Photography	Las Cruces	New Mexico	Site blocks automated visits, unconfirmed	https://www.photographybyemily.com/	2026-10-27
 Vendor	Alyssa Green Photo	Photography	Alamogordo	New Mexico	Social only	https://www.pinterest.com/alyssagreenphoto/	2026-10-27
-Venue	Albuquerque Garden Center		Albuquerque	New Mexico	Site dead	https://www.abqgardencenter.org	2026-10-30
-Venue	High Level Vista Event Center		Rio Rancho	New Mexico	Site dead	https://highlevelvistaeventcenter.com	2026-10-30
+Venue	Albuquerque Garden Center		Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://www.abqgardencenter.org	2026-10-30
+Venue	High Level Vista Event Center		Rio Rancho	New Mexico	Site blocks automated visits, unconfirmed	https://highlevelvistaeventcenter.com	2026-10-30
 Venue	La Mesita Ranch Estate		Santa Fe	New Mexico	Site dead	https://www.lamesitaranch.com	2026-10-30
-Venue	Hacienda Doña Andrea de Santa Fe		Santa Fe	New Mexico	Site dead	https://www.hdasantafe.com	2026-10-30
-Venue	The Stakeout		Ranchos de Taos	New Mexico	Site dead	https://taos.org/places/the-stakeout/	2026-10-30
+Venue	Hacienda Doña Andrea de Santa Fe		Santa Fe	New Mexico	Site blocks automated visits, unconfirmed	https://www.hdasantafe.com	2026-10-30
+Venue	The Stakeout		Ranchos de Taos	New Mexico	Site back up	https://taos.org/places/the-stakeout/	2026-10-30
 Venue	Holiday Inn Express & Suites Truth or Consequences		Truth or Consequences	New Mexico	Franchise		2026-10-30
 Venue	Holiday Inn Express Silver City		Silver City	New Mexico	Franchise		2026-10-30
 Venue	Hacienda de Placitas		Placitas	New Mexico	No website	https://www.partyslate.com/venues/the-hacienda-wedding-venue	2026-10-30
 Venue	Casa Vieja Event Center		Corrales	New Mexico	No website	https://www.theknot.com/marketplace/casa-vieja-event-center-corrales-nm-996579	2026-10-30
 Venue	Legacy Ranch		Edgewood	New Mexico	No website	https://www.theknot.com/marketplace/legacy-ranch-edgewood-nm-2098610	2026-10-30
-Venue	Mabel Dodge Luhan House		Taos	New Mexico	Site dead	https://www.mabeldodgeluhan.com	2026-11-01
+Venue	Mabel Dodge Luhan House		Taos	New Mexico	Site blocks automated visits, unconfirmed	https://www.mabeldodgeluhan.com	2026-11-01
 Venue	Flying J Ranch		Alto	New Mexico	Closed	https://www.kcbd.com/2026/03/27/ruidosos-flying-j-ranch-closes-operations-owners-hope-new-buyer-continues-tradition/	2026-11-01
 Venue	Red Hawk Golf Club		Las Cruces	New Mexico	Site dead	https://www.theknot.com/marketplace/red-hawk-golf-club-las-cruces-nm-962233	2026-11-01
-Venue	Sierra Grande Lodge & Spa		Truth or Consequences	New Mexico	Site dead	https://www.sierragrandelodge.com	2026-11-01
+Venue	Sierra Grande Lodge & Spa		Truth or Consequences	New Mexico	Site blocks automated visits, unconfirmed	https://www.sierragrandelodge.com	2026-11-01
 Venue	Grapevine Plaza Event Center		Las Cruces	New Mexico	Site dead	https://www.theknot.com/marketplace/the-grapevine-plaza-event-center-las-cruces-nm-834037	2026-11-01
 Venue	Inspired Moments Event Center		Farmington	New Mexico	Social only	https://www.facebook.com/InspiredMomentsVenue	2026-11-01
 Venue	Courtyard by Marriott Farmington		Farmington	New Mexico	Franchise	https://www.weddingwire.com/biz/courtyard-by-marriott-farmington/bafa5418b8993b86.html	2026-11-01
@@ -211,8 +211,8 @@ Venue	The Nest ABQ		Albuquerque	New Mexico	No wedding page	https://thenestabq.co
 Venue	Albuquerque Museum		Albuquerque	New Mexico	No wedding page	https://www.cabq.gov/artsculture/albuquerque-museum/plan-your-visit/museum-rentals	2026-11-01
 Venue	Gruet Winery		Albuquerque	New Mexico	No wedding page	https://www.gruetwinery.com/events	2026-11-01
 Venue	Hacienda Antigua Inn		Albuquerque	New Mexico	No wedding page	https://www.haciendantigua.com/	2026-11-01
-Venue	Villa de San Rafael		Albuquerque	New Mexico	Site dead	https://villadesanrafael.com	2026-11-01
-Venue	La Estrella Event Center		Placitas	New Mexico	Site dead	https://laestrellaeventcenter.com/	2026-11-01
+Venue	Villa de San Rafael		Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://villadesanrafael.com	2026-11-01
+Venue	La Estrella Event Center		Placitas	New Mexico	Site back up	https://laestrellaeventcenter.com/	2026-11-01
 Venue	Corrales Winery		Corrales	New Mexico	Site dead	https://corraleswinery.com	2026-11-01
 Venue	Dreams Event Studio		Albuquerque	New Mexico	Site dead	https://www.dreamseventstudio.com/	2026-11-01
 Venue	Triple J Ranch Events		Farmington	New Mexico	No website	https://www.herecomestheguide.com/wedding-venues/new-mexico/triple-j-ranch	2026-11-03
@@ -222,22 +222,22 @@ Venue	St. James Hotel		Cimarron	New Mexico	Inactive	https://www.abqjournal.com/b
 Venue	Touchstone Inn		Taos	New Mexico	Closed	https://touchstoneinn.com/taos-weddings-touchstone/	2026-11-03
 Venue	Bishop's Lodge		Santa Fe	New Mexico	Site dead	https://bishopslodge.com/	2026-11-03
 Venue	Quintana's Coal Street Venue		Gallup	New Mexico	Social only	https://www.facebook.com/p/Quintanas-Coal-Street-Venue-100090563313121/	2026-11-03
-Venue	Girlie Bird & Co		Albuquerque	New Mexico	Site dead	https://eventective.com/albuquerque-nm/girliebird-co-697763.html	2026-11-03
+Venue	Girlie Bird & Co		Albuquerque	New Mexico	Site back up	https://eventective.com/albuquerque-nm/girliebird-co-697763.html	2026-11-03
 Venue	Europa Food.Farm.Festival		Los Lunas	New Mexico	Site dead	https://www.weddingwire.com/biz/europa-food-farm-festival/22cab026ed6b4817.html	2026-11-03
-Venue	Casa Perea Art Space		Corrales	New Mexico	Site dead	https://eventective.com/corrales-nm/casa-perea-art-space-692302.html	2026-11-03
+Venue	Casa Perea Art Space		Corrales	New Mexico	Site back up	https://eventective.com/corrales-nm/casa-perea-art-space-692302.html	2026-11-03
 Venue	Sandia Lakes Recreation Area		Bernalillo	New Mexico	Inactive	https://www.sandiapueblo.nsn.us/sandia-lakes/	2026-11-03
 Venue	Paradise Hills Golf Course		Albuquerque	New Mexico	Site dead	https://www.wedding-spot.com/venue/14522/paradise-hills-golf-course	2026-11-03
-Venue	Gutierrez-Hubbell House		Albuquerque	New Mexico	Site dead	https://www.nps.gov/places/gutierrez-hubbell-house.htm	2026-11-03
-Venue	Vara Winery & Distillery		Albuquerque	New Mexico	Site dead	https://www.varawinery.com/	2026-11-03
-Venue	Grant County Veterans Memorial Business & Conference Center		Silver City	New Mexico	Site dead	https://silvercity.org/grant-county-veterans-memorial-business-conference-center	2026-11-03
+Venue	Gutierrez-Hubbell House		Albuquerque	New Mexico	Site back up	https://www.nps.gov/places/gutierrez-hubbell-house.htm	2026-11-03
+Venue	Vara Winery & Distillery		Albuquerque	New Mexico	Site blocks automated visits, unconfirmed	https://www.varawinery.com/	2026-11-03
+Venue	Grant County Veterans Memorial Business & Conference Center		Silver City	New Mexico	Site back up	https://silvercity.org/grant-county-veterans-memorial-business-conference-center	2026-11-03
 Venue	The Valley Venue		Carlsbad	New Mexico	No website	https://zola.com/wedding-vendors/wedding-venues/the-valley-venue	2026-11-03
 Venue	Route 66 Wedding Chapel		Tucumcari	New Mexico	No website	https://www.route66news.com/?p=22450	2026-11-03
 Venue	JC Venue LLC		Roswell	New Mexico	Social only	https://www.facebook.com/p/JC-Venue-LLC-61556785303624/	2026-11-03
-Venue	Pecos Flavors Winery & Bistro		Roswell	New Mexico	Site dead	https://www.exploretock.com/pecosflavorswinerybistro/event/623385	2026-11-03
+Venue	Pecos Flavors Winery & Bistro		Roswell	New Mexico	Site blocks automated visits, unconfirmed	https://www.exploretock.com/pecosflavorswinerybistro/event/623385	2026-11-03
 Venue	Cree Meadows Country Club		Ruidoso	New Mexico	Site dead	http://www.playcreemeadows.com	2026-11-03
-Venue	Rainmakers Resort & Club		Ruidoso	New Mexico	Site dead	https://rainmakersusa.com	2026-11-03
+Venue	Rainmakers Resort & Club		Ruidoso	New Mexico	Site back up	https://rainmakersusa.com	2026-11-03
 Venue	RaceTrack Chapel Weddings at El Sueño		Alto	New Mexico	No website	https://www.racetrackchapelweddings.com/	2026-11-03
-Venue	Hotel Ruidoso		Ruidoso	New Mexico	Site dead	http://hotelruidoso.net/conference-wedding/	2026-11-03
+Venue	Hotel Ruidoso		Ruidoso	New Mexico	Site back up	http://hotelruidoso.net/conference-wedding/	2026-11-03
 Venue	Pecos Hideaway		Pecos	New Mexico	No website	https://giggster.com/listing/pecos-hideaway	2026-11-03
-Venue	Hobbs Country Club		Hobbs	New Mexico	Site dead	https://hobbsgolfcc.com/weddings-events	2026-11-03
-Venue	Enchanted Vine Barn (Noisy Water Winery)		Alto	New Mexico	Site dead	https://enchantedvinebarn.com/weddings-private-events/	2026-11-03
+Venue	Hobbs Country Club		Hobbs	New Mexico	Site blocks automated visits, unconfirmed	https://hobbsgolfcc.com/weddings-events	2026-11-03
+Venue	Enchanted Vine Barn (Noisy Water Winery)		Alto	New Mexico	Site blocks automated visits, unconfirmed	https://enchantedvinebarn.com/weddings-private-events/	2026-11-03

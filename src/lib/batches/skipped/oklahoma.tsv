@@ -4,9 +4,9 @@ Venue	Emerald Falls Event Center		Broken Arrow	Oklahoma	Inactive	https://emerald
 Venue	The Baumberhof			Oklahoma	Inactive	https://thebaumberhof.com/	2026-10-10
 Venue	Shane Creek Events		Prague	Oklahoma	Inactive	https://shanecreekevents.com/	2026-10-10
 Venue	The Carriage House			Oklahoma	Inactive	https://thecarriagehouseok.com/	2026-10-10
-Venue	The Ranch at River's Bend		Broken Bow	Oklahoma	Site dead	https://riversbendranch.com/weddings/	2026-10-10
-Venue	Giacomo's Events		Sapulpa	Oklahoma	Site dead	https://giacomosevents.com/	2026-10-10
-Venue	The Springs		Edmond	Oklahoma	Site dead	https://thespringsvenue.com/	2026-10-10
+Venue	The Ranch at River's Bend		Broken Bow	Oklahoma	Site blocks automated visits, unconfirmed	https://riversbendranch.com/weddings/	2026-10-10
+Venue	Giacomo's Events		Sapulpa	Oklahoma	Site back up	https://giacomosevents.com/	2026-10-10
+Venue	The Springs		Edmond	Oklahoma	Site blocks automated visits, unconfirmed	https://thespringsvenue.com/	2026-10-10
 Venue	The Oak at Cottonwood Creek		Macomb	Oklahoma	Site dead	https://theoakatcottonwoodcreek.com	2026-10-10
 Venue	Wild Wood Weddings & Events Center		Newkirk	Oklahoma	No website		2026-10-10
 Venue	Last Wild River Resort		Broken Bow	Oklahoma	No website		2026-10-10
@@ -20,7 +20,7 @@ Vendor	OnSiteGlam	Hair & Makeup		Oklahoma	Franchise	https://www.onsiteglam.com	2
 Vendor	Tiers of Joy	Cake	Tulsa	Oklahoma	Inactive	https://www.tiersofjoytulsa.com	2026-10-10
 Vendor	Simply Amazing Wedding Catering	Catering		Oklahoma	Inactive	https://www.simplyamazingweddingcatering.net	2026-10-10
 Vendor	Emerald & Olive	Florals		Oklahoma	Inactive	https://emeraldandolive.com	2026-10-10
-Vendor	Crimson Street Florals	Florals	Bixby	Oklahoma	Site dead	https://crimsonstreetflorals.mypixieset.com/	2026-10-10
+Vendor	Crimson Street Florals	Florals	Bixby	Oklahoma	Site back up	https://crimsonstreetflorals.mypixieset.com/	2026-10-10
 Vendor	Couture De Roses	Florals	Tulsa	Oklahoma	No website		2026-10-10
 Vendor	Tulsa Bridal Beauty	Hair & Makeup	Tulsa	Oklahoma	No website		2026-10-10
 Vendor	The French Bouquet	Florals	Tulsa	Oklahoma	No website		2026-10-10
@@ -59,15 +59,15 @@ Vendor	Les Bouquets OKC	Florals	Oklahoma City	Oklahoma	No website		2026-10-10
 Vendor	Cole Dewey Designs	Florals	Oklahoma City	Oklahoma	No website		2026-10-10
 Vendor	Rosebeary's Bakery	Cake	Oklahoma City	Oklahoma	No website		2026-10-10
 Vendor	Glorious Day Films	Videography	Oklahoma City	Oklahoma	Site dead		2026-10-10
-Vendor	Borrowed Charm	Planning	Oklahoma City	Oklahoma	Site dead	https://borrowedcharm.com	2026-10-10
-Vendor	Primp Hair and Makeup Studio	Hair & Makeup	Tulsa	Oklahoma	Site dead	https://primptulsa.com/	2026-10-10
-Venue	Esperanza Ranch			Oklahoma	Site dead	https://www.esperanzaranch.com/	2026-10-10
-Venue	Harvest Farm Event Center			Oklahoma	Site dead	https://harvestfarmeventcenter.com/	2026-10-10
-Venue	Dominion Gardens and Hotel			Oklahoma	Site dead	https://dominiongardensokc.com/	2026-10-10
-Venue	Moore Farms Rustic Weddings and Event Barns		Moore	Oklahoma	Site dead	https://moorefarmsrusticweddings.com/facilities/	2026-10-10
-Venue	Rustic Rose Hall			Oklahoma	Site dead	https://rusticrosehall.com/	2026-10-10
+Vendor	Borrowed Charm	Planning	Oklahoma City	Oklahoma	Site blocks automated visits, unconfirmed	https://borrowedcharm.com	2026-10-10
+Vendor	Primp Hair and Makeup Studio	Hair & Makeup	Tulsa	Oklahoma	Site back up	https://primptulsa.com/	2026-10-10
+Venue	Esperanza Ranch			Oklahoma	Site blocks automated visits, unconfirmed	https://www.esperanzaranch.com/	2026-10-10
+Venue	Harvest Farm Event Center			Oklahoma	Site back up	https://harvestfarmeventcenter.com/	2026-10-10
+Venue	Dominion Gardens and Hotel			Oklahoma	Site blocks automated visits, unconfirmed	https://dominiongardensokc.com/	2026-10-10
+Venue	Moore Farms Rustic Weddings and Event Barns		Moore	Oklahoma	Site back up	https://moorefarmsrusticweddings.com/facilities/	2026-10-10
+Venue	Rustic Rose Hall			Oklahoma	Site blocks automated visits, unconfirmed	https://rusticrosehall.com/	2026-10-10
 Venue	Rosemary Ridge		Stillwater	Oklahoma	Site dead	https://rosemaryridge.com	2026-10-12
-Venue	White Barn Estates		Stillwater	Oklahoma	Site dead	https://www.visitstillwater.org/listing/white-barn-estates/436/	2026-10-12
+Venue	White Barn Estates		Stillwater	Oklahoma	Site back up	https://www.visitstillwater.org/listing/white-barn-estates/436/	2026-10-12
 Venue	Timber Oaks		Bartlesville	Oklahoma	No website	https://www.visitbartlesville.com/timber-oaks-wedding-and-event-venue-bartlesville-ok-listing-305	2026-10-12
 Venue	Hanza's Heartland		Lawton	Oklahoma	No website	https://www.theknot.com/marketplace/hanzas-heartland-lawton-ok-2080381	2026-10-12
 Venue	Caddo Springs Event Venue		Norman	Oklahoma	No website	https://weddingwire.com/biz/caddo-springs-event-venue/cb0fcbd52cb17dc1.html	2026-10-12
@@ -80,8 +80,8 @@ Venue	Silver Barn Farms		El Reno	Oklahoma	No website	https://www.herecomesthegui
 Venue	Bluff Creek Lodge		Duncan	Oklahoma	No website	https://www.chickasawcountry.com/event-venues/bluff-creek-lodge	2026-10-12
 Venue	Silo Ranch Wedding & Event Center		McAlester	Oklahoma	No website	https://www.zola.com/wedding-vendors/search/mcalester-ok--wedding-venues	2026-10-12
 Venue	The Enchanted Ranch		Newalla	Oklahoma	Site dead	https://weddingwire.com/biz/the-enchanted-ranch/47c2c8f5642b176f.html	2026-10-12
-Venue	Lazy A Ranch		Allen	Oklahoma	Site dead	https://www.chickasawcountry.com/wedding-venues/lazy-ranch-wedding-event-venue	2026-10-12
-Venue	Bryan Chapel		Pryor	Oklahoma	Site dead	https://www.eventective.com/pryor-ok/wedding-venues/	2026-10-12
+Venue	Lazy A Ranch		Allen	Oklahoma	Site blocks automated visits, unconfirmed	https://www.chickasawcountry.com/wedding-venues/lazy-ranch-wedding-event-venue	2026-10-12
+Venue	Bryan Chapel		Pryor	Oklahoma	Site back up	https://www.eventective.com/pryor-ok/wedding-venues/	2026-10-12
 Venue	The Knotted Vineyard		Ponca City	Oklahoma	Inactive	https://theknottedvineyard.com	2026-10-12
 Venue	Redbud Ranch		Binger	Oklahoma	No website	https://redbudranchok.com	2026-10-12
 Venue	Mullin Ranch		Westville	Oklahoma	No website	https://mullinranch.com	2026-10-12
@@ -99,7 +99,7 @@ Vendor	Hyped Visuals	Videography	Oklahoma City	Oklahoma	No website	https://www.w
 Vendor	Rosedale Event Coordinator & Decor	Planning	Oklahoma City	Oklahoma	No website	https://fash.com/ok/oklahoma-city/event-decorators/	2026-10-12
 Vendor	Blow Blow Dry Bar	Hair & Makeup	Tulsa	Oklahoma	Franchise	https://www.bloblowdrybar.com	2026-10-12
 Vendor	Blow and Glow Beauty Bar	Hair & Makeup	Tulsa	Oklahoma	Site dead	https://blowandglowbeautybar.com	2026-10-12
-Vendor	Faccia Bella	Hair & Makeup	Tulsa	Oklahoma	Site dead	https://www.faccia-bella.com	2026-10-12
+Vendor	Faccia Bella	Hair & Makeup	Tulsa	Oklahoma	Site blocks automated visits, unconfirmed	https://www.faccia-bella.com	2026-10-12
 Vendor	Tulsa Bridal Beauty	Hair & Makeup	Tulsa	Oklahoma	No website	https://www.theknot.com/marketplace/tulsa-bridal-beauty-tulsa-ok-600935	2026-10-12
 Vendor	Beauty by S. Blakely	Hair & Makeup	Tulsa	Oklahoma	No website	https://weddingwire.com/biz/beauty-by-s-blakely-tulsa/d4c37994667d67e7.html	2026-10-12
 Vendor	Styling to You	Hair & Makeup	Tulsa	Oklahoma	No website	https://weddingwire.com/biz/styling-to-you-tulsa/977a0cfeeaf83f80.html	2026-10-12
@@ -110,13 +110,13 @@ Vendor	Whimsy Cookie Co.	Cake	Tulsa	Oklahoma	Franchise	https://whimsycookieco.co
 Vendor	The Sugar Art Cakery	Cake	Tulsa	Oklahoma	No website	https://thumbtack.com/ok/tulsa/wedding-cake/sugar-art-cakery/service/286241639452222669	2026-10-12
 Vendor	Complete Weddings + Events Tulsa	Planning	Tulsa	Oklahoma	Franchise	https://completewedo.com/tulsa/	2026-10-12
 Vendor	Abco Party Rentals	Rentals	Tulsa	Oklahoma	Site dead	https://www.weddingwire.com/biz/abco-party-rentals/f5da0a6839a23430.html	2026-10-12
-Vendor	Mood Party Rentals	Rentals	Tulsa	Oklahoma	Site dead	https://www.moodpartyrentals.com	2026-10-12
+Vendor	Mood Party Rentals	Rentals	Tulsa	Oklahoma	Site back up	https://www.moodpartyrentals.com	2026-10-12
 Vendor	Okie Soirée Mobile Bar Co.	Bar	Tulsa	Oklahoma	No website	https://www.thebridesofoklahoma.com/?p=11661	2026-10-12
 Vendor	Lasso and Lime	Bar	Tulsa	Oklahoma	No website	https://www.zola.com/wedding-vendors/search/tulsa-ok--wedding-bar-services	2026-10-12
 Vendor	Raise The Bar Events	Bar	Bartlesville	Oklahoma	Social only	https://business.bartlesville.com/active-member-directory/Details/raise-the-bar-events-4213487	2026-10-12
 Vendor	Liv Photography	Photo Booth	Owasso	Oklahoma	No website	https://www.weddingwire.com/biz/liv-photography/048b98171bdcbfea.html	2026-10-12
-Vendor	Kristal Limousine	Transportation	Tulsa	Oklahoma	Site dead	https://www.kristallimo.com/	2026-10-12
-Vendor	Ludger's Bavarian Cakery	Cake	Tulsa	Oklahoma	Site dead	https://www.ludgersbavariancakery.com/	2026-10-12
+Vendor	Kristal Limousine	Transportation	Tulsa	Oklahoma	Site blocks automated visits, unconfirmed	https://www.kristallimo.com/	2026-10-12
+Vendor	Ludger's Bavarian Cakery	Cake	Tulsa	Oklahoma	Site blocks automated visits, unconfirmed	https://www.ludgersbavariancakery.com/	2026-10-12
 Venue	Coleman Theatre Beautiful		Miami	Oklahoma	Site dead	https://thecolemantheatre.org	2026-10-12
 Venue	Hudson Hall		Altus	Oklahoma	Site dead	https://hudson-hall.locable.com	2026-10-17
 Venue	Luna's Wedding & Event Center		McAlester	Oklahoma	No website	https://www.theknot.com/marketplace/lunas-wedding-and-event-center-mcalester-ok-2096276	2026-10-17
@@ -130,11 +130,11 @@ Venue	P Bar Farms		Hydro	Oklahoma	Site dead	https://weddingwire.com/biz/p-bar-fa
 Venue	Carnegie Hall		Elk City	Oklahoma	No website	https://www.elkcity.com/city-hall/departments/rentals/carnegie-hall/	2026-10-17
 Vendor	Unforgettable's Batch and Blossom	Florals	Altus	Oklahoma	No wedding page	https://blossomshopaltus.net/	2026-10-17
 Vendor	Petal Pushers Flowers & Gifts	Florals	Altus	Oklahoma	Social only	https://www.facebook.com/p/Petal-Pushers-Flowers-Gifts-100063748592147/	2026-10-17
-Vendor	Adam Gutierrez Photography	Photography	Altus	Oklahoma	Site dead	https://www.adamgutierrezphotography.com/	2026-10-17
+Vendor	Adam Gutierrez Photography	Photography	Altus	Oklahoma	Site blocks automated visits, unconfirmed	https://www.adamgutierrezphotography.com/	2026-10-17
 Vendor	Latta Flower Shop	Florals	Latta	Oklahoma	Site dead	https://lattaflowershop.com/	2026-10-17
 Vendor	Amber's Sweet Shoppe	Cake	Ada	Oklahoma	Social only	https://www.facebook.com/ambersweetshoppe/	2026-10-17
 Vendor	C. Large Photography	Photography	Ada	Oklahoma	No wedding page	https://www.clargephotography.com/	2026-10-17
-Vendor	Aspynn Tabor Photography	Photography	Weatherford	Oklahoma	Site dead	https://aspynntaborphotography.com	2026-10-17
+Vendor	Aspynn Tabor Photography	Photography	Weatherford	Oklahoma	Site blocks automated visits, unconfirmed	https://aspynntaborphotography.com	2026-10-17
 Vendor	Broadway Flowers	Florals	Elk City	Oklahoma	No wedding page	https://broadwayflowerselkcity.com	2026-10-17
 Venue	Privett Event Center		Altus	Oklahoma	Social only	https://www.facebook.com/eventcenteraltus/	2026-10-18
 Venue	Altus Downtown Market and Events Center		Altus	Oklahoma	No website		2026-10-18
@@ -156,19 +156,19 @@ Vendor	Courtney Morehead Photography	Photography	Ada	Oklahoma	No website		2026-1
 Vendor	Makenzie B Photography	Photography	Ada	Oklahoma	No website	https://www.zola.com/wedding-vendors/search/ada-ok	2026-10-18
 Vendor	Pretty & Posh Artistry	Hair & Makeup	Tulsa	Oklahoma	No wedding page	https://prettyandposhartistry.com/	2026-10-18
 Vendor	Haley Snodderly	Hair & Makeup	Tulsa	Oklahoma	Site dead	https://www.haleysnodderly.com/	2026-10-18
-Vendor	HM Artistry	Hair & Makeup	Tulsa	Oklahoma	Site dead	https://www.hmartistry.com/	2026-10-18
+Vendor	HM Artistry	Hair & Makeup	Tulsa	Oklahoma	Site blocks automated visits, unconfirmed	https://www.hmartistry.com/	2026-10-18
 Vendor	Visible Horizons Media	Videography	Oklahoma City	Oklahoma	No website	https://m.weddingwire.com/biz/visible-horizons-media-oklahoma-city/05cd4af18117b634	2026-10-18
 Vendor	Hart Media	Videography	Oklahoma City	Oklahoma	No website	https://weddingwire.com/biz/hart-media-oklahoma-city/62d81f56339e0b2f.html	2026-10-18
 Venue	Best Western Plus Guymon Hotel & Suites		Guymon	Oklahoma	Franchise	https://www.bestwestern.com/en_US/book/hotels-in-guymon/best-western-plus-guymon-hotel-suites/propertyCode.37118.html	2026-10-18
 Venue	No Man's Land Museum		Goodwell	Oklahoma	No wedding page	https://nmlhs.org/	2026-10-18
-Vendor	Anna Pischl Photo	Photography	Oklahoma City	Oklahoma	Site dead	https://annapischlphoto.com/	2026-11-03
-Vendor	Salon West Extension Bar	Hair & Makeup	Moore	Oklahoma	Site dead	https://www.salonwestextensionbar.com/	2026-11-03
-Vendor	Reventals	Rentals	Oklahoma City	Oklahoma	Site dead	https://www.reventals.com/oklahoma-city-ok	2026-11-03
-Vendor	Miller Image & Motion	Photography	Tulsa	Oklahoma	Site dead	https://millerimageandmotion.com/	2026-11-03
-Vendor	MAIIGO	Photography	Tulsa	Oklahoma	Site dead	https://maiigophotography.com/	2026-11-03
-Vendor	Andi Bravo Photography	Photography	Tulsa	Oklahoma	Site dead	https://andibravophotography.com/	2026-11-03
-Vendor	Capturing Candid Photography	Photography	Tulsa	Oklahoma	Site dead	https://www.capturingcandidphoto.com/	2026-11-03
-Vendor	Ribbons and Roses	Planning	Tulsa	Oklahoma	Site dead	https://www.ribbonsandrosestulsa.com/	2026-11-03
+Vendor	Anna Pischl Photo	Photography	Oklahoma City	Oklahoma	Site blocks automated visits, unconfirmed	https://annapischlphoto.com/	2026-11-03
+Vendor	Salon West Extension Bar	Hair & Makeup	Moore	Oklahoma	Site back up	https://www.salonwestextensionbar.com/	2026-11-03
+Vendor	Reventals	Rentals	Oklahoma City	Oklahoma	Site back up	https://www.reventals.com/oklahoma-city-ok	2026-11-03
+Vendor	Miller Image & Motion	Photography	Tulsa	Oklahoma	Site back up	https://millerimageandmotion.com/	2026-11-03
+Vendor	MAIIGO	Photography	Tulsa	Oklahoma	Site back up	https://maiigophotography.com/	2026-11-03
+Vendor	Andi Bravo Photography	Photography	Tulsa	Oklahoma	Site back up	https://andibravophotography.com/	2026-11-03
+Vendor	Capturing Candid Photography	Photography	Tulsa	Oklahoma	Site blocks automated visits, unconfirmed	https://www.capturingcandidphoto.com/	2026-11-03
+Vendor	Ribbons and Roses	Planning	Tulsa	Oklahoma	Site back up	https://www.ribbonsandrosestulsa.com/	2026-11-03
 Vendor	Event Fusion	Planning	Tulsa	Oklahoma	Site dead	https://eventfusion.us/	2026-11-03
 Vendor	McNellie's Group Catering	Catering	Tulsa	Oklahoma	Site dead	https://mcnelliesgroupcatering.com/	2026-11-03
 Vendor	Free-Range Kitchen	Catering	Stillwater	Oklahoma	Site dead	https://free-rangekitchen.com/	2026-11-03
@@ -199,7 +199,7 @@ Venue	Elegant Events & Weddings / Arbuckle Wedding Chapel		Davis	Oklahoma	Site d
 Venue	Legends Pubhouse & Venue		Chickasha	Oklahoma	No wedding page	https://www.legendspubhouseandvenue.com/	2026-11-04
 Venue	Bridgeview Marina & Resort		Madill	Oklahoma	No wedding page	https://www.bridgeviewmarina.com/	2026-11-04
 Venue	Arrowhead Pointe Lodge		Kingston	Oklahoma	No wedding page	https://arrowheadpointlodge.com/	2026-11-04
-Venue	The Refinery at The Johnstone-Sare Building		Bartlesville	Oklahoma	Site dead	https://therefineryok.com	2026-10-12
+Venue	The Refinery at The Johnstone-Sare Building		Bartlesville	Oklahoma	Site blocks automated visits, unconfirmed	https://therefineryok.com	2026-10-12
 Venue	The Pressing House Vineyard		Ada	Oklahoma	Site dead	https://www.thepressinghouse.com/	2026-10-17
 Venue	Bella Rosa Venue		Sapulpa	Oklahoma	Site dead	https://bellarosavenue.com/weddings/	2026-11-04
 Venue	Lawton Country Club		Lawton	Oklahoma	Site dead	https://lawtoncc.com/planning-an-event	2026-11-04
