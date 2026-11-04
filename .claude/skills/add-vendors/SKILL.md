@@ -69,6 +69,12 @@ than be padded with weak listings.
 - **Mix:** within a category, cover a range of styles and price points, and
   cultural specialties where they exist (South Asian, Mexican/Latino,
   Vietnamese, Jewish, etc.). Don't list only the top luxury names.
+- **Start with "Site back up" rows.** Before searching for new businesses, take
+  the rows in `src/lib/batches/skipped/<state>.tsv` with Reason `Site back up`
+  in the towns you're working: their sites loaded on a recheck, so they're the
+  cheapest real listings left. Research each like any new row. One that makes it
+  into the batch comes out of the skipped file; one that still fails gets its
+  real reason (`No wedding page`, `Closed`...) in place of `Site back up`.
 - **Record what you leave out.** Every real business found and left out goes on a line in
 `src/lib/batches/skipped/<state>.tsv`, with its reason and best link (format
 and reasons in that folder's README). That's how we count what exists but

@@ -41,6 +41,13 @@ hosts weddings. Write descriptions in our own words, one sentence, what makes
 the place itself (acreage, buildings, era, water, lodging) -- never copied
 marketing copy or reviews, and no superlatives we can't stand behind.
 
+**Start with "Site back up" rows.** Before searching for new businesses, take
+the rows in `src/lib/batches/skipped/<state>.tsv` with Reason `Site back up`
+in the towns you're working: their sites loaded on a recheck, so they're the
+cheapest real listings left. Research each like any new row. One that makes it
+into the batch comes out of the skipped file; one that still fails gets its
+real reason (`No wedding page`, `Closed`...) in place of `Site back up`.
+
 Every real business found and left out goes on a line in
 `src/lib/batches/skipped/<state>.tsv`, with its reason and best link (format
 and reasons in that folder's README). That's how we count what exists but
