@@ -1032,8 +1032,8 @@ body:has(.dashboard-backdrop) header[data-top="true"] .text-brass {
 }
 .nav-tab::after {
   content: "";
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 9999px;
   background: transparent;
 }

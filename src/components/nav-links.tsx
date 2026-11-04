@@ -138,15 +138,15 @@ export function NavTileFace({
 }) {
   return (
     <>
-      <span className={`nav-tile relative grid h-11 w-11 place-items-center rounded-[14px] xl:h-12 xl:w-12 ${tile}`}>
-        <Icon className="h-6 w-6" />
+      <span className={`nav-tile relative grid h-11 w-11 place-items-center rounded-[14px] sm:h-9 sm:w-9 sm:rounded-xl xl:h-10 xl:w-10 ${tile}`}>
+        <Icon className="h-6 w-6 sm:h-5 sm:w-5" />
         {badge ? (
           <span className="absolute -right-2 -top-1.5">
             <Badge count={badge} />
           </span>
         ) : null}
       </span>
-      <span className={`nav-tab-label flex items-center gap-0.5 whitespace-nowrap font-sans text-[13px] font-semibold leading-tight xl:text-sm ${active ? "text-ink" : "text-ink/80"}`}>
+      <span className={`nav-tab-label flex items-center gap-0.5 whitespace-nowrap font-sans text-[13px] font-semibold leading-tight sm:text-xs xl:text-[13px] ${active ? "text-ink" : "text-ink/80"}`}>
         {label}
         {chevron}
       </span>
@@ -156,7 +156,7 @@ export function NavTileFace({
 
 /** Classes for a tab in the dock; `nav-tab-on` draws the ring and gold dot (globals.css). */
 export function navTabClass(active: boolean) {
-  return `nav-tab flex min-w-[84px] shrink-0 flex-col items-center gap-1 rounded-2xl px-1.5 pb-1.5 pt-1.5 xl:min-w-24 ${
+  return `nav-tab flex min-w-[84px] shrink-0 flex-col items-center gap-1 rounded-2xl px-1.5 py-1.5 sm:min-w-[76px] sm:gap-0.5 sm:py-1 xl:min-w-[84px] ${
     active ? "nav-tab-on" : ""
   }`;
 }
@@ -179,7 +179,7 @@ export function NavLinks({ badges = {} }: { badges?: Record<string, number> }) {
     // which would push the first tabs off the left edge, out of scroll reach,
     // once the strip overflows. Vertical padding leaves room for a tile's
     // hover lift and the active ring, which overflow-x would otherwise clip.
-    <nav className="-mx-1 flex [&>*:first-child]:ml-auto [&>*:last-child]:mr-auto w-full items-start gap-1 overflow-x-auto px-1 pb-1 pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <nav className="-mx-1 flex [&>*:first-child]:ml-auto [&>*:last-child]:mr-auto w-full items-start gap-1 overflow-x-auto px-1 pb-0.5 pt-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <PlainLink item={DASHBOARD_TAB} />
       {NAV_ITEMS.map((item) =>
         isNavGroup(item) ? (
