@@ -404,6 +404,47 @@ Unlimited Sounds	Music		Clementon	New Jersey	South Jersey, Philadelphia and the 
 WeddingsAndParties DJ Entertainment	Music		Marlton	New Jersey	Burlington, Camden and Gloucester counties, plus Pennsylvania, Delaware and Maryland	Marlton DJ and entertainment service for weddings and parties across South Jersey, offering packages that can include uplighting.			https://weddingsandparties.com/			
 Twenty Eight Studio	Hair & Makeup		Marlton	New Jersey	South Jersey, Cherry Hill and the Philadelphia area	Marlton lash and makeup artist offering bridal lash and makeup packages with a trial, travelling to the venue within an hour of Marlton at no extra charge.		609-321-4540	https://www.twenty8studio.com/bridal	https://www.instagram.com/jenniferqueirozbeauty/	250	package`,
   },
+  {
+    name: "Jersey Shore: photography, hair & makeup, planning, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kevin & Aly Photography	Photography		Asbury Park	New Jersey	New Jersey and the Jersey Shore	Asbury Park wedding photographers shooting natural, joyful, true-to-life coverage across the Jersey Shore and New Jersey, with photo-and-video packages too.			https://kevinandalyphotography.com/	https://www.instagram.com/kevinandalyphotography/	6000	package
+Bombshell Hair + Beauty Bar	Hair & Makeup	290 West Water Street	Toms River	New Jersey	Toms River, Long Beach Island, Hamilton and Bayville	Toms River hair salon offering bridal updos, makeup and lashes, in the salon or on location around Ocean County, with consultations before the day.		732-240-7000	https://thebombshellhairbar.com/bombshell-bridal			
+Je T'aime Coiffure at Galleria	Hair & Makeup	2 Bridge Ave #317	Red Bank	New Jersey		Red Bank salon offering bridal hair and makeup with trial sessions, wedding-morning appointments in the salon and on-location service for the whole party.	jetaimegalleria@gmail.com	732-212-1882	https://www.jetaimecoiffure.com/bridal-hair-and-makeup	https://www.instagram.com/jetaimecoiffuregalleria/		
+Dazzling Delights	Planning		Toms River	New Jersey	Middlesex, Monmouth and Ocean counties	Toms River planner offering full, partial and day-of coordination across Monmouth and Ocean counties, plus in-house decor such as balloon arches and backdrops.	dazzlingdelightsnj@gmail.com	732-233-6929	https://dazzlingdelightsnj.com/event-planning/wedding-planner/	https://www.instagram.com/dazzlingdelightsnj/		
+Sir Ives Catering	Catering		Freehold	New Jersey	Monmouth, Ocean, Middlesex and nearby counties	Freehold caterer serving weddings with seated, buffet and station service, and Indian, Asian, Latino, Kosher, vegan and gluten-free menu options.	contact@sirives.com	732-521-1108	https://sirives.com/wordpress/weddings/			`,
+  },
+  {
+    name: "Northern New Jersey: music, planning, florals, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Elegant Music Group	Music	154 Pine St	Montclair	New Jersey	East Coast and Chicago area	Montclair entertainment company supplying wedding bands of four to twelve pieces, DJs, hybrid sets and ceremony musicians, plus lighting and photo booths.		201-768-7711	https://elegantmusicgroup.com/	https://www.instagram.com/elegantmusicgroup/		
+Peony Events	Planning	14 Pine Street	Morristown	New Jersey	New Jersey, Manhattan, Philadelphia and Connecticut	Morristown planning and design firm with a storefront studio, handling full wedding planning and styling across New Jersey, New York and Philadelphia.		973-590-2046	https://www.peonyeventsco.com/	https://www.instagram.com/peonyeventsco/		
+Mira Events	Planning		Hoboken	New Jersey	Hoboken, Jersey City, New York City and Bergen County	Hoboken planners offering full and partial planning, month-of coordination and micro-weddings, working along the Hudson waterfront and in Bergen County.		201-446-6913	https://miraeventsgroup.com/wedding-planner-hoboken-nj/			
+Floriography Designs	Florals	69 King Street, Suite B40	Dover	New Jersey	Morris, Bergen and Sussex counties, Hudson Valley and eastern Pennsylvania	Dover floral studio designing bouquets, ceremony arches and large installations for weddings, with some blooms grown on its own Rockaway farm.			https://www.floriographydesigns.com/	https://www.instagram.com/floriographydesignsnj/	8000	package
+Wild Floweress Design Co.	Florals		Sparta	New Jersey	New Jersey, New York and Pennsylvania	Sparta floral studio creating custom wedding design with locally grown blooms from its own farm, including installation, repurposing and breakdown on the day.	weddings@wildfloweress.com		https://www.wildfloweress.com/	https://www.instagram.com/wild_floweress_design_co/	7500	package
+Modern Roots Caterers	Catering	112 East Main Street	Ramsey	New Jersey	Bergen County and the tri-state area	Ramsey caterer building seasonal menus around local farms and artisans, with grazing tables and set-ups from city lofts to backyard receptions.		201-327-7700	https://www.modernrootscatering.com/	https://www.instagram.com/modernrootscatering/		
+DJ Sunny Entertainment	Music	1857 Oak Tree Road	Edison	New Jersey		Edison DJ company specialising in Indian, Punjabi and Sikh weddings, with live dhol and boutique-style entertainment from ceremony to reception.	hello@djsunnyentertainment.com	732-763-8888	https://www.djsunnyentertainment.com	https://www.instagram.com/djsunnyentertainment/		
+Jane Everwell Beauty Bar	Hair & Makeup		Fort Lee	New Jersey		Fort Lee beauty bar offering bridal hair and makeup with a K-beauty approach, plus permanent makeup, for weddings and other big celebrations.	info@janeeverwellbeautybar2024.com	201-682-5781	https://www.janeeverwell.com	https://www.instagram.com/jane_everwell/		
+Floral Ideology	Florals		Wayne	New Jersey		Wayne florist designing artful flowers for weddings and events, with a focus on sourcing from New Jersey flower farms.	hello@floralideology.com		https://floralideology.com	https://www.instagram.com/floralideology/		
+The Modern Cakery	Cake	385 Kinderkamack Road	Oradell	New Jersey		Oradell bakery making bespoke cakes for weddings and special occasions, with design consultations and quotes by appointment.	info@themoderncakery.com	201-483-6404	https://www.themoderncakery.com	https://www.instagram.com/themoderncakery/		`,
+  },
+  {
+    name: "South Jersey: hair & makeup, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Mora Salon	Hair & Makeup	606 Haddonfield Rd	Cherry Hill	New Jersey		Curl-friendly salon doing bridal hair design and makeup, with trials, party services and an on-location mobile option for the wedding day.	wandamora20@gmail.com	856-663-0600	https://morasalon.com/	https://www.instagram.com/morasalon/	175	per event
+The Catering Station	Catering	330 Young Avenue	Moorestown	New Jersey	New Jersey and surrounding Philadelphia communities	South Jersey caterer handling formal and casual wedding receptions, with food stations, passed appetisers, buffets and sit-down service, plus bridal showers.	Events@TheCateringStation.com	(856) 279-0018	https://thecateringstation.com/	https://www.instagram.com/thecateringstation/		`,
+  },
+  {
+    name: "Cape May: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Cape Winds Florist	Florals	860 Broadway	Cape May	New Jersey		Cape May flower shop with a dedicated weddings and events service, offering bridal flowers alongside local delivery from its Broadway storefront.	cwweddings@comcast.net	(609) 884-1865	https://capewindsflorist.net/	https://www.instagram.com/capewindsflowers/		`,
+  },
+  {
+    name: "Princeton: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Viburnum Designs	Florals	202 Nassau Street	Princeton	New Jersey	Princeton, Mendham, Bernardsville, Far Hills and Summit	Princeton florist and gift shop with a weddings and events service, supplying fresh and dried flowers for ceremonies, receptions and event styling.	sales@viburnumdesigns.com	(609) 683-8800	https://www.viburnumdesigns.com/	https://www.instagram.com/viburnumdesigns/		
+Perna's Plant & Flower Shop	Florals	189 Washington Rd	Princeton	New Jersey	Princeton and surrounding areas	Long-standing Princeton flower shop offering wedding bouquets, bridal party flowers, boutonnieres, ceremony arrangements and reception centrepieces.	pernassales@earthlink.net	(609) 452-1383	https://www.flowersofprinceton.com/				
+Vaseful Flowers & Gifts	Florals	305 Witherspoon St	Princeton	New Jersey		Princeton flower shop with a wedding gallery and consultation booking, covering ceremony and reception flowers as well as same-day delivery.	vasefulevents@comop.org	609-751-9800	https://vaseful.com/	https://www.instagram.com/vaseful_flowers/		`,
+  },
 ];
 
 export default batches;
