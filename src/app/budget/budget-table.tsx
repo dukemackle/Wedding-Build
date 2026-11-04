@@ -137,7 +137,7 @@ function money(value: number | null) {
 const EXPORT_COLUMNS: { header: string; value: (row: BudgetRow) => string }[] = [
   { header: "Category", value: (r) => r.label },
   { header: "Vendor", value: (r) => r.purchasedFrom ?? "" },
-  { header: "Wren estimate", value: (r) => money(r.computed) },
+  { header: "Estimate", value: (r) => money(r.computed) },
   { header: "Cost", value: (r) => money(r.override) },
   { header: "Paid so far", value: (r) => money(r.paidAmount) },
   {
