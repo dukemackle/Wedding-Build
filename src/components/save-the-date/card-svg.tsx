@@ -16,6 +16,8 @@ type Props = {
   onSelect?: (id: string | null) => void;
   /** A finished drag, in artboard units. */
   onMove?: (id: string, dx: number, dy: number) => void;
+  /** A double-click on words: retype them. */
+  onEdit?: (id: string) => void;
   /** Hands over the drawn <svg>, for export. */
   svgRef?: (el: SVGSVGElement | null) => void;
   title?: string;
@@ -28,6 +30,19 @@ function pivot(layer: Layer): [number, number] {
   const def = ART[layer.art];
   return [layer.x + layer.w / 2, layer.y + (layer.w * (def?.aspect ?? 1)) / 2];
 }
+
+/** A drawn layer's box on the artboard, after its move and resize. */
+export function layerBox(svg: SVGSVGElement, layer: Layer, o: LayerOverride | undefined) {
+  const g = svg.querySelector<SVGGElement>(`[data-layer="${layer.id}"]`);
+  if (!g) return null;
+  const b = g.getBBox();
+  const s = o?.scale ?? 1;
+  const [px, py] = pivot(layer);
+  return { x: px + s * (b.x - px) + (o?.dx ?? 0), y: py + s * (b.y - py) + (o?.dy ?? 0), w: b.width * s, h: b.height * s };
+}
+
+/** How close (artboard units) an edge or centre must come before it snaps. */
+const SNAP = 12;
 
 function overrideTransform(layer: Layer, o: LayerOverride | undefined, live: [number, number] | null) {
   const dx = (o?.dx ?? 0) + (live?.[0] ?? 0);
@@ -43,7 +58,7 @@ function overrideTransform(layer: Layer, o: LayerOverride | undefined, live: [nu
  * canvas, the guest's reveal and the source of the PNG/PDF export, so what
  * the couple designs is exactly what guests get.
  */
-export function CardSvg({ doc, className, editable, selected, onSelect, onMove, svgRef, title }: Props) {
+export function CardSvg({ doc, className, editable, selected, onSelect, onMove, onEdit, svgRef, title }: Props) {
   const uid = useId().replace(/:/g, "");
   const t = templateById(doc.template);
   const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
@@ -81,6 +96,8 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doc, fontsTick]);
 
+  const layers = doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers;
+
   // Dragging, in artboard units.
   const [drag, setDrag] = useState<{ id: string; x0: number; y0: number; dx: number; dy: number } | null>(null);
   const toArtboard = (e: { clientX: number; clientY: number }) => {
@@ -91,23 +108,66 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     const p = pt.matrixTransform(svg.getScreenCTM()!.inverse());
     return [p.x, p.y] as const;
   };
+  // Snapping: the moving layer's edges and centre line up with the card's
+  // centre and with the other layers' edges and centres, measured at the start.
+  const snap = useRef<{ box: { x: number; y: number; w: number; h: number }; xs: number[]; ys: number[] } | null>(null);
+  const [guides, setGuides] = useState<{ x?: number; y?: number }>({});
   const startDrag = (id: string) => (e: ReactPointerEvent) => {
     if (!editable) return;
     e.stopPropagation();
     onSelect?.(id);
     (e.target as Element).setPointerCapture?.(e.pointerId);
     const [x, y] = toArtboard(e);
+    const svg = own.current!;
+    const me = layers.find((l) => l.id === id);
+    const box = me ? layerBox(svg, me, doc.overrides[id]) : null;
+    const xs = [ARTBOARD.w / 2];
+    const ys = [ARTBOARD.h / 2];
+    for (const l of layers) {
+      if (l.id === id || l.kind === "photo" || doc.overrides[l.id]?.hidden) continue;
+      const b = layerBox(svg, l, doc.overrides[l.id]);
+      if (!b || !b.w) continue;
+      xs.push(b.x, b.x + b.w / 2, b.x + b.w);
+      ys.push(b.y + b.h / 2);
+    }
+    snap.current = box ? { box, xs, ys } : null;
     setDrag({ id, x0: x, y0: y, dx: 0, dy: 0 });
   };
   const moveDrag = (e: ReactPointerEvent) => {
     if (!drag) return;
     const [x, y] = toArtboard(e);
-    setDrag({ ...drag, dx: x - drag.x0, dy: y - drag.y0 });
+    let dx = x - drag.x0;
+    let dy = y - drag.y0;
+    const next: { x?: number; y?: number } = {};
+    const sn = snap.current;
+    if (sn && !e.altKey) {
+      const best = (edges: number[], targets: number[]) => {
+        let hit: { by: number; at: number } | null = null;
+        for (const edge of edges)
+          for (const t of targets) if (Math.abs(t - edge) < SNAP && (!hit || Math.abs(t - edge) < Math.abs(hit.by))) hit = { by: t - edge, at: t };
+        return hit;
+      };
+      const { box } = sn;
+      const hx = best([box.x + dx, box.x + box.w / 2 + dx, box.x + box.w + dx], sn.xs);
+      if (hx) {
+        dx += hx.by;
+        next.x = hx.at;
+      }
+      const hy = best([box.y + box.h / 2 + dy], sn.ys);
+      if (hy) {
+        dy += hy.by;
+        next.y = hy.at;
+      }
+    }
+    if (next.x !== guides.x || next.y !== guides.y) setGuides(next);
+    setDrag({ ...drag, dx, dy });
   };
   const endDrag = () => {
     if (!drag) return;
     if (Math.abs(drag.dx) + Math.abs(drag.dy) > 1) onMove?.(drag.id, drag.dx, drag.dy);
     setDrag(null);
+    setGuides({});
+    snap.current = null;
   };
 
   // The selected layer's outline, measured after drawing.
@@ -122,8 +182,6 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     o?.color ?? (role === "accent" && metal ? `url(#foil-${uid})` : palette[role ?? "ink"]);
   const family = (layer: TextLayer, o?: LayerOverride) =>
     fontById(o?.font ?? pairing[layer.font])?.css ?? "serif";
-
-  const layers = doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers;
 
   return (
     <svg
@@ -188,6 +246,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
             data-layer={layer.id}
             transform={overrideTransform(layer, o, live)}
             onPointerDown={editable ? startDrag(layer.id) : undefined}
+            onDoubleClick={editable && layer.kind === "text" ? () => onEdit?.(layer.id) : undefined}
             style={editable ? { cursor: drag?.id === layer.id ? "grabbing" : "grab" } : undefined}
           >
             {renderLayer(layer, o)}
@@ -198,6 +257,13 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       {t.grain ? (
         <rect width={ARTBOARD.w} height={ARTBOARD.h} filter={`url(#grain-${uid})`} opacity={t.grain * 6} style={{ mixBlendMode: "multiply" }} pointerEvents="none" />
       ) : null}
+
+      {editable && drag && guides.x !== undefined && (
+        <line data-editor-only x1={guides.x} x2={guides.x} y1={0} y2={ARTBOARD.h} stroke="#00BFFE" strokeWidth={2} vectorEffect="non-scaling-stroke" pointerEvents="none" />
+      )}
+      {editable && drag && guides.y !== undefined && (
+        <line data-editor-only x1={0} x2={ARTBOARD.w} y1={guides.y} y2={guides.y} stroke="#00BFFE" strokeWidth={2} vectorEffect="non-scaling-stroke" pointerEvents="none" />
+      )}
 
       {editable && box && (
         <rect
@@ -261,9 +327,12 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
   }
 
   function renderText(layer: TextLayer, o: LayerOverride | undefined) {
-    let text = layerText(layer, doc.content);
+    let text = o?.text ?? layerText(layer, doc.content);
     if (!text.trim()) return null;
-    if (layer.upper) text = text.toUpperCase();
+    if (o?.upper ?? layer.upper) text = text.toUpperCase();
+    const tracking = o?.tracking ?? layer.tracking;
+    const italic = o?.italic ?? layer.italic;
+    const weight = o?.bold === undefined ? layer.weight : o.bold ? 700 : (layer.weight ?? 400) >= 600 ? 400 : layer.weight;
     if (layer.wrap && layer.bind !== "names") text = wrapText(text, layer.wrap);
     const lines = text.split("\n");
     const size = layer.size * (fit[layer.id] ?? 1);
@@ -274,9 +343,9 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       "data-max": layer.maxWidth,
       fontFamily: family(layer, o),
       fontSize: size,
-      fontStyle: layer.italic ? "italic" : undefined,
-      fontWeight: layer.weight,
-      letterSpacing: layer.tracking ? layer.tracking * size : undefined,
+      fontStyle: italic ? "italic" : undefined,
+      fontWeight: weight,
+      letterSpacing: tracking ? tracking * size : undefined,
       fill: paint(layer.color, o),
       opacity: layer.opacity,
       filter: layer.shadow ? `url(#lift-${uid})` : undefined,

@@ -4,8 +4,8 @@ import { useEffect, useReducer, useRef, useState, type ReactNode } from "react";
 import { saveTheDatePhotoUrl, startSaveTheDatePhotoUpload } from "@/app/guests/save-the-date/actions";
 import { shrinkImage } from "@/lib/shrink-image";
 import { putToSignedUrl } from "@/lib/signed-upload";
-import { ART } from "./art";
-import { CardSvg } from "./card-svg";
+import { CardSvg, layerBox } from "./card-svg";
+import { CardToolbar } from "./card-toolbar";
 import { Reveal } from "./reveal";
 import { FONTS, fontById } from "@/lib/site-design";
 import { FONTS_HREF } from "@/lib/save-the-date/fonts";
@@ -377,80 +377,8 @@ function LayersPanel({
   override: (id: string, o: LayerOverride | null, key?: string) => void;
 }) {
   const t = templateById(doc.template);
-  const layer = t.layers.find((l) => l.id === selected);
-  const o = (selected && doc.overrides[selected]) || {};
-  const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
   return (
     <div className="space-y-5">
-      {layer && (
-        <div className="rounded-xl border border-[#2243B6]/30 bg-[#2243B6]/[0.03] p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <p className="text-sm font-medium text-ink">{layer.label}</p>
-            <button type="button" className="text-xs text-ink/60 underline" onClick={() => override(layer.id, null)}>
-              Reset
-            </button>
-          </div>
-          <Slider label="Size" value={o.scale ?? 1} min={0.4} max={2.2} step={0.01} onChange={(scale) => override(layer.id, { ...o, scale }, `scale-${layer.id}`)} />
-          <div className="mt-2 flex items-center gap-1">
-            <span className="w-16 shrink-0 text-xs text-ink/70">Nudge</span>
-            {[
-              ["←", -6, 0],
-              ["→", 6, 0],
-              ["↑", 0, -6],
-              ["↓", 0, 6],
-            ].map(([label, dx, dy]) => (
-              <button
-                key={label as string}
-                type="button"
-                aria-label={`Nudge ${label}`}
-                onClick={() => override(layer.id, { ...o, dx: (o.dx ?? 0) + (dx as number), dy: (o.dy ?? 0) + (dy as number) }, `nudge-${layer.id}`)}
-                className="h-9 w-9 rounded-md border border-hairline bg-white text-sm text-ink"
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-          {layer.kind === "text" && (
-            <label className="mt-3 flex items-center gap-3 text-xs text-ink/70">
-              <span className="w-16 shrink-0">Font</span>
-              <select className={`${input} py-2 text-sm`} value={o.font ?? ""} onChange={(e) => override(layer.id, { ...o, font: e.target.value || undefined })}>
-                <option value="">Template&apos;s choice</option>
-                {(["serif", "script", "sans"] as const).map((kind) => (
-                  <optgroup key={kind} label={kind === "serif" ? "Serif" : kind === "script" ? "Script" : "Sans serif"}>
-                    {FONTS.filter((f) => f.kind === kind).map((f) => (
-                      <option key={f.id} value={f.id}>
-                        {f.label}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-            </label>
-          )}
-          {layer.kind !== "photo" && !(layer.kind === "art" && ART[layer.art]?.kind === "image") && (
-            <div className="mt-3 flex items-center gap-2">
-              <span className="w-16 shrink-0 text-xs text-ink/70">Colour</span>
-              {(["ink", "accent", "muted"] as const).map((role) => (
-                <button
-                  key={role}
-                  type="button"
-                  aria-label={`Use the ${role} colour`}
-                  onClick={() => override(layer.id, { ...o, color: palette[role] })}
-                  className={`h-8 w-8 rounded-full ring-offset-2 ${o.color === palette[role] ? "ring-2 ring-[#2243B6]" : "ring-1 ring-ink/15"}`}
-                  style={{ background: palette[role] }}
-                />
-              ))}
-              <input
-                type="color"
-                aria-label="Any colour"
-                value={o.color ?? "#000000"}
-                onChange={(e) => override(layer.id, { ...o, color: e.target.value }, `color-${layer.id}`)}
-                className="h-8 w-10 cursor-pointer rounded border border-hairline bg-white"
-              />
-            </div>
-          )}
-        </div>
-      )}
       <ul className="divide-y divide-hairline overflow-hidden rounded-xl border border-hairline bg-white">
         {[...t.layers].reverse().map((l) => {
           const hidden = doc.overrides[l.id]?.hidden;
@@ -471,7 +399,10 @@ function LayersPanel({
           );
         })}
       </ul>
-      <p className="text-xs leading-relaxed text-ink/55">Drag anything on the card to move it. Arrow keys nudge, ⌘Z undoes.</p>
+      <p className="text-xs leading-relaxed text-ink/55">
+        Drag anything on the card to move it; it snaps to the centre and to the other pieces (hold ⌥ to stop it snapping). Click something to style it, double-click words to
+        retype them. Arrow keys nudge, ⌘Z undoes.
+      </p>
     </div>
   );
 }
@@ -519,9 +450,9 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   }));
   const doc = h.present;
   const t = templateById(doc.template);
-  const [advanced, setAdvanced] = useState(view === "advanced");
   const [selected, setSelected] = useState<string | null>(view === "advanced" ? "names" : null);
   const [panel, setPanel] = useState<Panel | null>(view === "mobile-style" ? "style" : null);
+  const [editing, setEditing] = useState(false);
   const [preview, setPreview] = useState<"phone" | "desktop" | null>(view === "preview" ? "phone" : null);
   const [menu, setMenu] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
@@ -605,6 +536,32 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     else delete next[id];
     patch({ overrides: next }, key);
   };
+  const pick = (id: string | null) => {
+    setSelected(id);
+    setEditing(false);
+    if (id) setPanel(null);
+  };
+  const shownLayers = doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers;
+  const picked = shownLayers.find((l) => l.id === selected && !doc.overrides[l.id]?.hidden) ?? null;
+  const centre = () => {
+    if (!picked || !svg.current) return;
+    const o = doc.overrides[picked.id] ?? {};
+    const b = layerBox(svg.current, picked, o);
+    if (b) override(picked.id, { ...o, dx: (o.dx ?? 0) + 500 - (b.x + b.w / 2) });
+  };
+  const toolbar = picked && (
+    <CardToolbar
+      key={picked.id}
+      doc={doc}
+      layer={picked}
+      editing={editing}
+      setEditing={setEditing}
+      override={(o, key) => override(picked.id, o, key)}
+      setContent={setContent}
+      centre={centre}
+      onDone={() => pick(null)}
+    />
+  );
   const choose = (id: string) => {
     const fresh = newCard(id, doc.content, doc.photo, !persist);
     commit({ type: "set", doc: fresh });
@@ -626,7 +583,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         const o = doc.overrides[selected] ?? {};
         override(selected, { ...o, dx: (o.dx ?? 0) + move[e.key][0], dy: (o.dy ?? 0) + move[e.key][1] }, `nudge-${selected}`);
       }
-      if (e.key === "Escape") setSelected(null);
+      if (e.key === "Escape") pick(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -649,7 +606,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     { id: "details", label: "Details" },
     { id: "style", label: "Style" },
     ...(t.usesPhoto ? [{ id: "photo" as const, label: "Photo" }] : []),
-    ...(advanced ? [{ id: "layers" as const, label: "Layers" }] : []),
+    { id: "layers", label: "Layers" },
   ];
 
   const panelBody = (p: Panel, phone: boolean) => {
@@ -663,29 +620,9 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       case "photo":
         return <PhotoPanel photo={doc.photo} set={(photo, key) => patch({ photo }, key)} library={photos} persist={persist} />;
       case "layers":
-        return <LayersPanel doc={doc} selected={selected} select={setSelected} override={override} />;
+        return <LayersPanel doc={doc} selected={selected} select={pick} override={override} />;
     }
   };
-
-  const modeSwitch = (
-    <div className="flex rounded-full bg-ink/[0.06] p-1 text-[13px]" role="group" aria-label="Editor mode">
-      {[false, true].map((a) => (
-        <button
-          key={String(a)}
-          type="button"
-          onClick={() => {
-            setAdvanced(a);
-            if (!a) setSelected(null);
-            if (!a && panel === "layers") setPanel(null);
-          }}
-          aria-pressed={advanced === a}
-          className={`rounded-full px-3.5 py-1.5 transition ${advanced === a ? "bg-white font-medium text-ink shadow-sm" : "text-ink/60"}`}
-        >
-          {a ? "Advanced" : "Simple"}
-        </button>
-      ))}
-    </div>
-  );
 
   return (
     <div className="flex h-dvh flex-col bg-[#f4f1ec] text-ink">
@@ -705,8 +642,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
             {status}
           </p>
         </div>
-        <div className="mx-auto hidden lg:block">{modeSwitch}</div>
-        <div className="ml-auto flex items-center gap-1 lg:ml-0">
+        <div className="ml-auto flex items-center gap-1">
           <IconButton label="Undo" onClick={() => commit({ type: "undo" })} disabled={!h.past.length}>
             <UndoIcon />
           </IconButton>
@@ -773,11 +709,17 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
 
         {/* The card */}
         <main
-          className="relative flex min-w-0 flex-1 items-center justify-center overflow-hidden p-5 pb-[84px] lg:p-10"
-          onPointerDown={() => setSelected(null)}
+          className="relative flex min-w-0 flex-1 select-none items-center justify-center overflow-hidden p-5 pb-[84px] lg:px-10 lg:pb-6 lg:pt-[76px]"
+          onPointerDown={() => pick(null)}
         >
+          {/* Desktop: the toolbar, or a hint, in the strip above the card */}
+          <div className="absolute inset-x-4 top-4 z-10 hidden text-center lg:block" onPointerDown={(e) => e.stopPropagation()}>
+            {toolbar ?? (
+              <p className="pointer-events-none mt-2 inline-block rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white">Drag anything to move it, click it to style it</p>
+            )}
+          </div>
           <div
-            className={`relative lg:w-[min(100%,calc((100dvh-144px)*0.714))] ${panel ? "-mt-[46dvh] w-[min(100%,calc((54dvh-170px)*0.714))] lg:mt-0" : "w-[min(100%,calc((100dvh-180px)*0.714))]"}`}
+            className={`relative lg:w-[min(100%,calc((100dvh-164px)*0.714))] ${panel ? "-mt-[46dvh] w-[min(100%,calc((54dvh-170px)*0.714))] lg:mt-0" : "w-[min(100%,calc((100dvh-180px)*0.714))]"}`}
             style={{ aspectRatio: "1000 / 1400" }}
           >
             <CardSvg
@@ -785,9 +727,13 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               svgRef={(el) => {
                 svg.current = el;
               }}
-              editable={advanced}
+              editable
               selected={selected}
-              onSelect={setSelected}
+              onSelect={pick}
+              onEdit={(id) => {
+                pick(id);
+                setEditing(true);
+              }}
               onMove={(id, dx, dy) => {
                 const o = doc.overrides[id] ?? {};
                 override(id, { ...o, dx: (o.dx ?? 0) + dx, dy: (o.dy ?? 0) + dy });
@@ -795,9 +741,9 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               className="h-full w-full rounded-[3px] bg-white shadow-[0_1px_2px_rgba(20,32,61,.08),0_24px_60px_-18px_rgba(20,32,61,.35)]"
             />
           </div>
-          {advanced && !selected && (
-            <p className="pointer-events-none absolute bottom-[92px] left-1/2 -translate-x-1/2 rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white lg:bottom-5">
-              Tap anything on the card to move it
+          {!picked && !panel && (
+            <p className="pointer-events-none absolute bottom-[92px] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white lg:hidden">
+              Drag anything to move it, tap to style it
             </p>
           )}
           {busy && <p className="absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-ink px-4 py-2 text-sm text-white shadow-lg">{busy}</p>}
@@ -810,19 +756,20 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               <TemplatePicker samples={!persist} doc={doc} choose={choose} row />
             </Section>
           </div>
-          {advanced ? (
-            <Section title="Layers">{panelBody("layers", false)}</Section>
-          ) : (
-            <Section title="Your details">{panelBody("details", false)}</Section>
-          )}
+          <Section title="Layers">{panelBody("layers", false)}</Section>
           {panelBody("style", false)}
           {t.usesPhoto && <Section title="Photo">{panelBody("photo", false)}</Section>}
-          {advanced && <Section title="Your details">{panelBody("details", false)}</Section>}
+          <Section title="Your details">{panelBody("details", false)}</Section>
         </aside>
       </div>
 
       {/* Phone: a tool bar, each tool a sheet over the lower card */}
       <div className="lg:hidden">
+        {toolbar && !panel && (
+          <div className="fixed inset-x-2 bottom-[76px] z-30" onPointerDown={(e) => e.stopPropagation()}>
+            {toolbar}
+          </div>
+        )}
         {panel && (
           <div className="fixed inset-x-0 bottom-[68px] z-20 h-[46dvh] overflow-y-auto rounded-t-2xl border-t border-hairline bg-white shadow-[0_-12px_40px_-12px_rgba(20,32,61,.25)]">
             <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 pb-2 pt-3">
@@ -844,17 +791,6 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
                 {p.label}
               </button>
             ))}
-            <button
-              type="button"
-              onClick={() => {
-                setAdvanced(!advanced);
-                setSelected(null);
-                setPanel(!advanced ? "layers" : null);
-              }}
-              className="flex h-[52px] flex-1 flex-col items-center justify-center rounded-lg text-[12px] text-ink/70"
-            >
-              {advanced ? "Simple" : "Advanced"}
-            </button>
           </div>
         </nav>
       </div>

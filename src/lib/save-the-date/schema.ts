@@ -48,6 +48,11 @@ const override = z.object({
   hidden: z.boolean().optional(),
   font: id.optional(),
   color: hex.optional(),
+  text: z.string().max(200).optional(),
+  tracking: z.number().min(-0.1).max(1).optional(),
+  upper: z.boolean().optional(),
+  italic: z.boolean().optional(),
+  bold: z.boolean().optional(),
 });
 
 export const cardDocSchema = z.object({

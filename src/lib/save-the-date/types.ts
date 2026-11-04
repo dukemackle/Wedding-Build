@@ -48,7 +48,7 @@ export type Photo = {
   filter: "none" | "mono" | "warm";
 };
 
-/** What the couple can change on any single layer in Advanced mode. */
+/** What the couple can change on any single layer, from the toolbar over the card. */
 export type LayerOverride = {
   dx?: number;
   dy?: number;
@@ -56,6 +56,13 @@ export type LayerOverride = {
   hidden?: boolean;
   font?: string;
   color?: string;
+  /** Their own words for this layer (dates, monograms, fixed lines); names, place and the like edit the details instead. */
+  text?: string;
+  /** Letter-spacing in em, replacing the template's. */
+  tracking?: number;
+  upper?: boolean;
+  italic?: boolean;
+  bold?: boolean;
 };
 
 export type CardDoc = {
