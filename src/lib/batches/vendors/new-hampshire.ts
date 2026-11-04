@@ -276,7 +276,6 @@ Transformations Salon & Glam Squad	Hair & Makeup	1461 Hooksett Rd	Hooksett	New H
   {
     name: "White Mountains: Cake, Catering, Florals, Videography, Photography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
-Delectables by Danette	Cake	64 Kearsarge Rd	North Conway	New Hampshire	North Conway and the Mount Washington Valley	Artisan bakery near North Conway village that specialises in custom wedding cakes, alongside cupcakes, cookies and brownies.		(603) 387-7095	https://www.delectablesbydanette.com/	https://www.instagram.com/delectablesbydanette/		
 Jack and Fin's	Cake	42 Main Street	Littleton	New Hampshire	Littleton and the North Country	Littleton cupcake shop that supplies assorted cupcakes for weddings and special events, with a cupcake inquiry form for larger orders.		603-575-5109	https://www.jackandfins.com/			
 Bitchin' Kitchin Food Truck	Catering		Bethlehem	New Hampshire	Littleton, Bethlehem, Franconia and the surrounding North Country	Family-run food truck that builds custom catering menus for weddings and events, including vegetarian, vegan and gluten-free options.	foodtruckNH@gmail.com	(603) 667-0602	https://www.bitchinkitchentruck.com/	https://www.instagram.com/bitchinkitchentruck/		
 Dutch Bloemen Winkel	Florals	18 Black Mountain Road	Jackson	New Hampshire	Mount Washington Valley	Jackson flower shop open since 2004, designing wedding and elopement flowers alongside everyday arrangements and gifts.		(603) 383-9696	https://dutchbw.com/			
