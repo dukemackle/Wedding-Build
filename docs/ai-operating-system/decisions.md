@@ -20,6 +20,23 @@ rules, batch self-merge, 50-state coverage, page widths) and
 ## Pending owner decisions
 - None open.
 
+## 2026-11-04 — iOS App Store app: after launch
+- Decided: no App Store app before launch. The installable web app
+  (`src/app/manifest.ts`, `public/sw.js`) covers phones until then. After
+  launch, wrap the live site with Capacitor and add push notifications
+  (checklist nudges, RSVPs) in one PR.
+- Why: a store listing doesn't help without users, and core couple journeys
+  come first. Capacitor keeps one codebase and ships updates through `main`.
+- Alternatives: Capacitor now; React Native or Swift rebuild (weeks of work,
+  two codebases).
+- Revisit: after launch. Before submitting: $99/yr Apple Developer account,
+  a Mac or cloud build (Codemagic); native features to pass guideline 4.2
+  (push, camera, offline itinerary, share sheet); Sign in with Apple if
+  social login is added; a "report this answer" link for Wren. Apple takes
+  15–30% of digital purchases made in the iOS app, so settle couple pricing
+  in `docs/monetization.md` with that in mind.
+- Outcome:
+
 ## 2026-11-03 — Restaurant booking for rehearsal dinners and welcome parties: parked
 - Decided: parked for now, not ruled out. Stay out of restaurant booking and restaurant-specific features
   (reservations, private-dining listings, restaurant search from the
