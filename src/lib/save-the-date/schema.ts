@@ -63,6 +63,7 @@ export const cardDocSchema = z.object({
   content,
   photo,
   overrides: z.record(id, override).refine((o) => Object.keys(o).length <= 60, "too many overrides"),
+  back: z.object({ on: z.boolean(), travel: z.string().max(90) }).optional(),
 });
 
 /** A stored card as the editor opens it; anything unreadable becomes null. */
@@ -71,7 +72,7 @@ export function parseCardDoc(raw: unknown): CardDoc | null {
   if (!parsed.success) return null;
   const doc = parsed.data as CardDoc;
   // A template retired since the card was saved: keep their words and photo on the first one.
-  if (!TEMPLATES.some((t) => t.id === doc.template)) return newCard(TEMPLATES[0].id, doc.content, doc.photo, false);
+  if (!TEMPLATES.some((t) => t.id === doc.template)) return { ...newCard(TEMPLATES[0].id, doc.content, doc.photo, false), back: doc.back };
   const t = templateById(doc.template);
   return {
     ...doc,

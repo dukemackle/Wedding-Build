@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import QRCode from "qrcode";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
+import { BACK_QR, backTemplate } from "@/lib/save-the-date/back";
 import { hasNumericDate, layerText, wrapText } from "@/lib/save-the-date/format";
 import { cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { ARTBOARD, type CardDoc, type ColorRole, type Layer, type LayerOverride, type Palette, type TextLayer } from "@/lib/save-the-date/types";
@@ -23,7 +25,26 @@ type Props = {
   title?: string;
   /** Editor mode: the "Add your photo" button in an empty photo frame. */
   onAddPhoto?: () => void;
+  /** Which side to draw. The back is the Details layout in this design's colours (back.ts). */
+  side?: "front" | "back";
+  /** The back's website, e.g. youdoido.com/w/alex-and-jordan; null while the site is off. */
+  site?: string | null;
 };
+
+/** Relative luminance-ish, 0-255: enough to tell a dark paper from a light one. */
+function lum(hex: string) {
+  const n = parseInt(hex.slice(1), 16);
+  return 0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255);
+}
+
+/** A QR code's dark modules as one path, one unit per module. */
+function qrPath(url: string) {
+  const { modules } = QRCode.create(url, { errorCorrectionLevel: "M" });
+  let d = "";
+  for (let y = 0; y < modules.size; y++)
+    for (let x = 0; x < modules.size; x++) if (modules.get(y, x)) d += `M${x} ${y}h1v1h-1z`;
+  return { d, size: modules.size };
+}
 
 /** Where scaling pivots: a text's anchor point, a picture's centre. */
 function pivot(layer: Layer): [number, number] {
@@ -60,9 +81,11 @@ function overrideTransform(layer: Layer, o: LayerOverride | undefined, live: [nu
  * canvas, the guest's reveal and the source of the PNG/PDF export, so what
  * the couple designs is exactly what guests get.
  */
-export function CardSvg({ doc, className, editable, selected, onSelect, onMove, onEdit, svgRef, title, onAddPhoto }: Props) {
+export function CardSvg({ doc, className, editable, selected, onSelect, onMove, onEdit, svgRef, title, onAddPhoto, side = "front", site = null }: Props) {
   const uid = useId().replace(/:/g, "");
-  const t = templateById(doc.template);
+  const back = side === "back";
+  const t = back ? backTemplate(templateById(doc.template), doc, site) : templateById(doc.template);
+  const qr = useMemo(() => (back ? qrPath(`https://${site ?? "youdoido.com"}`) : null), [back, site]);
   const palette = cardPalette(doc);
   const pairing = t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0];
   const own = useRef<SVGSVGElement | null>(null);
@@ -96,7 +119,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     if (changed) setFit(next);
     // fit is read, not a dependency: re-measuring after our own update would loop.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [doc, fontsTick]);
+  }, [doc, fontsTick, side, site]);
 
   const layers = doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers;
 
@@ -194,7 +217,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       viewBox={`0 0 ${ARTBOARD.w} ${ARTBOARD.h}`}
       className={className}
       role="img"
-      aria-label={title ?? `Save the date: ${doc.content.nameA} and ${doc.content.nameB}`}
+      aria-label={title ?? (back ? `Back of the card: ${site ?? "the wedding website"}` : `Save the date: ${doc.content.nameA} and ${doc.content.nameB}`)}
       onPointerMove={moveDrag}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
@@ -259,6 +282,22 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       {t.grain ? (
         <rect width={ARTBOARD.w} height={ARTBOARD.h} filter={`url(#grain-${uid})`} opacity={t.grain * 6} style={{ mixBlendMode: "multiply" }} pointerEvents="none" />
       ) : null}
+
+      {qr && (() => {
+        // Drawn over the paper grain, which would speckle the code. Phones read dark modules on a light ground most reliably, so the code
+        // takes the darker of paper and ink on the lighter, on a tile if the paper is dark.
+        const [dark, lighter] = lum(palette.paper) < lum(palette.ink) ? [palette.paper, palette.ink] : [palette.ink, palette.paper];
+        // Too little between them to scan (a dark ink set on a badge): white tile, darkest ink.
+        const light = lum(lighter) - lum(dark) < 110 ? "#ffffff" : lighter;
+        const pad = 26;
+        const k = BACK_QR.w / qr.size;
+        return (
+          <g data-layer="back-qr" opacity={site ? 1 : 0.35}>
+            <rect x={BACK_QR.x - pad} y={BACK_QR.y - pad} width={BACK_QR.w + pad * 2} height={BACK_QR.w + pad * 2} rx={16} fill={light} />
+            <path d={qr.d} transform={`translate(${BACK_QR.x} ${BACK_QR.y}) scale(${k})`} fill={dark} shapeRendering="crispEdges" />
+          </g>
+        );
+      })()}
 
       {editable && drag && guides.x !== undefined && (
         <line data-editor-only x1={guides.x} x2={guides.x} y1={0} y2={ARTBOARD.h} stroke="#00BFFE" strokeWidth={2} vectorEffect="non-scaling-stroke" pointerEvents="none" />

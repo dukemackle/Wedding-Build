@@ -40,6 +40,19 @@ couple and the QA sheets. Sending is not built yet.
 5. **No new dependencies.** Export draws to a canvas in the browser, and the PDF is written by hand
    (one image on one page). Nothing runs on the Worker, so the 10 ms CPU limit isn't touched.
 
+## The back of the card (2026-11-04)
+
+Optional, off by default ("Back of the card" in the studio's settings; inside Details on a phone).
+One "Details" layout for all designs (`src/lib/save-the-date/back.ts`): initials, the website
+(`youdoido.com/w/<slug>`), a QR code to it, an optional travel line (`doc.back.travel`) and the date,
+in the front's palette and fonts. `KEEP` lists which front layers each design carries over (its frame,
+a corner of art); designs with nothing that frames well get a thin line frame. `CardSvg side="back"`
+draws it, so export and fit-to-width work unchanged. The QR code is drawn as an SVG path, dark modules
+on the lighter of paper/ink (a tile on dark papers, white when the two are too close), above the grain.
+The print PDF is two pages (front, back) once the website is on; with the site off the studio says
+so and the PDF prints the front only. The guest reveal gets "Turn it over" and tap-to-turn. QA sheet:
+`?view=backs` (all 24 decode with a QR reader); studio on a back: `?view=back`, side by side: `?view=both`. Desktop has Front / Back / Both (the front stays editable in Both; clicking the back opens its settings); a phone has Front / Back.
+
 ## Design system for cards
 
 - **Colour roles:** paper, ink, accent, muted, onPhoto, plus optional *metal* (three stops) that

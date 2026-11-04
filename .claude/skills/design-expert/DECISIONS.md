@@ -11,6 +11,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-04:** Save-the-date back ("Details"): one optional back for every
+  design, in the front's colours and fonts with its own frame or a corner of
+  its art carried over: initials, website, QR code, optional travel line,
+  date. Off by default; the print PDF becomes two pages; guests online can
+  turn the card over. Photo and pattern backs parked until couples ask.
+  `src/lib/save-the-date/back.ts`.
 - **2026-11-04:** Admin redesign approved from a mockup
   (https://claude.ai/artifact/A41HJyhSfZ696fiQ2BACpz): navy sidebar with an
   icon per page and a colour dot per group (Marketplace gold, Customers Sky,

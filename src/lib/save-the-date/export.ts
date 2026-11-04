@@ -120,13 +120,17 @@ export const cardJpeg = (drawn: SVGSVGElement) => paint(drawn, 1.2, "image/jpeg"
 export const cardPng = (drawn: SVGSVGElement) => paint(drawn, 3, "image/png");
 
 /**
- * A one-page PDF of the card at 600 dpi for a print shop: 5.25 x 7.25 in with
- * 1/8 in bleed, and a TrimBox marking the 5x7 the shop cuts to. Written by hand
- * (one JPEG on one page) rather than pulling in a PDF library for it.
+ * A PDF of the card at 600 dpi for a print shop, one page per side (front,
+ * then back): 5.25 x 7.25 in with 1/8 in bleed, and a TrimBox marking the 5x7
+ * the shop cuts to. Written by hand (one JPEG per page) rather than pulling in
+ * a PDF library for it.
  */
-export async function cardPdf(drawn: SVGSVGElement): Promise<Blob> {
-  const image = withBleed(await paintCanvas(drawn, 3));
-  const jpeg = new Uint8Array(await (await toBlob(image, "image/jpeg")).arrayBuffer());
+export async function cardPdf(...sides: SVGSVGElement[]): Promise<Blob> {
+  const jpegs: { data: Uint8Array; w: number; h: number }[] = [];
+  for (const drawn of sides) {
+    const image = withBleed(await paintCanvas(drawn, 3));
+    jpegs.push({ data: new Uint8Array(await (await toBlob(image, "image/jpeg")).arrayBuffer()), w: image.width, h: image.height });
+  }
   const bleed = 9; // 1/8 in at 72 pt
   const W = 360 + 2 * bleed; // 5 in trim
   const H = 504 + 2 * bleed; // 7 in trim
@@ -146,19 +150,25 @@ export async function cardPdf(drawn: SVGSVGElement): Promise<Blob> {
     (Array.isArray(body) ? body : [body]).forEach(push);
     push(`\nendobj\n`);
   };
+  // Objects: 1 catalog, 2 page tree, then page, image and contents for each side.
+  const page = (i: number) => 3 + i * 3;
   push("%PDF-1.4\n%\xE2\xE3\xCF\xD3\n");
   obj(1, "<< /Type /Catalog /Pages 2 0 R >>");
-  obj(2, "<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
-  obj(3, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /BleedBox [0 0 ${W} ${H}] /TrimBox ${trim} /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`);
-  obj(4, [
-    `<< /Type /XObject /Subtype /Image /Width ${image.width} /Height ${image.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`,
-    jpeg,
-    "\nendstream",
-  ]);
-  obj(5, `<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+  obj(2, `<< /Type /Pages /Kids [${jpegs.map((_, i) => `${page(i)} 0 R`).join(" ")}] /Count ${jpegs.length} >>`);
+  jpegs.forEach((jpeg, i) => {
+    const n = page(i);
+    obj(n, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /BleedBox [0 0 ${W} ${H}] /TrimBox ${trim} /Resources << /XObject << /Im0 ${n + 1} 0 R >> >> /Contents ${n + 2} 0 R >>`);
+    obj(n + 1, [
+      `<< /Type /XObject /Subtype /Image /Width ${jpeg.w} /Height ${jpeg.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.data.length} >>\nstream\n`,
+      jpeg.data,
+      "\nendstream",
+    ]);
+    obj(n + 2, `<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+  });
+  const count = 3 + jpegs.length * 3;
   const xref = length;
-  push(`xref\n0 6\n0000000000 65535 f \n${offsets.slice(1).map((o) => `${String(o).padStart(10, "0")} 00000 n \n`).join("")}`);
-  push(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+  push(`xref\n0 ${count}\n0000000000 65535 f \n${offsets.slice(1).map((o) => `${String(o).padStart(10, "0")} 00000 n \n`).join("")}`);
+  push(`trailer\n<< /Size ${count} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
   return new Blob(parts as BlobPart[], { type: "application/pdf" });
 }
 
