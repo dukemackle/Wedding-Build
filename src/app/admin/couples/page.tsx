@@ -4,6 +4,7 @@ import { listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
 import { effectiveGuestCount } from "@/lib/budget-categories";
 import type { AdminCoupleNotes, Wedding } from "@/lib/supabase/types";
 import { CouplesManager, type CoupleRow } from "./couples-manager";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export default async function AdminCouplesPage() {
   await requireAdmin();
@@ -43,7 +44,7 @@ export default async function AdminCouplesPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">Couples</h1>
       <CouplesManager rows={rows} />
     </div>

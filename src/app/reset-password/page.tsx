@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updatePassword } from "./actions";
 import { RecoveryBridge } from "./recovery-bridge";
+import { supabaseAnonKey, supabaseUrl } from "@/lib/supabase/env";
 
 export default async function ResetPasswordPage({
   searchParams,
@@ -50,8 +51,8 @@ export default async function ResetPasswordPage({
             component has to look for it before we can say the link is dead. */}
         {!user && (
           <RecoveryBridge
-            supabaseUrl={process.env.NEXT_PUBLIC_SUPABASE_URL}
-            supabaseKey={process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}
+            supabaseUrl={supabaseUrl()}
+            supabaseKey={supabaseAnonKey()}
           />
         )}
 

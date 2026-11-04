@@ -1406,6 +1406,34 @@ Bankers Hill Club	3030 Front St	San Diego	California			Ballroom	Indoor & Outdoor
 Christ Church Coronado	1114 Ninth Street	Coronado	California			Chapel & Church	Indoor				Episcopal parish church in Coronado village, with a memorial garden on its grounds.		619-435-4561	https://www.christchurchcoronado.org/life-events
 `,
   },
+  {
+    name: "California: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Lorimar Vineyards and Winery	39990 Anza Road	Temecula	California			Vineyard & Winery	Indoor & Outdoor				A Temecula wine-country winery on Anza Road with a vineyard lawn for ceremonies and an indoor-outdoor barrel room for receptions.			https://www.lorimarwinery.com
+Long Branch Saloon and Farms	321 Verde Road	Half Moon Bay	California			Barn & Farm	Indoor & Outdoor				A western-themed farm in the coastal fields south of Half Moon Bay, with an old-West saloon building and three event spaces.			https://www.longbranchsaloon.com
+UCLA Mathias Botanical Garden		Los Angeles	California			Garden & Park	Outdoor				A seven-acre botanical garden on the UCLA campus in Westwood, with small terraces among the trees for intimate ceremonies and gatherings, open to couples with no UCLA tie.			https://www.botgard.ucla.edu/
+Stonehurst		Shadow Hills	California			Barn & Farm	Indoor & Outdoor				A nine-acre hillside property in Shadow Hills with a historic barn, a modern greenhouse, bamboo and cactus gardens and mountain views.			https://www.stonehurstvenue.com
+Hartley Botanica	4465 Balcom Canyon Road	Somis	California			Garden & Park	Outdoor				The display gardens of a Balcom Canyon plant nursery in Ventura County, used mainly for outdoor ceremonies and receptions among palms and mature trees, with in-house catering.			https://www.hartleybotanica.com
+Mission Ranch	26270 Dolores Street	Carmel	California			Ranch	Indoor & Outdoor				A former dairy ranch near the Carmel Mission with inn rooms, a lawn and pond with a footbridge for ceremonies, and receptions in its historic barns.			https://www.missionranchcarmel.com/weddings-in-carmel.htm
+Birdstone Winery	9400 Road 36	Madera	California			Vineyard & Winery	Indoor & Outdoor				A family-owned winery on the eastern edge of Madera County with a tasting room, courtyard and tree-shaded outdoor ceremony area.			https://www.birdstonewinery.com
+The Lodge at Two Moons	52770 Road 632	Oakhurst	California			Mountain & Lodge	Indoor & Outdoor				A forest lodge in the Sierra foothills outside Oakhurst near Yosemite's south entrance, formerly Paradise Springs, with lodging on the property.			https://lodgeattwomoons.com/
+Eagle Vines Vineyards & Golf Club	580 South Kelly Road	American Canyon	California			Country Club & Golf	Indoor & Outdoor				A golf course laid out among vineyards at the south end of Napa Valley, with a 4,000-square-foot pavilion tent beside a lake and waterfall near the 18th hole.			https://www.eaglevinesgolfclub.com/events/
+Heritage Museum of Orange County	3101 West Harvard Street	Santa Ana	California			Museum, Gallery & Rooftop	Outdoor				A 12-acre museum site in Santa Ana laid out like a 19th-century country estate, with restored late-1800s Victorian houses, gardens and citrus trees.			https://heritagemuseumoc.org/weddings/
+Smith Farm Weddings & Events	472-750 Richmond Rd N	Susanville	California			Barn & Farm	Outdoor				A family farm on Richmond Road outside Susanville in Lassen County, set up for outdoor ceremonies and receptions.			https://smithfarmweddings.com/
+Arnoldi's Cafe	600 Olive Street	Santa Barbara	California			Restaurant & Brewery	Indoor & Outdoor				An Italian restaurant founded in 1937 and housed since 1940 in a hand-built stone building on Olive Street, with a back garden patio and bocce courts.			https://www.arnoldis.com/the-garden
+`,
+  },
+  {
+    name: "California: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Lake Oak Meadows	36101 Glen Oaks Road	Temecula	California			Lake & River	Indoor & Outdoor				A Temecula property set around a small lake with old oaks and lawns for ceremonies and receptions.			https://lakeoakmeadows.com/
+Leoness Cellars	38311 De Portola Road	Temecula	California			Vineyard & Winery	Indoor & Outdoor				A hilltop winery on De Portola Road in Temecula wine country with vineyard views and an on-site restaurant.			https://leonesscellars.com/weddings
+Falkner Winery	40620 Calle Contento	Temecula	California			Vineyard & Winery	Indoor & Outdoor				A Temecula winery on Calle Contento with a garden ceremony site and receptions in its Mediterranean-style hilltop restaurant overlooking the vines.			https://falknerwinery.com/weddings/
+Hotel Sutter	53 Main Street	Sutter Creek	California			Hotel & Resort	Indoor & Outdoor				A historic Gold Country hotel on Sutter Creek's Main Street in Amador County, with guest rooms, a restaurant and a bar under one roof.			https://www.hotelsutter.com/sutter-creek-wedding-venue
+Old Sugar Mill	35265 Willow Avenue	Clarksburg	California			Industrial Loft & Warehouse	Indoor & Outdoor				A 1934 brick beet-sugar refinery in Clarksburg's Delta farmland, now home to several wineries and a 4,200-square-foot gallery hall.			https://oldsugarmill.com/weddings/
+Red Barn Ranch	16181 Mountain House Road	Hopland	California			Ranch	Indoor & Outdoor				A 100-acre private ranch in the hills outside Hopland in Mendocino County, built around a red barn.			https://redbarnranchevents.com/
+`,
+  },
 ];
 
 export default batches;

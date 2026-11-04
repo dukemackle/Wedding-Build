@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export type Funnels = {
   couples: {
@@ -60,7 +61,7 @@ function Funnel({ steps }: { steps: { label: string; note: string; count: number
 export function AnalyticsView({ f, days }: { f: Funnels | null; days: number }) {
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Funnels</h1>
       <p className="mt-2 max-w-2xl text-sm text-ink/70">
         Where couples get to and where they stop, from events the app records as things happen. Test weddings are

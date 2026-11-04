@@ -40,6 +40,19 @@ couple and the QA sheets. Sending is not built yet.
 5. **No new dependencies.** Export draws to a canvas in the browser, and the PDF is written by hand
    (one image on one page). Nothing runs on the Worker, so the 10 ms CPU limit isn't touched.
 
+## The back of the card (2026-11-04)
+
+Optional, off by default ("Back of the card" in the studio's settings; inside Details on a phone).
+One "Details" layout for all designs (`src/lib/save-the-date/back.ts`): initials, the website
+(`youdoido.com/w/<slug>`), a QR code to it, an optional travel line (`doc.back.travel`) and the date,
+in the front's palette and fonts. `KEEP` lists which front layers each design carries over (its frame,
+a corner of art); designs with nothing that frames well get a thin line frame. `CardSvg side="back"`
+draws it, so export and fit-to-width work unchanged. The QR code is drawn as an SVG path, dark modules
+on the lighter of paper/ink (a tile on dark papers, white when the two are too close), above the grain.
+The print PDF is two pages (front, back) once the website is on; with the site off the studio says
+so and the PDF prints the front only. The guest reveal gets "Turn it over" and tap-to-turn. QA sheet:
+`?view=backs` (all 24 decode with a QR reader); studio on a back: `?view=back`, side by side: `?view=both`. Desktop has Front / Back / Both (the front stays editable in Both; clicking the back opens its settings); a phone has Front / Back.
+
 ## Design system for cards
 
 - **Colour roles:** paper, ink, accent, muted, onPhoto, plus optional *metal* (three stops) that
@@ -73,10 +86,16 @@ Names shared with a guest-site template let one choice style both the card and t
 
 ## UX
 
-- **Simple mode** (default): pick a design, type details, pick a colourway and lettering, adjust
-  the photo. There are no layout controls to get wrong.
-- **Advanced mode:** drag anything; size, nudge, font and colour per layer; hide/show layers;
-  undo/redo (typing in a field coalesces to one step).
+- **One editor, no modes** (Simple mode removed 2026-11-04: couples want to make it their own).
+  Pick a design, type details, pick a colourway and lettering, adjust the photo, and drag
+  anything on the card. Dragging snaps edges and centres to the card's centre lines and to the
+  other pieces (⌥ turns it off), with a Sky guide line.
+- **Toolbar over the card** for whatever is picked (docked above the card on desktop, above the
+  tool bar on a phone): Edit words, font, size, colour, bold, italic, all caps, letter spacing,
+  and a More menu with Centre on the card, Hide and Reset. Double-click words to retype them.
+  Retyping names, place, headline or closing line edits the detail itself; dates, monograms and
+  fixed lines keep their own wording per layer (`LayerOverride.text`).
+- Layers panel lists every piece to pick, hide or show. Undo/redo (typing coalesces to one step).
 - **Desktop:** designs on the left, the card in the middle, settings on the right. **Phone:** the
   card is the page, with a five-tab tool bar opening sheets, and the card shrinks above an open
   sheet so changes stay visible.
@@ -123,7 +142,14 @@ Names shared with a guest-site template let one choice style both the card and t
      first time the guest taps Open on the envelope). Page loads don't count, because chat
      apps load links to draw previews, and nor do the couple's own taps. There's no tracking
      pixel.
-5. **Polish:** per-template envelope liners, a social preview image, and save-the-date → invitation
+5. **Several designs:** built 2026-11-04 (needs migration `0157_save_the_date_designs.sql`):
+   - **Home** `/guests/save-the-date`: the couple's designs (up to `MAX_CARDS`, 6) with a menu
+     each (open, send this one, show at guests' links, rename, duplicate, delete), and all
+     templates below, drawn with their own names, date and photo. Picking one makes a new design
+     and opens it at `/guests/save-the-date/edit/[id]`.
+   - One card is `chosen`: the one guests' links show. Sending a card makes it the chosen one;
+     the first card made starts chosen.
+6. **Polish:** per-template envelope liners, a social preview image, and save-the-date → invitation
    suite matching.
 
 ## Owner decisions needed

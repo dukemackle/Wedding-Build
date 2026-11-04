@@ -19,6 +19,7 @@ import {
   METROS,
   MIN_VENUES,
   PASS4_METROS,
+  PASS5_VENUE_FACTOR,
   PER_CATEGORY,
   metroTarget,
 } from "./coverage-plan.mjs";
@@ -109,7 +110,10 @@ const report = Object.entries(METROS).map(([state, base]) => {
   const metros = stage2 ? [...base, ...(PASS4_METROS[state] ?? [])] : base;
   const towns = fill.filter((t) => t.state === state && !t.done);
   const venueHave = venues.filter((v) => v.state === state).length;
-  const venueTarget = Math.max(MIN_VENUES, metros.reduce((s, m) => s + metroTarget(state, m, stage2).venues, 0));
+  const stageTarget = Math.max(MIN_VENUES, metros.reduce((s, m) => s + metroTarget(state, m, stage2).venues, 0));
+  // Pass 5: a state that has met its stage 2 venue target moves on to the larger one.
+  const pass5 = stage2 && venueHave >= stageTarget;
+  const venueTarget = pass5 ? Math.round(stageTarget * PASS5_VENUE_FACTOR) : stageTarget;
   const metroGaps = metros.map((metro) => {
     const here = vendors.filter((v) => v.state === state && v.area === metro);
     // Pass 1 only asks for the standard 3 per category in the first metro.
@@ -125,7 +129,7 @@ const report = Object.entries(METROS).map(([state, base]) => {
   const venueNeed = Math.max(0, venueTarget - venueHave) + towns.reduce((s, t) => s + t.venueNeed, 0);
   const first = vendors.filter((v) => v.state === state && v.area === metros[0]);
   const pass1 = venueHave >= MIN_VENUES && CORE_CATEGORIES.every((c) => first.filter((v) => v.category === c).length >= PER_CATEGORY);
-  return { state, venueHave, venueTarget, venueNeed, metroGaps, towns, vendorNeed, pass1 };
+  return { state, venueHave, venueTarget, venueNeed, metroGaps, towns, vendorNeed, pass1, pass5 };
 });
 
 // Longest names first, each removed once matched, so "West Virginia" doesn't
@@ -156,7 +160,9 @@ if (asked.trim() === "launch") {
   }
 } else if (picked.length) {
   for (const r of picked) {
-    console.log(`\n${r.state}: venues ${r.venueHave}/${r.venueTarget}${r.pass1 ? "  (pass 1 met)" : ""}`);
+    console.log(
+      `\n${r.state}: venues ${r.venueHave}/${r.venueTarget}${r.pass1 ? "  (pass 1 met)" : ""}${r.pass5 ? "  (pass 5 venue target)" : ""}`,
+    );
     for (const m of r.metroGaps) {
       const gaps = m.missing.map(([c, n]) => `${c} ${n}`).join(", ");
       console.log(`  ${m.metro}: ${m.have} vendors${gaps ? `; still needs ${gaps}` : "; core categories filled"}`);
@@ -182,7 +188,8 @@ if (asked.trim() === "launch") {
   const sum = (k) => report.reduce((s, r) => s + r[k], 0);
   console.log(
     stage2
-      ? "\nPass 4 stage 2: map filled; targets doubled and the PASS4_METROS markets added."
+      ? "\nPass 4 stage 2: map filled; targets doubled and the PASS4_METROS markets added. " +
+          `${report.filter((r) => r.pass5).length} states have met it and moved to the pass 5 venue target.`
       : `\nPass 4 stage 1 (fill the map): ${fill.filter((t) => t.done).length}/${fill.length} blank towns done. ` +
           "Doubled targets start when all are done.",
   );

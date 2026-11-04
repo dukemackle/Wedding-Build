@@ -3,6 +3,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { reportReasonLabel } from "@/lib/listing-report-reasons";
 import { SITE_URL, venueHref, vendorHref } from "@/lib/public-listings";
 import { setReportStatus } from "./actions";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 type Report = {
   id: string;
@@ -67,7 +68,7 @@ export default async function ListingHealthPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Listing health</h1>
       <p className="mt-2 max-w-2xl text-sm text-ink/70">
         Problems couples reported and listing emails that bounce. Fix the listing on Venues or Vendors, then close the

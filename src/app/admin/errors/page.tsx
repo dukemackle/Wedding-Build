@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/admin";
 import { ERROR_AREA_LABEL, type ErrorArea } from "@/lib/error-log";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 type AppError = {
   id: string;
@@ -43,7 +44,7 @@ export default async function AdminErrorsPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Errors</h1>
       <p className="mt-2 max-w-2xl text-sm text-ink/70">
         Server errors from the last {DAYS} days: pages that crashed, RSVPs and photo-wall posts that didn&apos;t

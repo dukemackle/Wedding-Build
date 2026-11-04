@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { downloadIcs } from "@/lib/ics";
-import { templateById } from "@/lib/save-the-date/templates";
+import { cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { fontById } from "@/lib/site-design";
 import type { CardDoc } from "@/lib/save-the-date/types";
 import type { ItineraryEvent } from "@/lib/supabase/types";
@@ -37,16 +37,19 @@ export function Reveal({
   siteHref,
   compact,
   onOpen,
+  site = null,
 }: {
   doc: CardDoc;
   guest: string;
   siteHref: string;
   compact?: boolean;
+  /** The website the card's back prints; with a back, the open card turns over. */
+  site?: string | null;
   /** Called once, when the guest opens the envelope. */
   onOpen?: () => void;
 }) {
   const t = templateById(doc.template);
-  const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
+  const palette = cardPalette(doc);
   const pairing = t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0];
   const dark = luminance(palette.paper) < 0.35;
   const envelope = dark ? shade(palette.paper, 0.08) : shade(palette.paper, -0.05);
@@ -58,6 +61,19 @@ export function Reveal({
   const caps = fontById(pairing.sans)?.css ?? "sans-serif";
 
   const [stage, setStage] = useState<Stage>("closed");
+  const [flipped, setFlipped] = useState(false);
+  const [turning, setTurning] = useState(false);
+  /** Turning over: the card narrows to its edge, swaps sides and widens again (flat at rest, so it stays sharp). */
+  const turn = () => {
+    if (turning) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setFlipped((f) => !f);
+    setTurning(true);
+    setTimeout(() => {
+      setFlipped((f) => !f);
+      setTurning(false);
+    }, 260);
+  };
+  const hasBack = Boolean(doc.back?.on && site);
 
   const open = () => {
     if (stage !== "closed") return;
@@ -116,12 +132,22 @@ export function Reveal({
         {/* The card, inside the envelope until it's lifted out. */}
         <button
           type="button"
-          onClick={open}
-          aria-label={isOpen ? "Your save the date" : "Open your save the date"}
+          onClick={isOpen ? turn : open}
+          aria-label={isOpen ? (flipped ? "Turn the card to the front" : "Turn the card over") : "Open your save the date"}
           className="std-card absolute inset-[4%] block cursor-pointer outline-none focus-visible:ring-4 focus-visible:ring-[#2243B6]/40"
-          disabled={isOpen}
+          disabled={isOpen && !hasBack}
         >
-          <CardSvg doc={doc} className="h-full w-full rounded-[3px] shadow-[0_18px_40px_-12px_rgba(0,0,0,.45)]" />
+          <div
+            className="h-full w-full transition-transform duration-[260ms] ease-in-out"
+            style={{ transform: turning ? "scaleX(0.02)" : undefined }}
+          >
+            <CardSvg
+              doc={doc}
+              side={flipped && hasBack ? "back" : "front"}
+              site={site}
+              className="h-full w-full rounded-[3px] shadow-[0_18px_40px_-12px_rgba(0,0,0,.45)]"
+            />
+          </div>
         </button>
 
         {/* Front pocket: the side and bottom folds, addressed to the guest. */}
@@ -168,6 +194,16 @@ export function Reveal({
                 style={{ background: dark ? palette.ink : "#14203d", color: dark ? palette.paper : "#fff", fontFamily: caps }}
               >
                 Add to calendar
+              </button>
+            )}
+            {hasBack && (
+              <button
+                type="button"
+                onClick={turn}
+                className="rounded-full border px-5 py-3 text-sm font-medium"
+                style={{ borderColor: dark ? `${palette.ink}55` : "#14203d33", color: dark ? palette.ink : "#14203d", fontFamily: caps }}
+              >
+                {flipped ? "See the front" : "Turn it over"}
               </button>
             )}
             <a

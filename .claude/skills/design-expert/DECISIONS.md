@@ -11,6 +11,21 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-04:** Save-the-date back ("Details"): one optional back for every
+  design, in the front's colours and fonts with its own frame or a corner of
+  its art carried over: initials, website, QR code, optional travel line,
+  date. Off by default; the print PDF becomes two pages; guests online can
+  turn the card over. Photo and pattern backs parked until couples ask.
+  `src/lib/save-the-date/back.ts`.
+- **2026-11-04:** Admin redesign approved from a mockup
+  (https://claude.ai/artifact/A41HJyhSfZ696fiQ2BACpz): navy sidebar with an
+  icon per page and a colour dot per group (Marketplace gold, Customers Sky,
+  Business Royal, Content Aqua); every admin page header shows its icon tile
+  in the group colour (`AdminEyebrow`); Home headline counts what needs the
+  owner; queue rows carry urgency chips (Urgent / Today / When you can) and
+  buttons; KPIs grouped Couples / Listings with change chips and trend
+  lines; coverage as a 50-state tile map; health as status dots. Keeps the
+  2026-10-21 Home layout.
 - **2026-11-03:** Save the Date Studio approved as prototyped: one SVG card
   renderer for editor, thumbnails, guest reveal and PNG/PDF export; templates
   as layer data with colour and font roles; Simple/Advanced editor; envelope

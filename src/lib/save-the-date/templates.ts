@@ -1,4 +1,5 @@
-import type { CardContent, CardDoc, Template } from "./types";
+import { mix } from "@/lib/site-design";
+import type { CardContent, CardDoc, Palette, Template } from "./types";
 
 /**
  * The template library. Prototype set: three directions chosen to prove the
@@ -725,8 +726,48 @@ export const TEMPLATES: Template[] = [
   },
 ];
 
+/** The families, in the library's order, for the filter chips. */
+export const FAMILIES = [...new Set(TEMPLATES.map((t) => t.family))];
+/** Chip labels: one or two words, so the row stays short. */
+export const SHORT: Record<string, string> = {
+  "Editorial luxury": "Editorial",
+  "Romantic florals": "Florals",
+  "Celestial & black tie": "Black tie",
+  "Modern minimalist": "Minimal",
+  "Vintage & retro": "Retro",
+  "Mediterranean destination": "Destination",
+  "Western & ranch": "Western",
+  "Coastal & beach": "Coastal",
+  "Classic traditional": "Classic",
+  "Full-bleed photography": "Photo",
+  "Whimsical garden": "Whimsical",
+  "Rustic botanical": "Rustic",
+};
+
+/** How many save-the-date designs a couple can keep at once. */
+export const MAX_CARDS = 6;
+
 export function templateById(id: string): Template {
   return TEMPLATES.find((t) => t.id === id) ?? TEMPLATES[0];
+}
+
+/** The palette id that means "use the card's own colours". */
+export const CUSTOM_PALETTE = "custom";
+
+/** The colours a card is drawn in: a template colourway, or the couple's own. */
+export function cardPalette(doc: CardDoc): Palette {
+  const t = templateById(doc.template);
+  const c = doc.colours;
+  if (doc.palette === CUSTOM_PALETTE && c) {
+    return { id: CUSTOM_PALETTE, label: "Your colours", paper: c.paper, ink: c.ink, accent: c.accent, muted: mix(c.ink, c.paper, 0.3), onPhoto: "#ffffff" };
+  }
+  return t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
+}
+
+/** A fresh card on another design that keeps the couple's own colours, if they set them. */
+export function keepColours(fresh: CardDoc, from: CardDoc): CardDoc {
+  if (!from.colours) return fresh;
+  return { ...fresh, colours: from.colours, palette: from.palette === CUSTOM_PALETTE ? CUSTOM_PALETTE : fresh.palette };
 }
 
 export const SAMPLE_CONTENT: CardContent = {

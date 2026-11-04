@@ -7,7 +7,7 @@
 // Each site gets one honest visit, as YouDoIDoBot, the same as
 // verify-batches. Nothing is disguised or retried another way. Results:
 //   - loads           -> "Site back up": a candidate to research into a batch again
-//   - 401/403/429/503 -> "Site blocks automated visits, unconfirmed": real, needs a second source
+//   - 401/403/429/502/503/520 -> "Site blocks automated visits, unconfirmed": real, needs a second source
 //   - anything else   -> stays "Site dead"
 // Directory and social links (The Knot, WeddingWire, Facebook...) aren't the
 // business's own site, so those rows are left alone.
@@ -31,7 +31,7 @@ async function check(url) {
       headers: { "user-agent": UA, accept: "text/html,*/*", "accept-language": "en-US" },
     });
     const html = res.ok || res.status === 202 ? await res.text() : "";
-    if ([401, 403, 429, 503].includes(res.status) || (res.status === 202 && html.length < 2000)) return BLOCKED;
+    if ([401, 403, 429, 502, 503, 520].includes(res.status) || (res.status === 202 && html.length < 2000)) return BLOCKED;
     if (res.status >= 400) return null;
     const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<[^>]+>/gi, " ");
     if (PARKED.test(text) || text.replace(/\s+/g, " ").trim().length < 200) return null;

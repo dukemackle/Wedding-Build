@@ -19,6 +19,12 @@
 // nearby town. Stage 2 starts by itself once every MAP_FILL town is done: it
 // doubles every metro target (PASS4_SIZES) and adds PASS4_METROS. Pass 1 is
 // unchanged throughout.
+// Pass 5 (owner, 2026-11-04) aims at roughly 25,000 venues nationally (outside
+// estimates put US wedding venues at 27k-36k, but about a third of what
+// research finds gets skipped). It starts per state: once a state meets its
+// stage 2 venue target, that target is multiplied by PASS5_VENUE_FACTOR.
+// Vendor targets are unchanged. A state whose skipped venues outnumber the ones
+// added for pass 5 is likely near full; check before pushing it further.
 
 export const CORE_CATEGORIES = [
   "Photography",
@@ -34,6 +40,7 @@ export const CORE_CATEGORIES = [
 export const PER_CATEGORY = 3;
 export const VENUES_PER_METRO = 20;
 export const MIN_VENUES = 15;
+export const PASS5_VENUE_FACTOR = 1.6;
 
 export const METROS = {
   Alabama: ["Birmingham", "Huntsville", "Gulf Shores and Mobile", "Montgomery"],

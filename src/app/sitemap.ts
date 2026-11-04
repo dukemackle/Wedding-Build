@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { fetchAll } from "@/lib/supabase/fetch-all";
 import { SITE_URL, isIndexable, vendorHref, venueHref } from "@/lib/public-listings";
+import { supabaseAnonKey, supabaseUrl } from "@/lib/supabase/env";
 
 // Built per request so a listing appears as soon as it's filled in, not at the
 // next deploy. Read as the anon role, like any logged-out visitor.
@@ -18,7 +19,7 @@ type Row = {
 const COLUMNS = "id, slug, description, last_verified_at, is_sample";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+  const supabase = createClient(supabaseUrl(), supabaseAnonKey());
   const rows = (table: "venues" | "vendors") =>
     fetchAll<Row>((from, to) =>
       supabase.from(table).select(COLUMNS).eq("active", true).order("id").range(from, to).returns<Row[]>(),
