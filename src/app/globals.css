@@ -110,6 +110,19 @@ html {
   animation: page-in 0.4s ease-out;
 }
 
+/* The phone menu sliding in from the right (mobile-nav.tsx). */
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+.animate-drawer-in {
+  animation: drawer-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-drawer-in { animation: none; }
+}
+
 /* A listing's ••• menu opening (listing-menu.tsx). */
 @keyframes menu-in {
   from {
@@ -1032,8 +1045,8 @@ body:has(.dashboard-backdrop) header[data-top="true"] .text-brass {
 }
 .nav-tab::after {
   content: "";
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 9999px;
   background: transparent;
 }

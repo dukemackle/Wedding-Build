@@ -33,14 +33,14 @@ export async function AppNav({ email }: { email: string }) {
 
             Two rows by design: the tabs need ~800px on their own, so beside
             the mark and the account links they could never fit on one line. */}
-        <div className="flex w-full flex-col px-6 py-1">
-          <div className="flex items-center justify-between gap-4">
+        <div className="relative flex w-full flex-col px-6 py-1">
+          <div className="flex items-center justify-between gap-4 2xl:min-h-[76px]">
             <WrenMark />
-            <div className="flex min-w-0 items-center justify-end gap-4">
+            <div className="flex min-w-0 items-center justify-end gap-4 2xl:max-w-[calc(50%-330px)]">
               {isAdmin && (
                 <a
                   href="https://admin.youdoido.com"
-                  className="shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline"
+                  className="hidden shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline sm:block"
                 >
                   Admin
                 </a>
@@ -51,7 +51,7 @@ export async function AppNav({ email }: { email: string }) {
               >
                 {email}
               </Link>
-              <form action={signOut}>
+              <form action={signOut} className="hidden sm:block">
                 <button
                   type="submit"
                   className="shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline"
@@ -59,9 +59,9 @@ export async function AppNav({ email }: { email: string }) {
                   Log out
                 </button>
               </form>
-              {/* Sits in the row that already exists rather than claiming one
-                  of its own -- a whole line of height back on a phone. */}
-              <MobileNav badges={badges} />
+              {/* On a phone the account links above move into the menu
+                  drawer, leaving this row just the mark and the button. */}
+              <MobileNav badges={badges} email={email} isAdmin={isAdmin} />
             </div>
           </div>
 
@@ -69,10 +69,11 @@ export async function AppNav({ email }: { email: string }) {
               A phone gets a different arrangement instead -- see MobileNav --
               because seven tabs needing ~800px can't be made to fit 375px,
               only made to scroll off the edge. */}
-          {/* On a wide screen the tabs rise into the empty middle of the logo
-              row -- same two-row arrangement, less height. Only from 2xl,
-              where the centred tabs clear the logo and the account links. */}
-          <div className="hidden sm:block 2xl:-mt-3">
+          {/* On a wide screen the tabs sit in the empty middle of the logo
+              row, making the bar one row tall. Only from 2xl, where the
+              centred tabs clear the logo and the account links. The layer
+              spans the bar, so it lets clicks through except on the tabs. */}
+          <div className="hidden sm:block 2xl:pointer-events-none 2xl:absolute 2xl:inset-x-6 2xl:top-1/2 2xl:-translate-y-1/2 2xl:[&>nav>*]:pointer-events-auto">
             <NavLinks badges={badges} />
           </div>
         </div>
