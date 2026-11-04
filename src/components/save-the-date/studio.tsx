@@ -798,8 +798,8 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       {/* Preview as a guest */}
       {preview && (
         <div className="fixed inset-0 z-50 flex flex-col bg-[#0f1424]/90 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Preview as a guest">
-          <div className="flex items-center justify-between px-4 py-3 text-white">
-            <p className="text-sm">What a guest sees</p>
+          <div className="flex items-center justify-between gap-3 px-4 py-3 text-white sm:px-6 sm:py-4">
+            <p className="whitespace-nowrap text-[15px] font-semibold leading-tight sm:text-lg"><span className="sm:hidden">Guest view</span><span className="hidden sm:inline">What a guest sees</span></p>
             <div className="flex rounded-full bg-white/10 p-1 text-[13px]">
               {(["phone", "desktop"] as const).map((d) => (
                 <button key={d} type="button" onClick={() => setPreview(d)} className={`rounded-full px-3.5 py-1.5 capitalize ${preview === d ? "bg-white text-ink" : "text-white/80"}`}>
@@ -807,7 +807,8 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
                 </button>
               ))}
             </div>
-            <button type="button" onClick={() => setPreview(null)} className="rounded-full px-3 py-1.5 text-sm text-white/80 hover:bg-white/10">
+            <button type="button" onClick={() => setPreview(null)} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[15px] font-semibold text-ink shadow-md transition hover:bg-white/90 sm:px-5 sm:py-2.5 sm:text-base">
+              <svg aria-hidden="true" viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M5 5l10 10M15 5L5 15" /></svg>
               Close
             </button>
           </div>
