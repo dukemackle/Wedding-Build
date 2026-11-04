@@ -160,6 +160,12 @@ Alaska Professional Entertainment	Music		Wasilla	Alaska		Southcentral Alaska DJ 
 ACE Forty-Nine Photography	Photography		Anchorage	Alaska		Anchorage partnership of two photographers covering weddings, engagements and elopements since 2017 in a natural, lightly vintage style.			https://www.acefortynine.com/			
 `,
   },
+  {
+    name: "Alaska: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Calypso Floral	Florals	4780 Old Nenana Hwy	Fairbanks	Alaska		Flower arm of a Fairbanks educational farm, arranging wedding work from blooms grown on site, fresh in summer and dried year-round.			https://calypsofarm.org/calypsofloral/	https://www.instagram.com/calypso_farm/		
+`,
+  },
 ];
 
 export default batches;

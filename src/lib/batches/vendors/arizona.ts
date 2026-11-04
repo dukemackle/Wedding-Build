@@ -376,6 +376,14 @@ Sedona Mountain High Flowers	Florals	3000 W State Rte 89A, Suite 100	Sedona	Ariz
 Weddings in Sedona	Planning		Sedona	Arizona	Sedona	Woman-owned coordination firm planning Sedona weddings and elopements, with a strong local vendor network useful to couples marrying from afar.			https://weddingsinsedona.com/			
 `,
   },
+  {
+    name: "Arizona: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Jazz Bouquet Floral	Florals	1725 W State Rte 89A, Suite C	Sedona	Arizona	Sedona	Sedona flower shop designing bouquets, boutonnieres and ceremony flowers, with a lot of experience styling small weddings and elopements.			https://jazzbouquetfloral.com/	https://www.instagram.com/jazzbouquet/		
+Catering by Liz	Catering		Prescott	Arizona	Prescott, Prescott Valley, Chino Valley and Yavapai County	Prescott caterer with 20-plus years' experience, serving buffet receptions or plated dinners for up to 200 guests, including vegan and gluten-free menus.			https://cateringbyliz.org/	https://www.instagram.com/cateringbyliz1/		
+Fresh Taste Catering	Catering		Yuma	Arizona		Yuma caterer led by Chef Eddie Guzman, offering wedding meals with bar service, event staffing and planning help, all on customisable menus.			https://freshtastecatering.com/			
+`,
+  },
 ];
 
 export default batches;
