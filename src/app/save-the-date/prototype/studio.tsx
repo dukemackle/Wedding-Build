@@ -2,6 +2,7 @@
 
 import { SendPanel, type SendGuest } from "@/app/guests/save-the-date/send/send-panel";
 import { CardSvg } from "@/components/save-the-date/card-svg";
+import { CardBack } from "@/components/save-the-date/card-back";
 import { Reveal } from "@/components/save-the-date/reveal";
 import { FONTS_HREF, SaveTheDateStudio } from "@/components/save-the-date/studio";
 import { TEMPLATES, newCard } from "@/lib/save-the-date/templates";
@@ -17,6 +18,20 @@ export function Studio({ view }: { view: string }) {
       </div>
     );
   }
+  if (view === "backs")
+    return (
+      <div className="min-h-dvh bg-[#efebe4] p-8">
+        <link rel="stylesheet" href={FONTS_HREF} precedence="default" />
+        <div className="grid grid-cols-3 gap-x-10 gap-y-6">
+          {["heirloom", "midnight", "editorial"].map((id) => (
+            <div key={id} className="grid grid-cols-2 gap-3">
+              <CardSvg doc={newCard(id)} className="w-full shadow-lg" />
+              <CardBack doc={newCard(id)} details={{ url: "alexandjordan.youdoido.com", travel: id === "editorial" ? "" : "Rooms held at the Hotel Californian until May 1" }} className="w-full shadow-lg" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   if (view.startsWith("gallery")) return <Gallery view={view} />;
   // "send": the Send page with sample guests (nothing can actually send here).
   if (view === "send")
