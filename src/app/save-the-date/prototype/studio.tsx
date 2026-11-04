@@ -1,5 +1,6 @@
 "use client";
 
+import { SendPanel, type SendGuest } from "@/app/guests/save-the-date/send/send-panel";
 import { CardSvg } from "@/components/save-the-date/card-svg";
 import { Reveal } from "@/components/save-the-date/reveal";
 import { FONTS_HREF, SaveTheDateStudio } from "@/components/save-the-date/studio";
@@ -17,10 +18,36 @@ export function Studio({ view }: { view: string }) {
     );
   }
   if (view.startsWith("gallery")) return <Gallery view={view} />;
+  // "send": the Send page with sample guests (nothing can actually send here).
+  if (view === "send")
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
+        <SendPanel
+          doc={newCard("heirloom")}
+          version="v1"
+          imageVersion="v1"
+          fontsHref={FONTS_HREF}
+          slug="alex-and-jordan-x1y2z3"
+          locked={false}
+          guests={SAMPLE_GUESTS}
+          canEdit
+          replyTo="alex@example.com"
+        />
+      </div>
+    );
   // "autosave": the real card's saving, against a stubbed /api/save-the-date (tests only).
   if (view === "autosave") return <SaveTheDateStudio initial={newCard("heirloom", undefined, null, false)} persist photos={["/landing/hero-couple-1000.webp"]} />;
   return <SaveTheDateStudio initial={newCard(TEMPLATES.some((t) => t.id === view) ? view : "editorial")} view={view} />;
 }
+
+const SAMPLE_GUESTS: SendGuest[] = [
+  { id: "1", name: "Sam Rivera", household: "Rivera", email: "sam@example.com", code: "K7M2QX", sentAt: "2026-11-01T15:00:00Z", openedAt: "2026-11-02T09:00:00Z", bounced: false },
+  { id: "2", name: "Riley Rivera", household: "Rivera", email: "riley@example.com", code: "K7M2QY", sentAt: "2026-11-01T15:00:00Z", openedAt: null, bounced: false },
+  { id: "3", name: "Priya Shah", household: null, email: "priya@example.com", code: "P4TRS9", sentAt: null, openedAt: null, bounced: false },
+  { id: "4", name: "Marcus Lee", household: "The Lee Family", email: "marcus@example", code: "M3LEE2", sentAt: null, openedAt: null, bounced: true },
+  { id: "5", name: "Grandma Rose", household: "The Lee Family", email: null, code: "G2ROSE", sentAt: null, openedAt: null, bounced: false },
+  { id: "6", name: "Jordan's college roommate, Chris Okafor", household: null, email: "chris.okafor.longaddress@example.com", code: "C5OKAF", sentAt: null, openedAt: null, bounced: false },
+];
 
 const STRESS: CardContent = {
   nameA: "Maximiliana-Josephine",

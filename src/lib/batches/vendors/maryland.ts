@@ -405,6 +405,19 @@ Winters Farm Florals	Florals	7447 Quantico Rd	Hebron	Maryland	Maryland's Eastern
 Wildly Native Flower Farm	Florals	7060 Broad Neck Rd	Chestertown	Maryland		A Chestertown flower farm designing wedding bouquets, ceremony arches and installations, with couples welcome to walk the fields.		(443) 457-8475	https://www.wildlynativeflowerfarm.com/			
 Cake Art	Cake	124 N Division St	Salisbury	Maryland	Eastern Shore of Maryland	A downtown Salisbury bakery making custom wedding cakes in fondant or buttercream, plus cupcakes and dessert tables.	cakeartmd@yahoo.com	(443) 859-8147	https://cakeartmd.com/	https://www.instagram.com/cakeart_md/		`,
   },
+  {
+    name: "Baltimore: videography, hair & makeup, cake and music; Annapolis: catering and music; Frederick: florals and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+A Perfect Face	Hair & Makeup	12638 Ocean Gateway Village	Ocean City	Maryland	Ocean City and the Eastern Shore	Ocean City day spa with bridal updos and bridal makeup, plus trial runs booked a few weeks before the wedding.	info@aperfectface.com	410-213-9883	https://aperfectface.com/		150	per event
+Pariser's Bakery	Cake	6711 Reisterstown Rd	Baltimore	Maryland	Baltimore and the Baltimore-DC area	Kosher bakery in northwest Baltimore taking custom and wedding cake orders by emailed photos and ideas for a quote.	orders@parisersbakery.com	410-764-1700	https://www.parisersbakery.com/	https://www.instagram.com/parisersbakery/		
+Cristy's Bakery	Cake	7538 Ritchie Hwy	Glen Burnie	Maryland	Glen Burnie	Latin bakery in Glen Burnie making wedding and quinceañera cakes, with pricing and designs agreed by message.	cbakerycafe@gmail.com	410-553-3030	https://www.cristysbakerymd.com/	https://www.instagram.com/cristysbakery1/		
+Cowger Entertainment	Music		Pocomoke City	Maryland	Eastern Shore of Maryland, Delaware and Virginia	Licensed DJ and lighting company on the lower Eastern Shore, offering wedding entertainment and with client reviews on its site.	info@cowgerentertainment.com	443-783-9175	https://cowgerentertainment.com/	https://www.instagram.com/cowgerentertainment/		
+Adam's Taphouse and Grille	Catering	589 Baltimore-Annapolis Blvd.	Severna Park	Maryland	Maryland	Severna Park restaurant that caters weddings with a barbecue-led menu, plus bar service, linens and appetisers.		410-647-5757	https://adamsgrillesevernapark.com/			
+Creative Cuisine	Catering		Edgewater	Maryland	Annapolis, Maryland	Edgewater caterer producing customised wedding menus for receptions and rehearsal dinners, from a waterfront barbecue to a black-tie dinner.		410-991-0151	https://creativecuisinemd.com/			
+B Real Entertainment	Music		Severna Park	Maryland		Severna Park DJ company offering wedding packages with ceremony music and up-lighting, plus photo booth, event lighting and live sound.	info@brealpro.com	(717) 577-4319	https://brealpro.com/	https://www.instagram.com/brealentertainment/		
+Ory Florals	Florals	71 W Main St.	New Market	Maryland		New Market floral studio making wedding flowers from personal bouquets to ceremony and reception arrangements, with a limited number of weddings each season.	ory@oryflorals.com	301-865-8860	https://www.orycustomflorals.com/	https://www.instagram.com/orycustomflorals/	2000	package
+Cork & Banner Films	Videography	15 N. Court St., Suite 206	Frederick	Maryland	Maryland, DC, Virginia	Frederick wedding film studio making films for couples across Maryland, DC and Virginia, working from an office on North Court Street.			https://www.corkandbannerfilms.com/	https://www.instagram.com/corkandbannerfilms/	6250	package`,
+  },
 ];
 
 export default batches;

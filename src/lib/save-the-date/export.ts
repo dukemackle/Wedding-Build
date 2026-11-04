@@ -78,6 +78,9 @@ async function paint(drawn: SVGSVGElement, scale: number, type: "image/png" | "i
   }
 }
 
+/** 1200 x 1680 JPEG: the picture in the email and in link previews. */
+export const cardJpeg = (drawn: SVGSVGElement) => paint(drawn, 1.2, "image/jpeg");
+
 /** 3000 x 4200 px: a 5x7 at 600 dpi, or a crisp phone wallpaper. */
 export const cardPng = (drawn: SVGSVGElement) => paint(drawn, 3, "image/png");
 

@@ -17,3 +17,8 @@ export function inviteCookie(slug: string) {
 export function personalRsvpPath(slug: string, code: string) {
   return `/w/${slug}/i/${code}`;
 }
+
+/** /w/<slug>/s/<code>: a guest's own save-the-date (an envelope addressed to them). */
+export function personalCardPath(slug: string, code: string) {
+  return `/w/${slug}/s/${code}`;
+}

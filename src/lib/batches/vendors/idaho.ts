@@ -335,6 +335,51 @@ Teton Valley Beauty Co.	Hair & Makeup		Driggs	Idaho	Teton Valley and Jackson Hol
 The Little Shop of Hairs	Hair & Makeup		Driggs	Idaho	Driggs and surrounding area; Jackson for parties of four or more	Driggs salon offering bridal hair and makeup and hair for the wedding party, with quotes by request.		208.435.8883	https://www.thelittleshopofhairs.com/weddingservices	https://www.instagram.com/the_antistylist/		
 Julia's Deliciousness	Cake		Twin Falls	Idaho	Twin Falls, Jerome, Kimberly, Filer and the Magic Valley	Twin Falls home bakery making cakes and pastries from scratch, including wedding cakes, with consultations on request.		(208) 320-0543	https://www.juliasbaking.com/			`,
   },
+  {
+    name: "Boise: planning, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Gatherings by Holly	Planning		Boise	Idaho	Boise, Sun Valley and across Idaho	Boise wedding planner offering tailored, creative planning for modern couples marrying in the city, Sun Valley or elsewhere in Idaho.	holly@gatheringsbyholly.com		https://gatheringsbyholly.com/	https://www.instagram.com/gatheringsbyholly/		
+The Oaka Booth	Photo Booth		Boise	Idaho	Boise, Eagle, Meridian, Nampa, Caldwell and the Treasure Valley	Travelling photo booth hire in Boise for weddings and parties, with prints on site and an online gallery afterwards.			https://www.theoakabooth.com/	https://www.instagram.com/theoakabooth/		
+Boothshakalaka	Photo Booth		Boise	Idaho	Boise, Meridian, Eagle, Nampa, Caldwell and the Treasure Valley	Locally owned Boise photo booth hire offering unlimited prints, digital files and props for weddings and other events.			https://www.boothshakalaka.com/	https://www.instagram.com/boothshakalaka/		
+Photo Booth Boise	Photo Booth		Boise	Idaho	Treasure Valley, Sun Valley, McCall, Twin Falls and Ontario	Boise photo booth company with four booth styles for weddings, on-site setup and printed photos for guests.		208-968-8210	https://photoboothboise.com/			`,
+  },
+  {
+    name: "Coeur d'Alene: catering, florals, music, photography, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Dark Star Entertainment	Music		Coeur d'Alene	Idaho	Coeur d'Alene, Spokane, Moscow, Tri-Cities and the Pacific Northwest	Coeur d'Alene DJ company that provides reception music and MC services, with live musicians available as an add-on for weddings.		(208) 556-7146	https://darkstarlive.com/weddings/	https://www.instagram.com/darkstarcda/	1797	per event
+Grumpy Chicken Flower Farm	Florals	1535 E Shingle Mill Rd	Sandpoint	Idaho		Sandpoint flower farm that takes wedding floral orders alongside its u-pick fields, farm events and camping.	grumpychickenfarm@gmail.com	208-274-3358	https://www.grumpychickenfarm.com/			
+Ponder Photography	Photography		Sandpoint	Idaho	Sandpoint, Lake Pend Oreille and the Selkirk Mountains	Elopement and small-wedding photography in Sandpoint, set around the lake, the Selkirks and Schweitzer.	info@ponderphotography.com		https://www.ponderphotography.com/			
+Tiana Olivia Photography	Photography		Post Falls	Idaho	Idaho, Montana and Wyoming	Post Falls photographer for nature-focused elopements, with planning help alongside candid coverage of the day.			https://tianaoliviaphotography.com/	https://www.instagram.com/tianaoliviaphotography/		
+Thresh Catering	Catering	610 N Almon St, Suite 130	Moscow	Idaho	The Palouse and surrounding region	Moscow caterer cooking locally sourced food from scratch for weddings, private dinners and rehearsal meals across the Palouse.	threshcatering@gmail.com		https://thresh.co/	https://www.instagram.com/threshcatering/		
+Salt Catering	Catering		Coeur d'Alene	Idaho		Coeur d'Alene caterer cooking seed-oil-free menus for weddings, private dinners and holiday parties.	caleb@saltcateringid.com	509.499.7201	https://saltcateringid.com/	https://www.instagram.com/salt_catering_id/		
+Flowers by Lily Garland	Florals		Coeur d'Alene	Idaho	Coeur d'Alene, Spokane and Sandpoint	Coeur d'Alene floral studio creating custom wedding flowers, installations and full tablescapes around the Pacific Northwest.	hello@lilygarland.com	208.495.6680	https://www.lilygarland.com/	https://www.instagram.com/flowersbylilygarland/		
+MakennaRené Floral	Florals		Coeur d'Alene	Idaho	Coeur d'Alene area	Coeur d'Alene wedding florist run by a floral design graduate, working with couples in and around the city.			https://makennarenefloral.com/	https://www.instagram.com/makennarenefloral/		`,
+  },
+  {
+    name: "Sun Valley: catering, florals, music, photography, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Maggie Grace Photography	Photography		Sun Valley	Idaho	Sun Valley and destination weddings	Sun Valley photographer covering full wedding weekends, with a destination portfolio and local mountain venues.	maggiegracephotography@gmail.com		https://maggiegracephotography.com/	https://www.instagram.com/maggiegracephoto/	13000	package
+Bloom Theory Studio	Florals		Sun Valley	Idaho		Sun Valley floral studio creating wedding designs from large installations to boutonnieres, worked up with each couple.	kacie@bloomtheorystudio.com	(208) 720-7220	https://www.bloomtheorystudio.com/	https://www.instagram.com/bloomtheory.studio/		
+Addison Photography	Photography		Twin Falls	Idaho	Magic Valley	Twin Falls studio photographing weddings alongside family, senior and business portraits, with a dedicated wedding page.	info@addisonphoto.com	208-733-4522	https://addisonphoto.com/	https://www.instagram.com/addisonphotocom/		
+Backyard Tent & Event Rental	Rentals		Sun Valley	Idaho		Family-run Sun Valley company renting tents, tables, chairs, lighting and decor for weddings and other events.		(208) 727-7182	https://www.backyardtentandevent.com/			
+Studio 11 Staging & Events	Rentals	1904 Buttercup Rd	Hailey	Idaho	Sun Valley area	Event staging company hiring out lounge seating, tables and accessories to give wedding venues a designed setting.	kyleigh@stagingstudio11.com	208-721-0329	https://stagingstudio11.com/	https://www.instagram.com/stagingstudio11/		
+Tessa Sheehan Photography	Photography		Sun Valley	Idaho	Sun Valley and Wood River Valley	Sun Valley wedding photographer whose galleries cover winter, autumn and frozen-lake ceremonies around the Wood River Valley.	tessasheehan@gmail.com	208.720.6706	https://www.tessa-sheehan.com/	https://www.instagram.com/tessa.sheehan.photography/		
+Amanda Stelling Photography	Photography		Sun Valley	Idaho	Sun Valley	Sun Valley photographer covering weddings, elopements, surprise proposals and family sessions in and around the resort area.	amanda@amandastelling.com	(208) 721-0680	https://www.amandastelling.com/	https://www.instagram.com/steelskis/		
+Idaho Party DJ	Music		Twin Falls	Idaho	Within about 50 miles of Twin Falls, further by arrangement	Twin Falls DJ for weddings and parties, providing ceremony sound and a suggested reception itinerary.		(208) 312-7284	https://idahopartydj.com/			`,
+  },
+  {
+    name: "McCall: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Summit Photography	Photography		McCall	Idaho		McCall photographer offering priced wedding, engagement and elopement packages with a pre-wedding meeting and venue walk-through.		208-469-0454	https://www.mccallsummitphotography.com/		2899	package`,
+  },
+  {
+    name: "Idaho Falls: cake, catering, florals, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Bailee Freeman Photography	Photography		Rexburg	Idaho	Southeast Idaho	Rexburg photographer covering weddings, couples and family sessions across Southeast Idaho, with a dedicated wedding portfolio.	baileefreemanphotography@gmail.com		https://baileefreemanphotography.com/	https://www.instagram.com/baileefreeman.photography/		
+FloraJean Flowers	Florals		Idaho Falls	Idaho	Idaho, Wyoming, Utah and Montana, including East Idaho and Jackson Hole	Idaho Falls florist focused on weddings, making bouquets, ceremony arches, centrepieces and full-room installations.	florajeanflowers@gmail.com	208-403-8256	https://florajeanflowers.com/	https://www.instagram.com/florajeanflowers/		
+Raquel Loredo Photography	Photography		Pocatello	Idaho	Southeast Idaho, Boise and Northern Utah	Pocatello photographer offering wedding coverage and a wedding experience package, travelling across Southeast Idaho.			https://rloredophotography.net/	https://www.instagram.com/raquelloredophotography/		
+Trina Reed Photography	Photography		Pocatello	Idaho		Pocatello photographer with a weddings gallery and published wedding packages, shooting around Pocatello and the Tetons.	trinareedphotography@gmail.com		https://www.trinareedphotography.com/	https://www.instagram.com/trinareedphoto/		`,
+  },
 ];
 
 export default batches;

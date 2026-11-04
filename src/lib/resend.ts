@@ -35,5 +35,17 @@ export async function isUndeliverable(email: string): Promise<boolean> {
   return Boolean(data);
 }
 
+/** Of these addresses, the ones that have bounced or complained, lowercased: one query for a whole list. */
+export async function undeliverableAmong(emails: string[]): Promise<Set<string>> {
+  const list = [...new Set(emails.map((e) => e.trim().toLowerCase()).filter(Boolean))];
+  if (!list.length) return new Set();
+  const { data } = await createAdminSupabaseClient()
+    .from("email_bounces")
+    .select("email")
+    .in("email", list)
+    .returns<{ email: string }[]>();
+  return new Set((data ?? []).map((r) => r.email));
+}
+
 export const UNDELIVERABLE_MESSAGE =
   "Email to that address has bounced before, so it wouldn't arrive. Try their website or phone instead.";
