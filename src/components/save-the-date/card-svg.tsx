@@ -21,6 +21,8 @@ type Props = {
   /** Hands over the drawn <svg>, for export. */
   svgRef?: (el: SVGSVGElement | null) => void;
   title?: string;
+  /** Editor mode: the "Add your photo" button in an empty photo frame. */
+  onAddPhoto?: () => void;
 };
 
 /** Where scaling pivots: a text's anchor point, a picture's centre. */
@@ -58,7 +60,7 @@ function overrideTransform(layer: Layer, o: LayerOverride | undefined, live: [nu
  * canvas, the guest's reveal and the source of the PNG/PDF export, so what
  * the couple designs is exactly what guests get.
  */
-export function CardSvg({ doc, className, editable, selected, onSelect, onMove, onEdit, svgRef, title }: Props) {
+export function CardSvg({ doc, className, editable, selected, onSelect, onMove, onEdit, svgRef, title, onAddPhoto }: Props) {
   const uid = useId().replace(/:/g, "");
   const t = templateById(doc.template);
   const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
@@ -422,11 +424,39 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       );
     }
     if (!p) {
-      return editable ? (
+      if (!editable) return null;
+      // A frame that fills the card sits behind the headline and names, so its
+      // button goes in the open space below the middle rather than dead centre.
+      const k = Math.min(1, layer.w / 520);
+      const cx = layer.x + layer.w / 2;
+      const cy = layer.y + layer.h * (layer.h >= 1200 ? 0.63 : 0.5);
+      const bw = 380 * k;
+      const bh = 84 * k;
+      return (
         <g data-editor-only>
           <rect x={layer.x + 40} y={layer.y + 40} width={layer.w - 80} height={layer.h - 80} fill="none" stroke={palette.muted} strokeWidth={2} strokeDasharray="12 10" opacity={0.5} />
+          {onAddPhoto && (
+            <g
+              role="button"
+              aria-label="Add your photo"
+              style={{ cursor: "pointer" }}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                onAddPhoto();
+              }}
+            >
+              <rect x={cx - bw / 2} y={cy - bh / 2} width={bw} height={bh} rx={bh / 2} fill="#ffffff" stroke="#14203d" strokeOpacity={0.12} strokeWidth={2} />
+              <g transform={`translate(${cx - bw / 2 + 34 * k} ${cy - 15 * k}) scale(${1.25 * k})`} fill="none" stroke="#2243B6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.5-2h7.6l1.5 2h2.2A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" />
+                <circle cx="12" cy="12.5" r="3.5" />
+              </g>
+              <text x={cx + 22 * k} y={cy + 11 * k} textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize={30 * k} fontWeight={600} fill="#14203d">
+                Add your photo
+              </text>
+            </g>
+          )}
         </g>
-      ) : null;
+      );
     }
     // Cover the frame, then slide so the focal point stays in view.
     const f = layer.focus;

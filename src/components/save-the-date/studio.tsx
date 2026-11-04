@@ -61,6 +61,25 @@ function Section({ title, children, aside }: { title: string; children: ReactNod
   );
 }
 
+/**
+ * A desktop settings section that folds shut to its title and what's chosen,
+ * so the whole list of settings fits on screen. One is open at a time.
+ */
+function Fold({ title, summary, open, onToggle, children }: { title: string; summary?: ReactNode; open: boolean; onToggle: () => void; children: ReactNode }) {
+  return (
+    <section className="border-b border-hairline">
+      <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center gap-3 px-5 py-4 text-left hover:bg-ink/[0.02]">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/60">{title}</span>
+        {!open && summary && <span className="ml-auto min-w-0 truncate text-[13px] text-ink/70">{summary}</span>}
+        <svg viewBox="0 0 24 24" className={`h-4 w-4 shrink-0 text-ink/45 transition-transform ${open ? "ml-auto rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+      {open && <div className="px-5 pb-5">{children}</div>}
+    </section>
+  );
+}
+
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block">
@@ -113,8 +132,11 @@ const RedoIcon = () => (
 // ---------------------------------------------------------------- panels
 
 type Panel = "templates" | "details" | "style" | "photo" | "layers" | "download";
+/** The desktop settings sections, which fold. */
+type FoldId = "designs" | "details" | "colours" | "lettering" | "photo" | "layers";
+const FOLDS: FoldId[] = ["details", "colours", "lettering", "photo", "layers"];
 
-function TemplatePicker({ doc, choose, row, samples }: { doc: CardDoc; choose: (id: string) => void; row?: boolean; samples: boolean }) {
+function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: string) => void; row?: boolean }) {
   const [family, setFamily] = useState<string | null>(null);
   const shown = family ? TEMPLATES.filter((t) => t.family === family) : TEMPLATES;
   const chip = (label: string, value: string | null) => (
@@ -136,7 +158,9 @@ function TemplatePicker({ doc, choose, row, samples }: { doc: CardDoc; choose: (
       </div>
       <div className={row ? "-mx-5 flex snap-x gap-3 overflow-x-auto px-5 pb-1" : "grid grid-cols-2 gap-3"}>
         {shown.map((t) => {
-          const preview: CardDoc = { ...newCard(t.id, doc.content, doc.photo, samples), overrides: {} };
+          // Photo designs show a sample photo until the couple adds theirs, so it's
+          // clear which ones take one. Choosing one doesn't carry the sample over.
+          const preview: CardDoc = { ...newCard(t.id, doc.content, doc.photo, true), overrides: {} };
           const active = t.id === doc.template;
           return (
             <button
@@ -188,55 +212,69 @@ function DetailsPanel({ c, set }: { c: CardContent; set: (patch: Partial<CardCon
   );
 }
 
-function StylePanel({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDoc>, key?: string) => void }) {
+function ColoursPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDoc>, key?: string) => void }) {
   const t = templateById(doc.template);
+  return (
+    <div className="flex flex-wrap gap-3">
+      {t.palettes.map((p) => {
+        const active = p.id === doc.palette;
+        return (
+          <button key={p.id} type="button" onClick={() => patch({ palette: p.id })} className="text-center" aria-pressed={active}>
+            <span
+              className={`flex h-14 w-14 items-center justify-center rounded-full ring-offset-2 transition ${active ? "ring-2 ring-[#2243B6]" : "ring-1 ring-ink/15"}`}
+              style={{ background: p.paper }}
+            >
+              <span className="h-6 w-6 rounded-full" style={{ background: p.metal ? `linear-gradient(135deg, ${p.metal[0]}, ${p.metal[2]})` : p.accent }} />
+              <span className="-ml-2 h-6 w-6 rounded-full border-2" style={{ background: p.ink, borderColor: p.paper }} />
+            </span>
+            <span className="mt-1 block text-[11px] text-ink/70">{p.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function LetteringPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDoc>, key?: string) => void }) {
+  const t = templateById(doc.template);
+  return (
+    <div className="space-y-2">
+      {t.pairings.map((p) => {
+        const active = p.id === doc.fonts;
+        return (
+          <button
+            key={p.id}
+            type="button"
+            onClick={() => patch({ fonts: p.id })}
+            aria-pressed={active}
+            className={`flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left transition ${active ? "border-[#2243B6] bg-[#2243B6]/[0.04]" : "border-hairline hover:border-ink/25"}`}
+          >
+            <span>
+              <span className="block text-[22px] leading-tight text-ink" style={{ fontFamily: fontById(p.display)?.css }}>
+                {doc.content.nameA || "Alex"}{" "}
+                <span style={{ fontFamily: fontById(p.script)?.css }}>&amp;</span>
+              </span>
+              <span className="mt-0.5 block text-[10px] uppercase tracking-[0.25em] text-ink/60" style={{ fontFamily: fontById(p.sans)?.css }}>
+                {p.label}
+              </span>
+            </span>
+            {active && <span className="text-xs font-medium text-[#2243B6]">In use</span>}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** The phone's Style sheet: colours and lettering together. */
+function StylePanel({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDoc>, key?: string) => void }) {
   return (
     <>
       <Section title="Colours">
-        <div className="flex flex-wrap gap-3">
-          {t.palettes.map((p) => {
-            const active = p.id === doc.palette;
-            return (
-              <button key={p.id} type="button" onClick={() => patch({ palette: p.id })} className="text-center" aria-pressed={active}>
-                <span
-                  className={`flex h-14 w-14 items-center justify-center rounded-full ring-offset-2 transition ${active ? "ring-2 ring-[#2243B6]" : "ring-1 ring-ink/15"}`}
-                  style={{ background: p.paper }}
-                >
-                  <span className="h-6 w-6 rounded-full" style={{ background: p.metal ? `linear-gradient(135deg, ${p.metal[0]}, ${p.metal[2]})` : p.accent }} />
-                  <span className="-ml-2 h-6 w-6 rounded-full border-2" style={{ background: p.ink, borderColor: p.paper }} />
-                </span>
-                <span className="mt-1 block text-[11px] text-ink/70">{p.label}</span>
-              </button>
-            );
-          })}
-        </div>
+        <ColoursPicker doc={doc} patch={patch} />
       </Section>
       <Section title="Lettering">
-        <div className="space-y-2">
-          {t.pairings.map((p) => {
-            const active = p.id === doc.fonts;
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => patch({ fonts: p.id })}
-                aria-pressed={active}
-                className={`flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left transition ${active ? "border-[#2243B6] bg-[#2243B6]/[0.04]" : "border-hairline hover:border-ink/25"}`}
-              >
-                <span>
-                  <span className="block text-[22px] leading-tight text-ink" style={{ fontFamily: fontById(p.display)?.css }}>
-                    {doc.content.nameA || "Alex"}{" "}
-                    <span style={{ fontFamily: fontById(p.script)?.css }}>&amp;</span>
-                  </span>
-                  <span className="mt-0.5 block text-[10px] uppercase tracking-[0.25em] text-ink/60" style={{ fontFamily: fontById(p.sans)?.css }}>
-                    {p.label}
-                  </span>
-                </span>
-                {active && <span className="text-xs font-medium text-[#2243B6]">In use</span>}
-              </button>
-            );
-          })}
-        </div>
+        <LetteringPicker doc={doc} patch={patch} />
       </Section>
     </>
   );
@@ -477,6 +515,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   const t = templateById(doc.template);
   const [selected, setSelected] = useState<string | null>(view === "advanced" ? "names" : null);
   const [panel, setPanel] = useState<Panel | null>(view === "mobile-style" ? "style" : null);
+  const [fold, setFold] = useState<FoldId | null>("details");
   const [editing, setEditing] = useState(false);
   const [preview, setPreview] = useState<"phone" | "desktop" | null>(view === "preview" ? "phone" : null);
   const [menu, setMenu] = useState(false);
@@ -542,6 +581,38 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       .then((aspect) => dispatch({ type: "fill", doc: { ...initial, photo: { ...p, aspect } } }))
       .catch(() => dispatch({ type: "fill", doc: { ...initial, photo: null } }));
   }, [initial]);
+
+  // Coming back to a card opens the settings section that was open last time
+  // (this browser only). The card itself is saved above.
+  const foldKey = `std-studio-fold:${cardId ?? "prototype"}`;
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(foldKey) as FoldId | null;
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- storage only exists in the browser, after hydration
+      if (saved && FOLDS.includes(saved)) setFold(saved);
+    } catch {}
+  }, [foldKey]);
+  // A remembered Photo section on a design without one opens Your details instead.
+  const shownFold: FoldId | null = fold === "photo" && !t.usesPhoto ? "details" : fold;
+  const openFold = (f: FoldId) => {
+    const next = shownFold === f ? null : f;
+    setFold(next);
+    try {
+      // Designs only folds on narrower desktops (it has its own column on wide
+      // ones), so it isn't what the studio reopens on.
+      if (next && next !== "designs") localStorage.setItem(foldKey, next);
+      else if (!next) localStorage.removeItem(foldKey);
+    } catch {}
+  };
+  /** The empty photo frame's button: the Photo section on desktop, the Photo sheet on a phone. */
+  const addPhoto = () => {
+    if (window.matchMedia("(min-width: 1024px)").matches) {
+      if (shownFold !== "photo") openFold("photo");
+    } else {
+      setSelected(null);
+      setPanel("photo");
+    }
+  };
 
   const status = !persist
     ? note
@@ -637,7 +708,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   const panelBody = (p: Panel, phone: boolean) => {
     switch (p) {
       case "templates":
-        return <TemplatePicker samples={!persist} doc={doc} choose={choose} row={phone} />;
+        return <TemplatePicker doc={doc} choose={choose} row={phone} />;
       case "details":
         return <DetailsPanel c={doc.content} set={setContent} />;
       case "style":
@@ -725,7 +796,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         {/* Desktop: designs on the left */}
         <aside className="hidden w-[300px] shrink-0 overflow-y-auto border-r border-hairline bg-white xl:block">
           <Section title="Designs" aside={<span className="text-[11px] text-ink/45">{TEMPLATES.length} designs</span>}>
-            <TemplatePicker samples={!persist} doc={doc} choose={choose} />
+            <TemplatePicker doc={doc} choose={choose} />
           </Section>
         </aside>
 
@@ -756,6 +827,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
                 pick(id);
                 setEditing(true);
               }}
+              onAddPhoto={t.usesPhoto ? addPhoto : undefined}
               onMove={(id, dx, dy) => {
                 const o = doc.overrides[id] ?? {};
                 override(id, { ...o, dx: (o.dx ?? 0) + dx, dy: (o.dy ?? 0) + dy });
@@ -774,14 +846,37 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         {/* Desktop: settings on the right */}
         <aside className="hidden w-[360px] shrink-0 overflow-y-auto border-l border-hairline bg-white lg:block">
           <div className="xl:hidden">
-            <Section title="Designs">
-              <TemplatePicker samples={!persist} doc={doc} choose={choose} row />
-            </Section>
+            <Fold title="Designs" summary={t.name} open={shownFold === "designs"} onToggle={() => openFold("designs")}>
+              <TemplatePicker doc={doc} choose={choose} row />
+            </Fold>
           </div>
-          <Section title="Layers">{panelBody("layers", false)}</Section>
-          {panelBody("style", false)}
-          {t.usesPhoto && <Section title="Photo">{panelBody("photo", false)}</Section>}
-          <Section title="Your details">{panelBody("details", false)}</Section>
+          <Fold
+            title="Your details"
+            summary={[doc.content.nameA, doc.content.nameB].filter(Boolean).join(" & ")}
+            open={shownFold === "details"}
+            onToggle={() => openFold("details")}
+          >
+            {panelBody("details", false)}
+          </Fold>
+          <Fold title="Colours" summary={(t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0]).label} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
+            <ColoursPicker doc={doc} patch={patch} />
+          </Fold>
+          <Fold title="Lettering" summary={(t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0]).label} open={shownFold === "lettering"} onToggle={() => openFold("lettering")}>
+            <LetteringPicker doc={doc} patch={patch} />
+          </Fold>
+          {t.usesPhoto && (
+            <Fold
+              title="Photo"
+              summary={doc.photo ? "Added" : <span className="font-medium text-[#2243B6]">Add one</span>}
+              open={shownFold === "photo"}
+              onToggle={() => openFold("photo")}
+            >
+              {panelBody("photo", false)}
+            </Fold>
+          )}
+          <Fold title="Layers" summary={`${shownLayers.length} pieces`} open={shownFold === "layers"} onToggle={() => openFold("layers")}>
+            {panelBody("layers", false)}
+          </Fold>
         </aside>
       </div>
 
