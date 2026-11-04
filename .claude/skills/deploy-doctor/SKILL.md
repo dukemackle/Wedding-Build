@@ -48,9 +48,10 @@ change `layout.tsx` in response.
 **Fix:** retry the build in the Cloudflare dashboard (hit 2026-09-22, retry
 fixed it).
 
-**If it keeps happening** (more than an occasional retry): propose
-self-hosting the three fonts with `next/font/local` so the build stops
-depending on Google's CDN. That's a code change — confirm with the owner first.
+**Resolved 2026-11-04:** it failed two main builds in a row, so the three app
+fonts are now self-hosted with `next/font/local` (`src/app/fonts/`, latin
+woff2 from Fontsource, OFL). If this error comes back, something has
+re-added `next/font/google` -- move that font to `src/app/fonts/` too.
 
 ## After fixing
 
