@@ -28,5 +28,5 @@ export function WelcomeBird({ userId, createdAt }: { userId: string; createdAt: 
     setShow(true);
   }, [userId, createdAt]);
 
-  return show ? <BirdCheer message="Hi! Welcome to Wren" wave /> : null;
+  return show ? <BirdCheer message="Hi! Welcome to You Do, I Do" wave /> : null;
 }
