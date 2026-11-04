@@ -1,0 +1,29 @@
+# You Do, I Do
+
+> You Do, I Do (youdoido.com) is a free wedding-planning website for couples in the United States. It combines planning tools with a directory of wedding venues and vendors in all 50 states and DC. Wren is its built-in assistant.
+
+Free for couples; no credit card needed. Venues and vendors can list or claim their business free. Listing details come from each business's own website unless the business has claimed its listing. Nothing is booked or paid through the site; couples contact businesses with in-app inquiries.
+
+## Planning tools (free account)
+
+- Budget, with a regional wedding cost estimator
+- Guest list and RSVPs
+- Seating chart and floor plan
+- Checklist and wedding-day itinerary
+- Registry links and attire
+- A free wedding website at youdoido.com/w/<name>
+
+## Key pages
+
+- [Home](https://youdoido.com/)
+- [Wedding venues](https://youdoido.com/venues)
+- [Wedding vendors](https://youdoido.com/vendors): photography, catering and other wedding services
+- [Wedding cost estimator](https://youdoido.com/estimate): no signup needed
+- [Wedding attire](https://youdoido.com/attire)
+- [List or claim a business](https://youdoido.com/list)
+- [Privacy Policy](https://youdoido.com/privacy)
+- [Terms](https://youdoido.com/terms)
+
+## Contact
+
+hello@youdoido.com

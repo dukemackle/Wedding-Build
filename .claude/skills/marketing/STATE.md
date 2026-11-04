@@ -1,6 +1,6 @@
 # Marketing state
 
-Last updated: 2026-10-20 (installation). Keep this under ~80 lines; it's read on
+Last updated: 2026-11-04. Keep this under ~80 lines; it's read on
 every run.
 
 ## Stage
@@ -43,4 +43,6 @@ signups and activity but not where anyone came from.
 
 ## In flight
 
-Nothing yet. Top of `BACKLOG.md` is the next proposal.
+- 2026-11-04 SEO basics PR (homepage title/description, Organization+WebSite JSON-LD, `/llms.txt`).
+- Search Console: decided 2026-10-21, **not yet verified** (owner step, `specialists/seo.md`).
+- Hub-page plan: `drafts/2026-11-04-seo-local-hubs-plan.md`, waiting on owner OK.

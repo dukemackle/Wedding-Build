@@ -12,11 +12,11 @@ Priority = I×C×E×R. Work at most three at a time. Updated 2026-10-20.
 | 6 | First `/marketing inbox` digest (Gmail connected 2026-10-20) | Inbox | 3 | 4 | 5 | 4 | 240 | Ready |
 | 7 | Removable "Made with You Do, I Do" link on published guest sites | Couples | 5 | 3 | 4 | 3 | 180 | Visual → `/design-expert` preview; owner decision |
 | 8 | Choose 1–2 launch metros; be the most complete directory there | Listings | 5 | 3 | 3 | 4 | 180 | Owner judgement |
-| 9 | Organization/WebSite JSON-LD, `llms.txt`, OG images for public pages | SEO | 2 | 4 | 4 | 5 | 160 | Small PR; OG image is visual |
+| 9 | OG images for public pages (JSON-LD + `llms.txt` shipped 2026-11-04) | SEO | 2 | 4 | 4 | 5 | 160 | Visual → preview |
 | 10 | "Wedding cost in <state>" pages from estimator data | SEO | 4 | 3 | 3 | 4 | 144 | Plan + preview |
 | 11 | Planning-stage in-app nudges (lifecycle map) | Lifecycle | 4 | 3 | 2 | 5 | 120 | `/design-expert` |
 | 12 | Pinterest pilot: 3 pins/week from real product screenshots | Social | 3 | 2 | 3 | 5 | 90 | Needs #3 to measure; owner posts |
-| 13 | State/city venue landing pages (only where 8+ listings) | SEO | 4 | 3 | 2 | 3 | 72 | Bigger build; after #1 shows demand |
+| 13 | Launch-metro hub pages (only where 8+ listings) | SEO | 4 | 3 | 2 | 3 | 72 | Plan in `drafts/2026-11-04-seo-local-hubs-plan.md`; preview |
 | 14 | Paid search test in one metro | Paid | 3 | 2 | 3 | 3 | 54 | Blocked: needs #3, #4 and a budget |
 
 Note: ROADMAP.md line 9 says West Virginia is still short, but `npm run
