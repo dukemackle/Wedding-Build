@@ -11,6 +11,16 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-04:** Couple app top nav is an icon dock (direction "B, with
+  colours", chosen over bold pills, a two-tone dock and a navy band; mockup
+  https://claude.ai/artifact/3YpWFLLCXKnvSTRXtr7eNY). Each tab is a coloured
+  palette tile with a sans-serif label under it; the page you're on gets a
+  navy ring (white over the dashboard photo) and a gold dot; tiles lift on
+  hover. Dropdowns list each page with an icon tile in the section's colour
+  and a one-line hint. Phones open a bottom sheet of the same tiles, four to
+  a row, with the chosen section's pages listed under it. Owner disliked the
+  many disc colours in the bold-pill option but kept colour on the tiles.
+  (`nav-links.tsx`, `nav-dropdown.tsx`, `mobile-nav.tsx`)
 - **2026-11-04:** Save-the-date back ("Details"): one optional back for every
   design, in the front's colours and fonts with its own frame or a corner of
   its art carried over: initials, website, QR code, optional travel line,
