@@ -556,6 +556,76 @@ Blue Ridge Entertainment	Music		Roanoke	Virginia	Southwest Virginia	Roanoke wedd
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
 Evergreen Beauty	Hair & Makeup		Williamsburg	Virginia	Williamsburg	Williamsburg bridal hair and makeup artist who travels to the couple's chosen location, with services and pricing listed on the site.			https://www.beautyevergreen.com/	https://www.instagram.com/evergreenbeautydmv/		`,
   },
+  {
+    name: "Northern Virginia: photography, planning, florals, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kyle Cusack Photography	Photography		Fairfax	Virginia	Fairfax County, Vienna, Arlington, Alexandria, Loudoun County, Reston and Washington DC	Fairfax photographer whose work centres on weddings and engagements across Northern Virginia and Washington DC.			https://kylecusackphotography.com	https://www.instagram.com/kylecusackphotography/		
+Roneyfield Photography	Photography		Fairfax	Virginia	Northern Virginia, Washington DC and parts of Maryland	Fairfax wedding and engagement photography studio covering Alexandria, Arlington, Reston, Manassas and the wider DC area.	sara@sararoney.com	(703) 431-3765	https://roneyfieldphotography.com/	https://www.instagram.com/roneyfieldphotography/		
+Occasions by Sandy Perla	Planning		Leesburg	Virginia	Washington DC, Maryland and Virginia, plus destination weddings in El Salvador	Leesburg wedding planner offering planning and coordination across the DC region and for destination weddings.	info@occasionsbysandy.net	(703) 438-0484	https://occasionsbysandy.net/	https://www.instagram.com/occasions_by_sandy/		
+Brass Bee Floral Design	Florals		Alexandria	Virginia	Northern Virginia, Central Virginia and the Shenandoah Valley	Small Alexandria floral studio doing weddings and elopements, designed and installed by its owner.		703-350-5560	https://brassbeefloral.com/	https://www.instagram.com/brassbeefloraldesign/		
+Market 93 Provisions	Catering	250 Shepherdstown Ct	Purcellville	Virginia	Loudoun County	Loudoun caterer that does only weddings, from rehearsal dinners to brunches, with proposals on request.	salesteam@market93provisions.com	571-528-2404	https://www.market93provisions.com/			
+STG Beauty	Hair & Makeup	2461 Eisenhower Ave, 2nd Floor	Alexandria	Virginia	Alexandria, Washington DC and Maryland	Alexandria mobile hair and makeup team with a bridal service and portfolio, working on location in the DC area.		(703) 662-5900	https://www.stgbeauty.com/	https://www.instagram.com/stgbeautypros/		
+Bazzak Salon	Hair & Makeup	1110 King Street	Alexandria	Virginia	Old Town Alexandria	Old Town salon whose senior stylist does wedding updos and bridal makeup, in the salon or on location.		703-548-5159	https://bazzaksalon.com/	https://www.instagram.com/bazzaksalon/		`,
+  },
+  {
+    name: "Richmond: music, videography, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Unite DJs & Entertainment	Music		Richmond	Virginia	Richmond and surrounding Virginia	Team of wedding and event DJs in Richmond who also provide MC services for ceremonies and receptions.	info@unite-djs.com		https://www.unite-djs.com	https://www.instagram.com/unite.djs/		
+Aspect Cinemas	Videography		Richmond	Virginia	Richmond and worldwide	Richmond-based wedding film studio making cinematic videos for couples at home and on destination weddings.			https://www.aspectcinemas.com	https://www.instagram.com/aspectcinemas/		
+Dynamic Experiences Co.	Catering		Richmond	Virginia	Richmond and select areas of Virginia, Maryland and DC	Richmond company combining wedding coordination with catering and hosted event experiences.	events@dynamicexperienceseventco.com		https://www.dynamicexperiencesco.com			
+Cakes To Remember	Cake	4288 Cato Drive	Gloucester	Virginia	Middle Peninsula, Richmond, Charlottesville and Norfolk	Licensed studio bakery making custom wedding and special-event cakes since 2012, open by appointment only.	cakestorememberllc@gmail.com	(804) 693-0478	https://traceyscakestoremember.com	https://www.instagram.com/traceyscakestoremember/		`,
+  },
+  {
+    name: "Charlottesville: photography, catering, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Ashley Cox Photography	Photography		Charlottesville	Virginia	Charlottesville	Charlottesville photographer for weddings and portraits, working in natural light with a focus on genuine connection.	ashley@ashleypcox.com	813.340.2690	https://ashleypcox.com/	https://www.instagram.com/ashley.p.cox/		
+Rouge 9 Makeup Studio	Hair & Makeup		Charlottesville	Virginia	Charlottesville, Washington DC and destination weddings	Charlottesville makeup studio focused on bridal beauty, also travelling to Washington DC and destination weddings.	linda@rouge9.com		https://www.rouge9.com/	https://www.instagram.com/rouge9makeup/		
+Rettig Co. Photo & Films	Videography		Charlottesville	Virginia	Charlottesville	Husband-and-wife photography and video team in Charlottesville covering weddings, lifestyle and commercial work.			https://www.rettigco.com/			`,
+  },
+  {
+    name: "Fredericksburg: planning, music, catering, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+DJ Seth Casana	Music		Fredericksburg	Virginia	Fredericksburg	Fredericksburg DJ specialising in weddings and dances, with live mixing and custom-built sound equipment.	dj@sethcasana.com		https://sethcasana.com	https://www.instagram.com/walkingdisco/		
+JB Concepts	Videography		Fredericksburg	Virginia	Fredericksburg and Virginia	Fredericksburg wedding cinematography team with three collection tiers for couples.	justin@ajbcproduction.com	(540) 295-3992	https://www.ajbcwedding.com	https://www.instagram.com/ajbcwedding/		
+Rachael Curry Films	Videography		Fredericksburg	Virginia	Virginia and destination weddings	Husband-and-wife wedding and elopement film team in Fredericksburg, working since 2013 and travelling worldwide.			https://rachaelcurryfilms.com			`,
+  },
+  {
+    name: "Williamsburg: planning, music, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Simply Grand Events	Planning		Newport News	Virginia	Newport News, Virginia Beach, Williamsburg and Richmond	Newport News planner offering wedding planning, day-of coordination and mini-ceremonies.		757-344-9091	https://www.simplygrandevents.com	https://www.instagram.com/makeitsimplygrand/		
+J.J. Ash Events and Designs	Planning		Richmond	Virginia	Richmond, Williamsburg and Northern Virginia	Design-led wedding planning and day-of coordination for couples in Richmond, Williamsburg and the DC area.			https://www.jjash.com/	https://www.instagram.com/jjashdesigns/		
+Karizma Entertainment	Music		Hampton	Virginia	Hampton Roads, Williamsburg and Richmond	Hampton-based multi-genre wedding DJ serving Williamsburg, Yorktown, Newport News and Richmond.	karizmabookings@gmail.com	757-773-2188	https://karizma.bz/weddingdj	https://www.instagram.com/iamdjkarizma/		
+Cindy's Cakery	Cake		Hayes	Virginia	Williamsburg, Gloucester, Mathews and the Northern Neck	Luxury wedding cake baker near Williamsburg working by appointment, with tastings and custom designs.	cindyscakery@ymail.com	757.377.0997	https://cindyscakery.com	https://www.instagram.com/cindyscakeryva/		`,
+  },
+  {
+    name: "Virginia Beach: planning, florals, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Rose & Ivy Event Planning + Design	Planning		Virginia Beach	Virginia	Virginia Beach, Hampton Roads and destination weddings	Virginia Beach planner and designer who runs wedding management, day-of coordination and decor, with florals and colour palettes included in the design work.	hello@roseivyevents.com		https://www.roseivyevents.com	https://www.instagram.com/roseivyevents/	2500	package
+Jade Rabbit Flowers	Florals		Norfolk	Virginia	Norfolk and Hampton Roads	Small urban flower farm in Norfolk that grows and sources local seasonal blooms and designs them into wedding arrangements.	allissa@jaderabbitflowers.com	(757) 335-6051	https://www.jaderabbitflowers.com			
+Palette of Petals	Florals		Virginia Beach	Virginia	Virginia Beach, Chesapeake and Norfolk	Private-studio event florist in Virginia Beach creating custom arrangements, with bouquets and venue centrepieces shown in its gallery.			https://www.paletteofpetals.com	https://www.instagram.com/paletteofpetals/		`,
+  },
+  {
+    name: "Roanoke: planning, music, catering, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Inspiration Weddings and Events	Planning		Roanoke	Virginia	Roanoke and Western Virginia	Roanoke planner who puts weddings first, offering planning and coordination packages alongside other social and corporate events.	peggy@inspirationweddingsandevents.com	540-353-7778	https://inspirationweddingsandevents.com	https://www.instagram.com/inspirationweddingsandevents/		
+One Fine Day Events	Planning		Roanoke	Virginia	Virginia, West Virginia and North Carolina	Boutique Roanoke planning and design studio working on weddings, private parties and corporate events across the region.			https://onefinedayva.com	https://www.instagram.com/onefinedayva/		
+RSP Entertainment	Music		Roanoke	Virginia	Roanoke, Lynchburg and Blacksburg	Wedding DJ company with a long local track record, showing reception set-ups at Roanoke-area venues on its wedding page.			https://rspentertainment.com			
+Lib & Amy Catering	Catering		Roanoke	Virginia	Roanoke	Roanoke caterer offering turnkey receptions that can include food, rentals and staff, alongside business lunches and parties.	amy@libandamycatering.com	(540) 344-1317	https://libandamycatering.wordpress.com			
+On-Site Culinary Solutions	Catering		Blacksburg	Virginia	Blacksburg, Christiansburg, Floyd, Dublin, Pulaski and Giles	Blacksburg caterer with buffet reception menus and wedding cakes, serving the New River Valley.	jud@onsiteculinary.com	(540) 818-9015	http://onsiteculinary.com			
+Done In Love Films	Videography		Roanoke	Virginia	Within three hours of Roanoke	Roanoke husband-and-wife team making heirloom wedding films with no travel fee inside a three-hour radius.	doneinlovefilms@gmail.com		https://doneinlovefilmsinc.com	https://www.instagram.com/doneinlovefilms/	3280	package
+Simple Times Photography	Videography		Roanoke	Virginia	Roanoke Valley and surrounding areas	Roanoke studio whose wedding films page features highlight films, teasers and trailers from local weddings.			https://www.simpletimesphotography.com	https://www.instagram.com/jasoncollins_stp/		
+Wedding Photography and Films	Videography		Roanoke	Virginia	Virginia	Roanoke-based team shooting wedding photography and video, with a portfolio and a combined photo-and-video collection.	connect@weddingphotographyandfilms.com		https://weddingphotographyandfilms.com	https://www.instagram.com/weddingphotographyandfilms/		`,
+  },
+  {
+    name: "Shenandoah Valley: planning, music, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Faded Poppy	Planning	1461 E Main St	Waynesboro	Virginia	Waynesboro, Charlottesville and venues across Virginia	Waynesboro florist and planner combining bespoke wedding flowers with planning and day-of coordination.	sarakite@thefadedpoppy.com	540.451.2085	https://www.thefadedpoppy.com	https://www.instagram.com/fadedpoppy/		
+Sweet Bliss by Melis	Planning		Grottoes	Virginia	Shenandoah Valley	Grottoes wedding coordinator whose gallery shows ceremony, reception and getting-ready moments from weddings she has run.	sweetblissbymelis@gmail.com	540-271-2498	https://www.sweetblissva.com			
+Journey Entertainment	Music		Winchester	Virginia	Winchester area	Winchester DJ, MC and photo booth company, with client testimonials from wedding receptions.	journeyentertain@gmail.com		https://www.journeyentertain.com	https://www.instagram.com/journeydjpb/		
+Blue Ridge Bridal Hair	Hair & Makeup		Lexington	Virginia	Lexington and the Blue Ridge	Lexington stylist offering on-site bridal hair, with braids and bridesmaid updos shown on the site.	simonsholly11@gmail.com	307-264-4020	https://www.beautyinaverything.com	https://www.instagram.com/blueridgebridalhair/		
+Scott Woofter Films	Videography		Harrisonburg	Virginia	Virginia	Harrisonburg filmmaker with a portfolio of wedding films listed by couple, shooting weddings across the state.			https://scottwoofterfilms.com	https://www.instagram.com/scottwoofterfilms/		
+Isaac Andreas Wedding Videography	Videography		Harrisonburg	Virginia	Harrisonburg and the Shenandoah Valley	Harrisonburg wedding videographer with a published Essential Film package and travel included within 30 minutes of the city.			https://www.harrisonburgweddingfilms.com		1200	package`,
+  },
 ];
 
 export default batches;
