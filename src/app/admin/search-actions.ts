@@ -64,7 +64,7 @@ export async function adminSearch(raw: string): Promise<SearchGroup[]> {
   }
 
   const [weddings, users, venues, vendors, venueClaims, vendorClaims, feedback, attire, costs] = await Promise.all([
-    selectAll<{ id: string; user_id: string; partner_a_name: string | null; partner_b_name: string | null; venue_name: string | null; wedding_date: string | null }>(admin, "weddings", "id, user_id, partner_a_name, partner_b_name, venue_name, wedding_date"),
+    selectAll<{ id: string; user_id: string; partner_a_name: string | null; partner_b_name: string | null; own_venue_name: string | null; wedding_date: string | null }>(admin, "weddings", "id, user_id, partner_a_name, partner_b_name, own_venue_name, wedding_date"),
     listAllUsers(admin),
     venueQuery
       .order("name")
@@ -118,7 +118,7 @@ export async function adminSearch(raw: string): Promise<SearchGroup[]> {
   );
   const couples: SearchHit[] = (weddings.data ?? [])
     .filter((w) =>
-      matchesAll(words, [w.partner_a_name, w.partner_b_name, w.venue_name, emailByUser.get(w.user_id), w.wedding_date]),
+      matchesAll(words, [w.partner_a_name, w.partner_b_name, w.own_venue_name, emailByUser.get(w.user_id), w.wedding_date]),
     )
     .slice(0, PER_GROUP)
     .map((w) => ({

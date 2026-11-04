@@ -37,7 +37,9 @@ export function AdminSearch({ pages, onNavigate }: { pages: SearchHit[]; onNavig
     let stale = false;
     const timer = setTimeout(() => {
       startTransition(async () => {
-        const groups = await adminSearch(term);
+        // A failed search shows no results rather than throwing to the
+        // page's error boundary and wiping out whatever admin page is open.
+        const groups = await adminSearch(term).catch(() => [] as SearchGroup[]);
         if (!stale) setResults(groups);
       });
     }, 250);
