@@ -29,6 +29,8 @@ export type Wedding = {
   /** Which photos play behind the dashboard (0143); null picks the best available. Absent until that migration runs. */
   dashboard_photo_source?: "own" | "venue" | "inspiration" | null;
   rsvp_deadline: string | null;
+  /** RSVPs open on the guest site from this day; null = open now (0159). Absent until that migration runs. */
+  rsvp_opens_on?: string | null;
   dress_code: string | null;
   travel_notes: string | null;
   referral_code: string | null;
@@ -94,6 +96,8 @@ export type PublicWedding = {
   region: string | null;
   hero_photo_url: string | null;
   rsvp_deadline: string | null;
+  /** RSVPs open on the guest site from this day; null = open now (0159). Absent until that migration runs. */
+  rsvp_opens_on?: string | null;
   dress_code: string | null;
   travel_notes: string | null;
   venue_name: string | null;

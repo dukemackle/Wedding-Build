@@ -20,6 +20,7 @@ import { HouseholdRsvpForm } from "./household-rsvp-form";
 import type { Household } from "@/lib/households";
 import { turnstileSiteKey } from "@/lib/turnstile";
 import { RsvpSection } from "./rsvp-section";
+import { rsvpNotOpenYet } from "@/lib/rsvp-opening";
 import { ItineraryView } from "./itinerary-view";
 import { audienceOf } from "@/lib/itinerary";
 import { GuestbookView } from "./guestbook-view";
@@ -262,7 +263,12 @@ export function GuestSiteView({
         deadline={wedding.rsvp_deadline ? formatDate(wedding.rsvp_deadline) : null}
         photo={galleryPhotos[nextPhoto]?.photo_url ?? bannerPhoto(wedding)}
         form={
-          household ? (
+          rsvpNotOpenYet(wedding.rsvp_opens_on) ? (
+            <p className="mt-6 rounded-lg border border-hairline bg-parchment/60 px-4 py-4 text-sm leading-relaxed text-ink">
+              RSVPs open on <strong>{formatDate(wedding.rsvp_opens_on!)}</strong>. Your invitation will have the
+              details. Until then, the schedule, travel and stays are all here.
+            </p>
+          ) : household ? (
             <HouseholdRsvpForm
               household={household}
               slug={wedding.public_slug}

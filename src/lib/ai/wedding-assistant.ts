@@ -201,6 +201,7 @@ async function buildContext(): Promise<AssistantContext | null> {
       : "Venue: not chosen yet",
     `Guests: ${headcount} expected (${confirmedCount} confirmed, ${pendingCount} awaiting response)`,
     wedding.rsvp_deadline ? `RSVP deadline: ${wedding.rsvp_deadline}` : null,
+    wedding.rsvp_opens_on ? `RSVPs open on the guest site from: ${wedding.rsvp_opens_on}` : null,
     wedding.dress_code ? `Dress code: ${wedding.dress_code}` : null,
     wedding.budget_target
       ? `Budget target: $${wedding.budget_target.toLocaleString()} (current estimate about $${budgetTotal.toLocaleString()})`

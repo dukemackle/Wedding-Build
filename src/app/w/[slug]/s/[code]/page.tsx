@@ -33,6 +33,7 @@ export default async function GuestSaveTheDate({ params }: { params: Promise<{ s
       doc={card.doc}
       guest={guest}
       siteHref={`${personalRsvpPath(slug, code)}?to=site`}
+      rsvpHref={personalRsvpPath(slug, code)}
       fontsHref={card.fontsHref}
       slug={slug}
       code={code}

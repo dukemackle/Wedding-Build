@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useReducer, useRef, useState, type ReactNode } from "react";
-import { saveTheDatePhotoUrl, startSaveTheDatePhotoUpload } from "@/app/guests/save-the-date/actions";
+import { openRsvpsNow, saveTheDatePhotoUrl, startSaveTheDatePhotoUpload } from "@/app/guests/save-the-date/actions";
+import { rsvpNotOpenYet } from "@/lib/rsvp-opening";
 import { shrinkImage } from "@/lib/shrink-image";
 import { putToSignedUrl } from "@/lib/signed-upload";
 import { CardSvg, layerBox } from "./card-svg";
@@ -219,8 +220,35 @@ function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: strin
  * The printed card's back (website, QR code, travel line). Off by default:
  * most couples who only send online don't need one.
  */
-function BackPanel({ doc, site, patch, show }: { doc: CardDoc; site: string | null; patch: (p: Partial<CardDoc>, key?: string) => void; show: (side: "front" | "back") => void }) {
+function BackPanel({
+  doc,
+  site,
+  patch,
+  show,
+  rsvpOpensOn,
+}: {
+  doc: CardDoc;
+  site: string | null;
+  patch: (p: Partial<CardDoc>, key?: string) => void;
+  show: (side: "front" | "back") => void;
+  /** The wedding's RSVP opening day (null = open now); undefined in the prototype, where nothing is saved. */
+  rsvpOpensOn?: string | null;
+}) {
   const back = doc.back ?? { on: false, travel: "" };
+  const [opensOn, setOpensOn] = useState(rsvpOpensOn);
+  const [rsvpNote, setRsvpNote] = useState<string | null>(null);
+  const closed = rsvpNotOpenYet(opensOn);
+  const askRsvp = async (on: boolean) => {
+    patch({ back: { ...back, rsvp: on } });
+    setRsvpNote(null);
+    if (on && back.on) show("back");
+    // Asking for replies on the card opens them on the site, or the code would land on "not open yet".
+    if (on && closed && opensOn !== undefined) {
+      const res = await openRsvpsNow();
+      if (res.error) setRsvpNote(res.error);
+      else setOpensOn(null);
+    }
+  };
   return (
     <div className="space-y-3">
       <label className="flex cursor-pointer items-start gap-3">
@@ -238,6 +266,32 @@ function BackPanel({ doc, site, patch, show }: { doc: CardDoc; site: string | nu
           <span className="mt-0.5 block text-xs text-ink/55">Your website and a QR code to it, in this design&apos;s colours. Guests online can turn the card over.</span>
         </span>
       </label>
+      <label className="flex cursor-pointer items-start gap-3">
+        <input
+          type="checkbox"
+          className="mt-0.5 h-5 w-5 shrink-0 accent-[#2243B6]"
+          checked={Boolean(back.rsvp)}
+          onChange={(e) => askRsvp(e.target.checked)}
+        />
+        <span className="text-[15px] leading-snug text-ink">
+          Ask guests to RSVP now
+          <span className="mt-0.5 block text-xs text-ink/55">
+            The QR code and the online card&apos;s button go straight to your RSVP form. Your invitation can follow as the formal one.
+          </span>
+        </span>
+      </label>
+      {rsvpNote ? (
+        <p className="rounded-lg bg-[#FFF12F]/25 px-3 py-2.5 text-xs leading-relaxed text-ink">{rsvpNote}</p>
+      ) : back.rsvp && site && opensOn !== undefined ? (
+        <p className="rounded-lg bg-[#2243B6]/[0.06] px-3 py-2.5 text-xs leading-relaxed text-ink">
+          RSVPs are open on your website. Replies land in{" "}
+          <a href="/guests#invitations" className="font-medium text-[#2243B6] underline">Guests › Invitations &amp; RSVPs</a>.
+        </p>
+      ) : !back.rsvp && closed && opensOn ? (
+        <p className="text-xs leading-relaxed text-ink/60">
+          RSVPs open on your website on {new Date(`${opensOn}T12:00:00`).toLocaleDateString("en-US", { month: "long", day: "numeric" })}, so the code shows your travel and stays until then.
+        </p>
+      ) : null}
       {back.on && (
         <>
           {!site && (
@@ -627,6 +681,8 @@ type StudioProps = {
   cardId?: string;
   /** The wedding website as printed on the back (youdoido.com/w/…); null while it's off. */
   site?: string | null;
+  /** The wedding's RSVP opening day (null = open now); left out in the prototype. */
+  rsvpOpensOn?: string | null;
 };
 
 /**
@@ -663,7 +719,7 @@ function DownloadOptions({ download, sheet, back }: { download: (kind: "png" | "
   );
 }
 
-export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, cardId, title = "Save the date", site = null }: StudioProps) {
+export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, cardId, title = "Save the date", site = null, rsvpOpensOn }: StudioProps) {
   const [h, dispatch] = useReducer(reducer, null, () => ({
     past: [],
     present: initial,
@@ -915,7 +971,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           <div className="space-y-5">
             <DetailsPanel c={doc.content} set={setContent} />
             <div className="border-t border-hairline pt-4">
-              <BackPanel doc={doc} site={site} patch={patch} show={showBack} />
+              <BackPanel doc={doc} site={site} patch={patch} show={showBack} rsvpOpensOn={rsvpOpensOn} />
             </div>
           </div>
         ) : (
@@ -1102,11 +1158,11 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           </Fold>
           <Fold
             title="Back of the card"
-            summary={withBack ? "Website & QR code" : <span className="font-medium text-[#2243B6]">Add one</span>}
+            summary={withBack ? (doc.back?.rsvp ? "RSVP & QR code" : "Website & QR code") : doc.back?.rsvp ? "RSVP online" : <span className="font-medium text-[#2243B6]">Add one</span>}
             open={shownFold === "back"}
             onToggle={() => openFold("back")}
           >
-            <BackPanel doc={doc} site={site} patch={patch} show={showBack} />
+            <BackPanel doc={doc} site={site} patch={patch} show={showBack} rsvpOpensOn={rsvpOpensOn} />
           </Fold>
           <Fold title="Colours" summary={<PaletteSummary doc={doc} />} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
             <ColoursPicker doc={doc} patch={patch} />

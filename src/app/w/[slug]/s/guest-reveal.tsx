@@ -13,6 +13,7 @@ export function GuestReveal({
   doc,
   guest,
   siteHref,
+  rsvpHref,
   fontsHref,
   slug,
   code,
@@ -20,6 +21,7 @@ export function GuestReveal({
   doc: CardDoc;
   guest: string;
   siteHref: string;
+  rsvpHref?: string;
   fontsHref: string;
   slug: string;
   code?: string;
@@ -36,7 +38,7 @@ export function GuestReveal({
   return (
     <div className="flex min-h-dvh flex-col">
       <link rel="stylesheet" href={fontsHref} precedence="default" />
-      <Reveal doc={doc} guest={guest} siteHref={siteHref} site={siteAddress(slug)} onOpen={opened} />
+      <Reveal doc={doc} guest={guest} siteHref={siteHref} rsvpHref={rsvpHref} site={siteAddress(slug)} onOpen={opened} />
     </div>
   );
 }

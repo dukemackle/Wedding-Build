@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { rsvpNotOpenYet } from "@/lib/rsvp-opening";
 import { blockHasContent } from "@/app/w/[slug]/site-block";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
@@ -193,9 +194,12 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     rsvp: {
       layout: "rsvp",
       status: [
+        rsvpNotOpenYet(wedding.rsvp_opens_on) ? `Opens ${formatDate(wedding.rsvp_opens_on!)}` : null,
         wedding.rsvp_deadline ? `Replies by ${formatDate(wedding.rsvp_deadline)}` : "Deadline not set",
         asksMeal(wedding.meal_options) ? `${mealChoices(wedding.meal_options).length} meal choices` : "no meal choice",
-      ].join(" · "),
+      ]
+        .filter(Boolean)
+        .join(" · "),
       warn: !wedding.rsvp_deadline,
       link: wedding.rsvp_deadline ? undefined : { href: "/dashboard", label: "Set an RSVP deadline on the Dashboard" },
       editor: <RsvpQuestions mealOptions={wedding.meal_options ?? null} askDietary={wedding.ask_dietary !== false} />,

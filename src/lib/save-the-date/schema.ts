@@ -63,7 +63,7 @@ export const cardDocSchema = z.object({
   content,
   photo,
   overrides: z.record(id, override).refine((o) => Object.keys(o).length <= 60, "too many overrides"),
-  back: z.object({ on: z.boolean(), travel: z.string().max(90) }).optional(),
+  back: z.object({ on: z.boolean(), travel: z.string().max(90), rsvp: z.boolean().optional() }).optional(),
 });
 
 /** A stored card as the editor opens it; anything unreadable becomes null. */

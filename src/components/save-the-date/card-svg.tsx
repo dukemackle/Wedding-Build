@@ -3,7 +3,7 @@
 import QRCode from "qrcode";
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
-import { BACK_QR, backTemplate } from "@/lib/save-the-date/back";
+import { BACK_QR, backQrUrl, backTemplate } from "@/lib/save-the-date/back";
 import { hasNumericDate, layerText, wrapText } from "@/lib/save-the-date/format";
 import { cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { ARTBOARD, type CardDoc, type ColorRole, type Layer, type LayerOverride, type Palette, type TextLayer } from "@/lib/save-the-date/types";
@@ -85,7 +85,8 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
   const uid = useId().replace(/:/g, "");
   const back = side === "back";
   const t = back ? backTemplate(templateById(doc.template), doc, site) : templateById(doc.template);
-  const qr = useMemo(() => (back ? qrPath(`https://${site ?? "youdoido.com"}`) : null), [back, site]);
+  const rsvp = Boolean(doc.back?.rsvp);
+  const qr = useMemo(() => (back ? qrPath(backQrUrl(site, rsvp)) : null), [back, site, rsvp]);
   const palette = cardPalette(doc);
   const pairing = t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0];
   const own = useRef<SVGSVGElement | null>(null);

@@ -300,3 +300,20 @@ export async function sendSaveTheDates(
   revalidatePath("/guests/save-the-date", "layout");
   return { sent: deliverable.length, skipped, failed: 0 };
 }
+
+/**
+ * Opens RSVPs on the guest site now (weddings.rsvp_opens_on = null), for a
+ * save-the-date that asks guests to reply early (Back of the card).
+ */
+export async function openRsvpsNow(): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const { error } = await supabase.from("weddings").update({ rsvp_opens_on: null }).eq("id", wedding.id);
+  if (error) {
+    await logError("planning", "openRsvpsNow", error);
+    return { error: "We couldn't open RSVPs. Try again, or clear the date under Dashboard › Wedding details." };
+  }
+  revalidatePath("/guests/save-the-date");
+  revalidatePath("/dashboard");
+  return {};
+}

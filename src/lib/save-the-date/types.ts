@@ -73,7 +73,16 @@ export type CardColours = { paper: string; ink: string; accent: string };
  * optional travel line, in the front's colours and fonts (see back.ts).
  * Off unless the couple adds it; guests online see it by flipping the card.
  */
-export type CardBack = { on: boolean; travel: string };
+export type CardBack = {
+  on: boolean;
+  travel: string;
+  /**
+   * Early RSVPs: the back's QR code and the online card's button go to the
+   * RSVP form, worded "Scan to RSVP", for couples taking replies with the
+   * save-the-date and sending the invitation after.
+   */
+  rsvp?: boolean;
+};
 
 export type CardDoc = {
   template: string;

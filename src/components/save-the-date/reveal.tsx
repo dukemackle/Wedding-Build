@@ -35,6 +35,7 @@ export function Reveal({
   doc,
   guest,
   siteHref,
+  rsvpHref = `${siteHref}#rsvp`,
   compact,
   onOpen,
   site = null,
@@ -42,6 +43,8 @@ export function Reveal({
   doc: CardDoc;
   guest: string;
   siteHref: string;
+  /** Where "RSVP" goes when the card asks for early replies (doc.back.rsvp). */
+  rsvpHref?: string;
   compact?: boolean;
   /** The website the card's back prints; with a back, the open card turns over. */
   site?: string | null;
@@ -207,11 +210,11 @@ export function Reveal({
               </button>
             )}
             <a
-              href={siteHref}
+              href={doc.back?.rsvp ? rsvpHref : siteHref}
               className="rounded-full border px-5 py-3 text-sm font-medium"
               style={{ borderColor: dark ? `${palette.ink}55` : "#14203d33", color: dark ? palette.ink : "#14203d", fontFamily: caps }}
             >
-              See our wedding website
+              {doc.back?.rsvp ? "RSVP" : "See our wedding website"}
             </a>
           </>
         ) : (
