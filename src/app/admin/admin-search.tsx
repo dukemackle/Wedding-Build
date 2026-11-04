@@ -118,9 +118,9 @@ export function AdminSearch({ pages, onNavigate }: { pages: SearchHit[]; onNavig
         onKeyDown={onKeyDown}
         placeholder="Search everything…"
         aria-label="Search the admin"
-        className="w-full rounded-md border border-hairline bg-parchment px-3 py-1.5 pr-10 text-sm text-ink placeholder:text-ink/40 focus:border-forest focus:outline-none"
+        className="w-full rounded-lg border border-white/15 bg-white/10 px-3 py-2 pr-10 text-sm text-white placeholder:text-white/55 focus:border-[#FFD301] focus:outline-none"
       />
-      <kbd className="pointer-events-none absolute top-1/2 right-2 hidden -translate-y-1/2 rounded border border-hairline px-1 font-mono-numbers text-[10px] text-ink/40 lg:block">
+      <kbd className="pointer-events-none absolute top-1/2 right-2 hidden -translate-y-1/2 rounded border border-white/25 px-1 font-mono-numbers text-[10px] text-white/55 lg:block">
         ⌘K
       </kbd>
 

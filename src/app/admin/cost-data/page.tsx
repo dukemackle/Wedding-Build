@@ -4,6 +4,7 @@ import { BUDGET_CATEGORIES } from "@/lib/budget-categories";
 import { STATES } from "@/lib/wedding-options";
 import type { RegionalCostData } from "@/lib/supabase/types";
 import { CostDataBrowser, ImportForm, RecomputeFromCustomerData } from "./cost-data-manager";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export default async function AdminCostDataPage() {
   await requireAdmin();
@@ -24,7 +25,7 @@ export default async function AdminCostDataPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Cost Data</h1>
       <p className="mb-6 text-sm text-ink/70">
         Real wedding cost data by state and category, feeding the public cost estimator. Fill in
