@@ -32,7 +32,7 @@ export async function AppNav({ email }: { email: string }) {
             "Weddi...". A single full-width bar has neither problem.
 
             Two rows below lg; one row from lg (see the tab layer below). */}
-        <div className="relative flex w-full flex-col px-6 py-1">
+        <div className="relative flex w-full flex-col px-6 py-1 lg:px-10 2xl:px-14">
           <div className="flex items-center justify-between gap-4 lg:min-h-[72px] 2xl:min-h-[76px]">
             <WrenMark compact />
             <div className="flex min-w-0 items-center justify-end gap-4 lg:max-2xl:gap-3 2xl:max-w-[calc(50%-330px)]">
