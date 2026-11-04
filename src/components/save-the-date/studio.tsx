@@ -537,7 +537,6 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   }));
   const doc = h.present;
   const t = templateById(doc.template);
-  const [advanced, setAdvanced] = useState(view === "advanced");
   const [selected, setSelected] = useState<string | null>(view === "advanced" ? "names" : null);
   const [panel, setPanel] = useState<Panel | null>(view === "mobile-style" ? "style" : null);
   const [preview, setPreview] = useState<"phone" | "desktop" | null>(view === "preview" ? "phone" : null);
@@ -667,7 +666,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     { id: "details", label: "Details" },
     { id: "style", label: "Style" },
     ...(t.usesPhoto ? [{ id: "photo" as const, label: "Photo" }] : []),
-    ...(advanced ? [{ id: "layers" as const, label: "Layers" }] : []),
+    { id: "layers", label: "Layers" },
   ];
 
   const panelBody = (p: Panel, phone: boolean) => {
@@ -684,26 +683,6 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         return <LayersPanel doc={doc} selected={selected} select={setSelected} override={override} />;
     }
   };
-
-  const modeSwitch = (
-    <div className="flex rounded-full bg-ink/[0.06] p-1 text-[13px]" role="group" aria-label="Editor mode">
-      {[false, true].map((a) => (
-        <button
-          key={String(a)}
-          type="button"
-          onClick={() => {
-            setAdvanced(a);
-            if (!a) setSelected(null);
-            if (!a && panel === "layers") setPanel(null);
-          }}
-          aria-pressed={advanced === a}
-          className={`rounded-full px-3.5 py-1.5 transition ${advanced === a ? "bg-white font-medium text-ink shadow-sm" : "text-ink/60"}`}
-        >
-          {a ? "Advanced" : "Simple"}
-        </button>
-      ))}
-    </div>
-  );
 
   return (
     <div className="flex h-dvh flex-col bg-[#f4f1ec] text-ink">
@@ -723,8 +702,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
             {status}
           </p>
         </div>
-        <div className="mx-auto hidden lg:block">{modeSwitch}</div>
-        <div className="ml-auto flex items-center gap-1 lg:ml-0">
+        <div className="ml-auto flex items-center gap-1">
           <IconButton label="Undo" onClick={() => commit({ type: "undo" })} disabled={!h.past.length}>
             <UndoIcon />
           </IconButton>
@@ -791,7 +769,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
 
         {/* The card */}
         <main
-          className="relative flex min-w-0 flex-1 items-center justify-center overflow-hidden p-5 pb-[84px] lg:p-10"
+          className="relative flex min-w-0 flex-1 select-none items-center justify-center overflow-hidden p-5 pb-[84px] lg:p-10"
           onPointerDown={() => setSelected(null)}
         >
           <div
@@ -803,7 +781,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               svgRef={(el) => {
                 svg.current = el;
               }}
-              editable={advanced}
+              editable
               selected={selected}
               onSelect={setSelected}
               onMove={(id, dx, dy) => {
@@ -813,9 +791,9 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               className="h-full w-full rounded-[3px] bg-white shadow-[0_1px_2px_rgba(20,32,61,.08),0_24px_60px_-18px_rgba(20,32,61,.35)]"
             />
           </div>
-          {advanced && !selected && (
-            <p className="pointer-events-none absolute bottom-[92px] left-1/2 -translate-x-1/2 rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white lg:bottom-5">
-              Tap anything on the card to move it
+          {!selected && (
+            <p className="pointer-events-none absolute bottom-[92px] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white lg:bottom-5">
+              Drag anything to move it, tap to style it
             </p>
           )}
           {busy && <p className="absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-ink px-4 py-2 text-sm text-white shadow-lg">{busy}</p>}
@@ -828,14 +806,10 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               <TemplatePicker samples={!persist} doc={doc} choose={choose} row />
             </Section>
           </div>
-          {advanced ? (
-            <Section title="Layers">{panelBody("layers", false)}</Section>
-          ) : (
-            <Section title="Your details">{panelBody("details", false)}</Section>
-          )}
+          <Section title="Layers">{panelBody("layers", false)}</Section>
           {panelBody("style", false)}
           {t.usesPhoto && <Section title="Photo">{panelBody("photo", false)}</Section>}
-          {advanced && <Section title="Your details">{panelBody("details", false)}</Section>}
+          <Section title="Your details">{panelBody("details", false)}</Section>
         </aside>
       </div>
 
@@ -862,17 +836,6 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
                 {p.label}
               </button>
             ))}
-            <button
-              type="button"
-              onClick={() => {
-                setAdvanced(!advanced);
-                setSelected(null);
-                setPanel(!advanced ? "layers" : null);
-              }}
-              className="flex h-[52px] flex-1 flex-col items-center justify-center rounded-lg text-[12px] text-ink/70"
-            >
-              {advanced ? "Simple" : "Advanced"}
-            </button>
           </div>
         </nav>
       </div>
