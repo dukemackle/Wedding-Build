@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/components/json-ld";
 import { FadeInSection } from "@/components/fade-in-section";
 import { PublicNav } from "@/components/public-nav";
 import { HomeEstimatorCard } from "@/components/home-estimator-card";
@@ -6,8 +8,38 @@ import { ClosingPhoto } from "@/components/landing/closing-photo";
 import { HeroSlideshow } from "@/components/landing/hero-slideshow";
 import { LandingFeatures } from "@/components/landing/landing-features";
 import { STANDARD_WIDTH, WIDE_WIDTH } from "@/lib/layout";
+import { SITE_URL } from "@/lib/public-listings";
 import { createClient } from "@/lib/supabase/server";
 import type { RegionalCostData } from "@/lib/supabase/types";
+
+// The homepage's title is what Google shows for a "You Do, I Do" search, so it
+// says what the site is, not just the name.
+export const metadata: Metadata = {
+  title: { absolute: "You Do, I Do: free wedding planner, venues and vendors" },
+  description:
+    "Plan your wedding free: budget, guest list and RSVPs, seating, checklist and a wedding website, plus wedding venues and vendors in all 50 states.",
+  alternates: { canonical: "/" },
+};
+
+// Organization + WebSite structured data, so search engines and AI assistants
+// name and describe the company consistently.
+const SITE_JSON_LD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "You Do, I Do",
+    legalName: "You Do, I Do LLC",
+    url: SITE_URL,
+    logo: `${SITE_URL}/icon.png`,
+    email: "hello@youdoido.com",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "You Do, I Do",
+    url: SITE_URL,
+  },
+];
 
 export default async function Home() {
   const supabase = await createClient();
@@ -25,6 +57,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-1 flex-col items-center overflow-x-hidden px-6">
+      <JsonLd data={SITE_JSON_LD} />
       <PublicNav />
 
       {/* Hero, approved 2026-10-21 (direction B, https://claude.ai/artifact/Nk7e6ynP1YcrYgQvUdSKS4):
