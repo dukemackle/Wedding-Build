@@ -2,23 +2,39 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { NavDropdown } from "@/components/nav-dropdown";
 export { isActiveLink } from "@/lib/nav";
 import {
   ArchIcon,
+  AttireIcon,
   BudgetIcon,
+  CalculatorIcon,
+  CalendarIcon,
+  ChecklistIcon,
+  FloorPlanIcon,
+  GiftIcon,
+  GlobeIcon,
   HeadcountIcon,
+  MailIcon,
   RingsIcon,
   TagIcon,
+  VendorsIcon,
   VenueIcon,
   WrenBirdIcon,
 } from "@/components/icons";
 
 export type IconType = ComponentType<{ className?: string }>;
 
-export type NavGroup = { label: string; icon: IconType; links: { href: string; label: string }[] };
-export type NavLinkItem = { href: string; label: string; icon: IconType };
+/** A page inside a dropdown: its own icon and a few words on what's there. */
+export type NavSubLink = { href: string; label: string; icon: IconType; hint: string };
+/**
+ * `tile` is the section's colour: the fill and icon colour of its square in
+ * the tab dock and of its pages' icons in the dropdown. One palette colour
+ * per section, so the dock reads as a set of distinct places.
+ */
+export type NavGroup = { label: string; icon: IconType; tile: string; links: NavSubLink[] };
+export type NavLinkItem = { href: string; label: string; icon: IconType; tile: string };
 
 /** A dropdown, or a single tab when a section has only one page. */
 export type NavItem = NavGroup | NavLinkItem;
@@ -28,47 +44,67 @@ export function isNavGroup(item: NavItem): item is NavGroup {
 }
 
 
+/** Tile fills, from the palette. Navy or Royal on the yellows and blues, never white. */
+const TILE = {
+  navy: "bg-[#14203d] text-[#FFD301]",
+  gold: "bg-[#FFD301] text-[#14203d]",
+  royal: "bg-[#2243B6] text-white",
+  sky: "bg-[#00BFFE] text-[#14203d]",
+  lemon: "bg-[#FFF12F] text-[#14203d]",
+  aqua: "bg-[#5AE4FF] text-[#14203d]",
+  // Help is Wren's: a white tile with the bird in Royal.
+  white: "bg-white text-[#2243B6] border border-hairline",
+};
+
 /** Everything between Dashboard and Help, in tab order. */
 export const NAV_ITEMS: NavItem[] = [
   {
     label: "Budget",
     icon: BudgetIcon,
+    tile: TILE.gold,
     links: [
-      { href: "/budget", label: "My Budget" },
-      { href: "/budget/estimate", label: "Estimator" },
+      { href: "/budget", label: "My Budget", icon: BudgetIcon, hint: "What's spent and what's left" },
+      { href: "/budget/estimate", label: "Estimator", icon: CalculatorIcon, hint: "What a wedding like yours costs" },
     ],
   },
   {
     label: "Venues",
     icon: VenueIcon,
+    tile: TILE.royal,
     links: [
-      { href: "/venues", label: "Venues" },
-      { href: "/vendors", label: "Vendors" },
-      { href: "/attire", label: "Attire" },
+      { href: "/venues", label: "Venues", icon: VenueIcon, hint: "Browse, compare, tour" },
+      { href: "/vendors", label: "Vendors", icon: VendorsIcon, hint: "Photo, music, flowers and more" },
+      { href: "/attire", label: "Attire", icon: AttireIcon, hint: "Dresses, suits, rentals" },
     ],
   },
   {
     label: "Guests",
     icon: HeadcountIcon,
+    tile: TILE.sky,
     links: [
-      { href: "/guests", label: "Guest list" },
-      { href: "/guests/site", label: "Guest site" },
-      { href: "/guests/save-the-date", label: "Save the date" },
-      { href: "/registry", label: "Registry" },
+      { href: "/guests", label: "Guest list", icon: HeadcountIcon, hint: "Names, RSVPs, plus-ones" },
+      { href: "/guests/site", label: "Guest site", icon: GlobeIcon, hint: "Your wedding website" },
+      { href: "/guests/save-the-date", label: "Save the date", icon: MailIcon, hint: "Design and send the card" },
+      { href: "/registry", label: "Registry", icon: GiftIcon, hint: "Gifts and funds" },
     ],
   },
   {
     label: "Wedding Plan",
     icon: RingsIcon,
+    tile: TILE.lemon,
     links: [
-      { href: "/checklist", label: "Checklist" },
-      { href: "/itinerary", label: "Itinerary" },
-      { href: "/venue-layout", label: "Venue Layout" },
-      { href: "/bookings", label: "Bookings" },
+      { href: "/checklist", label: "Checklist", icon: ChecklistIcon, hint: "What to do, month by month" },
+      { href: "/itinerary", label: "Itinerary", icon: CalendarIcon, hint: "The day, hour by hour" },
+      { href: "/venue-layout", label: "Venue Layout", icon: FloorPlanIcon, hint: "Tables and seating" },
+      { href: "/bookings", label: "Bookings", icon: VendorsIcon, hint: "Who's booked and what's due" },
     ],
   },
-  { href: "/marketplace", label: "Marketplace", icon: TagIcon },
+  { href: "/marketplace", label: "Marketplace", icon: TagIcon, tile: TILE.aqua },
 ];
+
+/** The two tabs either side of NAV_ITEMS. */
+export const DASHBOARD_TAB: NavLinkItem = { href: "/dashboard", label: "Dashboard", icon: ArchIcon, tile: TILE.navy };
+export const HELP_TAB: NavLinkItem = { href: "/help", label: "Help", icon: WrenBirdIcon, tile: TILE.white };
 
 /** An unread count beside a tab, in Royal blue so it reads as news, not as the brand's gold. */
 export function Badge({ count }: { count?: number }) {
@@ -81,29 +117,56 @@ export function Badge({ count }: { count?: number }) {
   );
 }
 
-function PlainLink({
-  href,
-  label,
+/**
+ * One square in the tab dock: a coloured tile with the label under it.
+ * Shared by plain tabs and dropdown buttons so they line up exactly.
+ */
+export function NavTileFace({
   icon: Icon,
+  tile,
+  label,
+  active,
   badge,
+  chevron,
 }: {
-  href: string;
-  label: string;
   icon: IconType;
+  tile: string;
+  label: string;
+  active: boolean;
   badge?: number;
+  chevron?: ReactNode;
 }) {
-  const pathname = usePathname();
-  const isActive = pathname.startsWith(href);
   return (
-    <Link
-      href={href}
-      className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 font-display text-lg transition-colors xl:text-xl ${
-        isActive ? "bg-forest/10 text-forest" : "text-ink/70 hover:text-forest"
-      }`}
-    >
-      <Icon className={`h-4 w-4 shrink-0 xl:h-5 xl:w-5 ${isActive ? "text-forest" : "text-brass"}`} />
-      {label}
-      <Badge count={badge} />
+    <>
+      <span className={`nav-tile relative grid h-11 w-11 place-items-center rounded-[14px] xl:h-12 xl:w-12 ${tile}`}>
+        <Icon className="h-6 w-6" />
+        {badge ? (
+          <span className="absolute -right-2 -top-1.5">
+            <Badge count={badge} />
+          </span>
+        ) : null}
+      </span>
+      <span className={`nav-tab-label flex items-center gap-0.5 whitespace-nowrap font-sans text-[13px] font-semibold leading-tight xl:text-sm ${active ? "text-ink" : "text-ink/80"}`}>
+        {label}
+        {chevron}
+      </span>
+    </>
+  );
+}
+
+/** Classes for a tab in the dock; `nav-tab-on` draws the ring and gold dot (globals.css). */
+export function navTabClass(active: boolean) {
+  return `nav-tab flex min-w-[84px] shrink-0 flex-col items-center gap-1 rounded-2xl px-1.5 pb-1.5 pt-1.5 xl:min-w-24 ${
+    active ? "nav-tab-on" : ""
+  }`;
+}
+
+function PlainLink({ item, badge }: { item: NavLinkItem; badge?: number }) {
+  const pathname = usePathname();
+  const isActive = pathname.startsWith(item.href);
+  return (
+    <Link href={item.href} aria-current={isActive ? "page" : undefined} className={navTabClass(isActive)}>
+      <NavTileFace icon={item.icon} tile={item.tile} label={item.label} active={isActive} badge={badge} />
     </Link>
   );
 }
@@ -111,22 +174,21 @@ function PlainLink({
 export function NavLinks({ badges = {} }: { badges?: Record<string, number> }) {
   return (
     // One row, always: the tabs never wrap under each other. Past the point
-    // where they stop fitting (phones) the strip scrolls sideways instead.
-    // The negative margin lets a tab's rounded highlight reach the gutter
-    // without the padding that keeps it from being clipped mid-scroll.
+    // where they stop fitting the strip scrolls sideways instead.
     // Centred with auto margins on the end tabs rather than justify-center,
     // which would push the first tabs off the left edge, out of scroll reach,
-    // once the strip overflows.
-    <nav className="-mx-1 flex [&>*:first-child]:ml-auto [&>*:last-child]:mr-auto w-full items-center gap-0.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <PlainLink href="/dashboard" label="Dashboard" icon={ArchIcon} />
+    // once the strip overflows. Vertical padding leaves room for a tile's
+    // hover lift and the active ring, which overflow-x would otherwise clip.
+    <nav className="-mx-1 flex [&>*:first-child]:ml-auto [&>*:last-child]:mr-auto w-full items-start gap-1 overflow-x-auto px-1 pb-1 pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <PlainLink item={DASHBOARD_TAB} />
       {NAV_ITEMS.map((item) =>
         isNavGroup(item) ? (
-          <NavDropdown key={item.label} label={item.label} icon={item.icon} links={item.links} />
+          <NavDropdown key={item.label} group={item} />
         ) : (
-          <PlainLink key={item.href} href={item.href} label={item.label} icon={item.icon} badge={badges[item.href]} />
+          <PlainLink key={item.href} item={item} badge={badges[item.href]} />
         ),
       )}
-      <PlainLink href="/help" label="Help" icon={WrenBirdIcon} />
+      <PlainLink item={HELP_TAB} />
     </nav>
   );
 }
