@@ -420,6 +420,26 @@ Upper Larimer	3034 Larimer St	Denver	Colorado			Ballroom	Indoor & Outdoor	300			
 Three Trees Chapel	13416 W. Arbor Place	Littleton	Colorado			Chapel & Church	Indoor & Outdoor	200			An all-inclusive chapel set among pines and mountain cascades, offering weddings, receptions and elopements, plus an outdoor garden tent.		303-932-2278	https://www.threetreeschapel.com/
 Black Forest Meadows	17104 E Goshawk Rd	Colorado Springs	Colorado			Barn & Farm	Indoor & Outdoor				A nature-focused event property in Colorado Springs that offers weddings, private events and alpaca experiences.	info@blackforestmeadows.com		https://www.blackforestmeadows.com/`,
   },
+  {
+    name: "Colorado depth: Denver suburbs, mountain resort towns, Western Slope and southern Colorado",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Ralston's Crossing	7400 Indiana Street	Arvada	Colorado			Garden & Park	Outdoor	160			A two-acre foothills property in west Arvada with a 1910 white chapel, gardens, a waterfall and a covered pavilion.	info@ralstonscrossing.com	303-425-1792	https://www.ralstonscrossing.com
+Mountain Hacienda	12565 South Critchell Lane	Conifer	Colorado			Mountain & Lodge	Indoor & Outdoor				A foothills property with mountain views, a cabin and outdoor ceremony areas.	mountainhacienda@gmail.com	303-589-7712	https://www.mountainhacienda.com
+Bella Sera Event Center	45 Strong St	Brighton	Colorado			Ballroom	Indoor	250			An Italian-inspired ballroom venue with chandeliers, a grand staircase and balconies, offering all-inclusive wedding packages.	hannah@thebellasera.com	(720) 937-6337	https://thebellasera.com
+The Venue at CSB	600 Main St.	Ouray	Colorado			Museum, Gallery & Rooftop	Indoor & Outdoor	50			Rooftop and indoor space off Main Street with 360-degree mountain views, suited to micro-weddings of up to 50 on the roof.		970-325-4478	https://www.csbcolorado.com/community/the-venue-at-csb/
+Hotel Clio	150 Clayton Lane	Denver	Colorado			Hotel & Resort	Indoor	360			A boutique hotel in Cherry Creek whose Grand, Fireside and Bluebell Ballrooms host wedding ceremonies and receptions.	info@hotelclio.com	303-316-2700	https://www.hotelcliocherrycreek.com/gather/cherry-creek-wedding-venue/
+Kimberly's Event Center	1029 8th Ave	Greeley	Colorado			Ballroom	Indoor				A downtown Greeley event hall that takes bookings for weddings and other celebrations and also rents tables, chairs and decor.		970-576-8538	https://kimberlyseventcenter.com
+Colorado Mesa University	1100 North Avenue	Grand Junction	Colorado			Ballroom	Indoor & Outdoor	800			A university campus offering a ballroom, terraces, a plaza and lawn areas for wedding ceremonies and receptions.		970-248-1746	https://www.coloradomesa.edu/event-spaces/weddings.html
+Meadowlark Garden Center	2259 Broadway	Grand Junction	Colorado			Garden & Park	Indoor & Outdoor	99			A small event space set inside a garden center greenhouse, with a stage, string lights and room outside for food trucks.		970-549-1415	https://meadowlarkgardencenter.com/event-venue
+Coulter Lake Guest Ranch	80 Co Rd 273	Rifle	Colorado			Ranch	Outdoor				A mountain guest ranch dating to 1902, with cabins and lake surroundings, that hosts weddings and family events.	booking@coulterlakeguestranch.com	970-230-0226	https://www.coulterlakeguestranch.com/wedding-events/
+Vista View Events	4611 Co Rd 237	Rifle	Colorado			Barn & Farm	Indoor & Outdoor				A lakefront mountain wedding venue outside Rifle that sells flat-rate packages and keeps an in-house decor library.			https://www.vistaviewevents.com/
+The Grove	1970 S Main Street	Delta	Colorado			Garden & Park	Indoor & Outdoor	200			A garden center and restaurant property with an indoor event room, a bridal suite and garden ceremony areas.	events@grovedelta.com	970-874-4999	https://grovedelta.com/events
+Cortez Elks Lodge #1789	2100 N. Dolores Rd	Cortez	Colorado			Ballroom	Indoor				A fraternal lodge in Cortez that rents banquet rooms for weddings, with a chef available to tailor menus.	cortezelks@gmail.com	970-565-3557	https://www.cortezelks.org
+The Inn at Pennington Place	24857 Hwy 160	Walsenburg	Colorado			Hotel & Resort	Indoor & Outdoor				A bed-and-breakfast near the Spanish Peaks with gardens, ceremony sites and four guest rooms, aimed at small weddings and vow renewals.	hales13.zebracake@gmail.com	719-738-2055	https://penningtonplaceinn.com/weddings.html
+Spanish Peaks Weddings at Sporleder Centennial Ranch	19530 County Road 54.2	Aguilar	Colorado			Ranch	Outdoor		5000	Package	A family-owned Centennial Ranch with two meadow ceremony sites, historic cabins and views of the Spanish Peaks, sold as a weekend package.		636-697-4333	https://www.spanishpeaksweddings.com/weddings-events
+Niwot Hall	195 2nd Avenue	Niwot	Colorado			Historic Mansion & Estate	Indoor	70			A historic community hall in Niwot's historic district that hosts micro weddings of up to 70 guests.			https://niwothall.org/micro-weddings/
+Sangre de Cristo Arts & Conference Center	210 N. Santa Fe Ave	Pueblo	Colorado			Museum, Gallery & Rooftop	Indoor	500			An arts center with a conference center, theater and pavilion that rents space for wedding receptions.	rentals@sdc-arts.org	719-722-2420	https://sdc-arts.org/event-rentals`,
+  },
 ];
 
 export default batches;
