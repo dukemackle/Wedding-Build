@@ -58,8 +58,8 @@ state outside your region, so you can never collide with them.
      left, add the other kind for the SAME metro or state in the same PR.
 4. Research in parallel: spawn 3 general-purpose subagents at once, splitting
    the work by metro, town or category.
-   Hand the state's `Site back up` skipped rows for those towns to the
-   subagents first (see the skill); they're re-research, not repeats. Give each the skill's column list and
+   Hand the state's `Site back up` and `Confirmed on Google, site blocks us`
+   skipped rows for those towns to the subagents first (see the skill); they're re-research, not repeats. Give each the skill's column list and
    rules, the towns to cover, and the names/websites already in that state's
    batch and skipped files so they don't repeat them. Each returns TSV rows
    confirmed on the business's own site plus a LEFT OUT list (name, reason,

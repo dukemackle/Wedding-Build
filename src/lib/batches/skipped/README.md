@@ -27,6 +27,13 @@ Kind	Name	Category	City	State	Reason	Link	Date
     past it.
   - `Site back up`: was `Site dead`, loaded on a later `npm run
     recheck:skipped`; research it into a batch again.
+  - `Confirmed on Google, site blocks us`: `npm run places:check` found it
+    open on Google (answers kept in `src/lib/batches/places/`). Add it to a
+    batch; leave phone, email and capacity blank. Never copy Google's address
+    or details (its terms forbid it): take the address from elsewhere and the
+    checker compares it with Google's.
+  - `Not on Google, site blocks us`: blocked and not on Google either. Leave
+    it until it lists itself or can be confirmed by hand.
   - `Inactive`: nothing posted or updated for about two years.
   - `Closed`: says it has closed or stopped doing weddings.
   - `Franchise`: a franchise, or a directory posing as a business.
