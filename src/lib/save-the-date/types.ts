@@ -65,9 +65,14 @@ export type LayerOverride = {
   bold?: boolean;
 };
 
+/** The couple's own three colours, used when `palette` is CUSTOM_PALETTE. */
+export type CardColours = { paper: string; ink: string; accent: string };
+
 export type CardDoc = {
   template: string;
   palette: string;
+  /** Kept across design switches, so their colours follow them. */
+  colours?: CardColours;
   fonts: string;
   content: CardContent;
   photo: Photo | null;

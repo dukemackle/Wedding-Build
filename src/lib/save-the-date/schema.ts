@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TEMPLATES, newCard, templateById } from "./templates";
+import { CUSTOM_PALETTE, TEMPLATES, newCard, templateById } from "./templates";
 import type { CardDoc } from "./types";
 
 /**
@@ -58,6 +58,7 @@ const override = z.object({
 export const cardDocSchema = z.object({
   template: id,
   palette: id,
+  colours: z.object({ paper: hex, ink: hex, accent: hex }).optional(),
   fonts: id,
   content,
   photo,
@@ -74,7 +75,7 @@ export function parseCardDoc(raw: unknown): CardDoc | null {
   const t = templateById(doc.template);
   return {
     ...doc,
-    palette: t.palettes.some((p) => p.id === doc.palette) ? doc.palette : t.palettes[0].id,
+    palette: t.palettes.some((p) => p.id === doc.palette) || (doc.palette === CUSTOM_PALETTE && doc.colours) ? doc.palette : t.palettes[0].id,
     fonts: t.pairings.some((p) => p.id === doc.fonts) ? doc.fonts : t.pairings[0].id,
   };
 }
