@@ -15,8 +15,8 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#14203d",
     // Two separate files on purpose. Android crops a maskable icon to a circle
     // or squircle, so anything outside the centre 80% can be cut off -- the
-    // maskable variant is full-bleed parchment with the disc pulled inside
-    // that safe zone. The "any" icon keeps its transparent corners, which is
+    // maskable variant is the full-bleed Royal tile with the rings pulled inside
+    // that safe zone. The "any" icon is the rounded tile with transparent corners, which is
     // what looks right everywhere a maskable crop isn't applied.
     icons: [
       {
