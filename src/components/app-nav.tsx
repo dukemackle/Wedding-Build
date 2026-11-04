@@ -40,7 +40,7 @@ export async function AppNav({ email }: { email: string }) {
               {isAdmin && (
                 <a
                   href="https://admin.youdoido.com"
-                  className="shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline"
+                  className="hidden shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline sm:block"
                 >
                   Admin
                 </a>
@@ -51,7 +51,7 @@ export async function AppNav({ email }: { email: string }) {
               >
                 {email}
               </Link>
-              <form action={signOut}>
+              <form action={signOut} className="hidden sm:block">
                 <button
                   type="submit"
                   className="shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline"
@@ -59,9 +59,9 @@ export async function AppNav({ email }: { email: string }) {
                   Log out
                 </button>
               </form>
-              {/* Sits in the row that already exists rather than claiming one
-                  of its own -- a whole line of height back on a phone. */}
-              <MobileNav badges={badges} />
+              {/* On a phone the account links above move into the menu
+                  drawer, leaving this row just the mark and the button. */}
+              <MobileNav badges={badges} email={email} isAdmin={isAdmin} />
             </div>
           </div>
 
