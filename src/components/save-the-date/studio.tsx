@@ -53,7 +53,10 @@ function Section({ title, children, aside }: { title: string; children: ReactNod
   return (
     <section className="border-b border-hairline px-5 py-5 last:border-b-0">
       <div className="mb-3 flex items-baseline justify-between">
-        <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/60">{title}</h3>
+        <h3 className="flex items-center gap-2 text-[15px] font-semibold text-ink">
+          <ToolIcon name={title} className="h-[18px] w-[18px] text-[#2243B6]" />
+          {title}
+        </h3>
         {aside}
       </div>
       {children}
@@ -68,10 +71,11 @@ function Section({ title, children, aside }: { title: string; children: ReactNod
 function Fold({ title, summary, open, onToggle, children }: { title: string; summary?: ReactNode; open: boolean; onToggle: () => void; children: ReactNode }) {
   return (
     <section className="border-b border-hairline">
-      <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center gap-3 px-5 py-4 text-left hover:bg-ink/[0.02]">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/60">{title}</span>
-        {!open && summary && <span className="ml-auto min-w-0 truncate text-[13px] text-ink/70">{summary}</span>}
-        <svg viewBox="0 0 24 24" className={`h-4 w-4 shrink-0 text-ink/45 transition-transform ${open ? "ml-auto rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center gap-3 px-5 py-4 text-left transition hover:bg-[#2243B6]/[0.03]">
+        <ToolIcon name={title} className="h-5 w-5 shrink-0 text-[#2243B6]" />
+        <span className="text-[15px] font-semibold text-ink">{title}</span>
+        {!open && summary && <span className="ml-auto flex min-w-0 items-center gap-2 truncate text-sm text-ink/75">{summary}</span>}
+        <svg viewBox="0 0 24 24" className={`h-4 w-4 shrink-0 text-ink/60 transition-transform ${open ? "ml-auto rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
           <path d="M6 9l6 6 6-6" />
         </svg>
       </button>
@@ -83,7 +87,7 @@ function Fold({ title, summary, open, onToggle, children }: { title: string; sum
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-xs text-ink/70">{label}</span>
+      <span className="mb-1.5 block text-[13px] font-medium text-ink/80">{label}</span>
       {children}
     </label>
   );
@@ -94,14 +98,14 @@ const input =
 
 function Slider({ label, value, min, max, step, onChange }: { label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void }) {
   return (
-    <label className="flex items-center gap-3 text-xs text-ink/70">
+    <label className="flex items-center gap-3 text-[13px] font-medium text-ink/80">
       <span className="w-16 shrink-0">{label}</span>
       <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} className="h-8 w-full accent-[#2243B6]" />
     </label>
   );
 }
 
-function IconButton({ label, onClick, disabled, children }: { label: string; onClick: () => void; disabled?: boolean; children: ReactNode }) {
+function IconButton({ label, onClick, disabled, showLabel, children }: { label: string; onClick: () => void; disabled?: boolean; showLabel?: boolean; children: ReactNode }) {
   return (
     <button
       type="button"
@@ -109,15 +113,16 @@ function IconButton({ label, onClick, disabled, children }: { label: string; onC
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex h-10 w-10 items-center justify-center rounded-full text-ink transition hover:bg-ink/5 disabled:opacity-30"
+      className={`flex h-10 min-w-10 items-center justify-center gap-1.5 rounded-full text-ink transition hover:bg-ink/5 disabled:opacity-30 ${showLabel ? "lg:px-3" : ""}`}
     >
       {children}
+      {showLabel && <span className="hidden text-sm font-medium lg:inline">{label}</span>}
     </button>
   );
 }
 
 const UndoIcon = () => (
-  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
     <path d="M9 14L4 9l5-5" />
     <path d="M4 9h10.5a5.5 5.5 0 010 11H11" />
   </svg>
@@ -128,6 +133,30 @@ const RedoIcon = () => (
     <path d="M4 9h10.5a5.5 5.5 0 010 11H11" />
   </svg>
 );
+
+/** Small line icons for section headings and the phone's tool bar. */
+const ICON_PATHS: Record<string, string> = {
+  designs: "M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z",
+  details: "M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4",
+  colours: "M12 3a9 9 0 100 18c1 0 1.6-.8 1.6-1.7 0-1.2-1-1.6-1-2.6 0-.9.8-1.7 1.7-1.7H17a4 4 0 004-4C21 6.6 17 3 12 3zM7.5 11.5h.01M10 7.5h.01M15 7.5h.01",
+  lettering: "M4 19l5-14 5 14M5.8 14h6.4M15 15.5c0-1.8 1.4-2.5 3-2.5h2v6M20 15c0 2-1.3 4-3 4-1.2 0-2-.7-2-1.8",
+  photo: "M4 6h16v13H4zM4 16l5-5 4 4 2-2 5 5M15.5 9.5h.01",
+  layers: "M12 4l8 4-8 4-8-4 8-4zM4 12l8 4 8-4M4 16l8 4 8-4",
+  download: "M12 4v11M7 10l5 5 5-5M5 20h14",
+};
+const ICON_FOR: Record<string, string> = {
+  templates: "designs", designs: "designs", "your details": "details", details: "details",
+  style: "colours", colours: "colours", lettering: "lettering", photo: "photo", layers: "layers", download: "download",
+};
+function ToolIcon({ name, className = "h-5 w-5" }: { name: string; className?: string }) {
+  const d = ICON_PATHS[ICON_FOR[name.toLowerCase()] ?? name];
+  if (!d) return null;
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d={d} />
+    </svg>
+  );
+}
 
 // ---------------------------------------------------------------- panels
 
@@ -145,7 +174,7 @@ function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: strin
       type="button"
       onClick={() => setFamily(value)}
       aria-pressed={family === value}
-      className={`shrink-0 rounded-full border px-3 py-1.5 text-xs transition ${family === value ? "border-[#2243B6] bg-[#2243B6]/[0.06] font-medium text-[#2243B6]" : "border-hairline text-ink/70 hover:border-ink/25"}`}
+      className={`shrink-0 rounded-full border px-3.5 py-2 text-sm font-medium transition ${family === value ? "border-[#2243B6] bg-[#2243B6] text-white shadow-sm" : "border-ink/15 bg-white text-ink/80 hover:border-[#2243B6]/50 hover:text-[#2243B6]"}`}
     >
       {label}
     </button>
@@ -240,7 +269,7 @@ function ColoursPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDo
                 <span className="h-6 w-6 rounded-full" style={{ background: p.metal ? `linear-gradient(135deg, ${p.metal[0]}, ${p.metal[2]})` : p.accent }} />
                 <span className="-ml-2 h-6 w-6 rounded-full border-2" style={{ background: p.ink, borderColor: p.paper }} />
               </span>
-              <span className="mt-1 block text-[11px] text-ink/70">{p.label}</span>
+              <span className="mt-1.5 block text-xs font-medium text-ink/80">{p.label}</span>
             </button>
           );
         })}
@@ -255,7 +284,7 @@ function ColoursPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDo
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-lg leading-none text-[#14203d] shadow-sm">+</span>
             )}
           </span>
-          <span className="mt-1 block text-[11px] text-ink/70">Your colours</span>
+          <span className="mt-1.5 block text-xs font-medium text-ink/80">Your colours</span>
         </button>
       </div>
       {custom && own && (
@@ -283,6 +312,33 @@ function ColoursPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDo
   );
 }
 
+/** A folded Colours heading: the three colours in use, then their name. */
+function PaletteSummary({ doc }: { doc: CardDoc }) {
+  const p = cardPalette(doc);
+  return (
+    <>
+      <span className="flex shrink-0">
+        {[p.paper, p.ink, p.metal ? p.metal[1] : p.accent].map((c, i) => (
+          <span key={i} className={`h-4 w-4 rounded-full ring-1 ring-ink/20 ${i ? "-ml-1" : ""}`} style={{ background: c }} />
+        ))}
+      </span>
+      <span className="truncate">{p.label}</span>
+    </>
+  );
+}
+
+/** A folded Lettering heading: "Aa" in the chosen face, then its name. */
+function LetteringSummary({ doc }: { doc: CardDoc }) {
+  const t = templateById(doc.template);
+  const p = t.pairings.find((x) => x.id === doc.fonts) ?? t.pairings[0];
+  return (
+    <>
+      <span className="text-lg leading-none text-ink" style={{ fontFamily: fontById(p.display)?.css }}>Aa</span>
+      <span className="truncate">{p.label}</span>
+    </>
+  );
+}
+
 function LetteringPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDoc>, key?: string) => void }) {
   const t = templateById(doc.template);
   return (
@@ -302,7 +358,7 @@ function LetteringPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<Card
                 {doc.content.nameA || "Alex"}{" "}
                 <span style={{ fontFamily: fontById(p.script)?.css }}>&amp;</span>
               </span>
-              <span className="mt-0.5 block text-[10px] uppercase tracking-[0.25em] text-ink/60" style={{ fontFamily: fontById(p.sans)?.css }}>
+              <span className="mt-0.5 block text-[11px] uppercase tracking-[0.22em] text-ink/70" style={{ fontFamily: fontById(p.sans)?.css }}>
                 {p.label}
               </span>
             </span>
@@ -789,17 +845,18 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           </p>
         </div>
         <div className="ml-auto flex items-center gap-1">
-          <IconButton label="Undo" onClick={() => commit({ type: "undo" })} disabled={!h.past.length}>
+          <IconButton label="Undo" showLabel onClick={() => commit({ type: "undo" })} disabled={!h.past.length}>
             <UndoIcon />
           </IconButton>
           {/* Phones keep Undo only, to leave room for Preview and Send. */}
           <span className={sendHref ? "hidden sm:contents" : "contents"}>
-            <IconButton label="Redo" onClick={() => commit({ type: "redo" })} disabled={!h.future.length}>
+            <IconButton label="Redo" showLabel onClick={() => commit({ type: "redo" })} disabled={!h.future.length}>
               <RedoIcon />
             </IconButton>
           </span>
           <div className="relative hidden lg:block">
-            <button type="button" onClick={() => setMenu((m) => !m)} className="h-10 rounded-full px-4 text-sm text-ink hover:bg-ink/5" aria-expanded={menu}>
+            <button type="button" onClick={() => setMenu((m) => !m)} className="ml-1 flex h-10 items-center gap-1.5 rounded-full border border-ink/25 px-4 text-sm font-medium text-ink transition hover:border-ink/50 hover:bg-ink/[0.03]" aria-expanded={menu}>
+              <ToolIcon name="download" className="h-4 w-4" />
               Download
             </button>
             {menu && (
@@ -843,7 +900,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       <div className="flex min-h-0 flex-1">
         {/* Desktop: designs on the left */}
         <aside className="hidden w-[300px] shrink-0 overflow-y-auto border-r border-hairline bg-white xl:block">
-          <Section title="Designs" aside={<span className="text-[11px] text-ink/45">{TEMPLATES.length} designs</span>}>
+          <Section title="Designs" aside={<span className="text-xs text-ink/60">{TEMPLATES.length} designs</span>}>
             <TemplatePicker doc={doc} choose={choose} />
           </Section>
         </aside>
@@ -906,10 +963,10 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           >
             {panelBody("details", false)}
           </Fold>
-          <Fold title="Colours" summary={cardPalette(doc).label} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
+          <Fold title="Colours" summary={<PaletteSummary doc={doc} />} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
             <ColoursPicker doc={doc} patch={patch} />
           </Fold>
-          <Fold title="Lettering" summary={(t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0]).label} open={shownFold === "lettering"} onToggle={() => openFold("lettering")}>
+          <Fold title="Lettering" summary={<LetteringSummary doc={doc} />} open={shownFold === "lettering"} onToggle={() => openFold("lettering")}>
             <LetteringPicker doc={doc} patch={patch} />
           </Fold>
           {t.usesPhoto && (
@@ -944,16 +1001,17 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           </div>
         )}
         <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-hairline bg-white pb-[env(safe-area-inset-bottom)]">
-          <div className="flex items-center justify-between gap-1 px-2 pt-1.5">
+          <div className="flex items-center justify-between gap-0.5 px-1.5 pt-1.5">
             {[...panels, { id: "download" as const, label: "Download" }].map((p) => (
               <button
                 key={p.id}
                 type="button"
                 onClick={() => setPanel(panel === p.id ? null : p.id)}
                 aria-pressed={panel === p.id}
-                className={`flex h-[52px] flex-1 flex-col items-center justify-center rounded-lg text-[12px] transition ${panel === p.id ? "bg-[#2243B6]/[0.07] font-medium text-[#2243B6]" : "text-ink/70"}`}
+                className={`flex h-[56px] min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-xl text-[12px] font-medium transition ${panel === p.id ? "bg-[#2243B6]/10 text-[#2243B6]" : "text-ink/75 active:bg-ink/5"}`}
               >
-                {p.label}
+                <ToolIcon name={p.id} className="h-[22px] w-[22px]" />
+                <span className="truncate">{p.label}</span>
               </button>
             ))}
           </div>
