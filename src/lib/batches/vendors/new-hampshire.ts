@@ -262,6 +262,28 @@ Lisa Smith Photography	Photography		Epsom	New Hampshire	New Hampshire and New En
 Danica B. Photography	Photography		Concord	New Hampshire	Concord, NH	Concord photography studio offering wedding sessions alongside portrait, maternity, newborn and boudoir work.		(603) 630-1967	https://danicabphotography.com/	https://www.instagram.com/danicabphoto/		
 `,
   },
+  {
+    name: "Lakes Region: Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Bella Winni Salon	Hair & Makeup	166 Wolfeboro Highway	Alton	New Hampshire	Alton and the surrounding Lakes Region	Alton hair salon offering bridal hairstyling and make-up for weddings and special occasions, with Saturdays set aside for wedding and event bookings.	BellaWinniSalon@gmail.com	603-875-4114	https://bellawinni.com	https://www.instagram.com/bellawinnisalon/		`,
+  },
+  {
+    name: "Concord: Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Parlor Salon	Hair & Makeup	58 N Main St	Concord	New Hampshire	Concord and travel throughout New Hampshire	Concord salon whose bridal team styles hair and makeup on site at your wedding, with an in-salon consultation and trial beforehand.	parlorsalonnh@gmail.com	603-715-9012	https://parlorsalonnh.com/	https://www.instagram.com/parlorsalonnh/	165	per person
+Transformations Salon & Glam Squad	Hair & Makeup	1461 Hooksett Rd	Hooksett	New Hampshire	Hooksett, Concord and Tilton areas	Hooksett hair salon offering bridal hair, makeup, trials and bridal party styling, with a second studio in Tilton on Wednesdays.		(603) 647-0270	https://www.transformationsnh.com/	https://www.instagram.com/transformationsnh/	50	per person`,
+  },
+  {
+    name: "White Mountains: Cake, Catering, Florals, Videography, Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Delectables by Danette	Cake	64 Kearsarge Rd	North Conway	New Hampshire	North Conway and the Mount Washington Valley	Artisan bakery near North Conway village that specialises in custom wedding cakes, alongside cupcakes, cookies and brownies.		(603) 387-7095	https://www.delectablesbydanette.com/	https://www.instagram.com/delectablesbydanette/		
+Jack and Fin's	Cake	42 Main Street	Littleton	New Hampshire	Littleton and the North Country	Littleton cupcake shop that supplies assorted cupcakes for weddings and special events, with a cupcake inquiry form for larger orders.		603-575-5109	https://www.jackandfins.com/			
+Bitchin' Kitchin Food Truck	Catering		Bethlehem	New Hampshire	Littleton, Bethlehem, Franconia and the surrounding North Country	Family-run food truck that builds custom catering menus for weddings and events, including vegetarian, vegan and gluten-free options.	foodtruckNH@gmail.com	(603) 667-0602	https://www.bitchinkitchentruck.com/	https://www.instagram.com/bitchinkitchentruck/		
+Dutch Bloemen Winkel	Florals	18 Black Mountain Road	Jackson	New Hampshire	Mount Washington Valley	Jackson flower shop open since 2004, designing wedding and elopement flowers alongside everyday arrangements and gifts.		(603) 383-9696	https://dutchbw.com/			
+Clementina Floral Co.	Florals		North Woodstock	New Hampshire	Northern New Hampshire and greater New England	Full-service floral studio in North Woodstock that focuses on wedding and event design, with an enquiry form for couples.			https://www.clementinafloral.co/	https://www.instagram.com/cfloralco/		
+DVision Media	Videography		North Conway	New Hampshire	North Conway and the White Mountains	North Conway production company making wedding films, plus wedding and engagement photography, with a quote request form on its site.			https://www.dvisionmedia.com/	https://www.instagram.com/dvisionmediaco/		
+Anne Skidmore Photography	Photography		North Conway	New Hampshire	North Conway, Jackson and the White Mountains	North Conway photographer who shoots weddings at White Mountains inns and venues, with a documentary approach.	anne@asweddings.com		https://www.asweddings.com/	https://www.instagram.com/asweddings/		`,
+  },
 ];
 
 export default batches;
