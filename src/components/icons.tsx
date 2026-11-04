@@ -375,7 +375,7 @@ export function RingsIcon(props: IconProps) {
       {/* The logo's rings and gem: the four-point gem sits on top of the right ring. */}
       <circle cx="7.4" cy="15" r="5.6" />
       <circle cx="16.6" cy="15" r="5.6" />
-      <path d="M16.6 1.4Q17.1 4.1 19 4.9Q17.1 5.7 16.6 8.2Q16.1 5.7 14.2 4.9Q16.1 4.1 16.6 1.4Z" fill="currentColor" strokeWidth={1} />
+      <path d="M16.6 3.1Q16.98 5.13 18.4 5.73Q16.98 6.33 16.6 8.2Q16.23 6.33 14.8 5.73Q16.23 5.13 16.6 3.1Z" fill="currentColor" strokeWidth={1} />
     </IconBase>
   );
 }
