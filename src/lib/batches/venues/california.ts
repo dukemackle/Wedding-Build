@@ -1423,6 +1423,17 @@ Smith Farm Weddings & Events	472-750 Richmond Rd N	Susanville	California			Barn 
 Arnoldi's Cafe	600 Olive Street	Santa Barbara	California			Restaurant & Brewery	Indoor & Outdoor				An Italian restaurant founded in 1937 and housed since 1940 in a hand-built stone building on Olive Street, with a back garden patio and bocce courts.			https://www.arnoldis.com/the-garden
 `,
   },
+  {
+    name: "California: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Lake Oak Meadows	36101 Glen Oaks Road	Temecula	California			Lake & River	Indoor & Outdoor				A Temecula property set around a small lake with old oaks and lawns for ceremonies and receptions.			https://lakeoakmeadows.com/
+Leoness Cellars	38311 De Portola Road	Temecula	California			Vineyard & Winery	Indoor & Outdoor				A hilltop winery on De Portola Road in Temecula wine country with vineyard views and an on-site restaurant.			https://leonesscellars.com/weddings
+Falkner Winery	40620 Calle Contento	Temecula	California			Vineyard & Winery	Indoor & Outdoor				A Temecula winery on Calle Contento with a garden ceremony site and receptions in its Mediterranean-style hilltop restaurant overlooking the vines.			https://falknerwinery.com/weddings/
+Hotel Sutter	53 Main Street	Sutter Creek	California			Hotel & Resort	Indoor & Outdoor				A historic Gold Country hotel on Sutter Creek's Main Street in Amador County, with guest rooms, a restaurant and a bar under one roof.			https://www.hotelsutter.com/sutter-creek-wedding-venue
+Old Sugar Mill	35265 Willow Avenue	Clarksburg	California			Industrial Loft & Warehouse	Indoor & Outdoor				A 1934 brick beet-sugar refinery in Clarksburg's Delta farmland, now home to several wineries and a 4,200-square-foot gallery hall.			https://oldsugarmill.com/weddings/
+Red Barn Ranch	16181 Mountain House Road	Hopland	California			Ranch	Indoor & Outdoor				A 100-acre private ranch in the hills outside Hopland in Mendocino County, built around a red barn.			https://redbarnranchevents.com/
+`,
+  },
 ];
 
 export default batches;

@@ -107,6 +107,12 @@ Inn at Whittier		Whittier	Alaska			Beach & Coast	Indoor				A small harborside in
 Alaska Adventure Cabins	2525 Sterling Hwy	Homer	Alaska			Mountain & Lodge	Indoor & Outdoor				A group of log cabins on 10 acres atop Baycrest Hill above Homer, looking over Kachemak Bay toward the Homer Spit and the glaciers beyond.			https://alaskaadventurecabins.com/
 `,
   },
+  {
+    name: "Alaska: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Mushers Hall (Alaska Dog Mushers Association)	925 Farmers Loop Rd	Fairbanks	Alaska			Mountain & Lodge	Indoor & Outdoor				A log hall of about 1,100 square feet with a commercial kitchen, on the dog mushers' 45-acre race grounds off Farmers Loop Road.			https://alaskadogmushers.com/the-hall-and-racegrounds/
+`,
+  },
 ];
 
 export default batches;

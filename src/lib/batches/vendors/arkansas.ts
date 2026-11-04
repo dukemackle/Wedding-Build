@@ -302,6 +302,13 @@ Tesori Bridal	Bridal & Formalwear	577 E. Millsap Road, Suite 3	Fayetteville	Arka
 Community Bakery	Cake	1200 Main St	Little Rock	Arkansas		Long-running scratch bakery in Little Rock's SoMa district, decorating wedding and celebration cakes at its Main Street shop.			https://communitybakery.com/wedding-cakes			
 `,
   },
+  {
+    name: "Arkansas: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Mood Floral Co.	Florals	302 Ouachita Ave	Hot Springs	Arkansas	Hot Springs, Garland County and Hot Springs Village	Floral design studio in historic Hot Springs making bespoke wedding flowers in fresh, faux and silk stems, with consultations in the shop.			https://themoodfloralco.com/weddings/	https://www.instagram.com/themoodfloralco/		
+Dynasty Limousine	Transportation	1125 Jefferson St	Springdale	Arkansas	Northwest Arkansas	Springdale transport company running limousines, party buses and shuttles for brides, grooms, wedding parties and guests across NW Arkansas.			https://www.dynastylimonwa.com/wedding-service/			
+`,
+  },
 ];
 
 export default batches;

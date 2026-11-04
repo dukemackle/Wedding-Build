@@ -258,6 +258,17 @@ Wynlakes Golf & Country Club	7900 Wynlakes Blvd	Montgomery	Alabama			Country Clu
 Pelham Civic Complex Banquet Hall	500 Amphitheater Rd	Pelham	Alabama			Ballroom	Indoor				A city-run 7,000-square-foot banquet hall at the Pelham Civic Complex that opens as one room or divides into four.			https://www.pelhamalabama.gov/1147/Banquet-Hall
 `,
   },
+  {
+    name: "Alabama: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Annabella at Cedar Glen	5264 Rustic Trail	Huntsville	Alabama			Historic Mansion & Estate	Indoor & Outdoor				A 5,600-square-foot plantation-style house on three and a half acres in northeast Huntsville, with gardens, a footbridge and two outdoor ceremony sites.			https://annabellaweddings.com
+Crest Farm Barn	351 Crest Farm Dr	Wilsonville	Alabama			Barn & Farm	Indoor & Outdoor				A family-owned event barn on 16 wooded acres in Shelby County, with a bridal suite included for two nights in its packages.			https://crestfarmbarn.com
+Hampton Cove Wedding Venue	823 Cherry Tree Rd	Huntsville	Alabama			Lake & River	Indoor & Outdoor				A veteran-family-owned 23-acre property below the mountains east of Huntsville, with a reception hall, a bridal suite and a lakeside ceremony site.			https://hamptoncoveweddingvenue.com/
+Children's Harbor Lake Martin	434 Children's Harbor Dr	Eclectic	Alabama			Chapel & Church	Indoor & Outdoor				A nonprofit campus on Lake Martin with two ceremony sites: the lakeside Radney Family Children's Chapel, seating about 220, and the open-air Church in the Pines.			https://www.childrensharbor.com/rental-facilities/weddings/
+The Barn at Shady Lane	290 Sunbelt Pkwy	Birmingham	Alabama			Barn & Farm	Indoor & Outdoor				An air-conditioned event barn on eight acres beside the Oxmoor Valley golf course, about a mile from Ross Bridge.			https://thebarnatshadylane.com/
+Dothan Area Botanical Gardens	5130 Headland Ave	Dothan	Alabama			Garden & Park	Indoor & Outdoor				A public botanical garden with a formal wedding garden with a fountain and pergola, an indoor hall in its botanical center, a restored farmhouse and a gazebo.			https://dothanbotanicalgardens.com/rentals/
+`,
+  },
 ];
 
 export default batches;

@@ -330,6 +330,14 @@ Yuma Civic Center	1440 Desert Hills Dr	Yuma	Arizona			Ballroom	Indoor & Outdoor	
 IronOaks at Sun Lakes	24218 S Oakwood Blvd	Sun Lakes	Arizona			Country Club & Golf	Indoor & Outdoor				Golf clubhouse in the Sun Lakes community south of Chandler, with a tree-lined ceremony grove and a large ballroom.			https://www.ironoaksaz.com/weddings-catering/weddings-celebrations
 `,
   },
+  {
+    name: "Arizona: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Cabins on Strawberry Hill	5306 N Highway 87	Strawberry	Arizona			Mountain & Lodge	Outdoor				Group of rental cabins in the pines at the top of Strawberry Hill on the Mogollon Rim, hosting outdoor ceremonies and receptions with lodging on site.			https://www.azcabins.com/weddings/
+Regency Garden	25 N Robson	Mesa	Arizona			Garden & Park	Indoor & Outdoor				Walled garden venue in downtown Mesa with lawns and fountains for ceremonies alongside an indoor reception hall.			https://www.regencygarden.com/
+Christopher Creek Lodge	1355 E Christopher Creek Loop	Payson	Arizona			Mountain & Lodge	Outdoor				Creekside lodge and cabin property beneath the Mogollon Rim east of Payson, with fire pits, a rec room and grounds in the pines.			https://christophercreeklodge.com/weddings/
+`,
+  },
 ];
 
 export default batches;
