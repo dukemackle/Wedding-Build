@@ -68,6 +68,13 @@ export type LayerOverride = {
 /** The couple's own three colours, used when `palette` is CUSTOM_PALETTE. */
 export type CardColours = { paper: string; ink: string; accent: string };
 
+/**
+ * The printed card's back: the wedding website, a QR code to it and an
+ * optional travel line, in the front's colours and fonts (see back.ts).
+ * Off unless the couple adds it; guests online see it by flipping the card.
+ */
+export type CardBack = { on: boolean; travel: string };
+
 export type CardDoc = {
   template: string;
   palette: string;
@@ -77,6 +84,7 @@ export type CardDoc = {
   content: CardContent;
   photo: Photo | null;
   overrides: Record<string, LayerOverride>;
+  back?: CardBack;
 };
 
 type Base = { id: string; label: string; rotate?: number };

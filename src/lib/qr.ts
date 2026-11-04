@@ -14,8 +14,3 @@ export function qrSvg(url: string): Promise<string> {
     color: { dark: "#14203d", light: "#ffffff" },
   });
 }
-
-/** The same code in a card's own colours (dark modules on a light ground). */
-export function qrSvgColors(url: string, dark: string, light: string): Promise<string> {
-  return QRCode.toString(url, { type: "svg", margin: 0, errorCorrectionLevel: "M", color: { dark, light } });
-}

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
 import { SaveTheDateStudio } from "@/components/save-the-date/studio";
+import { siteAddress } from "@/lib/save-the-date/back";
 import { loadCards, photoLibrary } from "../../load-card";
 import { NoWedding } from "../../no-wedding";
 import { CARDS_LIST_HREF } from "../../resume";
@@ -40,6 +41,7 @@ export default async function EditSaveTheDatePage({ params }: { params: Promise<
           version={card.updatedAt}
           persist={loaded.canEdit}
           photos={photos}
+          site={loaded.wedding.public_slug ? siteAddress(loaded.wedding.public_slug) : null}
           backHref={CARDS_LIST_HREF}
           backLabel="Designs"
           sendHref={`/guests/save-the-date/send?card=${card.id}`}

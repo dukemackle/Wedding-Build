@@ -133,8 +133,8 @@ const RedoIcon = () => (
 
 type Panel = "templates" | "details" | "style" | "photo" | "layers" | "download";
 /** The desktop settings sections, which fold. */
-type FoldId = "designs" | "details" | "colours" | "lettering" | "photo" | "layers";
-const FOLDS: FoldId[] = ["details", "colours", "lettering", "photo", "layers"];
+type FoldId = "designs" | "details" | "back" | "colours" | "lettering" | "photo" | "layers";
+const FOLDS: FoldId[] = ["details", "back", "colours", "lettering", "photo", "layers"];
 
 function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: string) => void; row?: boolean }) {
   const [family, setFamily] = useState<string | null>(null);
@@ -181,6 +181,52 @@ function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: strin
           );
         })}
       </div>
+    </div>
+  );
+}
+
+/**
+ * The printed card's back (website, QR code, travel line). Off by default:
+ * most couples who only send online don't need one.
+ */
+function BackPanel({ doc, site, patch, show }: { doc: CardDoc; site: string | null; patch: (p: Partial<CardDoc>, key?: string) => void; show: (side: "front" | "back") => void }) {
+  const back = doc.back ?? { on: false, travel: "" };
+  return (
+    <div className="space-y-3">
+      <label className="flex cursor-pointer items-start gap-3">
+        <input
+          type="checkbox"
+          className="mt-0.5 h-5 w-5 shrink-0 accent-[#2243B6]"
+          checked={back.on}
+          onChange={(e) => {
+            patch({ back: { ...back, on: e.target.checked } });
+            show(e.target.checked ? "back" : "front");
+          }}
+        />
+        <span className="text-[15px] leading-snug text-ink">
+          Add a back for printing
+          <span className="mt-0.5 block text-xs text-ink/55">Your website and a QR code to it, in this design&apos;s colours. Guests online can turn the card over.</span>
+        </span>
+      </label>
+      {back.on && (
+        <>
+          {!site && (
+            <p className="rounded-lg bg-[#FFF12F]/25 px-3 py-2.5 text-xs leading-relaxed text-ink">
+              Your website isn&apos;t on yet, so the code has nowhere to go. Turn it on in{" "}
+              <a href="/guests/site" className="font-medium text-[#2243B6] underline">Guests › Website</a>; until then the PDF prints the front only.
+            </p>
+          )}
+          <Field label="Travel line (optional)">
+            <input
+              className={input}
+              maxLength={90}
+              placeholder="e.g. Rooms held at the Hotel Californian until May 1"
+              value={back.travel}
+              onChange={(e) => patch({ back: { ...back, travel: e.target.value } }, "back-travel")}
+            />
+          </Field>
+        </>
+      )}
     </div>
   );
 }
@@ -519,6 +565,8 @@ type StudioProps = {
   title?: string;
   /** The saved card's id, for autosave (the couple's real card only). */
   cardId?: string;
+  /** The wedding website as printed on the back (youdoido.com/w/…); null while it's off. */
+  site?: string | null;
 };
 
 /**
@@ -527,23 +575,27 @@ type StudioProps = {
  * docs/save-the-date-studio.md.
  */
 /** The two downloads and how to get the card printed: the desktop menu and the phone sheet. */
-function DownloadOptions({ download, sheet }: { download: (kind: "png" | "pdf") => void; sheet?: boolean }) {
+function DownloadOptions({ download, sheet, back }: { download: (kind: "png" | "pdf") => void; sheet?: boolean; back?: "on" | "nosite" | "back-shown" | null }) {
   const item = sheet
     ? "block w-full rounded-xl border border-hairline px-4 py-3 text-left text-[15px] hover:bg-ink/5"
     : "block w-full px-4 py-2.5 text-left text-sm hover:bg-ink/5";
   return (
     <div className={sheet ? "space-y-2" : ""}>
       <button type="button" onClick={() => download("png")} className={item}>
-        PNG image<span className="block text-xs text-ink/50">3000 × 4200, for texting or posting</span>
+        PNG image<span className="block text-xs text-ink/50">3000 × 4200, for texting or posting{back === "back-shown" ? " (the back, as shown)" : ""}</span>
       </button>
       <button type="button" onClick={() => download("pdf")} className={item}>
-        PDF for printing<span className="block text-xs text-ink/50">5 × 7 in at 600 dpi, with ⅛ in bleed</span>
+        PDF for printing
+        <span className="block text-xs text-ink/50">
+          5 × 7 in at 600 dpi, with ⅛ in bleed
+          {back === "on" || back === "back-shown" ? ". Two pages: front, then back" : back === "nosite" ? ". Front only until your website is on" : ""}
+        </span>
       </button>
       <div className={`${sheet ? "" : "mx-3 mb-2 mt-1"} rounded-lg bg-parchment px-3 py-2.5 text-xs leading-relaxed text-ink/70`}>
         <p className="font-medium text-ink">Printing it</p>
         <p className="mt-1">
           Take the PDF to any print shop (FedEx Office, Staples or a local printer) and ask for 5 × 7 on
-          matte cardstock, 110–130 lb, trimmed to size.
+          matte cardstock, 110–130 lb, trimmed to size{back === "on" || back === "back-shown" ? ", printed double-sided" : ""}.
         </p>
         <p className="mt-1">Order one per household plus about ten spares. A7 envelopes fit.</p>
       </div>
@@ -551,7 +603,7 @@ function DownloadOptions({ download, sheet }: { download: (kind: "png" | "pdf") 
   );
 }
 
-export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, cardId, title = "Save the date" }: StudioProps) {
+export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, cardId, title = "Save the date", site = null }: StudioProps) {
   const [h, dispatch] = useReducer(reducer, null, () => ({
     past: [],
     present: initial,
@@ -569,6 +621,8 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   const [menu, setMenu] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const svg = useRef<SVGSVGElement | null>(null);
+  const backSvg = useRef<SVGSVGElement | null>(null);
+  const [side, setSide] = useState<"front" | "back">(view === "back" ? "back" : "front");
 
   // Autosave: a change marks the card unsaved; 900ms after the last change it
   // goes to /api/save-the-date. Saves run one after another so each carries
@@ -681,6 +735,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     patch({ overrides: next }, key);
   };
   const pick = (id: string | null) => {
+    if (id) setSide("front");
     setSelected(id);
     setEditing(false);
     if (id) setPanel(null);
@@ -708,7 +763,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   );
   const choose = (id: string) => {
     const fresh = keepColours(newCard(id, doc.content, doc.photo, !persist), doc);
-    commit({ type: "set", doc: fresh });
+    commit({ type: "set", doc: { ...fresh, back: doc.back } });
     setSelected(null);
   };
 
@@ -733,17 +788,47 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     return () => window.removeEventListener("keydown", onKey);
   });
 
+  const withBack = Boolean(doc.back?.on);
+  const printsBack = withBack && Boolean(site);
   const download = async (kind: "png" | "pdf") => {
     if (!svg.current) return;
     setMenu(false);
     setBusy(kind === "png" ? "Making your PNG…" : "Making your PDF…");
     try {
       const name = `save-the-date-${doc.content.nameA}-${doc.content.nameB}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      saveBlob(kind === "png" ? await cardPng(svg.current) : await cardPdf(svg.current), `${name}.${kind}`);
+      // The PNG is the side on screen; the PDF is both sides once the back has a website to point to.
+      const pngBack = side === "back" && withBack && backSvg.current;
+      const pages = printsBack && backSvg.current ? [svg.current, backSvg.current] : [svg.current];
+      saveBlob(
+        kind === "png" ? await cardPng(pngBack ? backSvg.current! : svg.current) : await cardPdf(...pages),
+        `${name}${kind === "png" && pngBack ? "-back" : ""}.${kind}`,
+      );
     } finally {
       setBusy(null);
     }
   };
+
+  const backState = !withBack ? null : !site ? "nosite" : side === "back" ? "back-shown" : "on";
+  const showBack = (s: "front" | "back") => {
+    setSide(s);
+    if (s === "back") pick(null);
+  };
+
+  const sideSwitch = (
+    <div className="inline-flex rounded-full border border-hairline bg-white p-1 text-[13px] shadow-sm" role="group" aria-label="Side of the card">
+      {(["front", "back"] as const).map((s) => (
+        <button
+          key={s}
+          type="button"
+          onClick={() => showBack(s)}
+          aria-pressed={side === s}
+          className={`rounded-full px-4 py-1.5 capitalize ${side === s ? "bg-ink text-white" : "text-ink/70 hover:text-ink"}`}
+        >
+          {s}
+        </button>
+      ))}
+    </div>
+  );
 
   const panels: { id: Panel; label: string }[] = [
     { id: "templates", label: "Designs" },
@@ -758,7 +843,16 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       case "templates":
         return <TemplatePicker doc={doc} choose={choose} row={phone} />;
       case "details":
-        return <DetailsPanel c={doc.content} set={setContent} />;
+        return phone ? (
+          <div className="space-y-5">
+            <DetailsPanel c={doc.content} set={setContent} />
+            <div className="border-t border-hairline pt-4">
+              <BackPanel doc={doc} site={site} patch={patch} show={showBack} />
+            </div>
+          </div>
+        ) : (
+          <DetailsPanel c={doc.content} set={setContent} />
+        );
       case "style":
         return <StylePanel doc={doc} patch={patch} />;
       case "photo":
@@ -766,7 +860,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       case "layers":
         return <LayersPanel doc={doc} selected={selected} select={pick} override={override} />;
       case "download":
-        return <DownloadOptions download={download} sheet />;
+        return <DownloadOptions download={download} sheet back={backState} />;
     }
   };
 
@@ -804,7 +898,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
             </button>
             {menu && (
               <div className="absolute right-0 top-12 z-30 w-72 overflow-hidden rounded-xl border border-hairline bg-white py-1 shadow-xl">
-                <DownloadOptions download={download} />
+                <DownloadOptions download={download} back={backState} />
               </div>
             )}
           </div>
@@ -855,14 +949,28 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         >
           {/* Desktop: the toolbar, or a hint, in the strip above the card */}
           <div className="absolute inset-x-4 top-4 z-10 hidden text-center lg:block" onPointerDown={(e) => e.stopPropagation()}>
-            {toolbar ?? (
-              <p className="pointer-events-none mt-2 inline-block rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white">Drag anything to move it, click it to style it</p>
-            )}
+            {toolbar ??
+              (withBack ? (
+                sideSwitch
+              ) : (
+                <p className="pointer-events-none mt-2 inline-block rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white">Drag anything to move it, click it to style it</p>
+              ))}
           </div>
           <div
             className={`relative lg:w-[min(100%,calc((100dvh-164px)*0.714))] ${panel ? "-mt-[46dvh] w-[min(100%,calc((54dvh-170px)*0.714))] lg:mt-0" : "w-[min(100%,calc((100dvh-180px)*0.714))]"}`}
             style={{ aspectRatio: "1000 / 1400" }}
           >
+            {withBack && (
+              <CardSvg
+                doc={doc}
+                side="back"
+                site={site}
+                svgRef={(el) => {
+                  backSvg.current = el;
+                }}
+                className={`absolute inset-0 h-full w-full rounded-[3px] bg-white shadow-[0_1px_2px_rgba(20,32,61,.08),0_24px_60px_-18px_rgba(20,32,61,.35)] ${side === "back" ? "" : "invisible"}`}
+              />
+            )}
             <CardSvg
               doc={doc}
               svgRef={(el) => {
@@ -880,10 +988,16 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
                 const o = doc.overrides[id] ?? {};
                 override(id, { ...o, dx: (o.dx ?? 0) + dx, dy: (o.dy ?? 0) + dy });
               }}
-              className="h-full w-full rounded-[3px] bg-white shadow-[0_1px_2px_rgba(20,32,61,.08),0_24px_60px_-18px_rgba(20,32,61,.35)]"
+              className={`h-full w-full rounded-[3px] bg-white shadow-[0_1px_2px_rgba(20,32,61,.08),0_24px_60px_-18px_rgba(20,32,61,.35)] ${withBack && side === "back" ? "invisible" : ""}`}
             />
+            {/* Phone: the side switch under the card (desktop has it in the strip above). */}
+            {withBack && !panel && (
+              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 lg:hidden" onPointerDown={(e) => e.stopPropagation()}>
+                {sideSwitch}
+              </div>
+            )}
           </div>
-          {!picked && !panel && (
+          {!picked && !panel && !(withBack && side === "back") && (
             <p className="pointer-events-none absolute bottom-[92px] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink/80 px-3 py-1.5 text-xs text-white lg:hidden">
               Drag anything to move it, tap to style it
             </p>
@@ -905,6 +1019,14 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
             onToggle={() => openFold("details")}
           >
             {panelBody("details", false)}
+          </Fold>
+          <Fold
+            title="Back of the card"
+            summary={withBack ? "Website & QR code" : <span className="font-medium text-[#2243B6]">Add one</span>}
+            open={shownFold === "back"}
+            onToggle={() => openFold("back")}
+          >
+            <BackPanel doc={doc} site={site} patch={patch} show={showBack} />
           </Fold>
           <Fold title="Colours" summary={cardPalette(doc).label} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
             <ColoursPicker doc={doc} patch={patch} />
@@ -983,7 +1105,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               style={preview === "phone" ? { aspectRatio: "390 / 844" } : undefined}
             >
               <div className="h-full overflow-y-auto">
-                <Reveal key={preview} doc={doc} guest="Sam & Riley" siteHref="#" compact={preview === "phone"} />
+                <Reveal key={preview} doc={doc} guest="Sam & Riley" siteHref="#" site={site} compact={preview === "phone"} />
               </div>
             </div>
           </div>
