@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { sendSms } from "@/lib/sms";
+import { trackEvent } from "@/lib/events";
 import {
   audienceOf,
   eventsToShift,
@@ -140,7 +141,9 @@ async function notifyGuestsOfScheduleChange(
       const { error } = await sendSms(guest.phone, body);
       // 21610: the guest replied STOP, and Twilio now refuses to text them.
       // Record it so the guest list shows they've opted out.
-      if (error?.includes("21610")) {
+      const optedOut = Boolean(error?.includes("21610"));
+      trackEvent("sms_sent", { weddingId: wedding.id, props: { ok: !error, opted_out: optedOut } });
+      if (optedOut) {
         await supabase.from("guests").update({ sms_opt_in: false }).eq("id", guest.id);
       }
     } catch {

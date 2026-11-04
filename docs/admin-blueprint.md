@@ -282,6 +282,21 @@ Full detail is in `references/knowledge-ops.md` and `references/security.md`.
 5. **Money:** Spend & renewals now; Revenue and Books later.
 6. **Operations:** Knowledge base, Automations log, Audit log.
 
+**What shipped instead (2026-11-04):** the nav keeps its five groups. The old
+"Marketplace" group is now **Listings** (Coverage, Venues, Vendors, claims,
+Unlisted bookings, Listing health), because "marketplace" now means the
+couple-to-couple Buy & sell feature. **Buy & sell** moved to **Customers**
+beside Photo wall (both are couples' own posts to moderate), and its page and
+Home show live listings, items handed on and conversations. **Usage &
+messages** (`/admin/usage`, under Business) counts the paid AI calls by
+feature, save-the-dates, inquiries, texts (`sms_sent` event), bounces,
+complaints and opt-outs. Attire and Cost data stay in Content (what we curate).
+
+Still open from the 2026-11-04 audit: an automations log (Batches import,
+spend reminders, routines: last run, pass or fail); invite codes (migration
+0141) aren't shown anywhere; migration numbers 0143, 0144, 0147, 0149 and
+0157 are each used twice.
+
 This regroups the existing pages; nothing is removed. The visual design goes
 through `design-expert`, with a preview before any build.
 

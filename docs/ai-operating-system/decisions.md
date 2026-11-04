@@ -283,3 +283,16 @@ rules, batch self-merge, 50-state coverage, page widths) and
   the couple never leaves the app.
 - Rough money (estimate, not quoted): ~100 cards at $1.50–3 each, 20–40% margin,
   so about $30–100 per couple. It repeats for invitations and thank-yous.
+
+## 2026-11-04: Admin nav, "Marketplace" is now "Listings"; Buy & sell under Customers
+
+- Decision (owner delegated: "whatever you think is best"): the admin group
+  named Marketplace is renamed Listings, and Buy & sell moves to Customers.
+  It doesn't go under Content, which stays for material we curate (Attire,
+  Cost data). Buy & sell's success measure is items **handed on** (marked
+  sold or rental dates booked), shown with live listings and conversations.
+- Why: "marketplace" now names the couple-to-couple feature, so a group of
+  venue and vendor listings under that name was misleading. Buy & sell is
+  couples' own posts to moderate, like Photo wall.
+- Alternatives: under Content (it isn't curated content); its own group (too
+  small for one).

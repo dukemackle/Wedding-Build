@@ -6,6 +6,8 @@ import { selectAll } from "@/lib/supabase/fetch-all";
 import { AdminEyebrow } from "./admin-nav";
 import { HEALTH_DOT, KpiGroup, KpiTile, Panel, QueueRow, StateTileMap, type Health, type Urgency } from "./home-parts";
 import type { AdminIconName } from "./admin-icons";
+import { marketStats } from "./market-stats";
+import { MarketTiles } from "./market-tiles";
 
 // The coverage floor from scripts/coverage-plan.mjs (MIN_VENUES): every state
 // needs this many venues before any marketing.
@@ -37,6 +39,7 @@ export default async function AdminHomePage() {
   const count = (table: string) => admin.from(table).select("id", { count: "exact", head: true });
 
   const [
+    market,
     { data: weddings },
     { data: inquiries },
     { data: venueInquiries },
@@ -64,6 +67,7 @@ export default async function AdminHomePage() {
     { data: stateCounts, error: stateCountsError },
     { data: recentErrors, error: errorsError },
   ] = await Promise.all([
+    marketStats(),
     selectAll<{ id: string; is_test: boolean; created_at: string }>(admin, "weddings", "id, is_test, created_at"),
     selectAll<{ id: string; wedding_id: string; sent_at: string }>(admin, "vendor_inquiries", "id, wedding_id, sent_at"),
     selectAll<{ id: string; wedding_id: string; sent_at: string }>(admin, "venue_inquiries", "id, wedding_id, sent_at"),
@@ -331,6 +335,7 @@ export default async function AdminHomePage() {
               definition="Venue + vendor claims approved"
             />
           </KpiGroup>
+          <MarketTiles stats={market} />
           <p className="text-xs text-ink/50">
             No company revenue yet: Phase 0 is free. Couple-reported bookings are on{" "}
             <Link href="/admin/revenue" className="underline hover:text-forest">
