@@ -1,7 +1,6 @@
 Kind	Name	Category	City	State	Reason	Link	Date
 Vendor	Caitlin Kelly Photography	Photography	Stowe	Vermont	Site blocks automated visits, unconfirmed	https://www.caitlinkellyphotography.com/	2026-10-06
 Vendor	Cake & Crumb Bakery	Cake	Morrisville	Vermont	Site dead	https://www.cakeandcrumbvt.com/	2026-10-06
-Vendor	Le Petit Gourmet Catering	Catering	Waterbury	Vermont	Site back up	https://lepetitgourmetcatering.com/	2026-10-06
 Vendor	Beauty Studio Inc.	Hair & Makeup	Stowe	Vermont	Franchise	https://www.beautystudioinc.com/burlington-stowe	2026-10-06
 Vendor	Wedding Band VT	Music	Burlington	Vermont	No wedding page	https://www.weddingbandvt.com	2026-10-13
 Vendor	Fulton Music	Music	South Burlington	Vermont	No wedding page	https://phillyfultonmusicvt.com/	2026-10-13
@@ -62,7 +61,6 @@ Vendor	WeddingVideoZ	Videography	Bennington	Vermont	No website	https://wedj.com/
 Vendor	Colorado Pig Rig	Catering	Manchester Center	Vermont	Franchise	https://coloradopigrig.com/manchester-center-vermont/	2026-10-29
 Vendor	Pearl's Place & Pantry	Catering	Manchester	Vermont	No wedding page	https://www.pearlsplacevt.com/catering	2026-10-29
 Vendor	Studio 20 Hair Salon	Hair & Makeup	Brattleboro	Vermont	No wedding page	https://www.studio20-hairsalon.com/	2026-10-29
-Vendor	Twin Valley Creations	Hair & Makeup	Wilmington	Vermont	Site back up	https://twinvalleycreations.com	2026-10-29
 Vendor	Mountain Hearts Photography and Videography	Photography	Wilmington	Vermont	Site blocks automated visits, unconfirmed	https://mountainheartsphotography.com	2026-10-29
 Vendor	Hanna Caroline Photography	Photography	Bennington	Vermont	Site dead	https://hannacaroline.com	2026-10-29
 Vendor	True Love Farm	Florals	Shaftsbury	Vermont	No wedding page	https://www.truelovefarm.com/	2026-10-29
@@ -77,7 +75,7 @@ Vendor	Poulin Productions	Videography	Barre	Vermont	Site dead	https://www.poulin
 Vendor	Storied Events	Planning	Waterbury	Vermont	Site dead	https://www.storiedevents.com	2026-11-01
 Vendor	Delicate Decadence	Cake	Barre	Vermont	Site dead	https://delicate-decadence.com/cakes	2026-11-01
 Vendor	Kingdom Wedding Photography	Photography	Stowe	Vermont	Site blocks automated visits, unconfirmed	https://kingdomweddingphotography.com	2026-11-01
-Vendor	Davecaptures	Videography	Waitsfield	Vermont	Site back up	https://www.davecaptures.com/	2026-11-01
+Vendor	Davecaptures	Videography	Waitsfield	Vermont	Site dead	https://www.davecaptures.com/	2026-11-01
 Vendor	Lush Stowe	Hair & Makeup	Stowe	Vermont	Closed	https://www.lushstowe.com	2026-11-01
 Vendor	Vows & Views Media	Videography	Montpelier	Vermont	No website	https://www.theknot.com/marketplace/vows-and-views-media-montpelier-vt-2087861	2026-11-01
 Vendor	Vermont Cake Studio	Cake	Waterbury Center	Vermont	No website	https://www.vtcng.com/marketplace/food/food_services/cake_decorators/vermont-cake-studio/business_3922024119.html	2026-11-01
@@ -88,8 +86,7 @@ Vendor	Signature Styles Salon	Hair & Makeup	Montpelier	Vermont	No wedding page	h
 Vendor	Angry Egg 2 Cafe	Catering	Bennington	Vermont	No wedding page	https://www.angryeggvermont.com/catering	2026-11-01
 Vendor	Shear Jazz	Hair & Makeup	Bennington	Vermont	No wedding page	http://www.shearjazz.com/our-services.php	2026-11-01
 Vendor	Video Unlimited	Videography	Rutland	Vermont	Site blocks automated visits, unconfirmed	https://www.videounlimited.com	2026-11-01
-Vendor	Vermont DJs Inc.	Music	Killington	Vermont	Site back up	http://www.vermontdjs.com/	2026-11-01
-Vendor	Amy Donohue Photography	Photography	Manchester	Vermont	Site back up	https://amydonohuephotography.com/	2026-11-01
+Vendor	Amy Donohue Photography	Photography	Manchester	Vermont	Site dead	https://amydonohuephotography.com/	2026-11-01
 Vendor	Karen Becker Wedding Photography	Photography	Brattleboro	Vermont	Inactive	https://vtweddingphotography-karenbecker.weebly.com/	2026-11-01
 Vendor	Top Tier Baking	Cake	Vermont	Vermont	No wedding page	https://toptierbaking.com/	2026-11-01
 Vendor	Deer Ridge Farm	Florals	Vermont	Vermont	No wedding page	https://deerridgefarmvt.com/pages/flowers	2026-11-01
@@ -103,3 +100,18 @@ Venue	Camp Thorpe		Goshen	Vermont	No wedding page	https://www.campthorpe.org/fac
 Venue	Shelburne Farms		Shelburne	Vermont	No wedding page	https://shelburnefarms.org/gather	2026-11-03
 Venue	Depot 62		Manchester Center	Vermont	No wedding page	https://www.depot62.com/	2026-11-03
 Venue	The Barn at Kingston Place		Benson	Vermont	No website		2026-11-03
+Vendor	Green Taylor Ensemble	Music	Colchester	Vermont	Site blocks automated visits, unconfirmed	https://greentaylorensemble.yolasite.com/	2026-11-04
+Vendor	Embark Films	Videography	Montpelier	Vermont	Site dead	https://www.embarkfilms.com	2026-11-04
+Vendor	Anaphora Flowers	Florals	Burlington	Vermont	Site blocks automated visits, unconfirmed	https://anaphoraflowers.com/	2026-11-04
+Vendor	Artistic Gardens	Florals	St. Johnsbury	Vermont	Site blocks automated visits, unconfirmed	https://www.artisticgardensvt.com/about-us	2026-11-04
+Vendor	Lily Pond Photography	Photography	Burlington	Vermont	Site blocks automated visits, unconfirmed	https://www.lilypondphoto.com/	2026-11-04
+Vendor	Hildegard String Quartet	Music	Burlington	Vermont	Site blocks automated visits, unconfirmed	https://www.hildegardstringquartet.com/	2026-11-04
+Vendor	Jeff Heimbach Photography	Photography	North Bennington	Vermont	Site blocks automated visits, unconfirmed	http://jeffheimbach.com/	2026-11-04
+Vendor	Premier Entertainment and Events	Music	South Burlington	Vermont	Site blocks automated visits, unconfirmed	https://www.premierentertainmentandevents.com	2026-11-04
+Vendor	Two of Us Photography	Photography	Tunbridge	Vermont	Site dead	http://www.twoofusphotography.com/home	2026-11-04
+Vendor	Centerpiece Cakes By Steph	Cake	Sunderland	Vermont	Site dead	https://centerpiececakesbysteph.com	2026-11-04
+Vendor	Salon Meraki	Hair & Makeup	Brattleboro	Vermont	No wedding page	https://salonmerakivt.com	2026-11-04
+Vendor	Delamata Designs	Planning	Manchester Center	Vermont	No wedding page	https://delamatadesigns.com	2026-11-04
+Vendor	Cakes in Vermont	Cake	Southern Vermont	Vermont	No wedding page	https://cakesinvermont.com/	2026-11-04
+Vendor	Carmen George Weddings	Planning	Burlington	Vermont	No wedding page	https://carmengeorgeweddings.com	2026-11-04
+Vendor	NEK Catering LLC	Catering	Danville	Vermont	Social only	https://www.facebook.com/nekcateringllc/	2026-11-04
