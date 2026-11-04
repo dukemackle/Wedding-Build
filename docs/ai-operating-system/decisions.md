@@ -294,3 +294,16 @@ rules, batch self-merge, 50-state coverage, page widths) and
   27k–36k, but research skips about a third of what it finds, so ~25k is a
   realistic ceiling to aim at. A state whose skips outnumber its new pass 5
   venues is probably near full.
+
+## 2026-11-04: Admin nav, "Marketplace" is now "Listings"; Buy & sell under Customers
+
+- Decision (owner delegated: "whatever you think is best"): the admin group
+  named Marketplace is renamed Listings, and Buy & sell moves to Customers.
+  It doesn't go under Content, which stays for material we curate (Attire,
+  Cost data). Buy & sell's success measure is items **handed on** (marked
+  sold or rental dates booked), shown with live listings and conversations.
+- Why: "marketplace" now names the couple-to-couple feature, so a group of
+  venue and vendor listings under that name was misleading. Buy & sell is
+  couples' own posts to moderate, like Photo wall.
+- Alternatives: under Content (it isn't curated content); its own group (too
+  small for one).

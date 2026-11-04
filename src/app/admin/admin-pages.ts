@@ -25,7 +25,7 @@ export function adminGroups(claims: PendingClaims): AdminGroup[] {
       ],
     },
     {
-      title: "Marketplace",
+      title: "Listings",
       dot: "bg-[#FFD301]",
       tile: "bg-[#FFF6BF] text-forest",
       links: [
@@ -36,7 +36,6 @@ export function adminGroups(claims: PendingClaims): AdminGroup[] {
         { href: "/admin/vendors/claims", label: "Vendor claims", icon: "claim", keywords: "submissions approve review", badge: claims.vendors },
         { href: "/admin/leads", label: "Unlisted bookings", icon: "search", keywords: "couples booked unlisted purchased from missing businesses research" },
         { href: "/admin/listing-health", label: "Listing health", icon: "flag", keywords: "reports wrong closed bounces accuracy problems", badge: claims.reports },
-        { href: "/admin/marketplace", label: "Buy & sell", icon: "tag", keywords: "marketplace resale listings reports moderation take down scams", badge: claims.market },
       ],
     },
     {
@@ -47,6 +46,7 @@ export function adminGroups(claims: PendingClaims): AdminGroup[] {
         { href: "/admin/couples", label: "Couples", icon: "heart", keywords: "users accounts weddings signups customers" },
         { href: "/admin/feedback", label: "Feedback", icon: "chat", keywords: "help bugs messages chat themes" },
         { href: "/admin/photo-wall", label: "Photo wall", icon: "photo", keywords: "photos gallery images uploads" },
+        { href: "/admin/marketplace", label: "Buy & sell", icon: "tag", keywords: "marketplace resale listings reports moderation take down scams sold rentals conversations", badge: claims.market },
       ],
     },
     {
@@ -55,10 +55,12 @@ export function adminGroups(claims: PendingClaims): AdminGroup[] {
       tile: "bg-[#E8ECFA] text-[#2243B6]",
       links: [
         { href: "/admin/revenue", label: "Reported bookings", icon: "dollar", keywords: "revenue money referrals payments income gmv booked" },
+        { href: "/admin/usage", label: "Usage & messages", icon: "pulse", keywords: "ai wren tokens calls cost texts sms twilio emails save the dates bounces complaints unsubscribes opt outs deliverability" },
         { href: "/admin/spend", label: "Spend & renewals", icon: "card", keywords: "expenses costs bills subscriptions renewals domain workspace llc finance burn" },
         { href: "/admin/growth", label: "Growth", icon: "trend", keywords: "signups funnel coverage states" },
         { href: "/admin/analytics", label: "Funnels", icon: "funnel", keywords: "analytics events activation retention drop off conversion couples listings" },
         { href: "/admin/audit-log", label: "Admin log", icon: "log", keywords: "audit history who changed deleted approved activity accountability" },
+        { href: "/admin/automations", label: "Automations", icon: "pulse", keywords: "scheduled jobs routines github actions batches import spend reminders batch builders failed overdue cron" },
         { href: "/admin/errors", label: "Errors", icon: "alert", keywords: "app errors crashes broken failures bugs health logs" },
       ],
     },
