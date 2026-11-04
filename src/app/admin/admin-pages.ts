@@ -60,6 +60,7 @@ export function adminGroups(claims: PendingClaims): AdminGroup[] {
         { href: "/admin/growth", label: "Growth", icon: "trend", keywords: "signups funnel coverage states" },
         { href: "/admin/analytics", label: "Funnels", icon: "funnel", keywords: "analytics events activation retention drop off conversion couples listings" },
         { href: "/admin/audit-log", label: "Admin log", icon: "log", keywords: "audit history who changed deleted approved activity accountability" },
+        { href: "/admin/automations", label: "Automations", icon: "pulse", keywords: "scheduled jobs routines github actions batches import spend reminders batch builders failed overdue cron" },
         { href: "/admin/errors", label: "Errors", icon: "alert", keywords: "app errors crashes broken failures bugs health logs" },
       ],
     },

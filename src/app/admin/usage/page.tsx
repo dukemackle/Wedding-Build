@@ -58,7 +58,7 @@ export default async function AdminUsagePage() {
     return { now: a.count, before: b.count, error };
   };
 
-  const [chat, contracts, thankYous, listingFills, listingWrites, adminAsk, stdSent, stdOpened, vendorInq, venueInq, texts, textsFailed, bounces, complaints, coupleOptOuts, businessOptOuts, everTexts] =
+  const [chat, contracts, thankYous, listingFills, listingWrites, adminAsk, stdSent, stdOpened, vendorInq, venueInq, texts, textsFailed, bounces, complaints, coupleOptOuts, businessOptOuts, everTexts, rsvps, householdRsvps] =
     await Promise.all([
       pair("assistant_conversations", "created_at", { wedding: "wedding_id" }),
       pair("ai_uses", "created_at", { filter: { purpose: "contract" }, wedding: "wedding_id" }),
@@ -77,6 +77,8 @@ export default async function AdminUsagePage() {
       pair("marketing_consents", "opted_out_at"),
       pair("outreach_opt_outs", "created_at"),
       admin.from("events").select("id", { count: "exact", head: true }).eq("name", "sms_sent"),
+      pair("events", "created_at", { filter: { name: "rsvp_received" }, wedding: "wedding_id" }),
+      pair("events", "created_at", { filter: { name: "rsvp_received", "props->>status": "household" }, wedding: "wedding_id" }),
     ]);
 
   const row = (label: string, detail: string, r: Awaited<ReturnType<typeof pair>>, extra: Partial<Row> = {}): Row => ({
@@ -115,6 +117,18 @@ export default async function AdminUsagePage() {
       : { label: "Texts that failed", detail: "Twilio refused or isn't set up; includes guests who replied STOP", now: null, before: null, missing: "no texts logged yet" },
   ];
 
+  // Personal links (/w/<slug>/i/<code>, migration 0141) answer for a whole
+  // household in one go; typed names go through the couple's approval queue.
+  const typed = {
+    now: rsvps.now === null || householdRsvps.now === null ? null : rsvps.now - householdRsvps.now,
+    before: rsvps.before === null || householdRsvps.before === null ? null : rsvps.before - householdRsvps.before,
+    error: rsvps.error ?? householdRsvps.error,
+  };
+  const replies: Row[] = [
+    row("RSVPs from personal links", "A household answered from its invite-code link (one per household)", householdRsvps),
+    row("RSVPs from typed names", "A guest typed their name on the site; the couple approves it", typed),
+  ];
+
   const deliverability: Row[] = [
     row("Email bounces", "Addresses that bounced (latest event in the window)", bounces, { badWhenUp: true }),
     row("Spam complaints", "Recipients who marked an email as spam. Keep this near zero", complaints, { badWhenUp: true }),
@@ -140,6 +154,7 @@ export default async function AdminUsagePage() {
         <div className="space-y-6">
           <Section title="Messages sent" rows={messages} />
           <Section title="Deliverability and opt-outs" rows={deliverability} />
+          <Section title="Guest replies" rows={replies} />
         </div>
       </div>
     </div>

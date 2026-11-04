@@ -93,7 +93,20 @@ state outside your region, so you can never collide with them.
    If the build fails on your PR, fix it within this run if you can.
 8. Never touch any file outside `src/lib/batches/`. If your region has nothing
    left in the plan and every launch metro is dry, change nothing and end at
-   once with one line saying so.
+   once with one line saying so (after step 9).
+
+9. Last, however the run ended (PR opened, nothing to do, or failed), report
+   it to the admin's Automations page. Use your region in the job name
+   (`batch_builder_west`, `_central`, `_south` or `_northeast`), `ok` false
+   only when something failed, and a summary of the PR link (or "no PR") and
+   row count. Skip this step if `BATCH_IMPORT_SECRET` isn't set, and never
+   print the secret:
+
+   ```sh
+   curl -sS -m 20 -X POST https://youdoido.com/api/automation-log \
+     -H "Authorization: Bearer $BATCH_IMPORT_SECRET" -H "Content-Type: application/json" \
+     -d '{"job":"batch_builder_west","ok":true,"summary":"<PR link or no PR> · <n> rows"}'
+   ```
 
 Finish with a three-line report: the PR link, this run's kind and row counts by
 metro (or map-fill town) and category, and what's still thin there (for a

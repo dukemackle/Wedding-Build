@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint && node scripts/check-migration-numbers.mjs",
     "check:venues": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-venue-batches.mjs",
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",

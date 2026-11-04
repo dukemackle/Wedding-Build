@@ -8,6 +8,8 @@ import { HEALTH_DOT, KpiGroup, KpiTile, Panel, QueueRow, StateTileMap, type Heal
 import type { AdminIconName } from "./admin-icons";
 import { marketStats } from "./market-stats";
 import { MarketTiles } from "./market-tiles";
+import { AUTOMATIONS, type AutomationJob } from "@/lib/automation-log";
+import { automationHealth, type AutomationRun } from "./automations/health";
 
 // The coverage floor from scripts/coverage-plan.mjs (MIN_VENUES): every state
 // needs this many venues before any marketing.
@@ -66,6 +68,7 @@ export default async function AdminHomePage() {
     { data: lastAdminChange },
     { data: stateCounts, error: stateCountsError },
     { data: recentErrors, error: errorsError },
+    { data: automationRuns, error: automationsError },
   ] = await Promise.all([
     marketStats(),
     selectAll<{ id: string; is_test: boolean; created_at: string }>(admin, "weddings", "id, is_test, created_at"),
@@ -100,7 +103,21 @@ export default async function AdminHomePage() {
     admin.from("admin_audit_log").select("created_at").order("created_at", { ascending: false }).limit(1).returns<{ created_at: string }[]>(),
     admin.rpc("admin_listing_state_counts"),
     admin.from("app_errors").select("day, count").gte("day", isoDaysAgo(6).slice(0, 10)).returns<{ day: string; count: number }[]>(),
+    admin
+      .from("automation_runs")
+      .select("id, job, ok, summary, ran_at")
+      .gte("ran_at", isoDaysAgo(3))
+      .order("ran_at", { ascending: false })
+      .limit(500)
+      .returns<AutomationRun[]>(),
   ]);
+
+  // Each scheduled job's state from its latest run (src/lib/automation-log.ts).
+  const automationStates = (Object.keys(AUTOMATIONS) as AutomationJob[]).map(
+    (job) => automationHealth(job, (automationRuns ?? []).filter((r) => r.job === job)).state,
+  );
+  const automationsFailed = automationStates.filter((st) => st === "bad").length;
+  const automationsLate = automationStates.filter((st) => st === "warn" || st === "none").length;
 
   // Test weddings (marked on the Couples page) are left out of every couple
   // and inquiry number, as on Growth and Reported bookings.
@@ -143,6 +160,7 @@ export default async function AdminHomePage() {
       icon: "alert",
       urgency: "urgent",
     },
+    { n: automationsError ? 0 : automationsFailed, label: "automations", item: (n) => `${plural(n, "automation")} failed`, detail: "Its latest run reported a failure", href: "/admin/automations", action: "Look", icon: "pulse", urgency: "soon" },
     { n: venueClaims ?? 0, label: "venue claims", item: (n) => `${plural(n, "venue claim")} to review`, href: "/admin/venues/claims", action: "Review", icon: "claim", urgency: "soon" },
     { n: vendorClaims ?? 0, label: "vendor claims", item: (n) => `${plural(n, "vendor claim")} to review`, href: "/admin/vendors/claims", action: "Review", icon: "claim", urgency: "soon" },
     { n: openReports ?? 0, label: "listing reports", item: (n) => plural(n, "listing report"), detail: "Couples flagged a listing as wrong or closed", href: "/admin/listing-health", action: "Fix", icon: "flag", urgency: "soon" },
@@ -161,7 +179,7 @@ export default async function AdminHomePage() {
     { n: pendingPosts ?? 0, label: "photo-wall posts", item: (n) => `${plural(n, "photo-wall post")} awaiting couples`, href: "/admin/photo-wall", action: "Look", icon: "photo", urgency: "whenever" },
   ];
   // Until migration 0129 runs, errors are "not pulled", not "all clear".
-  const tracked = queue.filter((q) => !(errorsError && q.label === "app errors"));
+  const tracked = queue.filter((q) => !(errorsError && q.label === "app errors") && !(automationsError && q.label === "automations"));
   const waiting = tracked.filter((q) => q.n > 0);
   const clear = tracked.filter((q) => q.n === 0);
   const noTestCouples = testIds.size === 0 && real.length > 0;
@@ -210,6 +228,18 @@ export default async function AdminHomePage() {
         },
     { label: "Last listing added", value: daysAgo(lastListing) ?? "none yet", state: listingDays === null ? "none" : listingDays <= 7 ? "ok" : "warn" },
     { label: "Bounced emails", value: (bounces ?? 0).toLocaleString(), state: bounces ? "warn" : "ok" },
+    automationsError
+      ? { label: "Automations", value: "not pulled · migration 0158", state: "none" }
+      : {
+          label: "Automations",
+          value: automationsFailed
+            ? `${automationsFailed} failed${automationsLate ? ` · ${automationsLate} late` : ""}`
+            : automationsLate
+              ? `${automationsLate} late or not reporting`
+              : "all on time",
+          state: automationsFailed ? "bad" : automationsLate ? "warn" : "ok",
+          href: "/admin/automations",
+        },
     { label: "Last admin change", value: daysAgo(lastAdminChange?.[0]?.created_at) ?? "none logged", state: "none" },
     { label: "Infra usage", value: "not pulled · /weekly-review", state: "none" },
   ];
