@@ -372,9 +372,10 @@ export function HairMakeupIcon(props: IconProps) {
 export function RingsIcon(props: IconProps) {
   return (
     <IconBase {...props}>
-      <circle cx="9" cy="14" r="5" />
-      <circle cx="15" cy="14" r="5" />
-      <path d="M9 9v-2l1.5-3h1L13 7v2" />
+      {/* The logo's rings and gem: the four-point gem sits on top of the right ring. */}
+      <circle cx="7.4" cy="15" r="5.6" />
+      <circle cx="16.6" cy="15" r="5.6" />
+      <path d="M16.6 1.4Q17.1 4.1 19 4.9Q17.1 5.7 16.6 8.2Q16.1 5.7 14.2 4.9Q16.1 4.1 16.6 1.4Z" fill="currentColor" strokeWidth={1} />
     </IconBase>
   );
 }
