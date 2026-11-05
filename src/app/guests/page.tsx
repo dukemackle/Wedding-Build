@@ -108,6 +108,25 @@ export default async function GuestsPage() {
     .order("created_at", { ascending: false })
     .returns<GuestPost[]>();
 
+  // The photo wall's chapters and table tags (0159), only once there's a wall.
+  const [{ data: wallEvents }, { data: wallTables }] = guestPosts?.length
+    ? await Promise.all([
+        supabase
+          .from("itinerary_events")
+          .select("*")
+          .eq("wedding_id", wedding.id)
+          .returns<ItineraryEvent[]>(),
+        supabase
+          .from("seating_tables")
+          .select("id, name")
+          .eq("wedding_id", wedding.id)
+          .returns<{ id: string; name: string }[]>(),
+      ])
+    : [{ data: [] as ItineraryEvent[] }, { data: [] as { id: string; name: string }[] }];
+  const photoWallTables = (wallTables ?? []).sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }),
+  );
+
   const shareUrl = wedding.public_slug ? `${origin}/w/${wedding.public_slug}/share` : null;
   const shareQrSvg = shareUrl ? await qrSvg(shareUrl) : null;
 
@@ -161,6 +180,8 @@ export default async function GuestsPage() {
         contactSubmissions={contactSubmissions ?? []}
         origin={origin}
         guestPosts={guestPosts ?? []}
+        photoWallEvents={wallEvents ?? []}
+        photoWallTables={photoWallTables}
         shareUrl={shareUrl}
         shareQrSvg={shareQrSvg}
         sheetLink={sheetLinkView(sheetLink)}

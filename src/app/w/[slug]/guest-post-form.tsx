@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { submitGuestPost } from "./actions";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { shrinkImage } from "@/lib/shrink-image";
+import { photoTakenAt } from "@/lib/photo-taken-at";
 import { LegalNotice } from "@/components/legal-notice";
 
 const inputClass =
@@ -21,8 +22,11 @@ export function GuestPostForm({
   weddingId,
   coupleNames,
   turnstileSiteKey,
+  tableId,
 }: {
   weddingId: string;
+  /** The seating table whose card was scanned, from the code's ?t= (0159). */
+  tableId?: string | null;
   coupleNames: string;
   /** Cloudflare's bot check, when it's switched on (src/lib/turnstile.ts). */
   turnstileSiteKey?: string | null;
@@ -49,6 +53,8 @@ export function GuestPostForm({
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
       const photo = formData.get("photo") as File | null;
+      // Before shrinking: re-encoding drops the EXIF capture time.
+      formData.set("taken_local", await photoTakenAt(photo));
       if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
       const result = await submitGuestPost(formData);
       setAttempt((n) => n + 1);
@@ -88,6 +94,7 @@ export function GuestPostForm({
   return (
     <form action={handleSubmit} className="flex flex-col gap-4">
       <input type="hidden" name="wedding_id" value={weddingId} />
+      {tableId && <input type="hidden" name="table" value={tableId} />}
 
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border-2 border-dashed border-hairline bg-parchment text-center transition-colors hover:border-forest">
         {preview ? (

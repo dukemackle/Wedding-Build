@@ -226,6 +226,36 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
 
 const MAX_MESSAGE_LENGTH = 500;
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * The seating table a table card's code names, if it's this wedding's.
+ * Anything else -- an old card, a table since deleted, a hand-edited link --
+ * is just a post with no table, never an error: the guest still gets to post.
+ */
+async function tableOfWedding(weddingId: string, tableId: string | null): Promise<string | null> {
+  if (!tableId || !UUID.test(tableId)) return null;
+  const { data } = await createAdminSupabaseClient()
+    .from("seating_tables")
+    .select("id")
+    .eq("id", tableId)
+    .eq("wedding_id", weddingId)
+    .maybeSingle<{ id: string }>();
+  return data?.id ?? null;
+}
+
+/**
+ * The phone's wall-clock time for the photo, as "YYYY-MM-DDTHH:MM:SS" (0159).
+ * It comes from the browser, so it's only trusted to sort the couple's own
+ * view: anything malformed or implausible is dropped.
+ */
+function localTimestamp(value: string | null): string | null {
+  if (!value || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/.test(value)) return null;
+  const year = Number(value.slice(0, 4));
+  if (Number.isNaN(Date.parse(`${value}Z`)) || year < 2000 || year > 2100) return null;
+  return value;
+}
+
 /**
  * A post to the photo wall, separate from an RSVP.
  *
@@ -268,6 +298,8 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
     return { error: RATE_LIMIT_ERROR };
   }
 
+  const seatingTableId = await tableOfWedding(weddingId, formData.get("table") as string | null);
+
   const upload = await uploadGuestPhoto(weddingId, photo);
   if ("error" in upload) {
     return { error: upload.error };
@@ -280,6 +312,8 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
     name: name.slice(0, 120),
     message,
     photo_url: upload.photoUrl,
+    seating_table_id: seatingTableId,
+    taken_local: localTimestamp(formData.get("taken_local") as string | null),
   });
 
   if (error) {
