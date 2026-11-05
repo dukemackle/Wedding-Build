@@ -64,6 +64,9 @@ function StatusLabel({ g }: { g: SendGuest }) {
 const emailable = (g: SendGuest) => !!g.email && !g.bounced;
 
 export function SendPanel({
+  cardId,
+  cardName,
+  chosen: isChosen = true,
   doc,
   version,
   imageVersion,
@@ -74,6 +77,10 @@ export function SendPanel({
   canEdit,
   replyTo,
 }: {
+  cardId: string;
+  cardName?: string;
+  /** Whether this is already the card guests see at their links. */
+  chosen?: boolean;
   doc: CardDoc;
   /** The card's updated_at. */
   version: string;
@@ -121,7 +128,7 @@ export function SendPanel({
       const started = await startSaveTheDatePhotoUpload("card.jpg");
       if (!started.path || !started.signedUrl) throw new Error(started.error ?? "Couldn't save the card's picture.");
       await putToSignedUrl(started.signedUrl, blob);
-      const saved = await setSaveTheDateImage(started.path, version);
+      const saved = await setSaveTheDateImage(cardId, started.path, version);
       if (saved.error) throw new Error(saved.error);
       pictureFor.current = version;
     })().finally(() => {
@@ -165,6 +172,7 @@ export function SendPanel({
       await ensurePicture();
       setBusy(`Sending ${chosen.length}…`);
       const result = await sendSaveTheDates(
+        cardId,
         chosen.map((g) => g.id),
         window.location.origin,
       );
@@ -207,9 +215,14 @@ export function SendPanel({
   return (
     <div className="text-ink">
       <link rel="stylesheet" href={fontsHref} precedence="default" />
-      <Link href="/guests/save-the-date" className="text-sm text-ink/60 hover:text-ink">
-        ← Back to your card
+      <Link href={`/guests/save-the-date/edit/${cardId}`} className="text-sm text-ink/60 hover:text-ink">
+        ← Back to {cardName ? `“${cardName}”` : "your card"}
       </Link>
+      {!isChosen && (counts.sent + counts.opened > 0) && (
+        <p className="mt-3 rounded-lg bg-[#FFF12F]/40 px-4 py-2.5 text-sm text-[#14203d]">
+          You&apos;ve sent a different design before. Sending this one makes it the card every guest sees at their link.
+        </p>
+      )}
 
       <div className="mt-4 grid gap-8 lg:grid-cols-[300px_1fr] lg:gap-12">
         {/* The card and where things stand: beside the list on desktop, under it on a phone. */}

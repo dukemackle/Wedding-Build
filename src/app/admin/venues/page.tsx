@@ -9,6 +9,7 @@ import { parseListingParams } from "../_listing/params";
 import { addBundledVenues, pendingBundledVenues } from "./actions";
 import { AdminVenuesManager } from "./admin-venues-manager";
 import { VENUE_LISTING } from "./listing-config";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export default async function AdminVenuesPage({
   searchParams,
@@ -53,7 +54,7 @@ export default async function AdminVenuesPage({
 
   const heading = (
     <>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Marketplace</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Venues</h1>
       <p className="mt-1 text-sm text-ink/55">
         {statusCounts.all.toLocaleString()} venues

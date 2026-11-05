@@ -969,6 +969,10 @@ export type SiteDesignRow = {
 export type SaveTheDateRow = {
   id: string;
   wedding_id: string;
+  /** The couple's name for this design (0157). */
+  name: string;
+  /** The card guests see at their link; one per wedding (0157). */
+  chosen: boolean;
   doc: unknown;
   /** The card as a picture for email and link previews (0156), and the updated_at it shows. */
   image_url: string | null;

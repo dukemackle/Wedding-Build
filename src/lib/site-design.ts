@@ -1409,7 +1409,7 @@ export function contrast(a: string, b: string) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-function mix(a: string, b: string, t: number) {
+export function mix(a: string, b: string, t: number) {
   const ch = (hex: string, i: number) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16);
   return `#${[0, 1, 2]
     .map((i) => Math.round(ch(a, i) * (1 - t) + ch(b, i) * t).toString(16).padStart(2, "0"))

@@ -270,3 +270,40 @@ rules, batch self-merge, 50-state coverage, page widths) and
   (more admin drawing before anyone has used plans).
 - Also: approving a claim used to delete and reinsert a venue's spaces, which
   would have dropped their plans; it now updates spaces in place by name.
+
+## 2026-11-04 — Printed save-the-dates: print-on-demand later, no local-shop partnerships
+
+- Decision: the owner wants to make money from printed stationery later,
+  through a print-on-demand API (Prodigi, Gelato, Lob or similar) ordered
+  inside the app at a markup. That waits for real couples using the studio and
+  the phase rules in `docs/monetization.md`. For now the studio's PDF has 1/8 in
+  bleed and a "Printing it" note so couples can take it to any print shop.
+- Why: FedEx Office or Staples deals happen at corporate level, and local
+  printers would each be a one-off deal. A print API needs no negotiation, and
+  the couple never leaves the app.
+- Rough money (estimate, not quoted): ~100 cards at $1.50–3 each, 20–40% margin,
+  so about $30–100 per couple. It repeats for invitations and thank-yous.
+
+## 2026-11-04 — Venue catalog target raised toward ~25,000 (pass 5)
+
+- Decision: once a state meets its pass 4 stage 2 venue target, that target
+  rises 1.6× (`PASS5_VENUE_FACTOR` in `scripts/coverage-plan.mjs`), about 25.7k
+  venues nationally. Vendor targets are unchanged for now. Routine pace is not
+  changed.
+- Why: outside estimates (Rentech, MMCG, unverified) put US wedding venues at
+  27k–36k, but research skips about a third of what it finds, so ~25k is a
+  realistic ceiling to aim at. A state whose skips outnumber its new pass 5
+  venues is probably near full.
+
+## 2026-11-04: Admin nav, "Marketplace" is now "Listings"; Buy & sell under Customers
+
+- Decision (owner delegated: "whatever you think is best"): the admin group
+  named Marketplace is renamed Listings, and Buy & sell moves to Customers.
+  It doesn't go under Content, which stays for material we curate (Attire,
+  Cost data). Buy & sell's success measure is items **handed on** (marked
+  sold or rental dates booked), shown with live listings and conversations.
+- Why: "marketplace" now names the couple-to-couple feature, so a group of
+  venue and vendor listings under that name was misleading. Buy & sell is
+  couples' own posts to moderate, like Photo wall.
+- Alternatives: under Content (it isn't curated content); its own group (too
+  small for one).

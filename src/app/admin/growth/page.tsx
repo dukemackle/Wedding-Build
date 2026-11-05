@@ -3,6 +3,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { fetchAll, listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
 import { FoundUs } from "./found-us";
 import { FirstCohort, MILESTONES, type CohortEventRow } from "./cohort";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 type FeatureRow = { label: string; adopted: number };
 
@@ -262,7 +263,7 @@ export default async function AdminGrowthPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Growth</h1>
       <p className="mb-6 text-xs text-ink/50">
         {testWeddingIds.size > 0

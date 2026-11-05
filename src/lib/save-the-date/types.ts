@@ -48,7 +48,7 @@ export type Photo = {
   filter: "none" | "mono" | "warm";
 };
 
-/** What the couple can change on any single layer in Advanced mode. */
+/** What the couple can change on any single layer, from the toolbar over the card. */
 export type LayerOverride = {
   dx?: number;
   dy?: number;
@@ -56,15 +56,35 @@ export type LayerOverride = {
   hidden?: boolean;
   font?: string;
   color?: string;
+  /** Their own words for this layer (dates, monograms, fixed lines); names, place and the like edit the details instead. */
+  text?: string;
+  /** Letter-spacing in em, replacing the template's. */
+  tracking?: number;
+  upper?: boolean;
+  italic?: boolean;
+  bold?: boolean;
 };
+
+/** The couple's own three colours, used when `palette` is CUSTOM_PALETTE. */
+export type CardColours = { paper: string; ink: string; accent: string };
+
+/**
+ * The printed card's back: the wedding website, a QR code to it and an
+ * optional travel line, in the front's colours and fonts (see back.ts).
+ * Off unless the couple adds it; guests online see it by flipping the card.
+ */
+export type CardBack = { on: boolean; travel: string };
 
 export type CardDoc = {
   template: string;
   palette: string;
+  /** Kept across design switches, so their colours follow them. */
+  colours?: CardColours;
   fonts: string;
   content: CardContent;
   photo: Photo | null;
   overrides: Record<string, LayerOverride>;
+  back?: CardBack;
 };
 
 type Base = { id: string; label: string; rotate?: number };

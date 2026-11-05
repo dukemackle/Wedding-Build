@@ -4,6 +4,7 @@ import { selectAll } from "@/lib/supabase/fetch-all";
 import type { VendorInquiry, Wedding } from "@/lib/supabase/types";
 import { ExportCsvButton } from "@/components/admin/export-csv-button";
 import { ReferralLookup } from "./referral-lookup";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 function formatCurrency(value: number) {
   return value.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
@@ -55,7 +56,7 @@ export default async function AdminRevenuePage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Reported bookings</h1>
       <p className="mb-2 text-sm text-ink/70">
         What couples say they booked and paid vendors they found here. This is marketplace activity, not

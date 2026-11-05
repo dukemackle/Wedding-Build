@@ -31,27 +31,35 @@ export async function AppNav({ email }: { email: string }) {
             to hold the tab strip at all -- the last tabs clipped to
             "Weddi...". A single full-width bar has neither problem.
 
-            Two rows by design: the tabs need ~800px on their own, so beside
-            the mark and the account links they could never fit on one line. */}
-        <div className="flex w-full flex-col px-6 py-1">
-          <div className="flex items-center justify-between gap-4">
-            <WrenMark />
-            <div className="flex min-w-0 items-center justify-end gap-4">
+            Two rows below lg; one row from lg (see the tab layer below). */}
+        <div className="relative flex w-full flex-col px-6 py-1 lg:px-10 2xl:px-14">
+          <div className="flex items-center justify-between gap-4 lg:min-h-[72px] 2xl:min-h-[76px]">
+            <WrenMark compact />
+            <div className="flex min-w-0 items-center justify-end gap-4 lg:max-2xl:gap-3 2xl:max-w-[calc(50%-330px)]">
               {isAdmin && (
                 <a
                   href="https://admin.youdoido.com"
-                  className="shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline"
+                  className="hidden shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline sm:block"
                 >
                   Admin
                 </a>
               )}
               <Link
                 href="/account"
-                className="hidden min-w-0 truncate font-mono-numbers text-sm xl:text-base text-ink/60 hover:text-forest sm:block"
+                className="hidden min-w-0 truncate font-mono-numbers text-sm xl:text-base text-ink/60 hover:text-forest sm:block lg:max-2xl:hidden"
               >
                 {email}
               </Link>
-              <form action={signOut}>
+              {/* Tablet landscape and small laptops: the full address would
+                  run into the centred tabs, so it shortens to "Account". */}
+              <Link
+                href="/account"
+                title={email}
+                className="hidden shrink-0 font-mono-numbers text-sm text-ink/60 hover:text-forest lg:max-2xl:block"
+              >
+                Account
+              </Link>
+              <form action={signOut} className="hidden sm:block">
                 <button
                   type="submit"
                   className="shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline"
@@ -59,9 +67,9 @@ export async function AppNav({ email }: { email: string }) {
                   Log out
                 </button>
               </form>
-              {/* Sits in the row that already exists rather than claiming one
-                  of its own -- a whole line of height back on a phone. */}
-              <MobileNav badges={badges} />
+              {/* On a phone the account links above move into the menu
+                  drawer, leaving this row just the mark and the button. */}
+              <MobileNav badges={badges} email={email} isAdmin={isAdmin} />
             </div>
           </div>
 
@@ -69,10 +77,12 @@ export async function AppNav({ email }: { email: string }) {
               A phone gets a different arrangement instead -- see MobileNav --
               because seven tabs needing ~800px can't be made to fit 375px,
               only made to scroll off the edge. */}
-          {/* On a wide screen the tabs rise into the empty middle of the logo
-              row -- same two-row arrangement, less height. Only from 2xl,
-              where the centred tabs clear the logo and the account links. */}
-          <div className="hidden sm:block 2xl:-mt-3">
+          {/* From lg (iPad landscape up) the tabs sit in the empty middle of
+              the logo row, making the bar one row tall. Below 2xl the mark
+              shrinks and the email becomes "Account" so the centred tabs
+              clear both. The layer spans the bar, so it lets clicks through
+              except on the tabs. Portrait tablets keep two rows. */}
+          <div className="hidden sm:block lg:pointer-events-none lg:absolute lg:inset-x-6 lg:top-1/2 lg:-translate-y-1/2 lg:[&>nav>*]:pointer-events-auto">
             <NavLinks badges={badges} />
           </div>
         </div>

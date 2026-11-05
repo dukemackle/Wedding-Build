@@ -2772,6 +2772,30 @@ Julie Simon Cakes	Cake		Los Angeles	California	Los Angeles	Los Angeles confectio
 Piece of Cake L.A.	Cake		West Hollywood	California	Los Angeles	West Hollywood bakery run by a Le Cordon Bleu-trained pastry chef, baking custom wedding cakes, cookies and cupcakes from scratch.	maryn@pieceofcakela.com	(323) 521-9701	https://www.pieceofcakela.com	https://www.instagram.com/pieceofcakela/		
 `,
   },
+  {
+    name: "California: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sukanya Singh Photography	Photography		Folsom	California	Folsom and Sacramento area	Folsom wedding photographer with a classic style, covering full wedding days and elopements, with a second shooter available.			https://www.sukanyasinghphoto.com			
+Sugar Pine Bakery	Cake	3564 Lake Tahoe Blvd	South Lake Tahoe	California	South Lake Tahoe	South Lake Tahoe bakery that grew out of a wedding cake business, making custom wedding cakes alongside its everyday cakes and pastries.			https://www.sugarpinetahoe.com/			
+First Class Catering Service	Catering	73900 Dinah Shore Dr, Unit 204	Palm Desert	California	Coachella Valley and San Diego	Palm Desert caterer offering plated, buffet or drop-off wedding menus from American to Mexican, Italian and BBQ, with bar service and rentals.			https://www.firstclasscateringservice.com/			
+The Wedding Connection	Planning		Aptos	California	Santa Cruz County	Aptos wedding planning and day-of coordination team, running Santa Cruz County weddings and managing vendors and the flow of the day.			https://www.weddingconnection.net/			
+`,
+  },
+  {
+    name: "California: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+SpinUp DJs	Music		San Luis Obispo	California	San Luis Obispo	SLO wedding DJ and MC with simple published packages you book online, adding ceremony sound, lighting or a selfie station as needed.			https://spinupdjs.com/	https://www.instagram.com/spinupdj/		
+TC Catering	Catering		Ontario	California	Inland Empire, Riverside and San Bernardino counties	Ontario-based family caterer specialising in Mexican food and taco catering for weddings and events across the Inland Empire.			https://tccatering.info/inland-empire/	https://www.instagram.com/tc.catering/		
+Patisserie Angelica	Cake	6821 Laguna Park Way	Sebastopol	California	Sonoma County	Sebastopol café and French-style patisserie making custom wedding cakes and dessert tables, with tastings and delivery across Sonoma County.			https://patisserieangelica.com	https://www.instagram.com/patisseriesebastopol/		
+Anaviv Catering	Catering	600 Hoffman Blvd	Richmond	California	San Francisco Bay Area	Richmond-based Bay Area hospitality group offering chef-led farm-to-table wedding catering, including a separate kosher catering line.			https://anaviv.com	https://www.instagram.com/anavivevents/		
+Freeport Bakery	Cake	2966 Freeport Blvd	Sacramento	California	Sacramento	Family bakery in Sacramento's Land Park area since 1987, known locally for custom wedding cakes as well as everyday pastries and pies.			https://freeportbakery.com	https://www.instagram.com/freeportbakery/		
+Creations by Sam	Photography		San Jose	California	San Francisco Bay Area	San Jose studio offering wedding photography, videography and livestreaming, with plenty of experience at Indian weddings and ceremonies.			https://creationsbysam.com	https://www.instagram.com/creationsbysamphotography/		
+Get in the Groove Entertainment	Music		Los Angeles	California	Los Angeles	Los Angeles DJ and MC company for weddings and parties, also offering lighting, photography, celebrant services and party rentals.			https://getinthegroovedjs.com/	https://www.instagram.com/getinthegroovedjs/		
+West Coast Music	Music		Palm Springs	California	California and destination weddings	Live wedding bands and DJs for upscale and destination weddings, from California and Hawaii to Mexico and the Rocky Mountain resorts.			https://westcoastmusic.com/	https://www.instagram.com/westcoastmusicevents/		
+Santa Cruz DJ Company	Music		Santa Cruz	California	Santa Cruz, Monterey and San Luis Obispo counties	Santa Cruz wedding DJ team that can also supply live musicians, lighting and a photo booth, covering the Central Coast counties.			https://www.santacruzdj.com/	https://www.instagram.com/santacruzdjcompany/		
+Five Star Catering	Catering		Watsonville	California	Santa Cruz County	Santa Cruz County caterer with set wedding packages from coastal and fiesta buffets to BBQ, vegetarian, seated and intimate weddings.			https://fivestarcatering.com/	https://www.instagram.com/fivestarcatering831/		
+`,
+  },
 ];
 
 export default batches;

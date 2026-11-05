@@ -4,45 +4,60 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArchIcon, WrenBirdIcon } from "@/components/icons";
-import { Badge, NAV_ITEMS, isActiveLink, isNavGroup } from "@/components/nav-links";
+import { CloseIcon } from "@/components/icons";
+import {
+  Badge,
+  DASHBOARD_TAB,
+  HELP_TAB,
+  NAV_ITEMS,
+  isActiveLink,
+  isNavGroup,
+  type IconType,
+  type NavLinkItem,
+} from "@/components/nav-links";
+import { signOut } from "@/lib/supabase/actions";
 
 /**
  * The navigation, for a phone.
  *
- * Replaces the desktop tab strip below 640px. Six tabs need roughly 750px;
- * on a 375px screen four are visible, chopped at both edges, and the rest sit
- * past the fold with nothing indicating they exist.
+ * Replaces the desktop tab dock below 640px. The menu button opens a drawer
+ * from the right, the same side as the button, listing every section with
+ * its pages underneath, so any page is one tap away and you can see what
+ * each section holds. The account links (email, Admin, Log out) live at the
+ * foot of the drawer, which leaves the phone header just the mark and ☰.
  *
- * A small panel hanging from the corner, rather than a list that opens in the
- * header. The difference is not decoration: an inline list is part of the
- * document, so opening it pushes the page down, and scrolling it means
- * scrolling the page -- which on a header that hides itself on scroll fights
- * the thing you're trying to read. A fixed panel sits above the page and
- * leaves what's underneath exactly where it was.
- *
- * It is sized to its contents rather than to the screen. A full-height drawer
- * holding fifteen short words is mostly empty space, and empty space in a menu
- * reads as something missing.
- *
- * The trigger lives in the existing header row instead of claiming a row of
- * its own, which is a whole line of vertical space back on a small screen.
- *
- * Desktop is untouched -- everything here renders under `sm:hidden`.
+ * Fixed and portalled, so opening it never pushes or scrolls the page, and
+ * the page behind is held still while it's open.
  */
 
-const EXTRA_LINKS = [{ href: "/help", label: "Help", icon: WrenBirdIcon }];
+/** A section's coloured square, small: the same fill as its desktop tile. */
+function Tile({ icon: Icon, tile }: { icon: IconType; tile: string }) {
+  return (
+    <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-[10px] ${tile}`}>
+      <Icon className="h-[18px] w-[18px]" />
+    </span>
+  );
+}
 
 /** `badges` maps a tab's href to an unread count, e.g. marketplace messages. */
-export function MobileNav({ badges = {} }: { badges?: Record<string, number> }) {
+export function MobileNav({
+  badges = {},
+  email,
+  isAdmin = false,
+}: {
+  badges?: Record<string, number>;
+  email: string;
+  isAdmin?: boolean;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const hasUnread = Object.values(badges).some(Boolean);
 
   /**
-   * Holds the page still while the panel is open.
+   * Holds the page still while the drawer is open.
    *
-   * Without this the page behind scrolls when the panel's own list reaches its
-   * end, so a flick to reach "Help" carries on into the dashboard and the
+   * Without this the page behind scrolls when the drawer's own list reaches
+   * its end, so a flick to reach "Help" carries on into the dashboard and the
    * couple loses their place in both at once.
    */
   useEffect(() => {
@@ -63,27 +78,40 @@ export function MobileNav({ badges = {} }: { badges?: Record<string, number> }) 
 
   const close = () => setOpen(false);
 
-  const rowClass = (active: boolean) =>
-    `block rounded-md px-2.5 py-1.5 text-[14px] ${
-      active ? "bg-forest/10 font-medium text-forest" : "text-ink/80"
-    }`;
+  /** A one-page section (Dashboard, Marketplace, Help): a single row. */
+  const single = (item: NavLinkItem) => {
+    const active = pathname.startsWith(item.href);
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        onClick={close}
+        aria-current={active ? "page" : undefined}
+        className={`flex items-center gap-3 rounded-xl px-2 py-2 ${active ? "bg-parchment" : ""}`}
+      >
+        <Tile icon={item.icon} tile={item.tile} />
+        <span className="font-sans text-[15px] font-semibold text-ink">{item.label}</span>
+        <Badge count={badges[item.href]} />
+      </Link>
+    );
+  };
 
   return (
     <div className="sm:hidden">
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={Object.values(badges).some(Boolean) ? "Open menu (unread messages)" : "Open menu"}
+        aria-label={hasUnread ? "Open menu (unread messages)" : "Open menu"}
         aria-expanded={open}
-        className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-forest"
+        className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-forest"
       >
-        {Object.values(badges).some(Boolean) && (
-          <span className="absolute right-0.5 top-0.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-[#2243B6]" />
+        {hasUnread && (
+          <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-[#2243B6]" />
         )}
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
-          className="h-5 w-5"
+          className="h-6 w-6"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.8"
@@ -95,94 +123,103 @@ export function MobileNav({ badges = {} }: { badges?: Record<string, number> }) 
 
       {/* Portalled to <body>: the header's transform and backdrop-blur make
           it the containing block for anything fixed inside it, which shrank
-          this overlay to the header's strip (so tapping beside the panel hit
+          this overlay to the header's strip (so tapping beside the drawer hit
           the page, not the backdrop) and let the header's clear-over-photo
           rules turn the links white on white. */}
       {open && createPortal(
         <div className="fixed inset-0 z-50 sm:hidden">
-          {/* Tapping beside the panel closes it -- the gesture people try
-              first, and the reason the panel is deliberately not full width. */}
+          {/* Tapping beside the drawer closes it -- the gesture people try
+              first, and the reason the drawer is deliberately not full width. */}
           <button
             type="button"
             aria-label="Close menu"
             onClick={close}
-            className="absolute inset-0 bg-ink/30"
+            className="absolute inset-0 bg-ink/40"
           />
 
-          {/*
-            Sized to its contents, not to the screen.
-
-            A full-height drawer is mostly empty below the last link on a tall
-            phone -- fifteen short words in a panel built for a thousand. This
-            hangs from the header like a menu, takes only the height it needs,
-            and starts scrolling only if the list ever outgrows the viewport.
-          */}
-          <div className="absolute right-2 top-2 flex max-h-[calc(100vh-1rem)] w-[200px] flex-col overflow-hidden rounded-lg border border-hairline bg-card shadow-xl">
-            <nav className="overflow-y-auto overscroll-contain p-1.5">
-              <Link
-                href="/dashboard"
+          <div
+            role="dialog"
+            aria-label="Menu"
+            className="animate-drawer-in absolute inset-y-0 right-0 flex w-[85%] max-w-sm flex-col bg-card shadow-2xl"
+          >
+            <div className="flex items-center justify-between border-b border-hairline px-4 pb-2 pt-[max(0.75rem,env(safe-area-inset-top))]">
+              <p className="font-display text-xl font-semibold text-ink">Menu</p>
+              <button
+                type="button"
                 onClick={close}
-                className={`${rowClass(pathname.startsWith("/dashboard"))} flex items-center gap-2`}
+                aria-label="Close menu"
+                className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-parchment"
               >
-                <ArchIcon className="h-4 w-4 shrink-0 text-brass" />
-                Dashboard
-              </Link>
+                <CloseIcon className="h-5 w-5" />
+              </button>
+            </div>
 
+            <nav className="flex-1 overflow-y-auto overscroll-contain px-2 py-2">
+              {single(DASHBOARD_TAB)}
               {NAV_ITEMS.map((item) => {
                 if (!isNavGroup(item)) {
-                  const Icon = item.icon;
                   return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={close}
-                      className={`${rowClass(pathname.startsWith(item.href))} flex items-center gap-2`}
-                    >
-                      <Icon className="h-4 w-4 shrink-0 text-brass" />
-                      {item.label}
-                      <Badge count={badges[item.href]} />
-                    </Link>
+                    <div key={item.href} className="mt-2 border-t border-hairline pt-2">
+                      {single(item)}
+                    </div>
                   );
                 }
                 return (
-                  <div key={item.label}>
-                    {/* A heading, not a tap target: on desktop this opens a
-                        dropdown, but here its children are already listed, so
-                        looking tappable would promise a step that isn't there. */}
-                    <p className="px-2.5 pb-0.5 pt-1.5 font-mono-numbers text-[9px] uppercase tracking-[0.16em] text-ink/40">
-                      {item.label}
-                    </p>
-                    {item.links.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={close}
-                        className={rowClass(isActiveLink(pathname, link.href, item.links))}
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
+                  <section key={item.label} className="mt-2 border-t border-hairline pt-2">
+                    <h2 className="flex items-center gap-3 px-2 py-1.5">
+                      <Tile icon={item.icon} tile={item.tile} />
+                      <span className="font-sans text-xs font-semibold uppercase tracking-[0.12em] text-ink/60">
+                        {item.label}
+                      </span>
+                    </h2>
+                    {item.links.map((link) => {
+                      const LinkIcon = link.icon;
+                      const current = isActiveLink(pathname, link.href, item.links);
+                      return (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={close}
+                          aria-current={current ? "page" : undefined}
+                          className={`flex items-center gap-3 rounded-xl py-2 pl-[22px] pr-2 ${current ? "bg-parchment" : ""}`}
+                        >
+                          <LinkIcon className={`h-5 w-5 shrink-0 ${current ? "text-ink" : "text-ink/50"}`} />
+                          <span className="min-w-0">
+                            <span className="block font-sans text-[15px] font-semibold leading-tight text-ink">
+                              {link.label}
+                            </span>
+                            <span className="block font-sans text-[13px] leading-snug text-ink/60">{link.hint}</span>
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </section>
                 );
               })}
-
-              <div className="mt-1.5 border-t border-hairline pt-1.5">
-                {EXTRA_LINKS.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={close}
-                      className={`${rowClass(pathname.startsWith(item.href))} flex items-center gap-2`}
-                    >
-                      <Icon className="h-4 w-4 shrink-0 text-brass" />
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </div>
+              <div className="mt-2 border-t border-hairline pt-2">{single(HELP_TAB)}</div>
             </nav>
+
+            <div className="border-t border-hairline px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3">
+              <Link
+                href="/account"
+                onClick={close}
+                className="block truncate font-mono-numbers text-sm text-ink/60"
+              >
+                {email}
+              </Link>
+              <div className="mt-2 flex items-center gap-5 font-mono-numbers text-sm">
+                {isAdmin && (
+                  <a href="https://admin.youdoido.com" className="text-brass hover:underline">
+                    Admin
+                  </a>
+                )}
+                <form action={signOut}>
+                  <button type="submit" className="text-brass hover:underline">
+                    Log out
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>,
         document.body,

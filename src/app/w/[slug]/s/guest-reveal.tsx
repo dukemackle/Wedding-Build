@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "@/components/save-the-date/reveal";
+import { siteAddress } from "@/lib/save-the-date/back";
 import type { CardDoc } from "@/lib/save-the-date/types";
 
 /**
@@ -35,7 +36,7 @@ export function GuestReveal({
   return (
     <div className="flex min-h-dvh flex-col">
       <link rel="stylesheet" href={fontsHref} precedence="default" />
-      <Reveal doc={doc} guest={guest} siteHref={siteHref} onOpen={opened} />
+      <Reveal doc={doc} guest={guest} siteHref={siteHref} site={siteAddress(slug)} onOpen={opened} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TEMPLATES, newCard, templateById } from "./templates";
+import { CUSTOM_PALETTE, TEMPLATES, newCard, templateById } from "./templates";
 import type { CardDoc } from "./types";
 
 /**
@@ -48,15 +48,22 @@ const override = z.object({
   hidden: z.boolean().optional(),
   font: id.optional(),
   color: hex.optional(),
+  text: z.string().max(200).optional(),
+  tracking: z.number().min(-0.1).max(1).optional(),
+  upper: z.boolean().optional(),
+  italic: z.boolean().optional(),
+  bold: z.boolean().optional(),
 });
 
 export const cardDocSchema = z.object({
   template: id,
   palette: id,
+  colours: z.object({ paper: hex, ink: hex, accent: hex }).optional(),
   fonts: id,
   content,
   photo,
   overrides: z.record(id, override).refine((o) => Object.keys(o).length <= 60, "too many overrides"),
+  back: z.object({ on: z.boolean(), travel: z.string().max(90) }).optional(),
 });
 
 /** A stored card as the editor opens it; anything unreadable becomes null. */
@@ -65,11 +72,11 @@ export function parseCardDoc(raw: unknown): CardDoc | null {
   if (!parsed.success) return null;
   const doc = parsed.data as CardDoc;
   // A template retired since the card was saved: keep their words and photo on the first one.
-  if (!TEMPLATES.some((t) => t.id === doc.template)) return newCard(TEMPLATES[0].id, doc.content, doc.photo, false);
+  if (!TEMPLATES.some((t) => t.id === doc.template)) return { ...newCard(TEMPLATES[0].id, doc.content, doc.photo, false), back: doc.back };
   const t = templateById(doc.template);
   return {
     ...doc,
-    palette: t.palettes.some((p) => p.id === doc.palette) ? doc.palette : t.palettes[0].id,
+    palette: t.palettes.some((p) => p.id === doc.palette) || (doc.palette === CUSTOM_PALETTE && doc.colours) ? doc.palette : t.palettes[0].id,
     fonts: t.pairings.some((p) => p.id === doc.fonts) ? doc.fonts : t.pairings[0].id,
   };
 }

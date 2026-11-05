@@ -9,42 +9,33 @@ import { getResendClient, INQUIRY_FROM_ADDRESS, undeliverableAmong } from "@/lib
 import { MAX_PER_SEND, cardEmailHtml, cardEmailSubject, cardEmailText } from "@/lib/save-the-date/email";
 import { cardWords } from "@/lib/save-the-date/guest-card";
 import { STALE_CARD, cardDocSchema, parseCardDoc } from "@/lib/save-the-date/schema";
+import { MAX_CARDS, newCard, templateById } from "@/lib/save-the-date/templates";
+import type { CardDoc } from "@/lib/save-the-date/types";
 import type { Guest, SaveTheDateRow } from "@/lib/supabase/types";
+import { starterCard } from "./load-card";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 
 type Saved = { error?: string; stale?: boolean; version?: string };
 
 /**
- * Saves the couple's card (Guests › Save the date). `version` is the
+ * Saves one of the couple's cards (Guests › Save the date). `version` is the
  * updated_at the editor last saw: when the row has moved on since, nothing
  * is written, so one device's stale copy can't overwrite the other's work.
- * The first save creates the row.
+ * Cards are created by createCard, never here.
  */
-export async function saveSaveTheDate(doc: unknown, version: string | null): Promise<Saved> {
+export async function saveSaveTheDate(id: string, doc: unknown, version: string | null): Promise<Saved> {
   const parsed = cardDocSchema.safeParse(doc);
-  if (!parsed.success) return { error: "That card couldn't be saved." };
+  if (!parsed.success || !id) return { error: "That card couldn't be saved." };
+  if (!version) return { error: STALE_CARD, stale: true };
 
   const { supabase, wedding, noWedding } = await requireEditableWedding();
   if (!wedding) return { error: noWedding };
 
-  const now = new Date().toISOString();
-  if (!version) {
-    const { data, error } = await supabase
-      .from("save_the_dates")
-      .insert({ wedding_id: wedding.id, doc: parsed.data, updated_at: now })
-      .select("updated_at")
-      .single<{ updated_at: string }>();
-    // 23505: a card already exists, made on another device since this page loaded.
-    if (error?.code === "23505") return { error: STALE_CARD, stale: true };
-    if (error) return { error: error.message };
-    revalidatePath("/guests/save-the-date");
-    return { version: data.updated_at };
-  }
-
   const { data, error } = await supabase
     .from("save_the_dates")
-    .update({ doc: parsed.data, updated_at: now })
+    .update({ doc: parsed.data, updated_at: new Date().toISOString() })
+    .eq("id", id)
     .eq("wedding_id", wedding.id)
     .eq("updated_at", version)
     .select("updated_at")
@@ -53,6 +44,115 @@ export async function saveSaveTheDate(doc: unknown, version: string | null): Pro
   if (!data) return { error: STALE_CARD, stale: true };
   revalidatePath("/guests/save-the-date");
   return { version: data.updated_at };
+}
+
+/**
+ * A new card: a copy of one of theirs (`copyOf`), or a design (`template`)
+ * carrying the words and photo of their latest card, or of their wedding
+ * details when it's their first. The first card is the one guests see.
+ */
+export async function createCard(from: {
+  template?: string;
+  copyOf?: string;
+  /** The banner photo's proportions, measured in the browser, for a first card. */
+  aspect?: number;
+}): Promise<{ error?: string; id?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const { data: cards } = await supabase
+    .from("save_the_dates")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("updated_at", { ascending: false })
+    .returns<SaveTheDateRow[]>();
+  const list = cards ?? [];
+  if (list.length >= MAX_CARDS) return { error: `You can keep ${MAX_CARDS} designs. Delete one to start another.` };
+
+  let doc: CardDoc | null = null;
+  let name: string;
+  if (from.copyOf) {
+    const source = list.find((c) => c.id === from.copyOf);
+    doc = source ? parseCardDoc(source.doc) : null;
+    if (!source || !doc) return { error: "That design couldn't be copied." };
+    name = `${source.name} copy`.slice(0, 60);
+  } else {
+    const latest = list.map((c) => parseCardDoc(c.doc)).find(Boolean) ?? null;
+    const starter = latest ? null : await starterCard(supabase, wedding);
+    const aspect = typeof from.aspect === "number" && from.aspect > 0 && from.aspect <= 10 ? from.aspect : null;
+    const base =
+      latest ?? { ...starter!, photo: starter!.photo && aspect ? { ...starter!.photo, aspect } : null };
+    const t = from.template ? templateById(from.template) : templateById(base.template);
+    doc = latest || from.template ? newCard(t.id, base.content, base.photo, false) : base;
+    name = templateById(doc.template).name;
+  }
+
+  const { data, error } = await supabase
+    .from("save_the_dates")
+    .insert({ wedding_id: wedding.id, doc, name, chosen: !list.some((c) => c.chosen) })
+    .select("id")
+    .single<{ id: string }>();
+  if (error) return { error: error.message };
+  revalidatePath("/guests/save-the-date");
+  return { id: data.id };
+}
+
+export async function renameCard(id: string, name: string): Promise<{ error?: string }> {
+  const clean = name.trim().slice(0, 60);
+  if (!clean) return { error: "Give it a name." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const { error } = await supabase.from("save_the_dates").update({ name: clean }).eq("id", id).eq("wedding_id", wedding.id);
+  if (error) return { error: error.message };
+  revalidatePath("/guests/save-the-date");
+  return {};
+}
+
+/** Makes this the card guests see at their links (sending a card does the same). */
+export async function chooseCard(id: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const error = await makeChosen(supabase, wedding.id, id);
+  if (error) return { error };
+  revalidatePath("/guests/save-the-date");
+  return {};
+}
+
+/** Deletes a card. The one guests see can go only while it's the last, or before anything's been sent. */
+export async function deleteCard(id: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const [{ data: cards }, { count: sent }] = await Promise.all([
+    supabase
+      .from("save_the_dates")
+      .select("id, chosen")
+      .eq("wedding_id", wedding.id)
+      .order("updated_at", { ascending: false })
+      .returns<{ id: string; chosen: boolean }[]>(),
+    supabase.from("guests").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id).not("std_sent_at", "is", null),
+  ]);
+  const card = (cards ?? []).find((c) => c.id === id);
+  if (!card) return { error: "That design is already gone." };
+  const next = (cards ?? []).find((c) => c.id !== id);
+  if (card.chosen && next && sent) return { error: "Guests see this one at their link. Make another the one guests see first." };
+
+  const { error } = await supabase.from("save_the_dates").delete().eq("id", id).eq("wedding_id", wedding.id);
+  if (error) return { error: error.message };
+  if (card.chosen && next) await makeChosen(supabase, wedding.id, next.id);
+  revalidatePath("/guests/save-the-date");
+  return {};
+}
+
+type Db = Awaited<ReturnType<typeof requireEditableWedding>>["supabase"];
+
+/** One chosen card per wedding (a unique index), so the old one is cleared first. */
+async function makeChosen(supabase: Db, weddingId: string, id: string): Promise<string | null> {
+  const { data: card } = await supabase.from("save_the_dates").select("id").eq("id", id).eq("wedding_id", weddingId).maybeSingle();
+  if (!card) return "That design couldn't be found.";
+  const cleared = await supabase.from("save_the_dates").update({ chosen: false }).eq("wedding_id", weddingId).eq("chosen", true).neq("id", id);
+  if (cleared.error) return cleared.error.message;
+  const set = await supabase.from("save_the_dates").update({ chosen: true }).eq("id", id);
+  return set.error?.message ?? null;
 }
 
 /**
@@ -92,7 +192,7 @@ export async function saveTheDatePhotoUrl(path: string): Promise<{ error?: strin
  * startSaveTheDatePhotoUpload) for the email and link previews, with the
  * card version it shows.
  */
-export async function setSaveTheDateImage(path: string, version: string): Promise<{ error?: string; url?: string }> {
+export async function setSaveTheDateImage(id: string, path: string, version: string): Promise<{ error?: string; url?: string }> {
   const { supabase, wedding, noWedding } = await requireEditableWedding();
   if (!wedding) return { error: noWedding };
   const [folder, sub, name, ...rest] = path.split("/");
@@ -103,6 +203,7 @@ export async function setSaveTheDateImage(path: string, version: string): Promis
   const { error } = await supabase
     .from("save_the_dates")
     .update({ image_url: url, image_version: version })
+    .eq("id", id)
     .eq("wedding_id", wedding.id);
   if (error) return { error: error.message };
   return { url };
@@ -124,6 +225,7 @@ function greetingFor(guest: Guest, everyone: Guest[]) {
  * guest with no email, or whose address has bounced before, is skipped.
  */
 export async function sendSaveTheDates(
+  cardId: string,
   guestIds: string[],
   origin: string,
 ): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
@@ -136,7 +238,7 @@ export async function sendSaveTheDates(
   if (!/^https?:\/\/[^/]+$/.test(origin)) return { error: "That send didn't come from the app." };
 
   const [{ data: row }, { data: everyone }] = await Promise.all([
-    supabase.from("save_the_dates").select("*").eq("wedding_id", wedding.id).maybeSingle<SaveTheDateRow>(),
+    supabase.from("save_the_dates").select("*").eq("id", cardId).eq("wedding_id", wedding.id).maybeSingle<SaveTheDateRow>(),
     supabase.from("guests").select("*").eq("wedding_id", wedding.id).returns<Guest[]>(),
   ]);
   const doc = row ? parseCardDoc(row.doc) : null;
@@ -192,7 +294,9 @@ export async function sendSaveTheDates(
       "id",
       deliverable.map((g) => g.id),
     );
+  // Guests' links show the card they were last sent.
+  if (!row.chosen) await makeChosen(supabase, wedding.id, row.id);
   trackEvent("save_the_dates_sent", { weddingId: wedding.id, userId: user.id });
-  revalidatePath("/guests/save-the-date/send");
+  revalidatePath("/guests/save-the-date", "layout");
   return { sent: deliverable.length, skipped, failed: 0 };
 }

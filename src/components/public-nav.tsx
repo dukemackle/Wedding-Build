@@ -23,7 +23,7 @@ export function PublicNav({ next }: { next?: string }) {
   const business = { href: "/list", label: "List your business" };
   return (
     <AutoHideHeader>
-      <div className="flex w-full items-center justify-between gap-4 px-4 py-2 sm:px-6">
+      <div className="flex w-full items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-10 2xl:px-14">
         <WrenMark href="/" />
         <nav aria-label="Main" className="flex items-center gap-1 md:gap-7">
           {links.map((l) => (

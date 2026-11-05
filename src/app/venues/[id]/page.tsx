@@ -9,6 +9,7 @@ import { SITE_URL, isIndexable, metaDescription, venueHref } from "@/lib/public-
 import { loadVenueListing, VenueListing, type VenueListingData } from "./venue-listing";
 import { trackEvent } from "@/lib/events";
 import { parseThen } from "@/lib/signup-intent";
+import { metroForPoint, metroHref } from "@/lib/metros";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /venues opens. Clicking a venue in the search results
@@ -94,12 +95,21 @@ export default async function VenueDetailPage({
   // visitors and bots aren't counted.
   if (data.wedding) trackEvent("listing_viewed", { weddingId: data.wedding.id, listing: { kind: "venue", id: data.venue.id } });
 
+  const metro = metroForPoint(data.venue.latitude, data.venue.longitude);
+
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">
       <JsonLd data={venueJsonLd(data)} />
-      <Link href="/venues" className="mb-4 inline-block text-sm text-brass hover:underline">
-        &larr; {user ? "Back to venues" : "Browse wedding venues"}
-      </Link>
+      <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+        <Link href="/venues" className="text-brass hover:underline">
+          &larr; {user ? "Back to venues" : "Browse wedding venues"}
+        </Link>
+        {metro && (
+          <Link href={metroHref("venues", metro)} className="text-brass hover:underline">
+            More {metro.name}-area venues
+          </Link>
+        )}
+      </div>
       <VenueListing data={{ ...data, then }} />
     </PageShell>
   );

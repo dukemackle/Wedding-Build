@@ -364,6 +364,13 @@ Kelly Wilkin Floral Creative	Florals		Tuscaloosa	Alabama		Tuscaloosa florist cre
 The Grand Event Design and Decor	Rentals	1017 MLK Jr Blvd	Northport	Alabama	Tuscaloosa and Birmingham	Northport event rental and design company supplying furniture, linens, lighting, backdrops and decor for weddings in Tuscaloosa and Birmingham.		(205) 535-9592	https://www.grandeventdesign.com/	https://www.instagram.com/grandeventdesign/		
 `,
   },
+  {
+    name: "Alabama: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+AL Weddings	Photography	277 Lyon Ln	Birmingham	Alabama	Alabama and destination weddings	Birmingham team with 14 years of weddings, shooting photographs and films in-house and mixing guided portraits with unposed moments.			https://alweddingsllc.com/	https://www.instagram.com/alweddings/		
+LMB Catering	Catering		Birmingham	Alabama	Birmingham and surrounding areas	Birmingham caterer cooking Southern-style menus from local ingredients for weddings and events of 50 to 500 guests, with an event facilitator on hand.			https://lmbcatering.com/			
+`,
+  },
 ];
 
 export default batches;

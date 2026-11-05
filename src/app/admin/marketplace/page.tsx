@@ -5,6 +5,9 @@ import { SITE_URL } from "@/lib/public-listings";
 import { MARKET_REPORT_REASONS, formatPrice, listedAgo } from "@/lib/marketplace";
 import type { MarketListing, MarketMessage } from "@/lib/supabase/types";
 import { dismissReport, takeDownListing } from "./actions";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
+import { marketStats } from "@/app/admin/market-stats";
+import { MarketTiles } from "@/app/admin/market-tiles";
 
 type Report = {
   id: string;
@@ -27,7 +30,8 @@ const reasonLabel = (value: string) => MARKET_REPORT_REASONS.find((r) => r.value
 export default async function AdminMarketplacePage() {
   await requireAdmin();
   const admin = createAdminSupabaseClient();
-  const [{ data: reports }, { data: recent }] = await Promise.all([
+  const [stats, { data: reports }, { data: recent }] = await Promise.all([
+    marketStats(),
     admin
       .from("market_reports")
       .select("id, listing_id, thread_id, reason, details, created_at")
@@ -63,12 +67,20 @@ export default async function AdminMarketplacePage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
-      <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Marketplace</h1>
+      <AdminEyebrow />
+      <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Buy &amp; sell</h1>
       <p className="mt-2 max-w-2xl text-sm text-ink/70">
         Reports from buyers and sellers, and the newest listings. Taking a listing down hides it, closes its
         conversations and emails the seller why.
       </p>
+
+      <div className="mt-6">
+        <MarketTiles stats={stats} />
+        <p className="mt-2 text-xs text-ink/50">
+          {stats.reports.now.toLocaleString()} reports in the last 30 days · {stats.reports.before.toLocaleString()} the 30
+          before.
+        </p>
+      </div>
 
       <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-2">
         <section className={card}>
