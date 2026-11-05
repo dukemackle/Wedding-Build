@@ -74,7 +74,7 @@ function NavList({ pendingClaims, onNavigate }: { pendingClaims: PendingClaims; 
 function Brand() {
   return (
     <Link href="/admin" className="flex items-center gap-2">
-      <Image src="/icon.png" alt="You Do, I Do" width={28} height={28} className="h-7 w-7 shrink-0 rounded-md bg-white p-0.5" />
+      <Image src="/icon.png" alt="You Do, I Do" width={28} height={28} className="h-7 w-7 shrink-0 rounded-md" />
       <span className="rounded-full bg-[#FFD301] px-2 py-0.5 font-mono-numbers text-xs font-medium uppercase tracking-wide text-forest">
         Admin
       </span>
