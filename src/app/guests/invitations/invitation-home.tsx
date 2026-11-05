@@ -1,0 +1,127 @@
+"use client";
+
+import Link from "next/link";
+import { useState, useTransition } from "react";
+import { CardSvg } from "@/components/save-the-date/card-svg";
+import { actionFailed } from "@/lib/action-error";
+import { FONTS_HREF } from "@/lib/save-the-date/fonts";
+import { INVITATIONS, MAX_INVITATIONS, newCard } from "@/lib/save-the-date/templates";
+import type { CardContent } from "@/lib/save-the-date/types";
+import { createInvitation, deleteInvitation } from "./actions";
+import type { Invitation } from "./load";
+
+/**
+ * Guests › Invitations: the couple's invitation designs, then every design
+ * drawn with their own words. Picking one makes an invitation and opens it in
+ * the studio. Designs match the save-the-dates of the same name.
+ */
+export function InvitationHome({
+  invitations,
+  canEdit,
+  words,
+  rsvpOpensOn,
+}: {
+  invitations: Invitation[];
+  canEdit: boolean;
+  /** Their words, for drawing the designs before they've made one. */
+  words: CardContent;
+  /** When RSVPs open on the site (null = open now). */
+  rsvpOpensOn: string | null;
+}) {
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+  const full = invitations.length >= MAX_INVITATIONS;
+  const content = invitations[0]?.doc.content ?? words;
+
+  const run = (action: () => Promise<{ error?: string } | undefined>) => {
+    if (!canEdit) return;
+    setError(null);
+    start(async () => {
+      const r = await action().catch((e: unknown) => {
+        // A redirect into the studio surfaces here as a thrown navigation; let it through.
+        if (e && typeof e === "object" && "digest" in e) throw e;
+        return { error: actionFailed("reach the server") };
+      });
+      if (r?.error) setError(r.error);
+    });
+  };
+
+  return (
+    <div className={`flex flex-col ${pending ? "cursor-progress" : ""}`}>
+      <link rel="stylesheet" href={FONTS_HREF} precedence="default" />
+      <h1 className="font-display text-3xl font-semibold text-forest sm:text-4xl">Your invitations</h1>
+      <p className="mt-1 max-w-2xl text-ink/60">
+        The formal invitation, with an RSVP card on the back: a QR code straight to your RSVP form. Download it to print,
+        or have it printed. Each design matches the save-the-date of the same name.
+      </p>
+      {rsvpOpensOn && (
+        <p className="mt-3 max-w-2xl rounded-lg bg-[#FFF12F]/25 px-3 py-2.5 text-sm text-ink">
+          RSVPs open on your website on{" "}
+          {new Date(`${rsvpOpensOn}T12:00:00`).toLocaleDateString("en-US", { month: "long", day: "numeric" })}. Clear or
+          change that date under <Link href="/dashboard" className="font-medium text-[#2243B6] underline">Dashboard › Wedding details</Link>{" "}
+          when your invitations go out.
+        </p>
+      )}
+
+      {error && (
+        <p role="alert" className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-800">
+          {error}
+        </p>
+      )}
+
+      {invitations.length > 0 && (
+        <div className="mt-6 grid grid-cols-2 gap-x-3.5 gap-y-5 sm:grid-cols-3 sm:gap-6 lg:grid-cols-6">
+          {invitations.map((inv) => (
+            <div key={inv.id} className="flex min-w-0 flex-col">
+              <Link href={`/guests/invitations/edit/${inv.id}`} className="block overflow-hidden rounded-[10px] ring-1 ring-ink/10 transition hover:ring-ink/30">
+                <CardSvg doc={inv.doc} className="block w-full" title={inv.name} />
+              </Link>
+              <div className="mt-2.5 flex items-baseline justify-between gap-2">
+                <Link href={`/guests/invitations/edit/${inv.id}`} className="truncate font-medium text-ink hover:underline">
+                  {inv.name}
+                </Link>
+                {canEdit && (
+                  <button
+                    type="button"
+                    disabled={pending}
+                    onClick={() => confirm(`Delete “${inv.name}”?`) && run(() => deleteInvitation(inv.id))}
+                    className="shrink-0 text-[13px] text-ink/50 hover:text-red-700"
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="mt-12 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <h2 className="font-display text-2xl font-semibold text-forest sm:text-[28px]">
+          {invitations.length ? "Start another" : "Pick a design"}
+        </h2>
+        <p className="text-sm text-ink/55">{INVITATIONS.length} designs, drawn with your details.</p>
+      </div>
+      {full && (
+        <p className="mt-2 text-sm text-ink/60">That&apos;s {MAX_INVITATIONS} designs, the most you can keep. Delete one to start another.</p>
+      )}
+      <div className="mt-5 grid grid-cols-2 gap-x-3.5 gap-y-5 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5">
+        {INVITATIONS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            disabled={pending || full || !canEdit}
+            onClick={() => run(() => createInvitation(t.id))}
+            className="group flex min-w-0 flex-col text-left disabled:cursor-not-allowed"
+          >
+            <span className="block overflow-hidden rounded-[10px] ring-1 ring-ink/10 transition group-hover:ring-ink/30 group-disabled:group-hover:ring-ink/10">
+              <CardSvg doc={newCard(t.id, content, null, false)} className="block w-full" title={`${t.name} invitation`} />
+            </span>
+            <span className="mt-2.5 truncate font-medium text-ink">{t.name}</span>
+            <span className="truncate text-[13px] text-ink/55">{t.family}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}

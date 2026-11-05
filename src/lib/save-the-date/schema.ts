@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { CUSTOM_PALETTE, TEMPLATES, newCard, templateById } from "./templates";
+import { CUSTOM_PALETTE, INVITATIONS, TEMPLATES, newCard, templateById } from "./templates";
+import { isInvitationTemplate } from "./invitations";
 import type { CardDoc } from "./types";
 
 /**
@@ -25,6 +26,10 @@ const content = z.object({
   place: z.string().max(140),
   note: z.string().max(120),
   headline: z.string().max(80),
+  request: z.string().max(140).optional(),
+  time: z.string().max(80).optional(),
+  venue: z.string().max(100).optional(),
+  reply: z.string().max(80).optional(),
 });
 
 const photo = z
@@ -72,7 +77,10 @@ export function parseCardDoc(raw: unknown): CardDoc | null {
   if (!parsed.success) return null;
   const doc = parsed.data as CardDoc;
   // A template retired since the card was saved: keep their words and photo on the first one.
-  if (!TEMPLATES.some((t) => t.id === doc.template)) return { ...newCard(TEMPLATES[0].id, doc.content, doc.photo, false), back: doc.back };
+  if (![...TEMPLATES, ...INVITATIONS].some((t) => t.id === doc.template)) {
+    const first = isInvitationTemplate(doc.template) ? INVITATIONS[0] : TEMPLATES[0];
+    return { ...newCard(first.id, doc.content, doc.photo, false), back: doc.back };
+  }
   const t = templateById(doc.template);
   return {
     ...doc,

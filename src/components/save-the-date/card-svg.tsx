@@ -1,5 +1,6 @@
 "use client";
 
+import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import QRCode from "qrcode";
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
@@ -218,7 +219,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       viewBox={`0 0 ${ARTBOARD.w} ${ARTBOARD.h}`}
       className={className}
       role="img"
-      aria-label={title ?? (back ? `Back of the card: ${site ?? "the wedding website"}` : `Save the date: ${doc.content.nameA} and ${doc.content.nameB}`)}
+      aria-label={title ?? (back ? `Back of the card: ${site ?? "the wedding website"}` : `${isInvitationTemplate(doc.template) ? "Invitation" : "Save the date"}: ${doc.content.nameA} and ${doc.content.nameB}`)}
       onPointerMove={moveDrag}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}

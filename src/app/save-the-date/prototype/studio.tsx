@@ -4,7 +4,7 @@ import { SendPanel, type SendGuest } from "@/app/guests/save-the-date/send/send-
 import { CardSvg } from "@/components/save-the-date/card-svg";
 import { Reveal } from "@/components/save-the-date/reveal";
 import { FONTS_HREF, SaveTheDateStudio } from "@/components/save-the-date/studio";
-import { TEMPLATES, newCard } from "@/lib/save-the-date/templates";
+import { INVITATIONS, SAMPLE_INVITATION, TEMPLATES, newCard } from "@/lib/save-the-date/templates";
 import type { CardContent } from "@/lib/save-the-date/types";
 
 export function Studio({ view }: { view: string }) {
@@ -36,6 +36,25 @@ export function Studio({ view }: { view: string }) {
         </div>
       </div>
     );
+  // "invitations": every invitation design, front and RSVP back (print QA).
+  if (view === "invitations")
+    return (
+      <div className="min-h-dvh bg-[#efebe4] p-6">
+        <link rel="stylesheet" href={FONTS_HREF} precedence="default" />
+        <div className="grid grid-cols-2 gap-x-8 gap-y-6 lg:grid-cols-4">
+          {INVITATIONS.map((t) => {
+            const doc = { ...newCard(t.id, SAMPLE_INVITATION), back: { on: true, travel: "", rsvp: true } };
+            return (
+              <figure key={t.id} className="grid grid-cols-2 gap-2">
+                <CardSvg doc={doc} className="w-full shadow-lg" />
+                <CardSvg doc={doc} side="back" site="youdoido.com/w/alex-and-jordan" className="w-full shadow-lg" />
+                <figcaption className="col-span-2 text-xs text-ink/70">{t.name}</figcaption>
+              </figure>
+            );
+          })}
+        </div>
+      </div>
+    );
   if (view.startsWith("gallery")) return <Gallery view={view} />;
   // "send": the Send page with sample guests (nothing can actually send here).
   if (view === "send")
@@ -56,6 +75,9 @@ export function Studio({ view }: { view: string }) {
       </div>
     );
   // "autosave": the real card's saving, against a stubbed /api/save-the-date (tests only).
+  // "invitation": the studio on an invitation (Guests › Invitations).
+  if (view === "invitation")
+    return <SaveTheDateStudio initial={{ ...newCard("inv-heirloom", SAMPLE_INVITATION), back: { on: true, travel: "", rsvp: true } }} title="Heirloom Garden" backLabel="Designs" site="youdoido.com/w/alex-and-jordan" />;
   if (view === "autosave") return <SaveTheDateStudio initial={newCard("heirloom", undefined, null, false)} cardId="sample" version="v1" persist photos={["/landing/hero-couple-1000.webp"]} />;
   // "back": the studio showing a card's back (Heirloom), as a couple sees it after adding one.
   if (view === "back" || view === "both")

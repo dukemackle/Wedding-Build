@@ -1,5 +1,6 @@
 "use client";
 
+import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import { useState } from "react";
 import { downloadIcs } from "@/lib/ics";
 import { cardPalette, templateById } from "@/lib/save-the-date/templates";
@@ -77,6 +78,8 @@ export function Reveal({
     }, 260);
   };
   const hasBack = Boolean(doc.back?.on && site);
+  const invitation = isInvitationTemplate(doc.template);
+  const rsvp = invitation || Boolean(doc.back?.rsvp);
 
   const open = () => {
     if (stage !== "closed") return;
@@ -99,7 +102,7 @@ export function Reveal({
       end_time: null,
       title: `${c.nameA} & ${c.nameB}'s wedding`,
       location: c.place || null,
-      description: `Save the date! Details: ${new URL(siteHref, location.href).href}`,
+      description: `${invitation ? "You're invited" : "Save the date"}! Details: ${new URL(siteHref, location.href).href}`,
     } as ItineraryEvent);
   };
 
@@ -115,7 +118,7 @@ export function Reveal({
         className="std-kicker mb-6 text-center text-[11px] uppercase tracking-[0.3em]"
         style={{ color: dark ? shade(palette.muted, 0) : "#6f6458", fontFamily: caps }}
       >
-        {isOpen ? "Save the date" : `${c.nameA} & ${c.nameB} sent you something`}
+        {isOpen ? (invitation ? "You're invited" : "Save the date") : `${c.nameA} & ${c.nameB} sent you something`}
       </p>
 
       <div className="relative" style={{ width: w, aspectRatio: "1000 / 1400" }}>
@@ -136,7 +139,7 @@ export function Reveal({
         <button
           type="button"
           onClick={isOpen ? turn : open}
-          aria-label={isOpen ? (flipped ? "Turn the card to the front" : "Turn the card over") : "Open your save the date"}
+          aria-label={isOpen ? (flipped ? "Turn the card to the front" : "Turn the card over") : invitation ? "Open your invitation" : "Open your save the date"}
           className="std-card absolute inset-[4%] block cursor-pointer outline-none focus-visible:ring-4 focus-visible:ring-[#2243B6]/40"
           disabled={isOpen && !hasBack}
         >
@@ -210,11 +213,11 @@ export function Reveal({
               </button>
             )}
             <a
-              href={doc.back?.rsvp ? rsvpHref : siteHref}
+              href={rsvp ? rsvpHref : siteHref}
               className="rounded-full border px-5 py-3 text-sm font-medium"
               style={{ borderColor: dark ? `${palette.ink}55` : "#14203d33", color: dark ? palette.ink : "#14203d", fontFamily: caps }}
             >
-              {doc.back?.rsvp ? "RSVP" : "See our wedding website"}
+              {rsvp ? "RSVP" : "See our wedding website"}
             </a>
           </>
         ) : (

@@ -11,7 +11,8 @@ import { Reveal } from "./reveal";
 import { FONTS, contrast, fontById } from "@/lib/site-design";
 import { FONTS_HREF } from "@/lib/save-the-date/fonts";
 import { cardPdf, cardPng, saveBlob } from "@/lib/save-the-date/export";
-import { CUSTOM_PALETTE, FAMILIES, SHORT, TEMPLATES, cardPalette, keepColours, newCard, templateById } from "@/lib/save-the-date/templates";
+import { CUSTOM_PALETTE, INVITATIONS, SHORT, TEMPLATES, cardPalette, keepColours, newCard, templateById } from "@/lib/save-the-date/templates";
+import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import type { CardColours, CardContent, CardDoc, LayerOverride, Photo } from "@/lib/save-the-date/types";
 
 export { FONTS_HREF };
@@ -169,7 +170,9 @@ const FOLDS: FoldId[] = ["details", "back", "colours", "lettering", "photo", "la
 
 function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: string) => void; row?: boolean }) {
   const [family, setFamily] = useState<string | null>(null);
-  const shown = family ? TEMPLATES.filter((t) => t.family === family) : TEMPLATES;
+  // An invitation switches between invitation designs, a save-the-date between save-the-dates.
+  const list = isInvitationTemplate(doc.template) ? INVITATIONS : TEMPLATES;
+  const shown = family ? list.filter((t) => t.family === family) : list;
   const chip = (label: string, value: string | null) => (
     <button
       key={label}
@@ -185,7 +188,7 @@ function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: strin
     <div>
       <div className={`mb-3 flex gap-1.5 ${row ? "-mx-5 overflow-x-auto px-5 pb-1" : "flex-wrap"}`} role="group" aria-label="Filter designs by style">
         {chip("All", null)}
-        {FAMILIES.map((f) => chip(SHORT[f] ?? f, f))}
+        {[...new Set(list.map((t) => t.family))].map((f) => chip(SHORT[f] ?? f, f))}
       </div>
       <div className={row ? "-mx-5 flex snap-x gap-3 overflow-x-auto px-5 pb-1" : "grid grid-cols-2 gap-3"}>
         {shown.map((t) => {
@@ -235,6 +238,7 @@ function BackPanel({
   rsvpOpensOn?: string | null;
 }) {
   const back = doc.back ?? { on: false, travel: "" };
+  const invitation = isInvitationTemplate(doc.template);
   const [opensOn, setOpensOn] = useState(rsvpOpensOn);
   const [rsvpNote, setRsvpNote] = useState<string | null>(null);
   const closed = rsvpNotOpenYet(opensOn);
@@ -262,10 +266,15 @@ function BackPanel({
           }}
         />
         <span className="text-[15px] leading-snug text-ink">
-          Add a back for printing
-          <span className="mt-0.5 block text-xs text-ink/55">Your website and a QR code to it, in this design&apos;s colours. Guests online can turn the card over.</span>
+          {invitation ? "Add an RSVP card on the back" : "Add a back for printing"}
+          <span className="mt-0.5 block text-xs text-ink/55">
+            {invitation
+              ? "Your reply-by line and a QR code to your RSVP form, in this design's colours. Edit the reply line under Your details."
+              : "Your website and a QR code to it, in this design's colours. Guests online can turn the card over."}
+          </span>
         </span>
       </label>
+      {!invitation && (
       <label className="flex cursor-pointer items-start gap-3">
         <input
           type="checkbox"
@@ -280,6 +289,7 @@ function BackPanel({
           </span>
         </span>
       </label>
+      )}
       {rsvpNote ? (
         <p className="rounded-lg bg-[#FFF12F]/25 px-3 py-2.5 text-xs leading-relaxed text-ink">{rsvpNote}</p>
       ) : back.rsvp && site && opensOn !== undefined ? (
@@ -315,7 +325,7 @@ function BackPanel({
   );
 }
 
-function DetailsPanel({ c, set }: { c: CardContent; set: (patch: Partial<CardContent>, key: string) => void }) {
+function DetailsPanel({ c, set, invitation }: { c: CardContent; set: (patch: Partial<CardContent>, key: string) => void; invitation?: boolean }) {
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-2 gap-2">
@@ -332,12 +342,37 @@ function DetailsPanel({ c, set }: { c: CardContent; set: (patch: Partial<CardCon
       <Field label="Or write the date your way">
         <input className={input} placeholder="e.g. Summer 2028, or 12–14 June 2028" value={c.dateText} onChange={(e) => set({ dateText: e.target.value }, "dateText")} />
       </Field>
-      <Field label="Where">
+      {invitation && (
+        <Field label="Time">
+          <input className={input} placeholder="e.g. at four o'clock in the afternoon" value={c.time ?? ""} onChange={(e) => set({ time: e.target.value }, "time")} />
+        </Field>
+      )}
+      {invitation && (
+        <Field label="Venue">
+          <input className={input} value={c.venue ?? ""} onChange={(e) => set({ venue: e.target.value }, "venue")} />
+        </Field>
+      )}
+      <Field label={invitation ? "Town" : "Where"}>
         <input className={input} value={c.place} onChange={(e) => set({ place: e.target.value }, "place")} />
       </Field>
-      <Field label="Closing line">
-        <input className={input} value={c.note} onChange={(e) => set({ note: e.target.value }, "note")} />
+      {invitation && (
+        <Field label="Who's hosting">
+          <input className={input} placeholder="e.g. Together with their families" value={c.headline} onChange={(e) => set({ headline: e.target.value }, "headline")} />
+        </Field>
+      )}
+      {invitation && (
+        <Field label="The request">
+          <input className={input} value={c.request ?? ""} onChange={(e) => set({ request: e.target.value }, "request")} />
+        </Field>
+      )}
+      <Field label={invitation ? "Afterwards" : "Closing line"}>
+        <input className={input} placeholder={invitation ? "e.g. Dinner and dancing to follow" : undefined} value={c.note} onChange={(e) => set({ note: e.target.value }, "note")} />
       </Field>
+      {invitation && (
+        <Field label="Reply line (on the back)">
+          <input className={input} placeholder="e.g. Kindly reply by May 1" value={c.reply ?? ""} onChange={(e) => set({ reply: e.target.value }, "reply")} />
+        </Field>
+      )}
     </div>
   );
 }
@@ -729,6 +764,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   }));
   const doc = h.present;
   const t = templateById(doc.template);
+  const invitation = isInvitationTemplate(doc.template);
   const [selected, setSelected] = useState<string | null>(view === "advanced" ? "names" : null);
   const [panel, setPanel] = useState<Panel | null>(view === "mobile-style" ? "style" : null);
   const [fold, setFold] = useState<FoldId | null>("details");
@@ -760,7 +796,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         if (stale.current) return;
         setSave("saving");
         try {
-          const res = await fetch("/api/save-the-date", {
+          const res = await fetch(isInvitationTemplate(doc.template) ? "/api/invitation" : "/api/save-the-date", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ id: cardId, doc, version: version.current }),
@@ -969,13 +1005,13 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       case "details":
         return phone ? (
           <div className="space-y-5">
-            <DetailsPanel c={doc.content} set={setContent} />
+            <DetailsPanel c={doc.content} set={setContent} invitation={invitation} />
             <div className="border-t border-hairline pt-4">
               <BackPanel doc={doc} site={site} patch={patch} show={showBack} rsvpOpensOn={rsvpOpensOn} />
             </div>
           </div>
         ) : (
-          <DetailsPanel c={doc.content} set={setContent} />
+          <DetailsPanel c={doc.content} set={setContent} invitation={invitation} />
         );
       case "style":
         return <StylePanel doc={doc} patch={patch} />;
@@ -1062,7 +1098,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       <div className="flex min-h-0 flex-1">
         {/* Desktop: designs on the left */}
         <aside className="hidden w-[300px] shrink-0 overflow-y-auto border-r border-hairline bg-white xl:block">
-          <Section title="Designs" aside={<span className="text-xs text-ink/60">{TEMPLATES.length} designs</span>}>
+          <Section title="Designs" aside={<span className="text-xs text-ink/60">{(isInvitationTemplate(doc.template) ? INVITATIONS : TEMPLATES).length} designs</span>}>
             <TemplatePicker doc={doc} choose={choose} />
           </Section>
         </aside>
@@ -1158,7 +1194,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           </Fold>
           <Fold
             title="Back of the card"
-            summary={withBack ? (doc.back?.rsvp ? "RSVP & QR code" : "Website & QR code") : doc.back?.rsvp ? "RSVP online" : <span className="font-medium text-[#2243B6]">Add one</span>}
+            summary={withBack ? (invitation ? "RSVP card" : doc.back?.rsvp ? "RSVP & QR code" : "Website & QR code") : doc.back?.rsvp ? "RSVP online" : <span className="font-medium text-[#2243B6]">Add one</span>}
             open={shownFold === "back"}
             onToggle={() => openFold("back")}
           >
