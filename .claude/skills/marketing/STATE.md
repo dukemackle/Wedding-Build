@@ -46,4 +46,4 @@ signups and activity but not where anyone came from.
 - 2026-11-04 SEO basics PR (homepage title/description, Organization+WebSite JSON-LD, `/llms.txt`).
 - Search Console verified; 2026-11-04: 11 indexed, 14,851 "Discovered - currently not indexed" (no internal links to listings).
 - Metro hub pages built 2026-11-04 (plan approved). Re-check indexed count in Search Console ~4 weeks after deploy.
-- 2026-11-05 Instagram: first 9 posts drafted (`drafts/2026-11-05-instagram-first-9.md`), awaiting owner. Platform order (Pinterest vs Instagram) not yet decided.
+- 2026-11-05 Social: Instagram + Pinterest created, TikTok pending. On hold: no posts until the site is finished (DECISIONS.md). 9 Instagram drafts ready in `drafts/2026-11-05-instagram-first-9.md`.

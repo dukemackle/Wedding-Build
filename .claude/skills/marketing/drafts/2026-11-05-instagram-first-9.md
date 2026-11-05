@@ -1,4 +1,4 @@
-Status: draft
+Status: draft (on hold until the site is finished, 2026-11-05)
 Piece: Instagram launch grid (first 9 posts), owner posts
 Date: 2026-11-05
 
