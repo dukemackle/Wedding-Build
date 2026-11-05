@@ -1406,6 +1406,20 @@ Bankers Hill Club	3030 Front St	San Diego	California			Ballroom	Indoor & Outdoor
 Christ Church Coronado	1114 Ninth Street	Coronado	California			Chapel & Church	Indoor				Episcopal parish church in Coronado village, with a memorial garden on its grounds.		619-435-4561	https://www.christchurchcoronado.org/life-events
 `,
   },
+  {
+    name: "San Diego (pass 6)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Coasterra	880 B Harbor Island Drive	San Diego	California			Restaurant & Brewery	Indoor & Outdoor				Harbor Island waterfront restaurant that hosts weddings with skyline views and a floating Harbor Float for exchanging vows.		619-814-1300	https://www.coasterra.com/weddings-and-events/
+The Westgate Hotel	1055 Second Avenue	San Diego	California			Hotel & Resort	Indoor & Outdoor	150			Downtown luxury hotel with a French-style Versailles Ballroom and a Fountain Terrace for weddings of up to 150 guests.	sales@westgatehotel.com	619-557-3620	https://www.westgatehotel.com/weddings/
+Mission Bay Beach Club	2688 E. Mission Bay Drive	San Diego	California			Restaurant & Brewery					Bayside waterfront spot with a patio and bar that takes private event inquiries for weddings and gatherings.	hello@missionbaybeachclub.com	(858) 201-7551	https://www.missionbaybeachclub.com
+Villa San Giovese		Jamul	California			Vineyard & Winery	Outdoor				A private Tuscan-style estate and vineyard in the Jamul hills that hosts one wedding at a time, with a ceremony lawn, terrace and bridal suite.	getmarried@villasangiovese.com	(619) 486-4842	https://villasangiovese.com/wedding-venue-san-diego
+La Casa del Zorro Desert Resort & Spa	3845 Yaqui Pass Road	Borrego Springs	California			Hotel & Resort	Indoor & Outdoor	350			A historic desert resort on 42 acres with garden ceremony space and an on-site ballroom for receptions.	info@lcdzresort.com	(760) 767-0100	https://www.lacasadelzorro.com/event/weddings
+Handlery Hotel San Diego	950 Hotel Circle North	San Diego	California			Hotel & Resort	Indoor & Outdoor				A Mission Valley hotel whose ballrooms open onto patios and a large landscaped terrace garden for receptions.	weddings@handlery.com	619-398-8340	https://sd.handlery.com/meetings-events/
+BRICK Liberty Station	2863 Historic Decatur Rd	San Diego	California			Industrial Loft & Warehouse	Indoor & Outdoor	220			A brick-walled former machine shop in Liberty Station that offers open vendor choice and a west lawn for ceremonies.	party@brick.828venues.com	(619) 452-0120	https://brick.828venues.com/events/weddings/
+Tivoli by Trademark Venues	4103 E Mission Rd	Fallbrook	California			Historic Mansion & Estate	Outdoor				An Italian villa-style estate among olive and herb groves with courtyards, a terrace and a tented pavilion.		760-510-1606	https://trademarkvenues.com/tivoli/
+Tom's Watch Bar San Diego	815 J Street, Suite 101	San Diego	California			Restaurant & Brewery	Indoor & Outdoor				A sports-bar restaurant beside Petco Park with rooftop patios and private rooms for wedding receptions.		619-225-7924	https://tomswatchbar.com/san-diego/private-events/wedding/
+`,
+  },
 ];
 
 export default batches;
