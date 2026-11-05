@@ -307,3 +307,14 @@ rules, batch self-merge, 50-state coverage, page widths) and
   couples' own posts to moderate, like Photo wall.
 - Alternatives: under Content (it isn't curated content); its own group (too
   small for one).
+
+## 2026-11-05: Instagram handles, @youdoidoapp is primary
+
+- Decision: the owner claimed @youdoidoapp and @youdoidoofficial.
+  @youdoidoapp is the account we post from, link from the site (Organization
+  JSON-LD `sameAs`) and put in bios elsewhere. @youdoidoofficial stays as a
+  held handle: private or no posts, bio "We're at @youdoidoapp".
+- Why: shorter and reads as a product, not a public figure. Holding the second
+  stops someone squatting a look-alike name.
+- Not yet: no posting cadence starts until listings cover every state
+  (CLAUDE.md "no marketing until every state has listings").

@@ -32,6 +32,7 @@ const SITE_JSON_LD = [
     url: SITE_URL,
     logo: `${SITE_URL}/icon.png`,
     email: "hello@youdoido.com",
+    sameAs: ["https://www.instagram.com/youdoidoapp/"],
   },
   {
     "@context": "https://schema.org",

@@ -17,7 +17,10 @@ with UTM tags from `analytics.md`).
 
 1. **One platform first.** Hypothesis: Pinterest (planning-intent, long shelf
    life, links out) then Instagram/TikTok. Confirm with research before
-   committing; record the choice in DECISIONS.md.
+   committing; record the choice in DECISIONS.md. Instagram handles are
+   claimed: **@youdoidoapp** is the one we post from and link to;
+   @youdoidoofficial is held only to stop squatters (no posts; bio points to
+   @youdoidoapp).
 2. **Content pillars** (adjust after results): budget truth (real cost
    ranges from our estimator, with the region and source), planning
    checklists and timelines, guest-site and seating how-tos, "what nobody
