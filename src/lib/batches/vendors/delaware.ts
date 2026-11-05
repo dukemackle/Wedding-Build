@@ -126,6 +126,22 @@ Patty Cakes	Cake		Dover	Delaware	Delmarva and southern Pennsylvania	Dover custom
 Craig and Company Premiere Disc Jockeys	Music		Middletown	Delaware	Kent County, Dover, Harrington, Delaware, New Jersey and Pennsylvania	Middletown DJ company with experienced DJs offering wedding entertainment across Delaware, New Jersey and Pennsylvania, with backup equipment on site.		609-221-9959	https://www.djcraigandco.com/			
 `,
   },
+  {
+    name: "Wilmington: photography, hair & makeup, music, catering, rentals, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Tiffany Travis Photography	Photography		Rehoboth Beach	Delaware	Delaware beaches	Rehoboth Beach photographer covering weddings, with collections and portrait sessions shot along the Delaware coast.			https://tiffanytravisphotography.com/		2700	package
+Becca Neufeld Photography	Photography		Lewes	Delaware		Lewes-based photographer, living near the beach, who shoots weddings alongside family sessions, with a dedicated weddings portfolio.			https://www.beccaneufeldphotography.com/	https://www.instagram.com/beccaneufeldphoto/		
+GLOSS Salon	Hair & Makeup	1320 N. Union St.	Wilmington	Delaware		Wilmington salon that began as an on-site wedding hair and make-up service and still styles bridal parties for weddings.		302-888-4520	https://salondelaware.com/	https://www.instagram.com/glosssalondelaware/		
+DJ Jimmy T Entertainment	Music		Newark	Delaware	Newark and the surrounding Delaware region	Newark wedding DJ and MC service that also offers cold sparklers, up-lighting and photo booth add-ons.	info@djjimmyt.com	844-951-1010	https://djjimmyt.com/	https://www.instagram.com/djjimmyt/		
+Don Dolce	Catering		Bear	Delaware		Bear-based dessert caterer whose roaming performers pipe cannoli to order at weddings, alongside cigar hospitality and LED entertainment.	Reserve@DonDolce.com	833-226-6654	https://dondolce.com/	https://www.instagram.com/dondolcecatering/	1000	per event
+Wilmington Catering Authority	Catering	913 Brandywine Boulevard	Wilmington	Delaware	Wilmington, Marshallton, Newark, Christiana, Bear, Hockessin and Talleyville	Wilmington caterer offering customisable wedding menus with vegetarian and gluten-free options, supported by its own service staff.		302-600-1577	https://www.cateringauthorityde.com/			
+Delaware Valley Tent Rentals	Rentals	251 Airport Rd	New Castle	Delaware	Northern Delaware, with reach into PA, NJ, MD and VA	Locally owned rental company supplying wedding tents, tables, chairs, linens, lighting and dance floors with delivery and set-up included.		302-593-1933	https://www.delawarevalleytentrentals.com/	https://www.instagram.com/delawarevalleytentrentals/		
+Wilmington String Quartet	Music		Wilmington	Delaware	Delaware and surrounding areas, including Maryland, Virginia and Washington DC	String ensemble, also known as String Poets, playing ceremony and cocktail-hour music for weddings in Wilmington and Newark.	StringPoets@gmail.com	202-465-2310	https://wilmingtonstringquartet.com/			
+Kerry Harrison Photography	Photography		Wilmington	Delaware	Delaware	Wilmington-titled wedding photography team shooting timeless, romantic and authentic images for Delaware couples since 2009.	kerry@kerryharrison.net	302-494-4141	https://www.kerryharrison.net/	https://www.instagram.com/kerryharrisonphotography/	3300	package
+DMDJ Entertainment	Music		Dover	Delaware	Dover, Camden, Magnolia, Felton, Smyrna, Harrington, Milford and Townsend	Dover DJ and MC service for weddings and other events, with LED and laser lighting, a wireless mic system and a laptop for requests.	dmdj@dmdjentertainment.com	(302) 222-1251	https://www.dmdjentertainment.com/			
+Cakerybake	Cake		Smyrna	Delaware		Smyrna bakery making tiered and single-tier wedding cakes alongside birthday and sculpted cakes, with a tasting box available.			https://www.cakerybake.com/	https://www.instagram.com/cakerybakebakery/		
+`,
+  },
 ];
 
 export default batches;
