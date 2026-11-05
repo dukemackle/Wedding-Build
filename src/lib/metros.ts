@@ -12,10 +12,12 @@ import { isIndexable } from "@/lib/public-listings";
  *
  * Metros are a centre and a radius rather than a list of towns: the catalog's
  * `city` is whatever town the business gives, and couples in Austin look at
- * Dripping Springs and Driftwood too. These are the launch metros
- * (`LAUNCH_METROS` in scripts/coverage-plan.mjs), in the same order. Add one
- * here only once it has listings worth a page; a hub with fewer than
- * MIN_INDEXABLE indexable listings is noindex and left out of the sitemap.
+ * Dripping Springs and Driftwood too. The launch metros (`LAUNCH_METROS` in
+ * scripts/coverage-plan.mjs) come first, then the plan's other major markets.
+ * Overlapping radii are fine: a listing belongs to the nearest centre. When a
+ * plan metro reaches its venue target, the batch builder adds it here (see
+ * .claude/skills/batch-builder). A hub with fewer than MIN_INDEXABLE indexable
+ * listings is noindex and left out of the sitemap, so adding one early is safe.
  */
 export type Metro = {
   slug: string;
@@ -39,6 +41,30 @@ export const METROS: Metro[] = [
   { slug: "los-angeles", name: "Los Angeles", state: "California", city: "Los Angeles", lat: 34.052, lng: -118.244, radiusMiles: 40 },
   { slug: "chicago", name: "Chicago", state: "Illinois", city: "Chicago", lat: 41.878, lng: -87.63, radiusMiles: 40 },
   { slug: "miami", name: "Miami", state: "Florida", city: "Miami", lat: 25.762, lng: -80.192, radiusMiles: 40 },
+  // The plan's other "major" markets (MAJOR in scripts/coverage-plan.mjs).
+  { slug: "phoenix", name: "Phoenix", state: "Arizona", city: "Phoenix", lat: 33.448, lng: -112.074, radiusMiles: 40 },
+  { slug: "san-francisco-bay-area", name: "San Francisco Bay Area", state: "California", city: "San Francisco", lat: 37.775, lng: -122.419, radiusMiles: 35 },
+  { slug: "orange-county", name: "Orange County", state: "California", city: "Irvine", lat: 33.684, lng: -117.826, radiusMiles: 25 },
+  { slug: "denver", name: "Denver", state: "Colorado", city: "Denver", lat: 39.739, lng: -104.99, radiusMiles: 35 },
+  { slug: "washington-dc", name: "Washington", state: "District of Columbia", city: "Washington", lat: 38.907, lng: -77.037, radiusMiles: 20 },
+  { slug: "orlando", name: "Orlando", state: "Florida", city: "Orlando", lat: 28.538, lng: -81.379, radiusMiles: 35 },
+  { slug: "tampa-bay", name: "Tampa Bay", state: "Florida", city: "Tampa", lat: 27.951, lng: -82.457, radiusMiles: 35 },
+  { slug: "atlanta", name: "Atlanta", state: "Georgia", city: "Atlanta", lat: 33.749, lng: -84.388, radiusMiles: 40 },
+  { slug: "baltimore", name: "Baltimore", state: "Maryland", city: "Baltimore", lat: 39.29, lng: -76.612, radiusMiles: 30 },
+  { slug: "boston", name: "Boston", state: "Massachusetts", city: "Boston", lat: 42.36, lng: -71.059, radiusMiles: 35 },
+  { slug: "detroit", name: "Detroit", state: "Michigan", city: "Detroit", lat: 42.331, lng: -83.046, radiusMiles: 35 },
+  { slug: "minneapolis-saint-paul", name: "Minneapolis–Saint Paul", state: "Minnesota", city: "Minneapolis", lat: 44.96, lng: -93.17, radiusMiles: 35 },
+  { slug: "st-louis", name: "St. Louis", state: "Missouri", city: "St. Louis", lat: 38.627, lng: -90.199, radiusMiles: 35 },
+  { slug: "las-vegas", name: "Las Vegas", state: "Nevada", city: "Las Vegas", lat: 36.17, lng: -115.14, radiusMiles: 30 },
+  { slug: "northern-new-jersey", name: "Northern New Jersey", state: "New Jersey", city: "Morristown", lat: 40.797, lng: -74.481, radiusMiles: 25 },
+  { slug: "charlotte", name: "Charlotte", state: "North Carolina", city: "Charlotte", lat: 35.227, lng: -80.843, radiusMiles: 35 },
+  { slug: "portland", name: "Portland", state: "Oregon", city: "Portland", lat: 45.515, lng: -122.679, radiusMiles: 35 },
+  { slug: "philadelphia", name: "Philadelphia", state: "Pennsylvania", city: "Philadelphia", lat: 39.952, lng: -75.165, radiusMiles: 25 },
+  { slug: "nashville", name: "Nashville", state: "Tennessee", city: "Nashville", lat: 36.163, lng: -86.781, radiusMiles: 35 },
+  { slug: "northern-virginia", name: "Northern Virginia", state: "Virginia", city: "Fairfax", lat: 38.846, lng: -77.306, radiusMiles: 35 },
+  { slug: "seattle", name: "Seattle", state: "Washington", city: "Seattle", lat: 47.606, lng: -122.332, radiusMiles: 35 },
+  // Long Island is left out: any radius round it crosses the Sound into
+  // Connecticut. It needs a state filter first.
 ];
 
 /** A hub needs this many indexable listings before it asks to be indexed. */

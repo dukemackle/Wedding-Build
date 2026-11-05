@@ -320,3 +320,17 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Trade-off: blue is Wren's colour, so the tile leans "Wren", with gold as
   the brand on top. No vector master exists; a print or very large use would
   need one drawn.
+
+## 2026-11-05: City hubs grow with coverage, no routine of their own
+
+- Decision (owner): keep adding metro hubs (`/venues/in/…`, `/vendors/in/…`),
+  but with no scheduled routine for them. Hubs are one line each in
+  `src/lib/metros.ts`. The plan's 30 major markets are in, except Long Island
+  (its radius would cross into Connecticut). Batch builders flag
+  "Hub ready: <State>: <Metro>" when a metro reaches its venue target, and
+  the hub goes in by a normal PR.
+- Why: a hub is only as good as its listings, which the batch builders
+  already add; a routine would cost usage and add nothing. Thin hubs stay
+  noindex until they have 8 indexable listings.
+- Trade-off: the footer now lists 30 hub links. Check first whether Google
+  indexes the hubs at all (Search Console) before adding many more.

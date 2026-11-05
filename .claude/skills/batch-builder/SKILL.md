@@ -111,4 +111,7 @@ state outside your region, so you can never collide with them.
 Finish with a three-line report: the PR link, this run's kind and row counts by
 metro (or map-fill town) and category, and what's still thin there (for a
 launch metro, roughly how many venues it now has). Add a fourth line listing
-any stalled or dry picks and why.
+any stalled or dry picks and why. If this run took a plan metro to its venue
+target and it has no hub yet (not in `METROS` in `src/lib/metros.ts`), add a
+line "Hub ready: <State>: <Metro>" to the PR body and report. Don't add the hub
+yourself (step 8); the owner adds it in a normal PR.
