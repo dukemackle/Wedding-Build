@@ -11,6 +11,14 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-06:** Wedding cities page (`/cities`, `src/app/cities/`) approved
+  from screenshots: replaces the footer's list of every hub (owner disliked
+  it) and a nav tab per city. Text-led cards by region (city, state, venue and
+  vendor counts, Royal "Venues" + outline "Vendors" buttons, a small locator
+  map, "Coming soon" under 8 indexable listings); a sticky US map with gold
+  pins beside them on wide screens, none on phones. Owner asked for a darker
+  map: tan fill `#ece3cf`, outline `#a8976d`. No photos until listings have them.
+
 - **2026-11-04:** Metro hub pages (`/venues/in/<metro>`, `/vendors/in/<metro>`,
   `src/components/metro-hub.tsx`) approved from a static mockup: heading with
   the metro name on a gold underline, a cream fact panel beside it (one gold
