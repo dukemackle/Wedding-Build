@@ -27,6 +27,7 @@ export const EVENTS = {
   guest_site_published: "once",
   rsvp_invites_sent: "once",
   save_the_dates_sent: "once",
+  invitations_sent: "once",
   rsvp_received: "every",
   listing_claim_submitted: "every",
   listing_claimed: "once",

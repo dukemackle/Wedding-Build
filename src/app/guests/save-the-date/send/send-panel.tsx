@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { enablePublicSite } from "@/app/guests/actions";
 import { CardSvg } from "@/components/save-the-date/card-svg";
-import { personalCardPath } from "@/lib/invite-codes";
+import { personalCardPath, personalInvitationPath } from "@/lib/invite-codes";
+import { sendInvitations, setInvitationImage } from "@/app/guests/invitations/actions";
 import { MAX_PER_SEND, cardEmailSubject } from "@/lib/save-the-date/email";
 import { cardJpeg } from "@/lib/save-the-date/export";
 import { formatDate } from "@/lib/save-the-date/format";
@@ -76,6 +77,7 @@ export function SendPanel({
   guests,
   canEdit,
   replyTo,
+  invitation = false,
 }: {
   cardId: string;
   cardName?: string;
@@ -94,7 +96,10 @@ export function SendPanel({
   guests: SendGuest[];
   canEdit: boolean;
   replyTo: string;
+  /** Sending an invitation (Guests › Invitations) rather than the save-the-date. */
+  invitation?: boolean;
 }) {
+  const noun = invitation ? "invitation" : "save the date";
   const router = useRouter();
   const svg = useRef<SVGSVGElement | null>(null);
   const [selected, setSelected] = useState<Set<string>>(
@@ -128,7 +133,7 @@ export function SendPanel({
       const started = await startSaveTheDatePhotoUpload("card.jpg");
       if (!started.path || !started.signedUrl) throw new Error(started.error ?? "Couldn't save the card's picture.");
       await putToSignedUrl(started.signedUrl, blob);
-      const saved = await setSaveTheDateImage(cardId, started.path, version);
+      const saved = await (invitation ? setInvitationImage : setSaveTheDateImage)(cardId, started.path, version);
       if (saved.error) throw new Error(saved.error);
       pictureFor.current = version;
     })().finally(() => {
@@ -143,7 +148,7 @@ export function SendPanel({
   }, [canEdit, slug, version]);
 
   const link = (code?: string) =>
-    slug ? `${window.location.origin}${code ? personalCardPath(slug, code) : `/w/${slug}/s`}` : "";
+    slug ? `${window.location.origin}${code ? (invitation ? personalInvitationPath : personalCardPath)(slug, code) : `/w/${slug}/s`}` : "";
 
   const copy = async (key: string, url: string) => {
     try {
@@ -158,7 +163,11 @@ export function SendPanel({
     const url = link(g.code);
     if (navigator.share) {
       try {
-        await navigator.share({ title: "Save the date", text: `${g.name.split(" ")[0]}, save the date!`, url });
+        await navigator.share(
+          invitation
+            ? { title: "You're invited", text: `${g.name.split(" ")[0]}, you're invited!`, url }
+            : { title: "Save the date", text: `${g.name.split(" ")[0]}, save the date!`, url },
+        );
       } catch {
         /* closed the share sheet */
       }
@@ -171,7 +180,7 @@ export function SendPanel({
     try {
       await ensurePicture();
       setBusy(`Sending ${chosen.length}…`);
-      const result = await sendSaveTheDates(
+      const result = await (invitation ? sendInvitations : sendSaveTheDates)(
         cardId,
         chosen.map((g) => g.id),
         window.location.origin,
@@ -215,7 +224,7 @@ export function SendPanel({
   return (
     <div className="text-ink">
       <link rel="stylesheet" href={fontsHref} precedence="default" />
-      <Link href={`/guests/save-the-date/edit/${cardId}`} className="text-sm text-ink/60 hover:text-ink">
+      <Link href={`/guests/${invitation ? "invitations" : "save-the-date"}/edit/${cardId}`} className="text-sm text-ink/60 hover:text-ink">
         ← Back to {cardName ? `“${cardName}”` : "your card"}
       </Link>
       {!isChosen && (counts.sent + counts.opened > 0) && (
@@ -248,7 +257,8 @@ export function SendPanel({
               </div>
             ))}
           </dl>
-          {slug && !locked && (
+          {/* Invitations go one household at a time: each link opens that household's own RSVP. */}
+          {slug && !locked && !invitation && (
             <div className="mt-4 rounded-lg bg-white p-4 ring-1 ring-hairline">
               <p className="text-sm font-medium">Group link</p>
               <p className="mt-1 text-xs text-ink/60">For a group chat or social post. Opens addressed to &ldquo;you&rdquo;, so it isn&apos;t counted per guest.</p>
@@ -264,18 +274,20 @@ export function SendPanel({
         </aside>
 
         <section className="min-w-0">
-          <h1 className="font-display text-3xl lg:text-4xl">Send your save the date</h1>
+          <h1 className="font-display text-3xl lg:text-4xl">Send your {noun}</h1>
           <p className="mt-2 max-w-2xl text-ink/70">
-            Each guest gets their own link: an envelope with their name on it, which opens to your card. Email it from
-            here, or copy a link to text it yourself.
+            {invitation
+              ? "Each household gets its own link: an envelope with their names on it, which opens to your invitation and their own RSVP. Email it from here, or copy a link to text it yourself."
+              : "Each guest gets their own link: an envelope with their name on it, which opens to your card. Email it from here, or copy a link to text it yourself."}
           </p>
 
           {!slug && (
             <div className="mt-6 rounded-xl bg-[#FFF12F]/25 p-5 ring-1 ring-[#FFD301]/60">
               <p className="font-medium">Turn on your guest site first</p>
               <p className="mt-1 text-sm text-ink/75">
-                Your save-the-date links live at your guest site&apos;s address, and the card&apos;s &ldquo;See our wedding
-                website&rdquo; button goes there.
+                {invitation
+                  ? "Your invitation links and RSVP form live at your guest site's address."
+                  : "Your save-the-date links live at your guest site's address, and the card's “See our wedding website” button goes there."}
               </p>
               {canEdit && (
                 <button type="button" onClick={turnOnSite} className="mt-3 rounded-full bg-ink px-4 py-2 text-sm font-medium text-white">
@@ -401,7 +413,7 @@ export function SendPanel({
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-[#0f1424]/60 p-0 sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="send-title">
           <div className="w-full max-w-md rounded-t-2xl bg-white p-6 shadow-2xl sm:rounded-2xl">
             <h2 id="send-title" className="font-display text-2xl">
-              Email your save the date to {chosen.length} {chosen.length === 1 ? "guest" : "guests"}?
+              Email your {noun} to {chosen.length} {chosen.length === 1 ? "guest" : "guests"}?
             </h2>
             <dl className="mt-4 space-y-2 text-sm">
               <div>
@@ -410,6 +422,7 @@ export function SendPanel({
                   {cardEmailSubject({
                     names: [doc.content.nameA, doc.content.nameB].filter(Boolean).join(" & ") || "Our wedding",
                     when: doc.content.dateText.trim() || (doc.content.date ? formatDate(doc.content.date, "long") : ""),
+                    invitation,
                   })}
                 </dd>
               </div>
@@ -419,7 +432,7 @@ export function SendPanel({
               </div>
             </dl>
             <ul className="mt-4 space-y-1 text-sm text-ink/70">
-              <li>Each email has your card and their own link.</li>
+              <li>{invitation ? "Each email has your invitation and their own link to RSVP." : "Each email has your card and their own link."}</li>
               {again > 0 && (
                 <li className="text-[#9a6b00]">
                   {again} of them already got it, and will get it again.

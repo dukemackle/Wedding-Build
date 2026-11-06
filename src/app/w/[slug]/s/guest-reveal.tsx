@@ -17,6 +17,7 @@ export function GuestReveal({
   fontsHref,
   slug,
   code,
+  invitation,
 }: {
   doc: CardDoc;
   guest: string;
@@ -25,10 +26,12 @@ export function GuestReveal({
   fontsHref: string;
   slug: string;
   code?: string;
+  /** An invitation's envelope: its open is stamped on inv_opened_at. */
+  invitation?: boolean;
 }) {
   const opened = () => {
     if (!code) return;
-    fetch("/api/save-the-date/opened", {
+    fetch(invitation ? "/api/invitation/opened" : "/api/save-the-date/opened", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ slug, code }),

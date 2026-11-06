@@ -80,6 +80,8 @@ export function Reveal({
   const hasBack = Boolean(doc.back?.on && site);
   const invitation = isInvitationTemplate(doc.template);
   const rsvp = invitation || Boolean(doc.back?.rsvp);
+  const filled = { background: dark ? palette.ink : "#14203d", color: dark ? palette.paper : "#fff" };
+  const outline = { borderColor: dark ? `${palette.ink}55` : "#14203d33", color: dark ? palette.ink : "#14203d" };
 
   const open = () => {
     if (stage !== "closed") return;
@@ -192,33 +194,32 @@ export function Reveal({
       <div className="std-actions mt-8 flex min-h-[48px] flex-wrap items-center justify-center gap-3">
         {isOpen ? (
           <>
+            {/* The card's one filled button: RSVP when it asks for replies, else Add to calendar. */}
+            {rsvp && (
+              <a href={rsvpHref} className="rounded-full px-5 py-3 text-sm font-medium" style={{ ...filled, fontFamily: caps }}>
+                RSVP
+              </a>
+            )}
             {c.date && (
               <button
                 type="button"
                 onClick={addToCalendar}
-                className="rounded-full px-5 py-3 text-sm font-medium"
-                style={{ background: dark ? palette.ink : "#14203d", color: dark ? palette.paper : "#fff", fontFamily: caps }}
+                className={`rounded-full px-5 py-3 text-sm font-medium ${rsvp ? "border" : ""}`}
+                style={{ ...(rsvp ? outline : filled), fontFamily: caps }}
               >
                 Add to calendar
               </button>
             )}
             {hasBack && (
-              <button
-                type="button"
-                onClick={turn}
-                className="rounded-full border px-5 py-3 text-sm font-medium"
-                style={{ borderColor: dark ? `${palette.ink}55` : "#14203d33", color: dark ? palette.ink : "#14203d", fontFamily: caps }}
-              >
+              <button type="button" onClick={turn} className="rounded-full border px-5 py-3 text-sm font-medium" style={{ ...outline, fontFamily: caps }}>
                 {flipped ? "See the front" : "Turn it over"}
               </button>
             )}
-            <a
-              href={rsvp ? rsvpHref : siteHref}
-              className="rounded-full border px-5 py-3 text-sm font-medium"
-              style={{ borderColor: dark ? `${palette.ink}55` : "#14203d33", color: dark ? palette.ink : "#14203d", fontFamily: caps }}
-            >
-              {rsvp ? "RSVP" : "See our wedding website"}
-            </a>
+            {!rsvp && (
+              <a href={siteHref} className="rounded-full border px-5 py-3 text-sm font-medium" style={{ ...outline, fontFamily: caps }}>
+                See our wedding website
+              </a>
+            )}
           </>
         ) : (
           <button

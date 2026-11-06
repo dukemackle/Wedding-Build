@@ -31,6 +31,7 @@ export function InvitationHome({
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const full = invitations.length >= MAX_INVITATIONS;
+  const chosen = invitations.find((i) => i.chosen);
   const content = invitations[0]?.doc.content ?? words;
 
   const run = (action: () => Promise<{ error?: string } | undefined>) => {
@@ -49,11 +50,23 @@ export function InvitationHome({
   return (
     <div className={`flex flex-col ${pending ? "cursor-progress" : ""}`}>
       <link rel="stylesheet" href={FONTS_HREF} precedence="default" />
-      <h1 className="font-display text-3xl font-semibold text-forest sm:text-4xl">Your invitations</h1>
-      <p className="mt-1 max-w-2xl text-ink/60">
-        The formal invitation, with an RSVP card on the back: a QR code straight to your RSVP form. Download it to print,
-        or have it printed. Each design matches the save-the-date of the same name.
-      </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="font-display text-3xl font-semibold text-forest sm:text-4xl">Your invitations</h1>
+          <p className="mt-1 max-w-2xl text-ink/60">
+            The formal invitation, with an RSVP card on the back: a QR code straight to your RSVP form. Email it to each
+            household, or download it to print. Each design matches the save-the-date of the same name.
+          </p>
+        </div>
+        {invitations.length > 0 && canEdit && (
+          <Link
+            href={`/guests/invitations/send${chosen ? `?card=${chosen.id}` : ""}`}
+            className="flex h-11 shrink-0 items-center self-start rounded-full bg-[#2243B6] px-5 text-sm font-medium text-white hover:bg-[#2243B6]/90 sm:self-auto"
+          >
+            Send
+          </Link>
+        )}
+      </div>
       {rsvpOpensOn && (
         <p className="mt-3 max-w-2xl rounded-lg bg-[#FFF12F]/25 px-3 py-2.5 text-sm text-ink">
           RSVPs open on your website on{" "}

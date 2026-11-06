@@ -36,6 +36,7 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
           site={loaded.wedding.public_slug ? siteAddress(loaded.wedding.public_slug) : null}
           backHref="/guests/invitations"
           backLabel="Designs"
+          sendHref={`/guests/invitations/send?card=${inv.id}`}
           note="View only · ask the owner for edit access to change the invitation"
         />
       </div>

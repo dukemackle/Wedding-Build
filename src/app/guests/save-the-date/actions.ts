@@ -8,6 +8,7 @@ import { personalCardPath } from "@/lib/invite-codes";
 import { getResendClient, INQUIRY_FROM_ADDRESS, undeliverableAmong } from "@/lib/resend";
 import { MAX_PER_SEND, cardEmailHtml, cardEmailSubject, cardEmailText } from "@/lib/save-the-date/email";
 import { cardWords } from "@/lib/save-the-date/guest-card";
+import { greetingFor } from "@/lib/save-the-date/greeting";
 import { STALE_CARD, cardDocSchema, parseCardDoc } from "@/lib/save-the-date/schema";
 import { MAX_CARDS, newCard, templateById } from "@/lib/save-the-date/templates";
 import type { CardDoc } from "@/lib/save-the-date/types";
@@ -207,16 +208,6 @@ export async function setSaveTheDateImage(id: string, path: string, version: str
     .eq("wedding_id", wedding.id);
   if (error) return { error: error.message };
   return { url };
-}
-
-/** The household greeting on an email: "Sam & Riley", or "The Alvarez household". */
-function greetingFor(guest: Guest, everyone: Guest[]) {
-  const key = guest.household?.trim().toLowerCase();
-  const members = key ? everyone.filter((g) => g.household?.trim().toLowerCase() === key) : [guest];
-  const names = members.map((g) => g.name.trim()).filter(Boolean);
-  if (names.length && names.length <= 2) return names.join(" & ");
-  const h = guest.household!.trim();
-  return /\s/.test(h) ? h : `The ${h} household`;
 }
 
 /**

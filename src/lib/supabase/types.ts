@@ -251,6 +251,9 @@ export type Guest = {
   /** Save-the-date last emailed / first opened from their link (0156). */
   std_sent_at: string | null;
   std_opened_at: string | null;
+  /** Invitation emailed / first opened (0161); absent until that migration runs. */
+  inv_sent_at?: string | null;
+  inv_opened_at?: string | null;
   invite_code: string;
   /** May bring a plus-one; plus_one is whether they are (0141). */
   plus_one_allowed: boolean;
