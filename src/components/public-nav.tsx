@@ -19,6 +19,7 @@ export function PublicNav({ next }: { next?: string }) {
     { href: "/venues", label: "Venues" },
     { href: "/vendors", label: "Vendors" },
     { href: "/attire", label: "Attire" },
+    { href: "/cities", label: "Cities" },
   ];
   const business = { href: "/list", label: "List your business" };
   return (

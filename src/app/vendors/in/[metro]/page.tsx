@@ -139,7 +139,7 @@ export default async function MetroVendorsPage({ params }: { params: Promise<{ m
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">
       <JsonLd data={breadcrumb} />
-      <HubBreadcrumb items={[{ label: "Wedding vendors", href: "/vendors" }, { label: `${metro.name} area` }]} />
+      <HubBreadcrumb items={[{ label: "Wedding vendors", href: "/vendors" }, { label: "Cities", href: "/cities" }, { label: `${metro.name} area` }]} />
       <HubHero
         title={["Wedding vendors in ", `, ${metro.state}`]}
         highlight={metro.name}

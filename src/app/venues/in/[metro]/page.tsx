@@ -176,7 +176,7 @@ export default async function MetroVenuesPage({
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">
       <JsonLd data={breadcrumb} />
-      <HubBreadcrumb items={[{ label: "Wedding venues", href: "/venues" }, { label: `${metro.name} area` }]} />
+      <HubBreadcrumb items={[{ label: "Wedding venues", href: "/venues" }, { label: "Cities", href: "/cities" }, { label: `${metro.name} area` }]} />
       <HubHero
         title={["Wedding venues in ", `, ${metro.state}`]}
         highlight={metro.name}
