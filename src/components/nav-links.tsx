@@ -16,6 +16,7 @@ import {
   GiftIcon,
   GlobeIcon,
   HeadcountIcon,
+  MapPinIcon,
   MailIcon,
   RingsIcon,
   TagIcon,
@@ -75,6 +76,7 @@ export const NAV_ITEMS: NavItem[] = [
       { href: "/venues", label: "Venues", icon: VenueIcon, hint: "Browse, compare, tour" },
       { href: "/vendors", label: "Vendors", icon: VendorsIcon, hint: "Photo, music, flowers and more" },
       { href: "/attire", label: "Attire", icon: AttireIcon, hint: "Dresses, suits, rentals" },
+      { href: "/cities", label: "Wedding cities", icon: MapPinIcon, hint: "Venues and vendors by city" },
     ],
   },
   {
