@@ -35,6 +35,11 @@ export type CardContent = {
   /** The small closing line. */
   note: string;
   headline: string;
+  /** Invitations only (see invitations.ts): the request line, ceremony time, venue name and reply-by line. */
+  request?: string;
+  time?: string;
+  venue?: string;
+  reply?: string;
 };
 
 export type Photo = {
@@ -73,7 +78,16 @@ export type CardColours = { paper: string; ink: string; accent: string };
  * optional travel line, in the front's colours and fonts (see back.ts).
  * Off unless the couple adds it; guests online see it by flipping the card.
  */
-export type CardBack = { on: boolean; travel: string };
+export type CardBack = {
+  on: boolean;
+  travel: string;
+  /**
+   * Early RSVPs: the back's QR code and the online card's button go to the
+   * RSVP form, worded "Scan to RSVP", for couples taking replies with the
+   * save-the-date and sending the invitation after.
+   */
+  rsvp?: boolean;
+};
 
 export type CardDoc = {
   template: string;
@@ -89,7 +103,7 @@ export type CardDoc = {
 
 type Base = { id: string; label: string; rotate?: number };
 
-export type TextBind = "headline" | "names" | "nameA" | "nameB" | "date" | "datePart" | "place" | "note" | "monogram" | "custom";
+export type TextBind = "headline" | "names" | "nameA" | "nameB" | "date" | "datePart" | "place" | "note" | "monogram" | "custom" | "request" | "time" | "venue";
 
 /** One piece of the date, for layouts that set it as numerals or stack it. */
 export type DatePart = "day" | "month" | "monthName" | "year" | "year2" | "weekday";
@@ -190,6 +204,8 @@ export type Template = {
   grain?: number;
   usesPhoto: boolean;
   samplePhoto?: Photo;
+  /** An invitation's save-the-date design, whose artwork and back it borrows (see invitations.ts). */
+  source?: string;
   layers: Layer[];
   /** Layers drawn when there's no photo (photo templates still look designed). */
   noPhotoLayers?: Layer[];

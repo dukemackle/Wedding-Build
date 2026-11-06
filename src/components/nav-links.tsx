@@ -85,6 +85,7 @@ export const NAV_ITEMS: NavItem[] = [
       { href: "/guests", label: "Guest list", icon: HeadcountIcon, hint: "Names, RSVPs, plus-ones" },
       { href: "/guests/site", label: "Guest site", icon: GlobeIcon, hint: "Your wedding website" },
       { href: "/guests/save-the-date", label: "Save the date", icon: MailIcon, hint: "Design and send the card" },
+      { href: "/guests/invitations", label: "Invitations", icon: MailIcon, hint: "Design and print, with an RSVP card" },
       { href: "/registry", label: "Registry", icon: GiftIcon, hint: "Gifts and funds" },
     ],
   },

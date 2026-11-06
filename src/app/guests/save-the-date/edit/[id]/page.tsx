@@ -42,6 +42,7 @@ export default async function EditSaveTheDatePage({ params }: { params: Promise<
           persist={loaded.canEdit}
           photos={photos}
           site={loaded.wedding.public_slug ? siteAddress(loaded.wedding.public_slug) : null}
+          rsvpOpensOn={loaded.canEdit ? (loaded.wedding.rsvp_opens_on ?? null) : undefined}
           backHref={CARDS_LIST_HREF}
           backLabel="Designs"
           sendHref={`/guests/save-the-date/send?card=${card.id}`}

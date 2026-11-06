@@ -1,5 +1,6 @@
 import { mix } from "@/lib/site-design";
 import type { CardContent, CardDoc, Palette, Template } from "./types";
+import { INVITATION_SOURCES, INVITATION_WORDING, invitationFrom } from "./invitations";
 
 /**
  * The template library. Prototype set: three directions chosen to prove the
@@ -747,8 +748,17 @@ export const SHORT: Record<string, string> = {
 /** How many save-the-date designs a couple can keep at once. */
 export const MAX_CARDS = 6;
 
+/** Invitation designs, each made from a save-the-date design (invitations.ts). */
+export const INVITATIONS: Template[] = INVITATION_SOURCES.flatMap((id) => {
+  const t = TEMPLATES.find((x) => x.id === id);
+  return t ? [invitationFrom(t)] : [];
+});
+
+/** How many invitation designs a couple can keep at once. */
+export const MAX_INVITATIONS = 6;
+
 export function templateById(id: string): Template {
-  return TEMPLATES.find((t) => t.id === id) ?? TEMPLATES[0];
+  return TEMPLATES.find((t) => t.id === id) ?? INVITATIONS.find((t) => t.id === id) ?? (id.startsWith("inv-") ? INVITATIONS[0] : TEMPLATES[0]);
 }
 
 /** The palette id that means "use the card's own colours". */
@@ -778,6 +788,15 @@ export const SAMPLE_CONTENT: CardContent = {
   place: "Santa Barbara, California",
   note: "Formal invitation to follow",
   headline: "",
+};
+
+export const SAMPLE_INVITATION: CardContent = {
+  ...SAMPLE_CONTENT,
+  ...INVITATION_WORDING,
+  place: "Santa Barbara, California",
+  venue: "The Hotel Californian",
+  time: "at four o'clock in the afternoon",
+  reply: "Kindly reply by May 1",
 };
 
 /**

@@ -1,5 +1,6 @@
 "use server";
 
+import { RSVP_NOT_OPEN_ERROR, rsvpNotOpenYet } from "@/lib/rsvp-opening";
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createGuestSiteClientFor } from "@/lib/supabase/guest-site";
@@ -160,15 +161,16 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   // Past the password, if there is one, before anything is stored.
   const { data: open } = await supabase
     .from("public_weddings")
-    .select("id, rsvp_deadline")
+    .select("*")
     .eq("id", weddingId)
-    .maybeSingle<{ id: string; rsvp_deadline: string | null }>();
+    .maybeSingle<{ id: string; rsvp_deadline: string | null; rsvp_opens_on?: string | null }>();
   if (!open) {
     return { error: "This page has expired. Reload it and try again." };
   }
   if (rsvpClosed(open.rsvp_deadline)) {
     return { error: "RSVPs for this wedding have closed. Please get in touch with the couple directly." };
   }
+  if (rsvpNotOpenYet(open.rsvp_opens_on)) return { error: RSVP_NOT_OPEN_ERROR };
   if (!(await isHuman(formData))) {
     return { error: NOT_HUMAN_ERROR };
   }
@@ -302,13 +304,14 @@ export async function submitHouseholdRsvp(formData: FormData): Promise<{ error?:
 
   const { data: wedding } = await createAdminSupabaseClient()
     .from("weddings")
-    .select("id, public_slug, rsvp_deadline")
+    .select("*")
     .eq("id", weddingId)
-    .maybeSingle<{ id: string; public_slug: string | null; rsvp_deadline: string | null }>();
+    .maybeSingle<{ id: string; public_slug: string | null; rsvp_deadline: string | null; rsvp_opens_on?: string | null }>();
   if (!wedding?.public_slug) return { error: "This wedding's site isn't up any more." };
   if (rsvpClosed(wedding.rsvp_deadline)) {
     return { error: "RSVPs for this wedding have closed. Please get in touch with the couple directly." };
   }
+  if (rsvpNotOpenYet(wedding.rsvp_opens_on)) return { error: RSVP_NOT_OPEN_ERROR };
   if (!(await isHuman(formData))) return { error: NOT_HUMAN_ERROR };
   if (!(await allowGuestWrite(weddingId, "rsvp"))) return { error: RATE_LIMIT_ERROR };
 

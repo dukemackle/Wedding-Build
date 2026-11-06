@@ -108,6 +108,12 @@ export function layerText(layer: TextLayer, c: CardContent): string {
       return c.place;
     case "note":
       return c.note;
+    case "request":
+      return c.request ?? "";
+    case "time":
+      return c.time ?? "";
+    case "venue":
+      return c.venue ?? "";
     case "monogram":
       return `${c.nameA.trim()[0] ?? ""}${layer.joiner ?? "&"}${c.nameB.trim()[0] ?? ""}`;
     default:

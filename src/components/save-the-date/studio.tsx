@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useReducer, useRef, useState, type ReactNode } from "react";
-import { saveTheDatePhotoUrl, startSaveTheDatePhotoUpload } from "@/app/guests/save-the-date/actions";
+import { openRsvpsNow, saveTheDatePhotoUrl, startSaveTheDatePhotoUpload } from "@/app/guests/save-the-date/actions";
+import { rsvpNotOpenYet } from "@/lib/rsvp-opening";
 import { shrinkImage } from "@/lib/shrink-image";
 import { putToSignedUrl } from "@/lib/signed-upload";
 import { CardSvg, layerBox } from "./card-svg";
@@ -10,7 +11,8 @@ import { Reveal } from "./reveal";
 import { FONTS, contrast, fontById } from "@/lib/site-design";
 import { FONTS_HREF } from "@/lib/save-the-date/fonts";
 import { cardPdf, cardPng, saveBlob } from "@/lib/save-the-date/export";
-import { CUSTOM_PALETTE, FAMILIES, SHORT, TEMPLATES, cardPalette, keepColours, newCard, templateById } from "@/lib/save-the-date/templates";
+import { CUSTOM_PALETTE, INVITATIONS, SHORT, TEMPLATES, cardPalette, keepColours, newCard, templateById } from "@/lib/save-the-date/templates";
+import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import type { CardColours, CardContent, CardDoc, LayerOverride, Photo } from "@/lib/save-the-date/types";
 
 export { FONTS_HREF };
@@ -168,7 +170,9 @@ const FOLDS: FoldId[] = ["details", "back", "colours", "lettering", "photo", "la
 
 function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: string) => void; row?: boolean }) {
   const [family, setFamily] = useState<string | null>(null);
-  const shown = family ? TEMPLATES.filter((t) => t.family === family) : TEMPLATES;
+  // An invitation switches between invitation designs, a save-the-date between save-the-dates.
+  const list = isInvitationTemplate(doc.template) ? INVITATIONS : TEMPLATES;
+  const shown = family ? list.filter((t) => t.family === family) : list;
   const chip = (label: string, value: string | null) => (
     <button
       key={label}
@@ -184,7 +188,7 @@ function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: strin
     <div>
       <div className={`mb-3 flex gap-1.5 ${row ? "-mx-5 overflow-x-auto px-5 pb-1" : "flex-wrap"}`} role="group" aria-label="Filter designs by style">
         {chip("All", null)}
-        {FAMILIES.map((f) => chip(SHORT[f] ?? f, f))}
+        {[...new Set(list.map((t) => t.family))].map((f) => chip(SHORT[f] ?? f, f))}
       </div>
       <div className={row ? "-mx-5 flex snap-x gap-3 overflow-x-auto px-5 pb-1" : "grid grid-cols-2 gap-3"}>
         {shown.map((t) => {
@@ -219,8 +223,36 @@ function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: strin
  * The printed card's back (website, QR code, travel line). Off by default:
  * most couples who only send online don't need one.
  */
-function BackPanel({ doc, site, patch, show }: { doc: CardDoc; site: string | null; patch: (p: Partial<CardDoc>, key?: string) => void; show: (side: "front" | "back") => void }) {
+function BackPanel({
+  doc,
+  site,
+  patch,
+  show,
+  rsvpOpensOn,
+}: {
+  doc: CardDoc;
+  site: string | null;
+  patch: (p: Partial<CardDoc>, key?: string) => void;
+  show: (side: "front" | "back") => void;
+  /** The wedding's RSVP opening day (null = open now); undefined in the prototype, where nothing is saved. */
+  rsvpOpensOn?: string | null;
+}) {
   const back = doc.back ?? { on: false, travel: "" };
+  const invitation = isInvitationTemplate(doc.template);
+  const [opensOn, setOpensOn] = useState(rsvpOpensOn);
+  const [rsvpNote, setRsvpNote] = useState<string | null>(null);
+  const closed = rsvpNotOpenYet(opensOn);
+  const askRsvp = async (on: boolean) => {
+    patch({ back: { ...back, rsvp: on } });
+    setRsvpNote(null);
+    if (on && back.on) show("back");
+    // Asking for replies on the card opens them on the site, or the code would land on "not open yet".
+    if (on && closed && opensOn !== undefined) {
+      const res = await openRsvpsNow();
+      if (res.error) setRsvpNote(res.error);
+      else setOpensOn(null);
+    }
+  };
   return (
     <div className="space-y-3">
       <label className="flex cursor-pointer items-start gap-3">
@@ -234,10 +266,42 @@ function BackPanel({ doc, site, patch, show }: { doc: CardDoc; site: string | nu
           }}
         />
         <span className="text-[15px] leading-snug text-ink">
-          Add a back for printing
-          <span className="mt-0.5 block text-xs text-ink/55">Your website and a QR code to it, in this design&apos;s colours. Guests online can turn the card over.</span>
+          {invitation ? "Add an RSVP card on the back" : "Add a back for printing"}
+          <span className="mt-0.5 block text-xs text-ink/55">
+            {invitation
+              ? "Your reply-by line and a QR code to your RSVP form, in this design's colours. Edit the reply line under Your details."
+              : "Your website and a QR code to it, in this design's colours. Guests online can turn the card over."}
+          </span>
         </span>
       </label>
+      {!invitation && (
+      <label className="flex cursor-pointer items-start gap-3">
+        <input
+          type="checkbox"
+          className="mt-0.5 h-5 w-5 shrink-0 accent-[#2243B6]"
+          checked={Boolean(back.rsvp)}
+          onChange={(e) => askRsvp(e.target.checked)}
+        />
+        <span className="text-[15px] leading-snug text-ink">
+          Ask guests to RSVP now
+          <span className="mt-0.5 block text-xs text-ink/55">
+            The QR code and the online card&apos;s button go straight to your RSVP form. Your invitation can follow as the formal one.
+          </span>
+        </span>
+      </label>
+      )}
+      {rsvpNote ? (
+        <p className="rounded-lg bg-[#FFF12F]/25 px-3 py-2.5 text-xs leading-relaxed text-ink">{rsvpNote}</p>
+      ) : back.rsvp && site && opensOn !== undefined ? (
+        <p className="rounded-lg bg-[#2243B6]/[0.06] px-3 py-2.5 text-xs leading-relaxed text-ink">
+          RSVPs are open on your website. Replies land in{" "}
+          <a href="/guests#invitations" className="font-medium text-[#2243B6] underline">Guests › Invitations &amp; RSVPs</a>.
+        </p>
+      ) : !back.rsvp && closed && opensOn ? (
+        <p className="text-xs leading-relaxed text-ink/60">
+          RSVPs open on your website on {new Date(`${opensOn}T12:00:00`).toLocaleDateString("en-US", { month: "long", day: "numeric" })}, so the code shows your travel and stays until then.
+        </p>
+      ) : null}
       {back.on && (
         <>
           {!site && (
@@ -261,7 +325,7 @@ function BackPanel({ doc, site, patch, show }: { doc: CardDoc; site: string | nu
   );
 }
 
-function DetailsPanel({ c, set }: { c: CardContent; set: (patch: Partial<CardContent>, key: string) => void }) {
+function DetailsPanel({ c, set, invitation }: { c: CardContent; set: (patch: Partial<CardContent>, key: string) => void; invitation?: boolean }) {
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-2 gap-2">
@@ -278,12 +342,37 @@ function DetailsPanel({ c, set }: { c: CardContent; set: (patch: Partial<CardCon
       <Field label="Or write the date your way">
         <input className={input} placeholder="e.g. Summer 2028, or 12–14 June 2028" value={c.dateText} onChange={(e) => set({ dateText: e.target.value }, "dateText")} />
       </Field>
-      <Field label="Where">
+      {invitation && (
+        <Field label="Time">
+          <input className={input} placeholder="e.g. at four o'clock in the afternoon" value={c.time ?? ""} onChange={(e) => set({ time: e.target.value }, "time")} />
+        </Field>
+      )}
+      {invitation && (
+        <Field label="Venue">
+          <input className={input} value={c.venue ?? ""} onChange={(e) => set({ venue: e.target.value }, "venue")} />
+        </Field>
+      )}
+      <Field label={invitation ? "Town" : "Where"}>
         <input className={input} value={c.place} onChange={(e) => set({ place: e.target.value }, "place")} />
       </Field>
-      <Field label="Closing line">
-        <input className={input} value={c.note} onChange={(e) => set({ note: e.target.value }, "note")} />
+      {invitation && (
+        <Field label="Who's hosting">
+          <input className={input} placeholder="e.g. Together with their families" value={c.headline} onChange={(e) => set({ headline: e.target.value }, "headline")} />
+        </Field>
+      )}
+      {invitation && (
+        <Field label="The request">
+          <input className={input} value={c.request ?? ""} onChange={(e) => set({ request: e.target.value }, "request")} />
+        </Field>
+      )}
+      <Field label={invitation ? "Afterwards" : "Closing line"}>
+        <input className={input} placeholder={invitation ? "e.g. Dinner and dancing to follow" : undefined} value={c.note} onChange={(e) => set({ note: e.target.value }, "note")} />
       </Field>
+      {invitation && (
+        <Field label="Reply line (on the back)">
+          <input className={input} placeholder="e.g. Kindly reply by May 1" value={c.reply ?? ""} onChange={(e) => set({ reply: e.target.value }, "reply")} />
+        </Field>
+      )}
     </div>
   );
 }
@@ -627,6 +716,8 @@ type StudioProps = {
   cardId?: string;
   /** The wedding website as printed on the back (youdoido.com/w/…); null while it's off. */
   site?: string | null;
+  /** The wedding's RSVP opening day (null = open now); left out in the prototype. */
+  rsvpOpensOn?: string | null;
 };
 
 /**
@@ -663,7 +754,7 @@ function DownloadOptions({ download, sheet, back }: { download: (kind: "png" | "
   );
 }
 
-export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, cardId, title = "Save the date", site = null }: StudioProps) {
+export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", backLabel = "Guests", view = "", note = "Prototype · nothing is saved", sendHref, cardId, title = "Save the date", site = null, rsvpOpensOn }: StudioProps) {
   const [h, dispatch] = useReducer(reducer, null, () => ({
     past: [],
     present: initial,
@@ -673,6 +764,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
   }));
   const doc = h.present;
   const t = templateById(doc.template);
+  const invitation = isInvitationTemplate(doc.template);
   const [selected, setSelected] = useState<string | null>(view === "advanced" ? "names" : null);
   const [panel, setPanel] = useState<Panel | null>(view === "mobile-style" ? "style" : null);
   const [fold, setFold] = useState<FoldId | null>("details");
@@ -704,7 +796,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
         if (stale.current) return;
         setSave("saving");
         try {
-          const res = await fetch("/api/save-the-date", {
+          const res = await fetch(isInvitationTemplate(doc.template) ? "/api/invitation" : "/api/save-the-date", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ id: cardId, doc, version: version.current }),
@@ -913,13 +1005,13 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       case "details":
         return phone ? (
           <div className="space-y-5">
-            <DetailsPanel c={doc.content} set={setContent} />
+            <DetailsPanel c={doc.content} set={setContent} invitation={invitation} />
             <div className="border-t border-hairline pt-4">
-              <BackPanel doc={doc} site={site} patch={patch} show={showBack} />
+              <BackPanel doc={doc} site={site} patch={patch} show={showBack} rsvpOpensOn={rsvpOpensOn} />
             </div>
           </div>
         ) : (
-          <DetailsPanel c={doc.content} set={setContent} />
+          <DetailsPanel c={doc.content} set={setContent} invitation={invitation} />
         );
       case "style":
         return <StylePanel doc={doc} patch={patch} />;
@@ -1006,7 +1098,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
       <div className="flex min-h-0 flex-1">
         {/* Desktop: designs on the left */}
         <aside className="hidden w-[300px] shrink-0 overflow-y-auto border-r border-hairline bg-white xl:block">
-          <Section title="Designs" aside={<span className="text-xs text-ink/60">{TEMPLATES.length} designs</span>}>
+          <Section title="Designs" aside={<span className="text-xs text-ink/60">{(isInvitationTemplate(doc.template) ? INVITATIONS : TEMPLATES).length} designs</span>}>
             <TemplatePicker doc={doc} choose={choose} />
           </Section>
         </aside>
@@ -1102,11 +1194,11 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           </Fold>
           <Fold
             title="Back of the card"
-            summary={withBack ? "Website & QR code" : <span className="font-medium text-[#2243B6]">Add one</span>}
+            summary={withBack ? (invitation ? "RSVP card" : doc.back?.rsvp ? "RSVP & QR code" : "Website & QR code") : doc.back?.rsvp ? "RSVP online" : <span className="font-medium text-[#2243B6]">Add one</span>}
             open={shownFold === "back"}
             onToggle={() => openFold("back")}
           >
-            <BackPanel doc={doc} site={site} patch={patch} show={showBack} />
+            <BackPanel doc={doc} site={site} patch={patch} show={showBack} rsvpOpensOn={rsvpOpensOn} />
           </Fold>
           <Fold title="Colours" summary={<PaletteSummary doc={doc} />} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
             <ColoursPicker doc={doc} patch={patch} />

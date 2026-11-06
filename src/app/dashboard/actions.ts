@@ -72,6 +72,11 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
   if (rsvpDeadline && weddingDate && rsvpDeadline >= weddingDate) {
     return { error: "Your RSVP deadline is on or after the wedding date. Pick a day before it." };
   }
+  // Only the Dashboard form carries it, so other saves leave it alone. Blank = open now.
+  const rsvpOpensOn = formData.has("rsvp_opens_on") ? (formData.get("rsvp_opens_on") as string) || null : undefined;
+  if (rsvpOpensOn && rsvpDeadline && rsvpOpensOn >= rsvpDeadline) {
+    return { error: "RSVPs would open on or after your RSVP deadline. Pick an opening day before it." };
+  }
 
   const details = {
     partner_a_name: formData.get("partner_a_name") as string,
@@ -91,6 +96,8 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
       ? Number(guestCountOverrideRaw)
       : null,
     rsvp_deadline: rsvpDeadline,
+    // Blank isn't written before migration 0159 adds the column, so the form keeps saving.
+    ...(rsvpOpensOn || (rsvpOpensOn === null && existing && "rsvp_opens_on" in existing) ? { rsvp_opens_on: rsvpOpensOn } : {}),
     updated_at: new Date().toISOString(),
   };
 
