@@ -1484,6 +1484,20 @@ The Stonehurst		Shadow Hills	California			Garden & Park	Indoor & Outdoor				A ni
 Mica Studios	356 S Mission Road	Los Angeles	California			Industrial Loft & Warehouse	Indoor & Outdoor	300			A 1926 lithograph building in the Arts District with 12,000 square feet, a couples' suite and room for 250 seated or 300 at a cocktail reception.	hello@wearemica.com	(213) 466-2877	https://www.wearemica.com/weddings
 `,
   },
+  {
+    name: "San Diego and Los Angeles (pass 7)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Ranch Dell' Amore	45055 El Prado Rd	Temecula	California			Ranch	Indoor & Outdoor		18000	Rental	A 10-acre hillside ranch in Temecula wine country with indoor and outdoor spaces, a courtyard and garden ceremony areas, booked for one event at a time.			https://ranchdellamore.com/
+Belly Up Tavern	143 S Cedros Ave	Solana Beach	California			Ballroom	Indoor	350			A live-music hall two blocks from the beach in Solana Beach that rents out for wedding receptions, seating about 350 for dinner.		(858) 481-8140	https://www.bellyup.com/private-events
+Los Serranos Country Club	15656 Yorba Avenue	Chino Hills	California			Country Club & Golf	Indoor & Outdoor	600			A golf club with a mountain-view ballroom and a ceremony lawn set in manicured gardens beside it.		(909) 597-1769	https://www.losserranosgolfclub.com/
+Tager Ranch	2820 English Rd	Chino Hills	California			Barn & Farm	Outdoor				A small family-run ranch in the Chino Hills foothills that shows wedding photo galleries on its own site.	tagerranch@gmail.com		https://www.tagerranch.com/weddings
+Aquarium of the Pacific	100 Aquarium Way	Long Beach	California			Museum, Gallery & Rooftop	Indoor				A harborfront public aquarium in Long Beach that offers weddings among its marine exhibits.		(562) 590-3100	https://www.aquariumofpacific.org/specialevents/weddings
+Tea Rose Garden	70 North Raymond Avenue	Pasadena	California			Restaurant & Brewery	Indoor				An Old Pasadena tearoom that also takes private events, including weddings and showers.	info@tearosegarden.com	(626) 578-1144	https://www.tearosegarden.com
+The LINE LA	3515 Wilshire Blvd	Los Angeles	California			Hotel & Resort	Indoor & Outdoor	300			Koreatown hotel with a 4,000 sq ft ballroom that splits into three rooms and opens to a garden, plus a pool deck, greenhouse and motor court for receptions.		(213) 381-7411	https://www.thelinehotel.com/los-angeles/weddings/
+Santuari	6711 Forest Lawn Drive	Los Angeles	California			Garden & Park	Indoor & Outdoor				Mediterranean-style private event venue below the Hollywood Hills, with a stone-walled main room, wooden beamed ceilings and arched windows onto a garden.	Info@SantuariLA.com	(323) 902-9700	https://santuarila.com
+Casa Vertigo	1828 Oak St	Los Angeles	California			Ballroom	Indoor				Downtown multi-floor event building near LA Live that hosts ceremonies, receptions, showers and rehearsal dinners across several rooms.		(818) 441-1213	https://www.casavertigo.com
+`,
+  },
 ];
 
 export default batches;
