@@ -958,6 +958,10 @@ export type GuestPost = {
   photo_url: string | null;
   status: GuestPostStatus;
   created_at: string;
+  /** The table card it was scanned from, when it came from one (0159). */
+  seating_table_id: string | null;
+  /** Phone wall-clock time the photo was taken, no zone (0159). */
+  taken_local: string | null;
 };
 
 /** A photo, story or quote the couple added to their guest site. */
