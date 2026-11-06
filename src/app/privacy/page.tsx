@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: November 3, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: November 6, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -102,7 +102,10 @@ export default function PrivacyPage() {
                 QR code on a reception table), with the name you give. It waits for the couple to
                 approve it before it appears on their wedding site, and they can remove it at any
                 time. Your name is remembered on your own device so a second post is quicker;
-                it&apos;s never used to track you.
+                it&apos;s never used to track you. We also keep the time the photo was taken (read
+                from the photo, or your phone&apos;s clock when it has none) and which table&apos;s code
+                you scanned, so the couple can sort their photos by the moment and the table;
+                neither is shown on the site.
               </li>
               <li>
                 Whatever you submit through a couple&apos;s address-collection link: your name,
