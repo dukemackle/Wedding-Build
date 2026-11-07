@@ -50,7 +50,7 @@ export default async function AdminCopyrightPage() {
       <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Copyright</h1>
       <p className="mt-2 max-w-2xl text-sm text-ink/70">
-        Notices sent to copyright@ under the process on /copyright. Log each one, take the content down where it lives
+        Notices sent to the DMCA agent address (hello@) under the process on /copyright. Log each one, take the content down where it lives
         (Photo wall, Buy &amp; sell, or the listing), email the uploader, then mark it here. A counter-notice goes to the
         sender; restore the content 10 to 14 business days later unless they say they&apos;ve sued.
       </p>

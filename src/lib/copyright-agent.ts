@@ -7,7 +7,7 @@ import { COMPANY_POSTAL_ADDRESS } from "@/lib/company";
 
 export const COPYRIGHT_AGENT = {
   name: "Copyright Agent, You Do, I Do LLC",
-  email: "copyright@youdoido.com",
+  email: "hello@youdoido.com",
   postalAddress: COMPANY_POSTAL_ADDRESS as string | null,
 };
 

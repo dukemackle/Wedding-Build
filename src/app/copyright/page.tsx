@@ -42,11 +42,8 @@ export default function CopyrightPage() {
               )}
             </p>
             <p className="mt-3">
-              This address is for copyright notices only. For anything else, write to{" "}
-              <a href="mailto:hello@youdoido.com" className="text-brass hover:underline">
-                hello@youdoido.com
-              </a>
-              . To report a listing that&apos;s wrong or closed, use &quot;Something wrong?&quot; on the listing.
+              Put &quot;Copyright notice&quot; in the subject line so it reaches the right person quickly. To report a
+              listing that&apos;s wrong or closed, use &quot;Something wrong?&quot; on the listing.
             </p>
           </Section>
 
