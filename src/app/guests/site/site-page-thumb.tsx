@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DESIGN_MESSAGE, READY_MESSAGE } from "@/components/guest-site-theme";
 import { MOTION_PRESETS, resolveDesign, type SiteDesign } from "@/lib/site-design";
+import { registerThumb, setThumbNear, thumbIsLive, thumbReady, unregisterThumb } from "./thumb-slots";
 
 const PHONE = { w: 390, h: 844 };
 const COMPUTER = { w: 1280, h: 800 };
@@ -16,16 +17,19 @@ const COMPUTER = { w: 1280, h: 800 };
  * whole first screen rather than a close-up of the photo (owner, 2026-10-27:
  * phone pages in wide cards were too zoomed in).
  *
- * Each one is a page load, so a frame only starts once its card is near the
- * screen, and the page shows still (no opening motion) since nobody scrolls
+ * Each one is a whole page, so frames are rationed (./thumb-slots): a card
+ * gets one only while it's on or near the screen, a few at a time, and gives
+ * it back when scrolled away (phones crashed holding a dozen). The page shows
+ * still (no opening motion) since nobody scrolls
  * a thumbnail. Until the look has arrived, the card is the page's colour.
  */
 export function SitePageThumb({ design }: { design: SiteDesign }) {
   const boxRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
-  const [near, setNear] = useState(false);
+  const [live, setLive] = useState(false);
   const [shown, setShown] = useState(false);
+  const slotRef = useRef(0);
   const still = useMemo(() => ({ ...design, motion: { ...MOTION_PRESETS.none } }), [design]);
   const stillRef = useRef(still);
 
@@ -37,21 +41,20 @@ export function SitePageThumb({ design }: { design: SiteDesign }) {
   useEffect(() => {
     const el = boxRef.current;
     if (!el) return;
+    const id = registerThumb(el, () => {
+      const on = thumbIsLive(id);
+      setLive(on);
+      if (!on) setShown(false);
+    });
+    slotRef.current = id;
     const sizes = new ResizeObserver(([entry]) => setBox({ w: entry.contentRect.width, h: entry.contentRect.height }));
-    const seen = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setNear(true);
-          seen.disconnect();
-        }
-      },
-      { rootMargin: "300px" },
-    );
+    const seen = new IntersectionObserver(([entry]) => setThumbNear(id, entry.isIntersecting), { rootMargin: "150px" });
     sizes.observe(el);
     seen.observe(el);
     return () => {
       sizes.disconnect();
       seen.disconnect();
+      unregisterThumb(id);
     };
   }, []);
 
@@ -63,7 +66,10 @@ export function SitePageThumb({ design }: { design: SiteDesign }) {
       if (event.data?.type !== READY_MESSAGE) return;
       frameRef.current?.contentWindow?.postMessage({ type: DESIGN_MESSAGE, design: stillRef.current }, window.location.origin);
       // A moment for the new look to paint before the frame shows.
-      timer = setTimeout(() => setShown(true), 250);
+      timer = setTimeout(() => {
+        setShown(true);
+        thumbReady(slotRef.current);
+      }, 250);
     }
     window.addEventListener("message", onMessage);
     return () => {
@@ -81,7 +87,7 @@ export function SitePageThumb({ design }: { design: SiteDesign }) {
 
   return (
     <div ref={boxRef} className="absolute inset-0 overflow-hidden" style={{ background: bg }} aria-hidden="true">
-      {near && box.w > 0 && (
+      {live && box.w > 0 && (
         <iframe
           ref={frameRef}
           src="/guests/site/preview?look=1"
