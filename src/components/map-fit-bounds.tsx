@@ -69,6 +69,28 @@ export function FitToPins({
   const restored = useRef(false);
   // The first fit jumps; later ones (the filters changed) glide.
   const fitted = useRef(false);
+  // The last fit, redone if the map changes size before anyone moves it.
+  const refit = useRef<(() => void) | null>(null);
+  const touched = useRef(false);
+
+  // On a phone the map is laid out before the screen's height is measured, so
+  // the first fit happens in a box of the wrong size and the pins end up under
+  // the results sheet. Redo the fit on every resize until the user pans,
+  // zooms or the view was restored.
+  useEffect(() => {
+    const onMoveStart = (e: { originalEvent?: unknown }) => {
+      if (e.originalEvent) touched.current = true;
+    };
+    const onResize = () => {
+      if (!touched.current && !restored.current) refit.current?.();
+    };
+    map.on("movestart", onMoveStart);
+    map.on("resize", onResize);
+    return () => {
+      map.off("movestart", onMoveStart);
+      map.off("resize", onResize);
+    };
+  }, [map]);
 
   useEffect(() => {
     if (!rememberAs) return;
@@ -112,34 +134,42 @@ export function FitToPins({
     // The filters changed after the restore, so it's a fresh fit from here.
     if (restored.current) pending.current = null;
 
-    // On a phone the results sheet covers the lower half of the map and the
-    // search field floats over the top, so fitting to the full container would
-    // drop most pins behind one or the other.
-    const narrow = window.innerWidth < 1024;
-    const height = map.getContainer().clientHeight;
-    const topInset = narrow ? 120 : 56;
-    const bottomInset = narrow ? Math.round(height * 0.52) : 56;
-
-    const padding = { top: topInset, bottom: bottomInset, left: 40, right: 40 };
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const duration = fitted.current && !reduced ? 700 : 0;
+    const animate = fitted.current && !reduced;
     fitted.current = true;
+    touched.current = false;
 
-    if (points.length === 1) {
-      map.easeTo({
-        center: [points[0][1], points[0][0]],
-        zoom: 10,
-        offset: [0, (topInset - bottomInset) / 2],
+    const fit = (duration: number) => {
+      // On a phone the results sheet covers the lower half of the map and the
+      // search field floats over the top, so fitting to the full container
+      // would drop most pins behind one or the other.
+      const narrow = window.innerWidth < 1024;
+      const height = map.getContainer().clientHeight;
+      const topInset = narrow ? 120 : 56;
+      const bottomInset = narrow ? Math.round(height * 0.52) : 56;
+
+      if (points.length === 1) {
+        map.easeTo({
+          center: [points[0][1], points[0][0]],
+          zoom: 10,
+          offset: [0, (topInset - bottomInset) / 2],
+          duration,
+        });
+        return;
+      }
+
+      const bounds = new LngLatBounds();
+      for (const [lat, lng] of points) bounds.extend([lng, lat]);
+      map.fitBounds(bounds, {
+        padding: { top: topInset, bottom: bottomInset, left: 40, right: 40 },
+        maxZoom: 12,
         duration,
       });
-      return;
-    }
-
-    const bounds = new LngLatBounds();
-    for (const [lat, lng] of points) bounds.extend([lng, lat]);
-    map.fitBounds(bounds, { padding, maxZoom: 12, duration });
+    };
+    refit.current = () => fit(0);
+    fit(animate ? 700 : 0);
     // points is rebuilt each render; key captures its contents.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, map]);
