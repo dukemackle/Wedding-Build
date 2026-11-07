@@ -645,7 +645,7 @@ export function SiteEditor({
       onClick={onPublishClick}
       disabled={publishBusy}
       title={publishAction === "unpublish" ? "Your site is live. Click to unpublish (turn it off)." : undefined}
-      className={`group h-10 shrink-0 rounded-md px-4 text-sm font-semibold transition-[transform,background-color,box-shadow] duration-150 active:scale-[0.97] disabled:cursor-default ${
+      className={`group h-10 shrink-0 whitespace-nowrap rounded-md px-4 text-sm font-semibold transition-[transform,background-color,box-shadow] duration-150 active:scale-[0.97] disabled:cursor-default ${
         publishAction === "unpublish"
           ? "border border-forest/30 bg-card text-forest hover:border-red-700/40 hover:text-red-700"
           : "bg-forest text-parchment shadow-sm hover:-translate-y-px hover:bg-forest/90 hover:shadow-md disabled:bg-forest/40"
@@ -852,13 +852,16 @@ export function SiteEditor({
           key={key}
           type="button"
           aria-pressed={device === key}
+          aria-label={label}
+          title={label}
           onClick={() => setDevice(key)}
-          className={`flex h-8 items-center gap-1.5 rounded-md px-3 text-[13px] transition-colors ${
+          className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-2.5 text-[13px] transition-colors xl:px-3 ${
             device === key ? "bg-forest text-parchment" : "text-ink/70 hover:text-ink"
           }`}
         >
           {icon}
-          {label}
+          {/* iPad landscape and small laptops: icons only, so the row fits. */}
+          <span className="hidden xl:inline">{label}</span>
         </button>
       ))}
     </div>
@@ -1150,7 +1153,7 @@ export function SiteEditor({
         )}
         {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
         {(
-          <div className="flex h-[52px] shrink-0 items-center gap-3 px-6">
+          <div className="flex h-[52px] shrink-0 items-center gap-2 px-4 xl:gap-3 xl:px-6">
             {historyButtons}
             {deviceToggle}
             {/* Something picked: its bar takes the middle of this row, so the
@@ -1181,39 +1184,52 @@ export function SiteEditor({
               </div>
             ) : (
               <>
+                {/* Below 2xl these two are icons only: with the 440px panel
+                    beside them, the labels wrapped and pushed the page wider
+                    than an iPad. */}
                 <button
                   type="button"
                   onClick={() => post(REPLAY_MESSAGE)}
-                  className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
+                  aria-label="Replay motion"
+                  title="Replay motion"
+                  className="flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-hairline bg-card px-3 text-[13px] text-ink hover:border-ink/30 2xl:px-3.5"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M4 12a8 8 0 1 0 2.3-5.6" />
                     <path d="M4 4v4h4" />
                   </svg>
-                  Replay motion
+                  <span className="hidden 2xl:inline">Replay motion</span>
                 </button>
                 {/* The site full screen as guests get it, editing off until Esc. */}
                 <button
                   type="button"
                   onClick={() => frameRef.current?.requestFullscreen().catch(() => {})}
+                  aria-label="Preview"
                   title="Preview (Esc to exit)"
-                  className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
+                  className="flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-hairline bg-card px-3 text-[13px] text-ink hover:border-ink/30 2xl:px-3.5"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                     <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" />
                     <circle cx="12" cy="12" r="3" />
                   </svg>
-                  Preview
+                  <span className="hidden 2xl:inline">Preview</span>
                 </button>
-                <div className="flex-1" />
-                <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
+                <div className="min-w-0 flex-1" />
+                {/* The status line needs room; below 2xl it shows only for an
+                    error (the address bar under this row already says whether
+                    the site is off). */}
+                <span
+                  className={`min-w-0 truncate text-[13px] ${error ? "text-red-700" : "sr-only text-ink/60 2xl:not-sr-only"}`}
+                  role="status"
+                  title={status}
+                >
                   {status}
                 </span>
                 <a
                   href={openHref}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm font-medium text-forest hover:underline"
+                  className="shrink-0 whitespace-nowrap text-sm font-medium text-forest hover:underline"
                 >
                   {openLabel}
                 </a>
