@@ -1498,6 +1498,27 @@ Santuari	6711 Forest Lawn Drive	Los Angeles	California			Garden & Park	Indoor & 
 Casa Vertigo	1828 Oak St	Los Angeles	California			Ballroom	Indoor				Downtown multi-floor event building near LA Live that hosts ceremonies, receptions, showers and rehearsal dinners across several rooms.		(818) 441-1213	https://www.casavertigo.com
 `,
   },
+  {
+    name: "Statewide gaps: Orange County, Inland, Bay Area, Wine Country, Central Valley",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Old Polo Estate	51270 Jackson St	Coachella	California			Ranch	Indoor & Outdoor	200			A private desert estate near Palm Springs designed for full-weekend weddings, with on-site lodging and open-air receptions.	oldpoloestate@gmail.com	+1 760-548-3229	https://oldpolo.com
+The Frederick Loewe Estate		Palm Springs	California			Historic Mansion & Estate	Indoor & Outdoor				A vintage-modern Palm Springs estate with a waterfall ceremony spot, lawn dinners and an indoor lounge, offered for weddings and events.			https://www.frederickloeweestate.com
+Ancient Peaks Barn	5991 West Pozo Road	Santa Margarita	California			Barn & Farm	Indoor & Outdoor				A historic ranch barn set between mountains and vineyards on Santa Margarita Ranch, shown by appointment.	hello@smrevents.com		https://ancientpeaksbarn.com
+Bodega Bay Secret Gardens		Bodega Bay	California			Garden & Park	Outdoor				A coastal garden venue near Bodega Bay with a ceremony deck and willow-shaded ceremony spots.	donis@bbsecretgardens.com	(707) 396-9432	https://www.bodegabaysecretgardens.com
+Paso Robles Inn	1103 Spring Street	Paso Robles	California			Hotel & Resort	Indoor & Outdoor				A downtown Paso Robles inn offering a grand ballroom, garden, courtyard and rooftop for wedding events.		(805) 238-2660	https://www.pasoroblesinn.com
+Wine & Roses Hotel	2505 West Turner Road	Lodi	California			Hotel & Resort	Indoor & Outdoor	350			A Lodi hotel with a garden ballroom, wedding garden and patio spaces hosting weddings and celebrations.	info@winerose.com	(209) 334-6988	https://www.winerose.com
+Merryman Station	20898 Avenue 296	Exeter	California			Barn & Farm	Indoor & Outdoor				A rustic wedding venue in Exeter in the Tulare County foothills.	aht@merrymanstation.com	(866) 579-5653	https://www.merrymanstation.com
+Walker Mine Road		Redding	California			Historic Mansion & Estate	Outdoor				A Redding estate in Shasta County with rolling hills, oak canopies and river views for weddings.	inquire@walkermineroad.com	(530) 945-4726	https://walkermineroad.com
+McCloud Hotel	408 Main Street	McCloud	California			Hotel & Resort	Indoor & Outdoor				A historic small-town hotel in McCloud with a garden corner set aside for weddings and gatherings.	innkeeper@mccloudhotel.com	(530) 964-2822	https://www.mccloudhotel.com
+TBS Ranch	8310 Maynard Road	Palo Cedro	California			Ranch	Indoor & Outdoor				A Shasta County ranch with an event barn and park-like grounds with water features.			https://www.tbsranch.com
+Harmony Wynelands	9291 East Harney Lane	Lodi	California			Vineyard & Winery	Outdoor	200			A Lodi winery with lawns, gardens, a gazebo and vineyard views for outdoor weddings.	info@harmonywynelands.com	(209) 369-4184	https://www.harmonywynelands.com
+The Grand Oak		Turlock	California			Ballroom	Indoor				A modern Turlock ballroom that hosts wedding ceremonies and receptions.		(209) 484-0353	https://thegrandoakturlock.com
+Mountain Home Inn	810 Panoramic Highway	Mill Valley	California			Hotel & Resort	Indoor & Outdoor	75			A hillside inn on Mount Tamalpais with a dining room, lounge and terrace for small weddings.		415-381-9000	https://www.mtnhomeinn.com/private-events/
+Muir Woods Park Community Association Clubhouse	40 Ridge Avenue	Mill Valley	California			Garden & Park	Indoor & Outdoor	125	2850	Rental	A neighborhood clubhouse near Muir Woods rented by the day for wedding receptions indoors and out.	Rentals@MountTam.org		https://mounttam.org/clubhouse-rental
+UC Botanical Garden at Berkeley	200 Centennial Drive	Berkeley	California			Garden & Park	Indoor & Outdoor				A hillside botanical garden offering a redwood grove amphitheater and Julia Morgan Hall for ceremonies and receptions.	garden@berkeley.edu	(510) 643-2755	https://botanicalgarden.berkeley.edu/rentals
+Straus Home Ranch	22888 Highway 1	Marshall	California			Barn & Farm	Indoor & Outdoor	160			A Tomales Bay dairy ranch with bluff and garden ceremony spots and a renovated barn reception for up to 160 seated.	Hello@StrausHomeRanch.com	(415) 335-6630	https://www.straushomeranch.com/weddings
+Winchester Mystery House	525 S. Winchester Boulevard	San Jose	California			Historic Mansion & Estate	Outdoor				A landmark Victorian mansion in San Jose where couples can exchange vows in the front gardens.	info@winchestermysteryhouse.com	(408) 247-2000	https://www.winchestermysteryhouse.com`,
+  },
 ];
 
 export default batches;

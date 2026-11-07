@@ -2888,6 +2888,58 @@ Lumina Event Lighting & AV	Decor & Lighting	966 E Pico Blvd	Los Angeles	Californ
 Long Beach Lighting Solutions	Decor & Lighting		Long Beach	California	Long Beach	Lighting business designing custom wedding and event lighting, including uplights, area lighting and projections, around Long Beach.	nick@longbeachlightingsolutions.com	732-567-9851	https://www.longbeachlightingsolutions.com/	https://www.instagram.com/lightingbynick/		
 `,
   },
+  {
+    name: "Palm Springs: Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Enchanted Floral Design	Florals	277 E. Alejo Road	Palm Springs	California	Coachella Valley	Palm Springs florist that handles wedding and event flowers and offers free delivery across the Coachella Valley.	enchantedfloraldesign.ca@gmail.com	760-205-3007	https://www.enchantedfloraldesign.com/			
+`,
+  },
+  {
+    name: "Lake Tahoe and Truckee: Hair & Makeup, Music, Planning, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Janie Miller Events	Planning		Truckee	California		Truckee decor, rental and styling company that offers wedding packages and event planning for couples around Lake Tahoe.	janiemiller5@gmail.com	951-675-9316	https://janiemillerevents.com/			
+Epic Thyme Events	Planning		Lake Tahoe	California	Greater Lake Tahoe and the Sierra Foothills	Sustainable wedding planner for Lake Tahoe, designing eco-minded, farm-to-table weddings with full planning and day-of coordination.	info@epicthyme.com	530-955-0093	https://www.epicthyme.com/	https://www.instagram.com/epic_thyme/		
+Lake DJ	Music		South Lake Tahoe	California	Lake Tahoe	Lake Tahoe DJ and master of ceremonies service, established in 2002, covering wedding ceremonies through the last dance.	info@lakedj.com	530-416-5253	https://lakedj.com/	https://www.instagram.com/lake.dj/		
+Music in Tahoe	Music		Lake Tahoe	California	Lake Tahoe, Truckee and Reno	Collective of Lake Tahoe DJs, live musicians and sound engineers that can be booked together for wedding ceremonies and receptions.	musicintahoeweddings@gmail.com		https://www.musicintahoe.com/			
+Love is in the Hair	Hair & Makeup		Truckee	California	Lake Tahoe	On-location bridal hair and makeup team that works only on weddings around Lake Tahoe and is now in its tenth wedding season.	contact@loveisinthehair-weddings.com		https://www.loveisinthehair-weddings.com/		175	per person
+Tahoe Weddings A GoGo	Hair & Makeup		Lake Tahoe	California	Lake Tahoe and surrounding areas	On-site wedding hair and makeup for brides and bridal parties around Lake Tahoe, from soft natural looks to full glam.	linda4image@gmail.com	530-318-5038	https://tahoeweddingsagogo.com/	https://www.instagram.com/tahoeweddingsagogo/		
+Tahoe North Films	Videography		Truckee	California	Northern California	Truckee wedding photography studio that adds a video option, filming and photographing the day together with two cameras.		916-735-6565	https://tahoenorthfilms.com/	https://www.instagram.com/tahoenorthfilms/	699	package
+`,
+  },
+  {
+    name: "Santa Barbara: Cake, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Craft Wood Fired Catering	Catering		Santa Barbara	California	Santa Barbara	Santa Barbara caterer offering wood-fired catering for weddings, parties and corporate events.	craftcateringcompany@gmail.com	805-770-0396	https://www.craftcateringcompany.com/	https://www.instagram.com/craftcatering_co/		
+Lilac Pâtisserie	Cake	1017 State Street	Santa Barbara	California	Santa Barbara	State Street bakery and pâtisserie with a gluten-free kitchen and a weddings and events page for tiered cakes and desserts.	info@lilacpatisserie.com	805-845-7400	https://lilacpatisserie.com/	https://www.instagram.com/lilacpatisserie/		
+`,
+  },
+  {
+    name: "Napa and Sonoma: Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Jen Philips Photography	Photography		Napa	California	Napa, Sonoma and destinations	Napa wedding photographer offering lifestyle coverage for wine country weddings and destination celebrations.	jen@jenphilips.com	707-815-8368	https://www.jenphilips.com	https://www.instagram.com/jenphilipsphoto/		
+`,
+  },
+  {
+    name: "Inland Empire and Temecula: Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Ashley Bee & Co.	Videography		Temecula	California	Temecula and nearby, no travel fee within 30 miles	Temecula studio making highlight and documentary wedding films, with photography, drone footage and engagement sessions.	hello@ashleybee.com		https://ashleybee.com	https://www.instagram.com/ashleybeeco/	5000	package
+Marin & Lee Films	Videography		Temecula	California	Temecula wine country, San Diego, Southern California	Family wedding film team near Temecula, offering teaser videos, full films, speeches and a drone add-on.		(951) 285-3141	https://marinandleefilms.com	https://www.instagram.com/marinandleefilms/	4000	package
+`,
+  },
+  {
+    name: "Orange County: Catering, Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Palm + Pine Events	Planning		San Clemente	California	Orange County, Palm Springs, Santa Barbara and across California	San Clemente planning studio creating bespoke weddings, with couple portfolios and a dedicated wedding services page.	shauna@palmandpineevents.com	(714) 915-5991	https://palmandpineevents.com	https://www.instagram.com/palmandpineevents/		
+Country Garden Caterers	Catering	719 North Main Street	Santa Ana	California	Orange County and Southern California	Santa Ana caterer working from a historic downtown venue and also serving weddings off site, with bar service and staffing.	info@countrygardencaterers.com	(714) 972-9069	https://countrygardencaterers.com	https://www.instagram.com/countrygardencaterers/		
+`,
+  },
+  {
+    name: "Sacramento: Florals, Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Strings & Champagne Events	Planning		Roseville	California	Greater Sacramento, Roseville, Rocklin, Loomis, Auburn, Lake Tahoe	Roseville planner focused on day-of wedding coordination, with timelines, vendor management and rehearsal leadership.	sandy@strings-champagne.com	(916) 397-9346	https://www.strings-champagne.com	https://www.instagram.com/sandystringerbridalpro/	3400	package
+Accents by Sage Floral Design	Florals	7500 14th Ave., #27	Sacramento	California	Sacramento	Sacramento florist designing wedding flowers, decor and styling, with an a la carte option for intimate weddings.	accentsbysage@gmail.com	(916) 799-6242	https://www.accentsbysagefloraldesign.com	https://www.instagram.com/accentsbysage/		
+`,
+  },
 ];
 
 export default batches;
