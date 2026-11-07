@@ -6,43 +6,25 @@ import { VENDOR_READ_FIELDS } from "@/lib/ai/listing-read-fields";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { vendorForClaimToken } from "@/lib/vendor-claim-server";
-import { CLAIM_PHOTO_TYPES, MAX_CLAIM_PHOTO_BYTES, MAX_CLAIM_PHOTOS } from "@/lib/venue-claim";
 import { VENDOR_CLAIM_FIELD_LABELS, validateVendorClaim, type VendorClaimSubmission } from "@/lib/vendor-claim";
 import { claimNotification } from "@/lib/claim-notify";
 import { trackEvent } from "@/lib/events";
 import { cleanFirstTouch, cleanHeardFrom, cleanVia } from "@/lib/attribution";
 import { deleteClaimDraft, storeClaimDraft } from "@/lib/claim-drafts";
+import { storeClaimPhoto } from "@/lib/claim-photos";
 
 // The vendor side of the claim flow; see ../../[token]/actions.ts for the
 // venue side and the reasoning. Every action resolves the token first and
 // touches nothing but that vendor.
 
 const BUCKET = "vendor-photos";
-const EXTENSIONS: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
 
-export async function createVendorClaimPhotoUploads(
-  token: string,
-  files: { type: string; size: number }[],
-): Promise<{ error?: string; uploads?: { path: string; token: string; publicUrl: string }[] }> {
+/** One shrunk photo from the browser; see uploadClaimPhoto on the venue side. */
+export async function uploadVendorClaimPhoto(token: string, formData: FormData): Promise<{ error?: string; url?: string }> {
   const vendor = await vendorForClaimToken(token);
   if (!vendor) return { error: "This link is no longer valid." };
-  if (files.length > MAX_CLAIM_PHOTOS) return { error: `Add at most ${MAX_CLAIM_PHOTOS} photos at a time.` };
-  for (const file of files) {
-    if (!(CLAIM_PHOTO_TYPES as readonly string[]).includes(file.type)) {
-      return { error: "Photos need to be JPEG, PNG or WebP." };
-    }
-    if (file.size > MAX_CLAIM_PHOTO_BYTES) return { error: "Each photo needs to be under 10MB." };
-  }
-
-  const admin = createAdminSupabaseClient();
-  const uploads = [];
-  for (const file of files) {
-    const path = `claims/${vendor.id}/${randomUUID()}.${EXTENSIONS[file.type]}`;
-    const { data, error } = await admin.storage.from(BUCKET).createSignedUploadUrl(path);
-    if (error || !data) return { error: "Couldn't start the upload -- please try again." };
-    uploads.push({ path, token: data.token, publicUrl: admin.storage.from(BUCKET).getPublicUrl(path).data.publicUrl });
-  }
-  return { uploads };
+  const stored = await storeClaimPhoto(BUCKET, vendor.id, formData.get("photo"));
+  return "error" in stored ? { error: stored.error } : { url: stored.url };
 }
 
 export async function submitVendorClaim(

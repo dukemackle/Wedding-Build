@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: November 2, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: November 7, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -90,6 +90,16 @@ export default function TermsPage() {
             <p className="mt-3">
               We can remove Content that violates these Terms or that we&apos;re required to
               remove by law, though we don&apos;t proactively monitor everything submitted.
+            </p>
+            <p className="mt-3">
+              <strong>Copyright complaints.</strong> If you believe Content on the Service infringes
+              your copyright, send a notice to our designated agent as described on our{" "}
+              <Link href="/copyright" className="text-brass hover:underline">
+                Copyright complaints
+              </Link>{" "}
+              page. We respond to notices that meet the requirements of the Digital Millennium
+              Copyright Act (17 U.S.C. 512), accept counter-notices as described there, and close
+              the accounts of repeat infringers.
             </p>
             <p className="mt-3">
               <strong>Marketplace.</strong> When you list something in the marketplace, the listing

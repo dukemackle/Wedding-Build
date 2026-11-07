@@ -23,7 +23,8 @@ import { BUSINESS_FACT_LABELS, businessFactsFrom, validateBusinessFacts, type Bu
  */
 
 export const MAX_CLAIM_PHOTOS = 10;
-export const MAX_CLAIM_PHOTO_BYTES = 10 * 1024 * 1024;
+/** After the browser shrinks it (src/lib/shrink-image.ts); one goes per server-action request. */
+export const MAX_CLAIM_PHOTO_BYTES = 5 * 1024 * 1024;
 export const CLAIM_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;
 export const MAX_PREFERRED_VENDORS = 40;
 const MAX_FAQS = 20;
