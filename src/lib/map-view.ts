@@ -35,6 +35,17 @@ export const US_MAP_BOUNDS: [[number, number], [number, number]] = [
 ];
 
 /**
+ * The same, reaching much further south, for phones. A phone's map is tall
+ * and the results sheet covers its lower half, so with US_MAP_BOUNDS the
+ * southern edge already fills the screen: the map can't zoom out, and the
+ * pins can't be dragged up out from under the sheet.
+ */
+export const US_MAP_BOUNDS_PHONE: [[number, number], [number, number]] = [
+  [-178, -75],
+  [-20, 80],
+];
+
+/**
  * Zoom levels are MapLibre's (512px tiles), one less than the old Leaflet
  * numbers for the same view: zoom 10 here is what Leaflet called 11.
  */
