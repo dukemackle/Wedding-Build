@@ -627,7 +627,19 @@ export function SiteEditor({
   const samplesNote = [!hasPhoto && "sample photos until you add yours", !hasGuests && "sample guests until people RSVP"]
     .filter(Boolean)
     .join(" · ");
-  const previewAddress = `${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${samplesNote ? ` · ${samplesNote}` : ""}`;
+  // The save state, at the front of the preview's address bar (it used to
+  // take a slot in the toolbar). Errors still show in the toolbar.
+  const addressStatus =
+    saveState === "saving"
+      ? "Saving draft…"
+      : restored
+        ? "Brought back changes that hadn't saved"
+        : !isLive
+          ? "Guests see another design"
+          : publicSlug && dirty
+            ? "Changes not published yet"
+            : "";
+  const previewAddress = `${addressStatus ? `${addressStatus} · ` : ""}${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${samplesNote ? ` · ${samplesNote}` : ""}`;
   const openHref = showsLive ? `${origin}/w/${publicSlug}` : `/guests/site/preview?design=${designId}&view=1`;
   const openLabel = showsLive ? "Open live site" : "Open preview";
 
@@ -645,7 +657,7 @@ export function SiteEditor({
       onClick={onPublishClick}
       disabled={publishBusy}
       title={publishAction === "unpublish" ? "Your site is live. Click to unpublish (turn it off)." : undefined}
-      className={`group h-10 shrink-0 rounded-md px-4 text-sm font-semibold transition-[transform,background-color,box-shadow] duration-150 active:scale-[0.97] disabled:cursor-default ${
+      className={`group h-10 shrink-0 whitespace-nowrap rounded-md px-4 text-sm font-semibold transition-[transform,background-color,box-shadow] duration-150 active:scale-[0.97] disabled:cursor-default ${
         publishAction === "unpublish"
           ? "border border-forest/30 bg-card text-forest hover:border-red-700/40 hover:text-red-700"
           : "bg-forest text-parchment shadow-sm hover:-translate-y-px hover:bg-forest/90 hover:shadow-md disabled:bg-forest/40"
@@ -853,7 +865,7 @@ export function SiteEditor({
           type="button"
           aria-pressed={device === key}
           onClick={() => setDevice(key)}
-          className={`flex h-8 items-center gap-1.5 rounded-md px-3 text-[13px] transition-colors ${
+          className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-3 text-[13px] transition-colors ${
             device === key ? "bg-forest text-parchment" : "text-ink/70 hover:text-ink"
           }`}
         >
@@ -1150,7 +1162,7 @@ export function SiteEditor({
         )}
         {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
         {(
-          <div className="flex h-[52px] shrink-0 items-center gap-3 px-6">
+          <div className="flex h-[52px] shrink-0 items-center gap-2 px-4 xl:gap-3 xl:px-6">
             {historyButtons}
             {deviceToggle}
             {/* Something picked: its bar takes the middle of this row, so the
@@ -1181,41 +1193,26 @@ export function SiteEditor({
               </div>
             ) : (
               <>
-                <button
-                  type="button"
-                  onClick={() => post(REPLAY_MESSAGE)}
-                  className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M4 12a8 8 0 1 0 2.3-5.6" />
-                    <path d="M4 4v4h4" />
-                  </svg>
-                  Replay motion
-                </button>
-                {/* The site full screen as guests get it, editing off until Esc. */}
-                <button
-                  type="button"
-                  onClick={() => frameRef.current?.requestFullscreen().catch(() => {})}
-                  title="Preview (Esc to exit)"
-                  className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                    <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                  Preview
-                </button>
-                <div className="flex-1" />
-                <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
-                  {status}
-                </span>
+                {/* Replay motion and full screen live in the preview's own
+                    bar; the save state lives in its address bar. This row
+                    keeps only undo, the device switch, Open and Publish. */}
+                <div className="min-w-0 flex-1" />
+                {error ? (
+                  <span className="min-w-0 truncate text-[13px] text-red-700" role="status" title={error}>
+                    {error}
+                  </span>
+                ) : (
+                  <span className="sr-only" role="status">
+                    {status}
+                  </span>
+                )}
                 <a
                   href={openHref}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm font-medium text-forest hover:underline"
+                  className="shrink-0 whitespace-nowrap text-sm font-medium text-forest hover:underline"
                 >
-                  {openLabel}
+                  {openLabel} <span aria-hidden="true">↗</span>
                 </a>
               </>
             )}
@@ -1227,9 +1224,10 @@ export function SiteEditor({
           device={device}
           fill={false}
           frameRef={frameRef}
-            designId={designId}
+          designId={designId}
           address={previewAddress}
           bottomInset={0}
+          onReplay={() => post(REPLAY_MESSAGE)}
         />
       </section>
 
@@ -1493,6 +1491,7 @@ function PreviewStage({
   designId,
   address,
   bottomInset,
+  onReplay,
 }: {
   device: Device;
   /** On a phone showing the phone view: the preview is simply the screen. */
@@ -1501,6 +1500,8 @@ function PreviewStage({
   designId: string;
   address: string;
   bottomInset: number;
+  /** Desktop editor: replays the site's motion, from the preview's own controls. */
+  onReplay?: () => void;
 }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
@@ -1521,8 +1522,10 @@ function PreviewStage({
   const scrollerRef = useRef<HTMLDivElement>(null);
   const fitScale = Math.min(1, size.w / DESKTOP_W) || 1;
   const phoneBezel = 10;
+  // Under the phone frame: a small bar with Replay and full screen.
+  const phoneBar = !fill && device === "phone" && onReplay ? 48 : 0;
   const phoneScale =
-    Math.min(1, Math.max(0, size.h - bottomInset - 8) / (PHONE_H + phoneBezel * 2), size.w / (PHONE_W + phoneBezel * 2)) || 1;
+    Math.min(1, Math.max(0, size.h - bottomInset - phoneBar - 8) / (PHONE_H + phoneBezel * 2), size.w / (PHONE_W + phoneBezel * 2)) || 1;
   // How far the iframe is scaled down (or up) to fit the stage.
   const scale = fill ? 1 : device === "desktop" ? (zoom ?? fitScale) : phoneScale;
   // One percent of the desktop window at "Fit", for the site's --site-vh.
@@ -1609,7 +1612,7 @@ function PreviewStage({
   return (
     <div
       ref={stageRef}
-      className={`flex min-h-0 flex-1 justify-center ${fill ? "" : "items-start px-3 pb-3 lg:px-6 lg:pb-6"} ${
+      className={`flex min-h-0 flex-1 ${phoneBar ? "flex-col items-center" : "justify-center"} ${fill ? "" : `${phoneBar ? "" : "items-start"} px-3 pb-3 lg:px-6 lg:pb-6`} ${
         !fill && chrome === "phone" ? "pt-14 lg:pt-0" : ""
       } ${!fill && chrome === "browser" ? "pt-14 lg:pt-0" : ""}`}
     >
@@ -1653,6 +1656,12 @@ function PreviewStage({
         </div>
         {chrome === "browser" && (
           <div className="flex h-10 shrink-0 items-center justify-end gap-3 border-t border-hairline bg-[#f7f7f5] px-4">
+            {onReplay && (
+              <>
+                <ReplayButton onClick={onReplay} />
+                <span className="h-4 w-px bg-hairline" aria-hidden="true" />
+              </>
+            )}
             <button
               type="button"
               onClick={() => setZoom(null)}
@@ -1688,7 +1697,38 @@ function PreviewStage({
           </div>
         )}
       </div>
+      {phoneBar > 0 && onReplay && (
+        <div className="mt-2 flex h-10 items-center gap-1 rounded-lg border border-hairline bg-card px-1 shadow-sm">
+          <ReplayButton onClick={onReplay} />
+          <button
+            type="button"
+            onClick={() => frameRef.current?.requestFullscreen().catch(() => {})}
+            aria-label="Full screen"
+            title="Full screen (Esc to exit)"
+            className="flex h-8 w-8 items-center justify-center rounded-md text-ink/60 hover:bg-ink/5 hover:text-ink"
+          >
+            <FullscreenIcon />
+          </button>
+        </div>
+      )}
     </div>
+  );
+}
+
+function ReplayButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label="Replay motion"
+      title="Replay motion"
+      className="flex h-8 w-8 items-center justify-center rounded-md text-ink/60 hover:bg-ink/5 hover:text-ink"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+        <path d="M4 4v4h4" />
+      </svg>
+    </button>
   );
 }
 
