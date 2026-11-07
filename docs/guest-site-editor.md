@@ -12,7 +12,9 @@ Couples get as many choices as possible, and every combination still looks desig
 - A new sub-tab, **Guests › Guest site** (`/guests/site`), next to "Guest list & RSVPs" and
   "From your guests". The "Your guest site" card on `/guests` moves here.
 - **Desktop:** a 400px editor panel on the left and a live preview on the right, with a
-  Computer/Phone toggle, "Replay motion", "Open live site" and **Publish changes**.
+  Computer/Phone toggle, "Open live site" and **Publish changes** (2026-11-07: Replay
+  motion and full screen moved to the preview's bottom bar, the save state to its address
+  bar, and the duplicate "Preview" button was removed, so the row fits an iPad).
   Edits are saved as a draft; guests only see them after Publish.
 - **Phone:** the preview fills the screen and the editor is a sheet dragged up from the bottom.
 - Editor tabs: **Theme · Style · Motion · Sections**.
