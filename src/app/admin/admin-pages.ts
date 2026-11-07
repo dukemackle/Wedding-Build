@@ -47,6 +47,7 @@ export function adminGroups(claims: PendingClaims): AdminGroup[] {
         { href: "/admin/feedback", label: "Feedback", icon: "chat", keywords: "help bugs messages chat themes" },
         { href: "/admin/photo-wall", label: "Photo wall", icon: "photo", keywords: "photos gallery images uploads" },
         { href: "/admin/marketplace", label: "Buy & sell", icon: "tag", keywords: "marketplace resale listings reports moderation take down scams sold rentals conversations", badge: claims.market },
+        { href: "/admin/copyright", label: "Copyright", icon: "flag", keywords: "dmca takedown notice counter notice infringement repeat infringer strikes" },
       ],
     },
     {

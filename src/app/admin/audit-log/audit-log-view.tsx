@@ -18,7 +18,7 @@ export const AREAS = {
   all: { label: "All", prefixes: [] },
   listings: { label: "Listings & claims", prefixes: ["vendor.", "venue.", "listing."] },
   couples: { label: "Couples", prefixes: ["couple."] },
-  moderation: { label: "Moderation", prefixes: ["guest_post.", "market.", "listing_report.", "feedback."] },
+  moderation: { label: "Moderation", prefixes: ["guest_post.", "market.", "listing_report.", "feedback.", "copyright."] },
   content: { label: "Content & data", prefixes: ["attire.", "cost_data.", "lead.", "spend."] },
 } as const;
 export type Area = keyof typeof AREAS;
