@@ -269,6 +269,19 @@ The Barn at Shady Lane	290 Sunbelt Pkwy	Birmingham	Alabama			Barn & Farm	Indoor 
 Dothan Area Botanical Gardens	5130 Headland Ave	Dothan	Alabama			Garden & Park	Indoor & Outdoor				A public botanical garden with a formal wedding garden with a fountain and pergola, an indoor hall in its botanical center, a restored farmhouse and a gazebo.			https://dothanbotanicalgardens.com/rentals/
 `,
   },
+  {
+    name: "Alabama: Birmingham, Huntsville, Tuscaloosa, Mobile and Dothan",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Vulcan Park	1701 Valley View Drive	Birmingham	Alabama			Garden & Park	Indoor & Outdoor				A hilltop park and museum at the foot of the cast iron Vulcan statue, available for ceremonies and receptions.	info@vulcanpark.org	(205) 933-1409	https://www.vulcanpark.org/weddings
+Lemon Ridge Events	12333 Highway 78	Jasper	Alabama			Barn & Farm	Indoor & Outdoor	250			A 10,000-square-foot event property west of Birmingham, with room for 110 guests inside and 250 outside.	LemonRidgeEvents@gmail.com	(205) 898-0800	https://www.lemonridgeevents.com
+Mathews Manor		Springville	Alabama			Historic Mansion & Estate		400			A manor on U.S. 11 in Springville, about 25 minutes from Birmingham, offering customizable wedding packages.	Contact@MathewsManor.com	(205) 467-3935	https://www.mathewsmanor.com
+Maria's Vineyard	3940 Fortner Street	Dothan	Alabama			Vineyard & Winery	Indoor & Outdoor				A Tuscan-style vineyard house with a bridal suite and banquet area, set among jasmine-covered arbors, a marble gazebo and rose gardens inside a working muscadine vineyard.			https://mariasvineyard.com
+Gardner's Eden	441 Jenifer Rd	Munford	Alabama			Ranch	Indoor & Outdoor				A ranch-style post-and-beam wedding venue in the foothills by Talladega National Forest, with gardens, an indoor hall, bridal and groom suites, and ADA-accessible spaces.	gardnerseden@mail.com	(256) 239-8189	https://gardnerseden.com/
+The Rose Chapel	5970 US Hwy 11	Attalla	Alabama			Chapel & Church					A small Attalla chapel with no fixed layout, offering couples free use of its Victorian sofas, barrels and backdrops and no vendor restrictions.	therosechapel5970@yahoo.com	205-283-3643	https://therosechapel.com/
+Tall Pines		Grand Bay	Alabama			Barn & Farm	Indoor & Outdoor				A pine-surrounded property outside Mobile with an event barn for receptions, an outdoor ceremony area, and separate cottage-style bridal and groom suites.	info@tallpinesvenue.com	251-800-1903	https://tallpinesvenue.com/
+Mobile Carnival Museum		Mobile	Alabama			Museum, Gallery & Rooftop	Indoor & Outdoor		2000	Rental	A downtown Mobile history museum in the Bernstein-Bush mansion whose rentable Den and grassy back lawn host receptions of up to 200 guests among Mardi Gras exhibits.			https://mobilecarnivalmuseum.com/event-venue-information/
+`,
+  },
 ];
 
 export default batches;

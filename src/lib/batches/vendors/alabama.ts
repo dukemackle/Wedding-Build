@@ -62,7 +62,7 @@ Elleven Salon	Hair & Makeup	518 Madison St SE	Huntsville	Alabama		Downtown Hunts
 The Beautification Lounge	Hair & Makeup		Huntsville	Alabama		Huntsville makeup and skincare studio run by Ly Brease, doing bridal makeup at the studio, in hotel suites or on site before the ceremony.	getready@beautificationlounge.com	(256) 882-9181	https://www.beautificationlounge.com/	https://www.instagram.com/thebeautificationlounge/
 Batter Up Cake Bakery	Cake	6125 University Dr NW, Suite B10	Huntsville	Alabama	North Alabama	Huntsville bakery making scratch-baked custom cakes since 2014, including wedding cakes, with allergy requests accommodated.			https://www.batterupcakebakery.com/	
 Mason Dixon Bakery & Bistro	Cake	415 Church St NW	Huntsville	Alabama	Within an hour of Huntsville	Dedicated gluten-free bakery and bistro in Huntsville making wedding cakes every guest can eat, with full-service wedding catering too.	info@masondixonbakery.com	(256) 213-7545	https://masondixonbakery.com/weddings	https://www.instagram.com/masondixonhsv/
-Hamley Bake Shoppe	Cake	12023 Hwy 231-431 N	Meridianville	Alabama	Meridianville and surrounding areas	Meridianville bakery with a storefront since 2017, baking custom wedding and groom's cakes alongside cookies and everyday treats.	hamleybakeshoppe@gmail.com	(256) 693-7595	https://www.hamleybakeshoppe.com/	https://www.instagram.com/hamleybakeshoppe/
+Hamley Bake Shoppe	Cake	12023 Hwy 231-431 N	Meridianville	Alabama	Meridianville and surrounding areas	Meridianville bakery with a storefront since 2017, baking custom wedding and groom's cakes alongside cookies and everyday treats.	hamleybakeshoppe@gmail.com	(256) 693-7595	https://www.hamleybakeshoppe.com/	https://www.instagram.com/hamleybakeshoppe/		
 The Flour Elise	Cake		Madison	Alabama	Alabama pickup and delivery	Nut-free bakery in Madison making custom celebration and wedding cakes, a safe choice for couples with nut-allergic guests.	theflourelise@gmail.com	(205) 807-6523	https://www.theflourelise.com/	https://www.instagram.com/the_flour_elise/
 Renowned Media	Videography		Huntsville	Alabama	The Southeast	Huntsville wedding film team making chronological, full-day films with real vows and toasts in place of short highlight reels.	ben.ellis@renowned.media	(256) 203-9213	https://renowned.media/	https://www.instagram.com/renowned.weddings/
 Kyle Root Photography	Videography		Decatur	Alabama	North Alabama	Decatur photographer and videographer with over 250 weddings captured, including Indian wedding events, plus headshots and commercial work.	info@kyleroot.com	(256) 616-1471	https://www.kyleroot.com/	https://www.instagram.com/kyle.root/
@@ -369,6 +369,52 @@ The Grand Event Design and Decor	Rentals	1017 MLK Jr Blvd	Northport	Alabama	Tusc
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
 AL Weddings	Photography	277 Lyon Ln	Birmingham	Alabama	Alabama and destination weddings	Birmingham team with 14 years of weddings, shooting photographs and films in-house and mixing guided portraits with unposed moments.			https://alweddingsllc.com/	https://www.instagram.com/alweddings/		
 LMB Catering	Catering		Birmingham	Alabama	Birmingham and surrounding areas	Birmingham caterer cooking Southern-style menus from local ingredients for weddings and events of 50 to 500 guests, with an event facilitator on hand.			https://lmbcatering.com/			
+`,
+  },
+  {
+    name: "Birmingham: planning, videography, catering, cake, hair & makeup, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Corrie Stephens Events	Planning		Birmingham	Alabama	Alabama and beyond	Birmingham wedding planner working with a limited number of full-service couples, with coordination as her schedule allows.	corrie@corriestephensevents.com		https://corriestephensevents.com/	https://www.instagram.com/corriestephensevents/		
+Morgan Film Co.	Videography		Birmingham	Alabama		Birmingham husband-and-wife team making story-led wedding films, available for destination weddings too.			https://morganfilmco.com/			
+Stoneybrook Films	Videography		Birmingham	Alabama	Alabama, Georgia, Florida, Tennessee, Mississippi and destinations	Birmingham filmmakers creating cinematic wedding films, with a feature-length option and a documentary-style option.			https://stoneybrookfilms.com/	https://www.instagram.com/stoneybrookfilms/	4000	package
+Eight Eleven Catering	Catering		Birmingham	Alabama		Chef-owned Birmingham caterer serving weddings, private parties and plated five-course dinners with a Southern slant.			https://eightelevencatering.com/	https://www.instagram.com/eightelevencatering/		
+Ashley Mac's Kitchen	Catering		Birmingham	Alabama	Birmingham area, within 15 miles of Cahaba Heights	Birmingham caterer delivering healthy and Southern-style dishes for weddings, office events and at-home gatherings.		205-968-4126	https://www.ashleymacs.com/catering/	https://www.instagram.com/ashleymacs/		
+Margaret's Bakery	Cake	1421 Forestdale Blvd	Birmingham	Alabama		Birmingham bakery designing custom wedding cakes, from classic tiered cakes to more playful styles, plus party desserts.	margaretsbakery1@gmail.com	205-798-7400	https://www.margaretsbakery.com/cakes-more			
+Studio 21 Salon	Hair & Makeup	4557 Pinetree Circle	Vestavia Hills	Alabama	Birmingham area, travelling within 20 miles	Vestavia Hills salon offering bridal hair and makeup in the salon or on location, with a bridal coordinator assigned.		205-991-9613	https://studio21hairsalon.com/bridal-services	https://www.instagram.com/studio21salonbham/		
+Elevated Entertainment	Music		Birmingham	Alabama	Birmingham, Montgomery and Tuscaloosa	Birmingham DJ company for weddings, adding photo booths and audio guestbooks to its live DJ sets.	booking@elevatedbham.com		https://www.elevatedbham.com/	https://www.instagram.com/elevatedbham/		
+`,
+  },
+  {
+    name: "Tuscaloosa: videography, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Mason Bentley Videography	Videography		Tuscaloosa	Alabama	Tuscaloosa and beyond	Tuscaloosa wedding filmmaker making cinematic films of the day, with a flagship eight-hour collection.			https://www.masonbentleyvideography.com/	https://www.instagram.com/masonbentleyvideography/	3000	package
+The Powder Room	Hair & Makeup	1914 Martin Luther King Jr Blvd	Tuscaloosa	Alabama		Tuscaloosa salon offering bridal makeup for wedding days, with a published deposit and travel-fee policy.	info@thepowderroomllc.com	205-862-0995	https://www.thepowderroomllc.com/			
+Celebrations Bakery	Cake	1832 McFarland Blvd	Northport	Alabama		Northport bakery making custom birthday and wedding cakes and other confections to order.		205-339-3221	https://celebrationsbake.weebly.com/			
+`,
+  },
+  {
+    name: "Auburn–Opelika: florals, planning, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+KK Jones Flowers	Florals		Auburn	Alabama		Wedding and event florist in Auburn who blends formal blooms with looser, wilder stems for bouquets and arrangements.	kkjonesflowers@gmail.com		https://kkjonesflowers.com/			
+Morgan Martin Inspired	Planning		Auburn	Alabama		Auburn company combining wedding floral design with planning, from full-service packages to month-of and day-of coordination.			https://www.morganmartininspired.com/	https://www.instagram.com/morganmartininspired/	3500	package
+Florista Designs	Florals		Auburn	Alabama		Auburn floral studio led by a designer with over 30 years of experience, making wedding bouquets and event flowers to a range of budgets.	floristadesignsauburn@gmail.com		https://floristadesignsauburn.com/	https://www.instagram.com/floristadesigns/		
+Butcher Paper BBQ	Catering	128 Columbus Pkwy	Opelika	Alabama		Barbecue restaurant in Opelika whose catering trailer can be booked for wedding receptions, with quotes tailored to each event.		(334) 748-9008	https://butcherpaperbbq.com/catering/	https://www.instagram.com/butcherpaper_bbq/		
+`,
+  },
+  {
+    name: "Huntsville: catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Endless Catering	Catering		Huntsville	Alabama		Huntsville caterer for weddings from intimate dinners to large receptions, working from built-out kitchens or a mobile kitchen trailer.	hello@endlesscatering.com	256-497-5168	https://www.endlesscatering.com/	https://www.instagram.com/endless_catering/		
+Hamley Bake Shoppe	Cake	12023 Hwy 231-431N	Meridianville	Alabama	Greater Huntsville area, including Madison	Bakery making custom wedding cakes priced by design, with a limited number taken each year and consultations by appointment.	hamleybakeshoppe@gmail.com	(256) 693-7595	https://www.hamleybakeshoppe.com/weddings	https://www.instagram.com/hamleybakeshoppe/		
+`,
+  },
+  {
+    name: "Montgomery: planning, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Southern Posies	Planning	297 Macon County Road	Cecil	Alabama	Central Alabama and the Southeast	Boutique studio in Cecil combining full wedding planning, styling and floral design, with Montgomery and Lake Martin events in its portfolio.	hello@southernposies.com	(334) 676-1766	https://www.southernposies.com/	https://www.instagram.com/southernposies/		
+J&J Decor	Planning		Montgomery	Alabama	Montgomery, Selma and Prattville	Event planning and decor company offering wedding coordination, bridal showers and party rentals around Montgomery, Selma and Prattville.	jjdecor25@gmail.com	(334) 543-3156	https://jjdecor.net/			
+The Sweet Carte	Cake	2251-C Main Street	Millbrook	Alabama		Made-to-order bakery in Millbrook offering bride's cakes, groom's cakes and wedding extras alongside other custom desserts.			https://www.thesweetcarte.com/	https://www.instagram.com/thesweetcarte/		
+Little Red Cupcake	Cake	638 Hall St	Montgomery	Alabama		Montgomery cupcakery that also makes custom cakes, taking tiered wedding cake orders alongside cupcakes, cookies and cake pops.			https://littleredcupcake.info/			
 `,
   },
 ];
