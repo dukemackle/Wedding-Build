@@ -165,6 +165,27 @@ Flat Ridge Photography	Photography		Dover	Delaware	Delaware, Pennsylvania and Ma
 Angie Moon Photographer	Photography		Harbeson	Delaware	East coast and beyond	Eastern Shore of Delaware photographer with wedding and portrait galleries, working out of Harbeson and happy to travel for couples.	angiemoon@verizon.net	(302) 841-5519	http://www.angiemoonphotographer.com/	https://www.instagram.com/angiemoonphotographer/		
 `,
   },
+  {
+    name: "Dover: photography and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Seraiah Roslin Photography	Photography		Dover	Delaware	Destination weddings and elopements	Dover-based destination photographer covering weddings and elopements, with a four-hour minimum and 400-plus edited images in the entry package.	photographybyroslin@gmail.com		https://www.seraiahroslinphotography.com/	https://www.instagram.com/photographybyroslin/	2000	package
+Bavarian Bakery & Deli	Cake	1819 South DuPont Hwy	Dover	Delaware		Long-running Dover bakery making handmade buttercream wedding cakes from all-natural ingredients, designed around the flavours you pick.			https://yourfavoritebakery.com/custom-cakes/	https://www.instagram.com/bakerybavarian/		`,
+  },
+  {
+    name: "Rehoboth Beach: catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Big Fish Events	Catering		Rehoboth Beach	Delaware	Throughout Delaware	Full-service caterer from a coastal restaurant group, handling wedding receptions with custom menus, raw bars, bar service and event staffing.	valeria.maresgutierrez@atlasrestaurantgroup.com	302-216-8211	https://bigfishevents.com/	https://www.instagram.com/bigfisheventscatering/		
+Goolee's Grille	Catering	11 S First St	Rehoboth Beach	Delaware		Boardwalk-side restaurant catering beach receptions with American, Greek and Tex-Mex menus, gluten-free choices and full bar service.			https://gooleesgrille.com/catering/			
+Beach Baes Catering	Catering		Rehoboth Beach	Delaware		Family-run Rehoboth caterer with a coastal menu of grilled shrimp skewers, fish tacos and beach desserts, plus event styling and a tiki bar.			https://beachbaescatering.com/	https://www.instagram.com/beachbaescatering/		
+Pasqualini's Bakery	Cake	37560 Atlantic Avenue	Rehoboth Beach	Delaware		Owner-run Rehoboth bakery making wedding cakes with a free first-anniversary cake, tastings by appointment and delivery around town.		302-227-2111	https://www.pasqualinisbakery.net/services-1			`,
+  },
+  {
+    name: "Wilmington: catering, hair & makeup and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+322 BBQ & Tavern	Catering	1845 Marsh Road	Wilmington	Delaware	South Jersey, Delaware and the PA line	Slow-smoked barbecue catering for receptions and rehearsal dinners, as full service with on-site cooking or a styled drop-off buffet.	catering@322bbq.com	302-308-3162	https://322bbq.com/wedding-bbq-catering-south-jersey	https://www.instagram.com/322bbq/		
+Salon by Dominic	Hair & Makeup	130 Lantana Dr	Hockessin	Delaware	Brandywine Valley	Family-owned Hockessin salon since 1992 offering hair styling and wedding make-up application in the Brandywine Valley.		302-239-8282	https://www.salonbydominic.com/	https://www.instagram.com/salonbydominic/		
+Crescendo DJ & Drums	Music		Wilmington	Delaware	Delaware, Maryland, New Jersey and Philadelphia	Pairs a DJ with a live drummer and emcee so a reception feels like a live band, serving weddings across the tri-state area.	info@crescendodjdrums.com	215-858-8868	https://crescendodjdrums.com/			`,
+  },
 ];
 
 export default batches;

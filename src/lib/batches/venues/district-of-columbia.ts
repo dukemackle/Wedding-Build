@@ -88,6 +88,18 @@ St. Thomas' Parish	1517 18th St NW	Washington	District of Columbia			Chapel & Ch
 Mess Hall	703 Edgewood St NE	Washington	District of Columbia			Industrial Loft & Warehouse					Brookland renovated warehouse of about 2,000 square feet with 18-foot ceilings that lists weddings among its private events.		202.248.0230	https://messhalldc.com/private-events/
 `,
   },
+  {
+    name: "Washington DC depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Mayflower Hotel, Autograph Collection	1127 Connecticut Ave NW	Washington	District of Columbia			Hotel & Resort	Indoor	500			A long-established downtown hotel with a Grand Ballroom for seated weddings, a smaller District Ballroom and a mezzanine for guests to mingle before the reception.		202-776-9150	https://www.marriott.com/hotels/event-planning/wedding-planning/wasak-the-mayflower-hotel-autograph-collection/
+The Darcy Hotel	1515 Rhode Island Ave NW	Washington	District of Columbia			Hotel & Resort	Indoor	200			A boutique hotel near Dupont Circle that hosts ceremonies, receptions, rehearsal dinners and morning-after brunches with in-house catering.	salesinquiries@thedarcyhotel.com	844-489-9661	https://www.thedarcyhotel.com/weddings
+Fathom Gallery Georgetown	1351 Wisconsin Ave NW	Washington	District of Columbia			Museum, Gallery & Rooftop	Indoor & Outdoor	150			A renovated theater turned gallery with high ceilings, skylights, a full kitchen and a fountain courtyard, suited to smaller weddings.	info@fathomvenuegroup.com	202-588-8111	https://www.fathomgallery.org/georgetown/
+Phoenix Park Hotel	520 N Capitol St NW	Washington	District of Columbia			Hotel & Resort	Indoor & Outdoor				A hotel beside Union Station offering indoor and outdoor spaces for wedding ceremonies and receptions, with three wedding packages.	Reservations@phoenixparkhotel.com	202-638-6900	https://www.phoenixparkhotel.com/meetings-events/weddings
+The Churchill Hotel Near Embassy Row	1914 Connecticut Ave NW	Washington	District of Columbia			Hotel & Resort	Indoor				A historic hotel in the Dupont and Embassy Row area that takes wedding bookings and room blocks for guests.	reservations@thechurchillhotel.com	202-797-2000	https://www.thechurchillhotel.com/meetings/weddings
+Page House	1628 16th St NW	Washington	District of Columbia			Historic Mansion & Estate	Indoor & Outdoor				A restored historic house in Dupont Circle with a ballroom, seven smaller rooms and a brick-framed courtyard and garden used for ceremonies.	jenna@hiveconsultingdc.com	202-369-5695	https://www.pagehousedc.com/
+The Schuyler	1001 14th St NW	Washington	District of Columbia			Ballroom	Indoor	450			A downtown event venue with about 12,000 square feet over two floors, a stage, a dance floor and an in-house catering kitchen.	bookme@theschuylerdc.com	202-218-7520	https://www.theschuylerdc.com/personal-celebrations/
+Divino Ristorante-Enoteca	2505 Wisconsin Ave NW	Washington	District of Columbia			Restaurant & Brewery	Indoor & Outdoor	160			An Italian restaurant and wine bar in Glover Park with a dining room, ballroom and terrace that can be booked for weddings or taken over in full.	info@divinodc.com	202-643-4065	https://www.divinodc.com/`,
+  },
 ];
 
 export default batches;

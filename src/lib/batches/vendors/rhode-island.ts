@@ -130,6 +130,22 @@ Oak Street Florals	Florals		Wakefield	Rhode Island	Rhode Island	Home-based Wakef
 Cedar Edge Floral	Florals		Richmond	Rhode Island	Rhode Island and eastern Connecticut	Organic flower farm in Richmond offering seasonal farm-grown wedding packages, full-service design, à la carte and DIY bundles.	cedaredgefarm@gmail.com		https://cedaredgefloral.com/	https://www.instagram.com/cedar_edge_floral/		
 `,
   },
+  {
+    name: "Providence and Newport: videography, music and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Neilan Media	Videography		Providence	Rhode Island	New England	Providence wedding film and photo team with four video packages, from six hours to a full day with drone footage and rehearsal dinner coverage.		508-431-7199	https://www.neilanmedia.com	https://www.instagram.com/neilanmedia/		
+Vargas Videography	Videography		Providence	Rhode Island	Newport, Providence and wider New England	Cinematic highlight films shot at Aquidneck Island venues, with packages for Newport, Providence and further afield across New England weddings.	info@vargasvideography.com		https://www.vargasvideography.com/newport-wedding-videographer	https://www.instagram.com/vargasvideography/	3000	package
+Conte Sound Productions	Music		Smithfield	Rhode Island	Rhode Island	Husband-and-wife DJ team working since 2000, adding live vocals, lighting, photo booths and an audio guestbook phone to its wedding sets.	contesound@gmail.com	401-757-9074	https://www.contesound.com	https://www.instagram.com/contestoundproductions/		
+Mercier Music Weddings and Events	Music		Mapleville	Rhode Island	Rhode Island	Wedding DJ and master of ceremonies with over fifteen years' experience, offering personalised playlists, ceremony audio and optional wedding video.	shane@merciermusicweddings.com	401-575-9175	https://www.merciermusicweddings.com/	https://www.instagram.com/merciermusicevents/		
+Brushed By Syd	Hair & Makeup	50 Industrial Circle St	Lincoln	Rhode Island	Newport, Providence and Boston	Bridal makeup artist with fifteen years' experience, building long-wearing, photo-ready looks for varied skin tones and long wedding days.	brushedbysyd@gmail.com	401-215-7651	https://www.brushedbysyd.com/	https://www.instagram.com/sydtess/		
+Melissa Barra Makeup	Hair & Makeup		North Providence	Rhode Island	Providence, Newport, Boston and New England	Soft-glam bridal makeup with airbrush and lash options, travelling to homes, hotels or salons, from an artist with over fourteen years' experience.			https://melissabarramakeup.com/	https://www.instagram.com/melissabarramakeup/		`,
+  },
+  {
+    name: "South County: planning and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Down Home Events	Planning		North Kingstown	Rhode Island	South County and Providence venues	Calm, practical wedding-day management from a planner with 17 years' experience, taking a limited number of South County and Providence weddings each season.			https://www.downhomeeventsri.com/	https://www.instagram.com/downhomeevents/		
+Endeavor Weddings	Videography		Wakefield	Rhode Island	Southern Rhode Island and New England	Music-video-style wedding films shot in 4K with drone and stabiliser work, plus highlight reels, short features and engagement films.			http://www.endeavorweddings.com/	https://www.instagram.com/endeavor_studios/		`,
+  },
 ];
 
 export default batches;
