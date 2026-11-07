@@ -1639,7 +1639,9 @@ function PreviewStage({
           className={site ? "relative overflow-auto" : "overflow-hidden"}
           style={outer}
         >
-          <div style={site ?? undefined}>
+          {/* Filling the screen, the iframe's 100% height needs a sized
+              parent here, or it falls back to the browser's 150px. */}
+          <div style={site ?? (fill ? { height: "100%" } : undefined)}>
             <iframe
               ref={frameRef}
               src={`/guests/site/preview?design=${designId}&samples=1`}
