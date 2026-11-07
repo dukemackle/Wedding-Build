@@ -1,5 +1,6 @@
 import { READING_WIDTH } from "@/lib/layout";
 import Link from "next/link";
+import { COMPANY_POSTAL_ADDRESS } from "@/lib/company";
 
 export const metadata = {
   title: "Privacy Policy",
@@ -11,7 +12,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: November 6, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: November 7, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -456,8 +457,8 @@ export default function PrivacyPage() {
               Questions about this Privacy Policy or your data? Contact us at{" "}
               <a href="mailto:privacy@youdoido.com" className="text-brass hover:underline">
                 privacy@youdoido.com
-              </a>
-              .
+              </a>{" "}
+              or by mail at You Do, I Do LLC, {COMPANY_POSTAL_ADDRESS}.
             </p>
           </Section>
         </div>
