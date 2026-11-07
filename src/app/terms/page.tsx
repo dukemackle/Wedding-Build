@@ -1,5 +1,6 @@
 import { READING_WIDTH } from "@/lib/layout";
 import Link from "next/link";
+import { COMPANY_POSTAL_ADDRESS } from "@/lib/company";
 
 export const metadata = {
   title: "Terms of Service",
@@ -232,8 +233,8 @@ export default function TermsPage() {
               Questions about these Terms? Contact us at{" "}
               <a href="mailto:hello@youdoido.com" className="text-brass hover:underline">
                 hello@youdoido.com
-              </a>
-              .
+              </a>{" "}
+              or by mail at You Do, I Do LLC, {COMPANY_POSTAL_ADDRESS}.
             </p>
           </Section>
         </div>
