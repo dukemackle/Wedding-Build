@@ -142,6 +142,29 @@ DMDJ Entertainment	Music		Dover	Delaware	Dover, Camden, Magnolia, Felton, Smyrna
 Cakerybake	Cake		Smyrna	Delaware		Smyrna bakery making tiered and single-tier wedding cakes alongside birthday and sculpted cakes, with a tasting box available.			https://www.cakerybake.com/	https://www.instagram.com/cakerybakebakery/		
 `,
   },
+  {
+    name: "Wilmington: photography, planning, florals and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+ROONI STUDIO	Florals		Wilmington	Delaware		Wilmington floral studio designing wedding flowers for ceremonies and receptions, from small gatherings to multi-space events, and happy to travel.	hello@roonistudio.com		https://www.roonistudio.com/weddings	https://www.instagram.com/thisisrooni/		
+Petals Flowers and Fine Gifts	Florals	4 West Rockland Road	Wilmington	Delaware		Wilmington flower shop doing custom wedding and event floral design, with online galleries of past weddings and a dedicated wedding inquiry form.	petalsflowers@comcast.net	(302) 654-9556	https://petalsflowersgifts.com/	https://www.instagram.com/petalsflowers/		
+Beauty Bar by Kristina Ruggerio	Hair & Makeup	1702 Augustine Cut-Off	Wilmington	Delaware		Wilmington salon doing bridal hair and makeup for the whole party, with in-house wedding coordination and travel to your venue for a fee.	BBKRfrontdesk@gmail.com	(302) 658-4400	https://www.beautybarbykristinaruggerio.com/bridal			
+Pixiest Photography	Photography	18 Cheswold Blvd	Newark	Delaware	New Castle County	Newark photographer covering full wedding days from ceremony to reception, with portraits, edited images and an online gallery; travels for weddings.	info@pixiestphotography.com	302-407-8775	https://pixiestphotography.com/wedding-photography/			
+Secretariat Wedding & Event Planning	Planning		Wilmington	Delaware		Wilmington wedding and event planning firm that has operated since 1948, helping couples choose vendors and run larger, formal weddings.			http://secevents.com/			
+`,
+  },
+  {
+    name: "Dover: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Aster & Daffodil Photo Co.	Photography		Dover	Delaware	Wilmington, Dover, Rehoboth Beach and points between	Dover-based wedding photographer covering Kent County celebrations and the stretch from Wilmington down to Rehoboth Beach.	asterdaffodilphotoco@gmail.com		https://asterdaffodilphoto.com/	https://www.instagram.com/asterdaffodilphotoco/		
+Flat Ridge Photography	Photography		Dover	Delaware	Delaware, Pennsylvania and Maryland	Owner-run wedding and family photographer in Dover who regularly travels for couples across Delaware, Pennsylvania and Maryland.			https://www.flatridgephotography.com/	https://www.instagram.com/flatridgephotography/		
+`,
+  },
+  {
+    name: "Rehoboth Beach: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Angie Moon Photographer	Photography		Harbeson	Delaware	East coast and beyond	Eastern Shore of Delaware photographer with wedding and portrait galleries, working out of Harbeson and happy to travel for couples.	angiemoon@verizon.net	(302) 841-5519	http://www.angiemoonphotographer.com/	https://www.instagram.com/angiemoonphotographer/		
+`,
+  },
 ];
 
 export default batches;

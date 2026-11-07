@@ -108,6 +108,28 @@ Isis Cakes	Cake	221 Robinson St	Wakefield	Rhode Island		Small-batch custom weddi
 Vesta Bakery	Cake	47 Railroad Ave	Westerly	Rhode Island		Westerly bakery that specialises in wedding and specialty cakes alongside artisan breads and pastries.	allysonmansfield@yahoo.com	401-348-7055	https://vestabakery.com	https://www.instagram.com/vestabakery/		
 Aldo's Bakery & Ice Cream	Cake	130 Weldons Way	Block Island	Rhode Island	Block Island	Family-run Old Harbor bakery on Block Island that makes custom wedding cakes and caters events, with boat delivery available.	Albaker123@yahoo.com	401-466-2198	https://aldosbakery.com	https://www.instagram.com/aldosbakeryblockisland/		`,
   },
+  {
+    name: "Providence and Newport: planning, florals, cake and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Cose Bella Events	Planning		Warren	Rhode Island	Bristol, Warren, Barrington, Newport and destination weddings	Warren planning company offering personal, hands-on wedding planning and design across Bristol County, Newport and destinations.	info@cosebellaevents.com	401-369-1434	https://www.cosebellaevents.com/	https://www.instagram.com/cosebellaevents/		
+Blooming Blossoms	Florals	780 Hope Street	Providence	Rhode Island	Rhode Island and Southern New England	Woman-owned Providence wedding florist with over 30 years' experience, offering pickup, delivery-and-setup and full-service design packages.	bloomingblossomsweddings@gmail.com		https://www.blooming-blossoms.com/	https://www.instagram.com/bloomingblossoms.wedding/		
+Plant Girl Floral	Florals		Newport	Rhode Island	Newport, Narragansett, Jamestown, Providence, Bristol, Middletown and Portsmouth	Newport wedding florist designing ceremony, personal and reception flowers for local venues, with full delivery, installation and strike.	christine@plantgirlfloral.com		https://plantgirlfloral.com/wedding-florist-in-newport-ri-plant-girl-floral/	https://www.instagram.com/plant.girl.floral/		
+Carlone's Florist	Florals	16 Dexter Street	Portsmouth	Rhode Island	Portsmouth, Newport and nearby Rhode Island and Massachusetts towns	Long-established Portsmouth florist, about six decades in business, handling custom wedding flowers for Aquidneck Island and Newport couples.		(401) 683-0304	https://carlonesflorist.com/	https://www.instagram.com/carlonesflorist/		
+The Cake Gallery	Cake	555 Hope Street	Bristol	Rhode Island	Rhode Island and Massachusetts	Bristol bakery making custom wedding cakes since 1991, with cupcake bouquets and specialty cakes for couples across Rhode Island.		401-254-1911	https://www.thecakegalleryri.com/wedding-cakes/			
+Carina e Dolce	Cake	1402 Plainfield Pike	Cranston	Rhode Island		Cranston specialty cake and cookie shop offering custom wedding cakes by appointment, with gluten-free options on request.		401-301-1334	https://www.carinaedolce.com/			
+Xtreme Soundz DJ	Music	2760 Pawtucket Ave	East Providence	Rhode Island	Newport to Boston	East Providence wedding DJ with uplighting and dance lighting, specialising in Portuguese, Italian and Spanish music for Southern New England.		401-499-9596	https://www.xtremesoundzri.com/	https://www.instagram.com/xtremesoundzdj/		
+Main Event Weddings (Bob Carpenter)	Music	2 Industrial Dr South, Unit 10	Smithfield	Rhode Island	Providence, Newport, Warwick, Cranston, Pawtucket and Connecticut and Massachusetts	Smithfield wedding DJ and MC with over 20 years' experience, providing music, sound, lighting and day-of coordination across Rhode Island.	maineventweddings@gmail.com	401-829-6673	https://www.maineventweddings.com/wedding-dj-services-ri-ma.php			
+`,
+  },
+  {
+    name: "South County: planning and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Daly Planning	Planning		Westerly	Rhode Island	Rhode Island and Connecticut	Westerly planner for weddings offering 12, 6 and 3-month planning packages, weekend-of and day-of coordination, and à la carte help.	dalyplanningevents@gmail.com		http://www.dalyplanning.com/	https://www.instagram.com/dalyplanning/		
+Flowerthyme Floral	Florals	135 Main St	Wakefield	Rhode Island		Long-running Wakefield florist for bridal and attendant bouquets, ceremony and reception flowers, plus rentals and consultations.		(401) 792-3440	https://www.flowerthyme.net/wedding-flowers	https://www.instagram.com/joythyme1/		
+Oak Street Florals	Florals		Wakefield	Rhode Island	Rhode Island	Home-based Wakefield florist doing bouquets, arches and centrepieces for weddings, including small elopement orders.	skimmerlein@oakstreetflorals.com	(401) 207-3950	https://oakstreetflorals.com/	https://www.instagram.com/oakstreetflorals/		
+Cedar Edge Floral	Florals		Richmond	Rhode Island	Rhode Island and eastern Connecticut	Organic flower farm in Richmond offering seasonal farm-grown wedding packages, full-service design, à la carte and DIY bundles.	cedaredgefarm@gmail.com		https://cedaredgefloral.com/	https://www.instagram.com/cedar_edge_floral/		
+`,
+  },
 ];
 
 export default batches;
