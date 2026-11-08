@@ -31,22 +31,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Only listings that are also allowed in the index -- a sitemap entry for a
   // noindex page is a mixed signal.
+  // Google ignores priority, but lastmod it uses when it's accurate: a
+  // listing's is when we last checked it against the business's website.
   const entry = (href: string, row: Row): MetadataRoute.Sitemap[number] => ({
     url: `${SITE_URL}${href}`,
     lastModified: row.last_verified_at ?? undefined,
+    priority: 0.5,
   });
 
   // Metro hubs, only once they have enough indexable listings to be indexed
   // themselves (the same rule as the hub page's own robots tag).
   const hubs = (["venues", "vendors"] as const).flatMap((kind) => {
     const counts = new Map<string, number>();
+    // A hub changes when one of its listings does: its lastmod is the newest.
+    const newest = new Map<string, string>();
     for (const row of kind === "venues" ? venues : vendors) {
       if (!isIndexable(row) || row.is_sample) continue;
       const metro = metroForPoint(row.latitude, row.longitude);
-      if (metro) counts.set(metro.slug, (counts.get(metro.slug) ?? 0) + 1);
+      if (!metro) continue;
+      counts.set(metro.slug, (counts.get(metro.slug) ?? 0) + 1);
+      const at = row.last_verified_at as string;
+      if (at > (newest.get(metro.slug) ?? "")) newest.set(metro.slug, at);
     }
     return METROS.filter((m) => (counts.get(m.slug) ?? 0) >= MIN_INDEXABLE).map(
-      (m): MetadataRoute.Sitemap[number] => ({ url: `${SITE_URL}${metroHref(kind, m)}`, changeFrequency: "weekly", priority: 0.8 }),
+      (m): MetadataRoute.Sitemap[number] => ({
+        url: `${SITE_URL}${metroHref(kind, m)}`,
+        lastModified: newest.get(m.slug),
+        changeFrequency: "weekly",
+        priority: 0.8,
+      }),
     );
   });
 

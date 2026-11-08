@@ -34,6 +34,7 @@ import {
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
 import { BookingFactsCard } from "@/components/booking-facts-card";
+import { nearestListings } from "@/lib/listing-seo";
 import { priceCheckedNote, priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
 
 /**
@@ -76,13 +77,7 @@ export async function loadVenueListing(
     .maybeSingle<Venue>();
   if (!venue) return null;
 
-  const similarityFilters = [
-    // Quoted: "Museum, Gallery & Rooftop" has a comma, which would split the or().
-    venue.venue_type ? `venue_type.eq."${venue.venue_type}"` : null,
-    venue.state ? `state.eq.${venue.state}` : null,
-  ].filter((f): f is string => Boolean(f));
-
-  const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: plans }, { data: preferredVendors }, { data: similarVenues }] =
+  const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: plans }, { data: preferredVendors }, similarVenues] =
     await Promise.all([
       userId
         ? supabase
@@ -101,17 +96,9 @@ export async function loadVenueListing(
         .eq("venue_id", venue.id)
         .order("sort_order")
         .returns<VenuePreferredVendor[]>(),
-      similarityFilters.length
-        ? supabase
-            .from("venues")
-            .select(columns)
-            .eq("active", true)
-            .eq("is_sample", false)
-            .neq("id", venue.id)
-            .or(similarityFilters.join(","))
-            .limit(3)
-            .returns<Venue[]>()
-        : Promise.resolve({ data: [] as Venue[] }),
+      // The nearest venues, so each listing links to its own neighbours
+      // (src/lib/listing-seo.ts).
+      nearestListings<Venue>(supabase, "venues", venue, columns, 3),
     ]);
 
   const { data: shortlistEntry } = wedding
@@ -132,7 +119,7 @@ export async function loadVenueListing(
     spaces: spaces ?? [],
     plans: plans ?? [],
     preferredVendors: preferredVendors ?? [],
-    similarVenues: similarVenues ?? [],
+    similarVenues,
   };
 }
 
@@ -392,7 +379,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
 
           {similarVenues.length > 0 && !preview && (
             <div>
-              <h2 className="font-display text-xl font-semibold text-forest">More venues like this</h2>
+              <h2 className="font-display text-xl font-semibold text-forest">More venues nearby</h2>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {similarVenues.map((v) => (
                   <Link

@@ -20,6 +20,7 @@ import {
   vendorHref,
   verifiedLabel,
 } from "@/lib/public-listings";
+import { nearestListings } from "@/lib/listing-seo";
 import { UnclaimedNote } from "@/components/unclaimed-note";
 import { VendorDetailClient } from "./vendor-detail-client";
 
@@ -58,7 +59,7 @@ export async function loadVendorListing(
     .maybeSingle<Vendor>();
   if (!vendor) return null;
 
-  const [{ data: wedding }, { data: faqs }, { data: similarVendors }] = await Promise.all([
+  const [{ data: wedding }, { data: faqs }, similarVendors] = await Promise.all([
     userId
       ? supabase
           .from("weddings")
@@ -67,16 +68,11 @@ export async function loadVendorListing(
           .maybeSingle<Wedding>()
       : Promise.resolve({ data: null }),
     supabase.from("vendor_faqs").select("*").eq("vendor_id", vendor.id).order("sort_order").returns<VendorFaq[]>(),
+    // The nearest of the same kind, so each listing links to its own
+    // neighbours (src/lib/listing-seo.ts).
     vendor.category
-      ? supabase
-          .from("vendors")
-          .select(columns)
-          .eq("active", true)
-          .eq("category", vendor.category)
-          .neq("id", vendor.id)
-          .limit(3)
-          .returns<Vendor[]>()
-      : Promise.resolve({ data: [] as Vendor[] }),
+      ? nearestListings<Vendor>(supabase, "vendors", vendor, columns, 3, { category: vendor.category })
+      : Promise.resolve([] as Vendor[]),
   ]);
 
   const { data: favorite } = wedding
@@ -94,7 +90,7 @@ export async function loadVendorListing(
     wedding: wedding ?? null,
     isFavorited: Boolean(favorite),
     faqs: faqs ?? [],
-    similarVendors: similarVendors ?? [],
+    similarVendors,
   };
 }
 
@@ -268,7 +264,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
           {similarVendors.length > 0 && !preview && (
             <div>
               <h2 className="font-display text-xl font-semibold text-forest">
-                More {vendor.category?.toLowerCase() ?? "vendors"} like this
+                More {vendor.category?.toLowerCase() ?? "vendors"} nearby
               </h2>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {similarVendors.map((v) => (

@@ -5,6 +5,7 @@ import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { JsonLd } from "@/components/json-ld";
+import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/listing-seo";
 import {
   HubBreadcrumb,
   HubButton,
@@ -20,7 +21,7 @@ import {
   type HubFact,
 } from "@/components/metro-hub";
 import { anchorSlug, countBy, hubIsIndexable, loadMetroListings, metroBySlug, metroHref } from "@/lib/metros";
-import { SITE_URL, VENDOR_LIST_COLUMNS, vendorHref, type VendorListing } from "@/lib/public-listings";
+import { VENDOR_LIST_COLUMNS, vendorHref, type VendorListing } from "@/lib/public-listings";
 import { vendorCategoryImage } from "@/lib/vendor-category-icons";
 import { VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import type { VendorPriceUnit } from "@/lib/supabase/types";
@@ -127,18 +128,23 @@ export default async function MetroVendorsPage({ params }: { params: Promise<{ m
     named.length ? `. The most listed here: ${named.join(", ")}.` : "."
   }`;
 
-  const breadcrumb = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Wedding vendors", item: `${SITE_URL}/vendors` },
-      { "@type": "ListItem", position: 2, name: `${metro.name} area`, item: `${SITE_URL}${href}` },
-    ],
-  };
+  // Matches the visible crumbs; the ItemList names every listing the page
+  // links to (src/lib/listing-seo.ts).
+  const jsonLd = [
+    breadcrumbJsonLd([
+      { name: "Wedding vendors", href: "/vendors" },
+      { name: "Cities", href: "/cities" },
+      { name: `${metro.name} area`, href },
+    ]),
+    itemListJsonLd(
+      `Wedding vendors in ${metro.name}, ${metro.state}`,
+      vendors.map((row) => ({ name: row.name, href: vendorHref(row) })),
+    ),
+  ];
 
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={jsonLd} />
       <HubBreadcrumb items={[{ label: "Wedding vendors", href: "/vendors" }, { label: "Cities", href: "/cities" }, { label: `${metro.name} area` }]} />
       <HubHero
         title={["Wedding vendors in ", `, ${metro.state}`]}
