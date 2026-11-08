@@ -12,7 +12,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: November 7, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: November 8, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -234,6 +234,11 @@ export default function PrivacyPage() {
               <li>
                 send emails the Service needs — RSVP confirmations, vendor inquiries and reminders
                 you choose to send, and a notice when someone messages you in the marketplace;
+              </li>
+              <li>
+                send a few planning reminders timed to your wedding date (skipping anything already
+                ticked off your checklist), each with a link to stop them, which you can also do on
+                your Account page;
               </li>
               <li>
                 send occasional planning tips and news, only if you turned that on, each with an

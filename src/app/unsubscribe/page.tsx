@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 export default async function UnsubscribePage({
   searchParams,
 }: {
-  searchParams: Promise<{ e?: string; t?: string; done?: string; error?: string }>;
+  searchParams: Promise<{ e?: string; t?: string; l?: string; done?: string; error?: string }>;
 }) {
-  const { e, t, done, error } = await searchParams;
+  const { e, t, l, done, error } = await searchParams;
+  const reminders = l === "reminders";
 
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-24">
@@ -22,16 +23,20 @@ export default async function UnsubscribePage({
           <>
             <h1 className="mt-2 font-display text-3xl font-semibold text-forest">You&apos;re unsubscribed</h1>
             <p className="mt-4 text-sm text-ink/70">
-              We won&apos;t send that address any more news or invitations. You&apos;ll still get emails
-              you asked for, like RSVPs and replies to your inquiries.
+              {reminders
+                ? "No more planning reminders to that address. You can turn them back on from your account."
+                : "We won't send that address any more news or invitations. You'll still get emails you asked for, like RSVPs and replies to your inquiries."}
             </p>
           </>
         ) : (
           <>
-            <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Unsubscribe</h1>
+            <h1 className="mt-2 font-display text-3xl font-semibold text-forest">
+              {reminders ? "Stop planning reminders" : "Unsubscribe"}
+            </h1>
             <p className="mt-4 text-sm text-ink/70">
-              Stop news and invitations from You Do, I Do. Emails you asked for, like RSVPs and
-              replies to your inquiries, keep coming.
+              {reminders
+                ? "Stop the emails timed to your wedding date. Your checklist and everything else keep working."
+                : "Stop news and invitations from You Do, I Do. Emails you asked for, like RSVPs and replies to your inquiries, keep coming."}
             </p>
             {error && (
               <p className="mt-4 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
@@ -40,6 +45,7 @@ export default async function UnsubscribePage({
             )}
             <form className="mt-6 flex flex-col gap-4" action={unsubscribe}>
               {t && <input type="hidden" name="t" value={t} />}
+              {reminders && <input type="hidden" name="l" value="reminders" />}
               <label className="flex flex-col gap-1 text-sm text-ink">
                 Email
                 <input
@@ -55,7 +61,7 @@ export default async function UnsubscribePage({
                 pendingText="Unsubscribing..."
                 className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
               >
-                Unsubscribe
+                {reminders ? "Stop reminders" : "Unsubscribe"}
               </PendingSubmit>
             </form>
           </>

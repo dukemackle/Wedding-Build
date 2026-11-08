@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Wedding } from "@/lib/supabase/types";
-import { normalizeEmail, recordOptOut } from "@/lib/unsubscribe";
+import { normalizeEmail, recordOptOut, recordReminderOptOut } from "@/lib/unsubscribe";
 
 // Every bucket that stores objects under a `<wedding_id>/` prefix. Deleting
 // the wedding row cascades the database records but never touches storage, so
@@ -147,6 +147,11 @@ export async function setMarketingOptIn(formData: FormData) {
     );
   } else {
     await recordOptOut(email, "account");
+  }
+  if (formData.get("planning_reminders") === "on") {
+    await createAdminSupabaseClient().from("planning_reminder_opt_outs").delete().eq("email", email);
+  } else {
+    await recordReminderOptOut(email, "account");
   }
   redirect("/account?saved=email");
 }

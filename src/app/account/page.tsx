@@ -31,13 +31,14 @@ export default async function AccountPage({
 
   // Service role: consent rows are keyed by email and have no RLS policies,
   // and this reads only the signed-in user's own address.
-  const { data: consent } = user.email
-    ? await createAdminSupabaseClient()
-        .from("marketing_consents")
-        .select("opted_in")
-        .eq("email", normalizeEmail(user.email))
-        .maybeSingle<{ opted_in: boolean }>()
-    : { data: null };
+  const admin = createAdminSupabaseClient();
+  const address = user.email ? normalizeEmail(user.email) : null;
+  const [{ data: consent }, { data: reminderOptOut }] = address
+    ? await Promise.all([
+        admin.from("marketing_consents").select("opted_in").eq("email", address).maybeSingle<{ opted_in: boolean }>(),
+        admin.from("planning_reminder_opt_outs").select("email").eq("email", address).maybeSingle(),
+      ])
+    : [{ data: null }, { data: null }];
 
   const isOwner = wedding?.user_id === user.id;
   const coupleNames = wedding
@@ -85,6 +86,18 @@ export default async function AccountPage({
             <span>
               Occasional planning tips and news from You Do, I Do. Emails about your own wedding,
               like RSVPs and reminders you set, come either way.
+            </span>
+          </label>
+          <label className="mt-3 flex items-start gap-2 text-sm text-ink/80">
+            <input
+              type="checkbox"
+              name="planning_reminders"
+              defaultChecked={!reminderOptOut}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-forest"
+            />
+            <span>
+              Planning reminders timed to your wedding date, like when to send invitations. A few a
+              year, and never for anything already ticked off your checklist.
             </span>
           </label>
           <div className="mt-4 flex items-center gap-3">
