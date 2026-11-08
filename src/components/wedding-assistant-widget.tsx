@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   applyAssistantProposal,
   askWeddingAssistant,
@@ -453,9 +453,66 @@ export function AssistantChat({
   );
 }
 
+// Full-screen editors whose phone layout is a row of tools along the bottom
+// edge. The floating bird would sit on the last tool, so below lg it hides
+// and Wren is reached from the menu instead ("Ask Wren").
+const EDITOR_ROUTES = ["/guests/site/edit/", "/guests/save-the-date/edit/", "/guests/invitations/edit/"];
+
+// Gap between the bird and the screen edge (bottom-5 / right-5), and the
+// width of the corner it occupies, button plus a little air.
+const EDGE = 20;
+const CORNER = 48 + EDGE + 12;
+
+/**
+ * How far to raise the bird so it clears any bottom bar on the page. A bar
+ * opts in with `data-wren-avoid`; only one that is actually pinned near the
+ * bottom of the screen and reaches into the right-hand corner counts, so the
+ * same bar can be static on desktop and fixed on a phone without either page
+ * saying which.
+ */
+function useWrenLift(active: boolean) {
+  const [lift, setLift] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const h = window.innerHeight;
+      const w = window.innerWidth;
+      let next = 0;
+      document.querySelectorAll<HTMLElement>("[data-wren-avoid]").forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.height === 0 || r.width === 0) return;
+        if (r.right < w - CORNER || r.left > w) return;
+        if (r.bottom < h - 80 || r.top > h) return;
+        next = Math.max(next, h - r.top + 12 - EDGE);
+      });
+      setLift(Math.max(0, Math.round(next)));
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true, capture: true });
+    window.addEventListener("resize", schedule);
+    const observer = new MutationObserver(schedule);
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule, { capture: true });
+      window.removeEventListener("resize", schedule);
+      observer.disconnect();
+    };
+  }, [active]);
+  return active ? lift : 0;
+}
+
 export function WeddingAssistantWidget() {
   const { open, setOpen } = useAssistant();
   const [expanded, setExpanded] = useState(false);
+  const pathname = usePathname();
+  const onEditor = EDITOR_ROUTES.some((route) => pathname.startsWith(route));
+  const lift = useWrenLift(!open);
 
   // Expanded is two different things: on a phone the chat takes the whole
   // screen (there's no room for a bigger floating box), on desktop the panel
@@ -464,8 +521,16 @@ export function WeddingAssistantWidget() {
     ? "fixed inset-0 z-50 rounded-none sm:static sm:inset-auto sm:h-[min(44rem,calc(100vh-7rem))] sm:w-[34rem] sm:rounded-lg"
     : "h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] rounded-lg";
 
+  // Closed, the bird sits one layer below the page's own sheets and menus
+  // (z-50) so an open sheet covers it rather than the other way round; open,
+  // the chat comes to the front.
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+    <div
+      style={{ bottom: EDGE + lift }}
+      className={`fixed right-5 flex flex-col items-end gap-3 transition-[bottom] duration-200 ${
+        open ? "z-50" : "z-40"
+      } ${onEditor && !open ? "max-lg:hidden" : ""}`}
+    >
       {open && (
         <div className={`flex flex-col overflow-hidden border border-hairline bg-parchment shadow-lg ${panelSize}`}>
           <AssistantChat
@@ -480,7 +545,7 @@ export function WeddingAssistantWidget() {
         type="button"
         onClick={() => setOpen(!open)}
         aria-label={open ? "Close Wren, your wedding assistant" : "Open Wren, your wedding assistant"}
-        className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-wren bg-card text-ink shadow-lg hover:bg-wren-soft"
+        className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-wren bg-card text-ink shadow-lg hover:bg-wren-soft sm:h-12 sm:w-12"
       >
         {open ? <CloseIcon className="h-5 w-5" /> : <AnimatedWrenBird className="h-6 w-6" hopOnce />}
       </button>

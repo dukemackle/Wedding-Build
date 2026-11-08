@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { CloseIcon } from "@/components/icons";
+import { CloseIcon, WrenBirdIcon } from "@/components/icons";
+import { useAssistant } from "@/components/assistant-context";
 import {
   Badge,
   DASHBOARD_TAB,
@@ -51,6 +52,7 @@ export function MobileNav({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const assistant = useAssistant();
   const hasUnread = Object.values(badges).some(Boolean);
 
   /**
@@ -156,6 +158,19 @@ export function MobileNav({
 
             <nav className="flex-1 overflow-y-auto overscroll-contain px-2 py-2">
               {single(DASHBOARD_TAB)}
+              {/* Wren from the menu too: on the editors the floating bird is
+                  hidden on phones so it doesn't cover the bottom tools. */}
+              <button
+                type="button"
+                onClick={() => {
+                  close();
+                  assistant.setOpen(true);
+                }}
+                className="flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left"
+              >
+                <Tile icon={WrenBirdIcon} tile="bg-wren-soft text-[#2243B6]" />
+                <span className="font-sans text-[15px] font-semibold text-ink">Ask Wren</span>
+              </button>
               {NAV_ITEMS.map((item) => {
                 if (!isNavGroup(item)) {
                   return (

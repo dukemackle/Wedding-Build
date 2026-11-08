@@ -199,7 +199,7 @@ export function Conversation({
           {blocked ? `You've blocked ${otherName}.` : "This listing was taken down, so the conversation is closed."}
         </p>
       ) : (
-        <div className="sticky bottom-0 border-t border-hairline bg-card px-3 py-3">
+        <div data-wren-avoid className="sticky bottom-0 border-t border-hairline bg-card px-3 py-3">
           {shown.length <= 2 && (
             <div className="mb-2 flex gap-2 overflow-x-auto [scrollbar-width:none]">
               {QUICK_REPLIES[role].map((q) => (
