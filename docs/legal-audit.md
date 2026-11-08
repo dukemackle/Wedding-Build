@@ -460,7 +460,7 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 | R3 | Privacy Policy mismatches | High | High | Fixed, live 2026-10-21 (Oct 19 policy); attorney review still queued (A5) | Code + attorney |
 | R4 | No entity; Terms gaps | High | Med | In progress: You Do, I Do LLC (California) approved 2026-10-27; entity named in Terms, Privacy, site and email footers. EIN obtained 2026-10-27. Mailing address (Anytime Mailbox, Encinitas) in Terms, Privacy and /copyright 2026-11-07 (`src/lib/company.ts`). `MARKETING_POSTAL_ADDRESS` set in Cloudflare (owner, 2026-11-08). Open: IP assignment to the LLC, Terms redraft, attorney review | Owner + attorney |
 | R5 | "Verified" listing wording; no unclaimed notice | High | Med | Fixed, live 2026-10-21: "Checked against their website", unclaimed/not-affiliated note, "take it down" report reason (0123) | Code |
-| R6 | Incomplete deletion; unencrypted backups; no export | High | Med | Deletion fix live. Backups encrypted (AES-256-GCM, `BACKUP_ENCRYPTION_KEY`) once the owner sets the key; files deleted from Storage leave the mirror after Drive's 30-day trash. Open: plaintext copies in the GitHub repo's history (owner: recreate the repo), data export | Code + owner |
+| R6 | Incomplete deletion; unencrypted backups; no export | High | Med | Deletion fix live. Backups encrypted (AES-256-GCM, `BACKUP_ENCRYPTION_KEY`) once the owner sets the key; files deleted from Storage leave the mirror after Drive's 30-day trash. Data export built 2026-11-08 (/account → Download your data, `src/app/account/export/route.ts`). Open: plaintext copies in the GitHub repo's history (owner: recreate the repo) | Code + owner |
 | R7 | No DMCA agent or process | High | Med | Fixed 2026-11-07 (0162): `/copyright` page (notice, counter-notice, 3-strike repeat-infringer policy), Terms §4 paragraph, footer link, `/admin/copyright` notice log with strike counts. Agent filed with the Copyright Office 2026-11-07 (agent email hello@youdoido.com, Encinitas mailbox); renew every 3 years (due 2029-11) | Owner + code |
 | R8 | Weak claim verification | Med-High | Med | Mostly fixed: no claim link to a couple-typed address; links last 90 days (refreshed after 60); a new link after every approved claim; the old contact address is emailed when it's replaced; only the latest approved submitter can request links. Claim-form photos (2026-11-07): shrunk in the browser (drops EXIF location), uploaded by the server after a byte check; venue/vendor photo buckets limited to JPEG/PNG/WebP/PDF, 20MB (0162). Unreviewed claim photos still sit at unguessable public URLs until approval | Code |
 | R9 | No insurance known | High | Low–Med | Open (ask owner) | Owner + broker |
@@ -506,7 +506,7 @@ Update section 12 and the "Last updated" dates.
   - Honest scraper User-Agent and robots.txt.
 - **60 days:**
   - Attorney review (A2–A5), then publish the Terms and Privacy.
-  - Data export.
+  - ~~Data export.~~ Built 2026-11-08.
   - Accessibility pass and Turnstile.
   - DPAs accepted.
   - Unsubscribe and address in email footers.
