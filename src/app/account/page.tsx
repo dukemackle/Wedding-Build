@@ -98,6 +98,22 @@ export default async function AccountPage({
           </div>
         </form>
 
+        <div className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm">
+          <h2 className="font-display text-xl font-semibold text-forest">Download your data</h2>
+          <p className="mt-2 text-sm text-ink/80">
+            {wedding
+              ? "One file with everything on your wedding: guests, RSVPs, budget, checklist, schedule, seating, vendors and your guest site. Photos and contracts are included as links."
+              : "One file with your account details."}
+          </p>
+          <a
+            href="/account/export"
+            download
+            className="mt-4 inline-block rounded-md border border-forest px-4 py-2 text-sm font-medium text-forest transition-colors hover:bg-forest/5"
+          >
+            Download (.json)
+          </a>
+        </div>
+
         <div className="mt-8 rounded-lg border border-red-300 bg-red-50 p-6">
           <h2 className="font-display text-xl font-semibold text-red-900">Delete account</h2>
           <p className="mt-2 text-sm text-red-900/80">

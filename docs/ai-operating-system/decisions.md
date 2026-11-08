@@ -334,3 +334,16 @@ rules, batch self-merge, 50-state coverage, page widths) and
   noindex until they have 8 indexable listings.
 - Trade-off: the footer now lists 30 hub links. Check first whether Google
   indexes the hubs at all (Search Console) before adding many more.
+
+## 2026-11-08: Guest texting waits; error alerts by email, not Sentry
+
+- Decision (owner): don't fund Twilio or register A2P 10DLC yet. Twilio keys
+  aren't set in production, so no texts were going out; the RSVP form now
+  hides "Text me schedule changes" until they are (`smsConfigured()` in
+  `src/lib/sms.ts`), so guests aren't promised texts that never come.
+- Error alerts go by email through Resend (already a sub-processor), no
+  Sentry, so the Privacy Policy doesn't change.
+- Why: the first invited couples can use email; texting costs money and
+  weeks of registration for a feature no one uses yet.
+- Revisit: when couples ask for texts. Then add funds, register the brand and
+  campaign (Account Notifications), set the three TWILIO_* secrets.

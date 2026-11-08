@@ -19,6 +19,7 @@ import { RsvpForm } from "./rsvp-form";
 import { HouseholdRsvpForm } from "./household-rsvp-form";
 import type { Household } from "@/lib/households";
 import { turnstileSiteKey } from "@/lib/turnstile";
+import { smsConfigured } from "@/lib/sms";
 import { RsvpSection } from "./rsvp-section";
 import { rsvpNotOpenYet } from "@/lib/rsvp-opening";
 import { ItineraryView } from "./itinerary-view";
@@ -290,6 +291,7 @@ export function GuestSiteView({
               weddingId={wedding.id}
               slug={wedding.public_slug}
               turnstileSiteKey={turnstileSiteKey()}
+              smsEnabled={smsConfigured()}
               partnerAName={wedding.partner_a_name}
               partnerBName={wedding.partner_b_name}
               mealOptions={wedding.meal_options}

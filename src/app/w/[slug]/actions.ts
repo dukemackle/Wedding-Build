@@ -8,6 +8,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { SITE_URL } from "@/lib/public-listings";
 import { SMS_CONSENT_DETAIL } from "@/lib/sms-consent";
+import { smsConfigured } from "@/lib/sms";
 import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
 import { trackEvent } from "@/lib/events";
@@ -186,7 +187,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   const events = await eventAnswers(formData, weddingId, guestName, status === "confirmed");
   const dietary = field(formData, "dietary", 300);
   const phone = field(formData, "phone", 30);
-  const smsOptIn = formData.get("sms_opt_in") === "on" && !!phone;
+  const smsOptIn = smsConfigured() && formData.get("sms_opt_in") === "on" && !!phone;
 
   // Written by the app, not the browser: the limits above are the only way in (0140).
   const { error } = await createAdminSupabaseClient().from("rsvp_submissions").insert({
