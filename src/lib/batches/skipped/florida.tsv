@@ -64,7 +64,6 @@ Vendor	Asteria Beauty Studio	Hair & Makeup	Orlando	Florida	Site dead		2026-10-09
 Vendor	Havana 1957	Catering	Miami Beach	Florida	Franchise	https://havana1957.com/	2026-10-09
 Vendor	Eventorist	Florals	Miami	Florida	Site back up	https://eventorist.com/	2026-10-09
 Vendor	Trias	Florals	Miami	Florida	Site back up	https://www.triasevents.com/	2026-10-09
-Vendor	Afrodita's Events	Planning	Miami	Florida	Site back up	https://afroditasevents.com/	2026-10-09
 Vendor	Catherine Ann Photography	Photography	Miami	Florida	Site back up	https://catherineannphotography.com/miami-wedding-photographer/	2026-10-09
 Vendor	Masi Events	Planning	Miami/Palm Beach	Florida	Site back up	https://masievents.com/	2026-10-09
 Vendor	Tickled Pink Weddings + Events	Planning	Orlando	Florida	Inactive	https://tickledpinkbrides.com/contact/	2026-10-09
@@ -326,9 +325,8 @@ Vendor	Just Think Cake	Cake	Fort Walton Beach	Florida	No website	https://m.weddi
 Vendor	Taste of the Robersons	Catering	Tallahassee	Florida	No website	https://zola.com/wedding-vendors/search/tallahassee-fl--wedding-catering--null	2026-10-19
 Vendor	Nicole Everson Photography	Photography	Tallahassee	Florida	Site blocks automated visits, unconfirmed	https://nicoleeversonphotography.com/tallahassee-wedding-photographers/	2026-10-19
 Vendor	Sarasota Fleurs	Florals	Sarasota	Florida	Site blocks automated visits, unconfirmed	https://www.sarasotafleurs.com/	2026-10-19
-Vendor	Todo Dulces	Cake	Miami	Florida	Site back up	https://www.tododulces.com/	2026-10-19
 Vendor	Sara Sharpe Catering	Catering	Miami	Florida	Inactive	https://www.sarasharpecatering.com/	2026-10-19
-Vendor	Madelyn's Cake	Cake	Hialeah	Florida	Site back up	https://www.mapquest.com/us/florida/madelyns-cake-22224623	2026-10-19
+Vendor	Madelyn's Cake	Cake	Hialeah	Florida	No website	https://www.mapquest.com/us/florida/madelyns-cake-22224623	2026-10-19
 Vendor	Amazing Cakes and Creations	Cake	Key West	Florida	Site blocks automated visits, unconfirmed	https://www.tripadvisor.com/Restaurant_Review-g34345-d10266201-Reviews-Amazing_Cakes_And_Creations-Key_West_Florida_Keys_Florida.html	2026-10-19
 Vendor	Over The Decades	Florals	Miami	Florida	Site dead	https://www.overthedecadesshop.com/florals	2026-10-19
 Vendor	Shutter & Sound	Videography	Miami	Florida	Franchise	https://shutterandsound.com/	2026-10-19
@@ -560,7 +558,6 @@ Vendor	ZionProduction Films	Videography	Miami	Florida	Inactive	http://www.zionpr
 Vendor	Majestic Limousine	Transportation	Coral Gables	Florida	No website	https://theknot.com/marketplace/majestic-limousine-service-coral-gables-fl-387170	2026-10-22
 Vendor	Crafty Bartenders	Bar	Miami	Florida	No wedding page	https://www.craftybartenders.com/	2026-10-22
 Vendor	LaMod Bakery	Cake	Miami	Florida	No wedding page	https://www.lamodbakery.com/	2026-10-22
-Vendor	The Asado Authority	Catering	Miami	Florida	Site back up	https://www.theasadoauthority.com/	2026-10-22
 Vendor	Nomad Mobile Bar	Bar	Miami Beach	Florida	Site dead	https://www.nomadmobilebar.com/	2026-10-22
 Vendor	Miami Cheese Shop	Catering	Miami	Florida	Site dead	https://miamicheeseshop.com/	2026-10-22
 Vendor	The Churro Bar & Co	Catering	Miami	Florida	Site dead	https://www.theknot.com/marketplace/the-churro-bar-and-co-miami-fl-2105372	2026-10-22
@@ -580,10 +577,8 @@ Vendor	Reflections Wedding Officiant	Officiant	Miami	Florida	No website	https://
 Vendor	Sarmiento Wedding Officiating	Officiant	Miami	Florida	No website	https://www.theknot.com/marketplace/sarmiento-wedding-officiating-miami-fl-2030157	2026-10-22
 Vendor	Daniel Vazquez Bilingual Wedding Officiant	Officiant	Hialeah	Florida	No website	https://www.theknot.com/marketplace/daniel-vazquez-bilingual-wedding-officiantnotary-hialeah-fl-2057748	2026-10-22
 Vendor	Rabbi Frank	Officiant	Miami Beach	Florida	No website	https://www.theknot.com/marketplace/rabbi-frank-miami-beach-fl-442147	2026-10-22
-Vendor	Europa Hair Studio	Hair & Makeup	Miami	Florida	Site back up	https://www.europahairstudio.com/	2026-10-22
 Vendor	Illumene Lighting & Event Production	Decor & Lighting	Miami	Florida	Site dead	https://www.illumenelighting.com/	2026-10-22
 Vendor	W Event Design	Decor & Lighting	Miami	Florida	Site blocks automated visits, unconfirmed	https://www.weventdesign.com/	2026-10-22
-Vendor	Elegant Musicians	Music	Miami	Florida	Site back up	https://www.elegantmusicians.com/	2026-10-22
 Venue	Hotel St. Michel		Coral Gables	Florida	No wedding page	https://www.hotelstmichel.com	2026-10-22
 Venue	Key Biscayne Yacht Club		Key Biscayne	Florida	No wedding page	https://www.kbyc.org	2026-10-22
 Venue	Wynwood Walls		Miami	Florida	No wedding page	https://thewynwoodwalls.com/private-events	2026-10-22
@@ -609,10 +604,9 @@ Venue	Dash Stables Ranch		Southwest Ranches	Florida	No website	https://www.weddi
 Venue	Hotel Maren		Fort Lauderdale	Florida	No wedding page	https://hotelmaren.com/weddings	2026-10-22
 Venue	East Sister Rock Island		Marathon	Florida	No wedding page	https://www.floridaisland.com/wedding	2026-10-22
 Venue	Rubell Museum		Miami	Florida	Site dead	https://rubellmuseum.org/plan-your-private-event	2026-10-22
-Vendor	Smile Like Steve Specialty Cakes	Cake	Miami	Florida	Site back up	https://cakejournal.com/miami-fl/	2026-10-22
+Vendor	Smile Like Steve Specialty Cakes	Cake	Miami	Florida	No website	https://cakejournal.com/miami-fl/	2026-10-22
 Vendor	Alejandra's Cake	Cake	Miami	Florida	Social only	https://www.instagram.com/alejandras.cake	2026-10-22
 Vendor	Not Just Cakes by Patty	Cake	Miami	Florida	Site blocks automated visits, unconfirmed	https://notjustcakesbypatty.com/	2026-10-22
-Vendor	Todo Dulces Wedding Cakes	Cake	Miami	Florida	Site back up	https://caratsandcake.com/vendor/todo-dulces-wedding-cakes	2026-10-22
 Vendor	Cakes By Cary	Cake	Miami	Florida	Site dead	https://cakesbycary.com/	2026-10-22
 Vendor	Party Cake Bakery	Cake	Miami	Florida	Franchise	https://www.partycakebakery.com/	2026-10-22
 Vendor	Flour & Whisk Catering	Desserts	Miami	Florida	Social only	https://www.instagram.com/flourandwhiskmiami/	2026-10-22
@@ -620,12 +614,12 @@ Vendor	Wedding Scoops	Desserts	Miami	Florida	Site dead	http://www.weddingscoops.
 Vendor	Ganache	Cake	Miami	Florida	Social only	https://www.instagram.com/ganache.mia	2026-10-22
 Vendor	Over the Top Catering	Catering	Miami	Florida	Site dead	http://www.otcatering.com	2026-10-22
 Vendor	Brazilian Grill Catering	Catering	Miami	Florida	Site dead	http://www.braziliangrillcateringmiami.com	2026-10-22
-Vendor	Eventgi Party Rental	Rentals	Miami	Florida	Site back up	https://www.eventgipartyrental.com/	2026-10-22
+Vendor	Eventgi Party Rental	Rentals	Miami	Florida	Site dead	https://www.eventgipartyrental.com/	2026-10-22
 Vendor	Chair Rentals Miami	Rentals	Miami	Florida	Site blocks automated visits, unconfirmed	https://chairrentalsmiami.com/	2026-10-22
 Vendor	Tiny Trailer Company	Bar	Miami	Florida	Social only	https://linktr.ee/TinyTrailerCompany	2026-10-22
 Vendor	Fajardo Weddings	Photography	Miami	Florida	Site dead	https://fajardoweddingsbodas.com/	2026-10-22
 Vendor	Until Forever Films	Videography	Miami	Florida	Site blocks automated visits, unconfirmed	https://www.untilforeverfilms.com/	2026-10-22
-Vendor	Cielo Cinematic	Videography	Miami	Florida	Site back up	https://www.cielocinematic.com	2026-10-22
+Vendor	Cielo Cinematic	Videography	Miami	Florida	Site blocks automated visits, unconfirmed	https://www.cielocinematic.com	2026-10-22
 Vendor	AGFilmsPro	Videography	Miami	Florida	Site dead	https://www.agfilmspro.com	2026-10-22
 Vendor	Lotus 7 Films	Videography	Miami	Florida	Site dead	http://www.lotus7films.com/weddings/	2026-10-22
 Vendor	Circle Notary Public	Officiant	Miami	Florida	Site dead	https://www.circlenotarypublic.com	2026-10-22
@@ -687,10 +681,8 @@ Vendor	Light F/X Pros	Decor & Lighting	Miami	Florida	No wedding page	https://lig
 Vendor	Our Wedding Movie	Videography	Miami	Florida	No wedding page	https://ourweddingmovie.com/miami/	2026-10-22
 Vendor	Lavish Event Rentals	Rentals	Miami	Florida	No wedding page	https://www.lavisheventrentals.com/	2026-10-22
 Vendor	Figs Media	Photography	Miami	Florida	Site dead	https://figsmedia.com/	2026-10-22
-Vendor	KR Music Entertainment	Music	Miami	Florida	Site back up	https://www.krmusicentertainment.com/wedding-dj-miami	2026-10-22
 Vendor	FM Band Miami	Music	Miami	Florida	Site blocks automated visits, unconfirmed	https://fmbandmiami.com/	2026-10-22
 Vendor	Gran Mariachi Alas de America	Music	Miami	Florida	Site dead	https://www.granmariachimiami.com/	2026-10-22
-Vendor	Mariachi Show Mexicanisimo	Music	Miami	Florida	Site back up	https://mariachishowmx.com/	2026-10-22
 Vendor	DNR Limousines	Transportation	Miami Beach	Florida	No wedding page	https://dnrlimousines.com/	2026-10-22
 Vendor	GG Press	Stationery & Invitations	Miami	Florida	No wedding page	https://www.ggpressmiami.com/	2026-10-22
 Vendor	Jennifer J Events	Planning	Miami	Florida	Inactive	http://www.jenniferjevents.com/	2026-10-22
@@ -756,7 +748,7 @@ Vendor	Shutterbox Entertainment	Photo Booth	Miami	Florida	Franchise	https://www.
 Vendor	The Gala Photobooth	Photo Booth	Miami	Florida	Franchise	https://thegalaphotobooth.com/wedding-photo-booth-miami	2026-10-23
 Vendor	Stanlo Photography	Photography	Miami	Florida	Social only	https://www.stanlophotography.com	2026-10-23
 Vendor	Petal Pusher Miami	Florals	Coral Gables	Florida	Site dead	https://weddingwire.com/biz/petal-pusher-miami/9e71e1a02ac6e32d.html	2026-10-23
-Vendor	Tosca Flowers	Florals	Miami	Florida	Site back up	https://toscaflowers.com	2026-10-23
+Vendor	Tosca Flowers	Florals	Miami	Florida	No wedding page	https://toscaflowers.com	2026-10-23
 Vendor	Joy Wallace Catering	Catering	Miami	Florida	Site back up	https://www.joywallace.com	2026-10-23
 Vendor	Argenta Flowers	Florals	Miami	Florida	No website	https://www.zola.com/wedding-vendors/find/wedding-florists/miami-fl	2026-10-23
 Vendor	La Feterie by Juliana Schiffer	Decor & Lighting	Miami	Florida	No website	https://www.theknot.com/marketplace/la-feterie-by-juliana-schiffer-miami-fl-992077	2026-10-23
@@ -802,7 +794,7 @@ Vendor	Pinned By Jovie	Hair & Makeup	Miami	Florida	Social only	https://www.insta
 Vendor	Face by Valery M	Hair & Makeup	Miami	Florida	Social only	https://linktr.ee/Facebyvalerym	2026-10-23
 Vendor	Studio Shields	Photography	Miami	Florida	Social only	https://www.instagram.com/studioshields/	2026-10-23
 Vendor	DTFilms LLC	Videography	Miami	Florida	Site dead	https://www.theknot.com/marketplace/dtfilms-llc-miami-fl-2069253	2026-10-23
-Vendor	Sugar Free Studio	Videography	Miami	Florida	Site back up	https://wezoree.com/vendors/profile/393-photographers-sugarfree-studio/	2026-10-23
+Vendor	Sugar Free Studio	Videography	Miami	Florida	No website	https://wezoree.com/vendors/profile/393-photographers-sugarfree-studio/	2026-10-23
 Vendor	Proposals Miami	Planning	Miami	Florida	Site dead	https://www.proposalsmiami.com	2026-10-23
 Vendor	Events By Priscilla	Planning	Miami	Florida	Site dead	https://www.eventsbypriscilla.com	2026-10-23
 Vendor	Flavio Studios	Photography	Miami	Florida	Site dead	https://www.flaviophotographystudios.com	2026-10-23
@@ -812,7 +804,7 @@ Vendor	Miami Wedding Center	Officiant	Tavernier	Florida	Franchise	https://weddin
 Vendor	Jerry's Kitchen	Catering	Miami	Florida	Franchise	https://www.jerrys-kitchen.com/locations/miami	2026-10-23
 Vendor	G&M Event Co	Desserts	Miami	Florida	Social only	https://gmeventco.com/	2026-10-23
 Vendor	Glyk Gelato	Desserts	Boca Raton	Florida	Franchise	https://glyk.com/pages/dessert-catering-florida	2026-10-23
-Vendor	Blake Roses	Florals	Sunny Isles Beach	Florida	Site back up	https://blakeroses.com/	2026-10-23
+Vendor	Blake Roses	Florals	Sunny Isles Beach	Florida	Site blocks automated visits, unconfirmed	https://blakeroses.com/	2026-10-23
 Vendor	Veri Chic Cakes	Cake		Florida	No website	https://www.zola.com/wedding-vendors/search/miami-fl--wedding-cakes-desserts	2026-10-23
 Vendor	Bailey's Sweets and Events	Cake	Miami	Florida	No website	https://www.zola.com/wedding-vendors/search/miami-fl--wedding-cakes-desserts	2026-10-23
 Vendor	DJ Amnesty	Music	Hialeah	Florida	No website	https://www.theknot.com/marketplace/dj-amnesty-miami-lakes-fl-2094142	2026-10-23
@@ -917,7 +909,7 @@ Vendor	Los Havana Knights	Music	Miami	Florida	No website	https://weddingwire.com
 Vendor	Floral Flavors	Florals	North Miami Beach	Florida	No website	https://www.theknot.com/marketplace/floral-flavors-north-miami-beach-fl-2104446	2026-10-27
 Vendor	Posh Petals	Florals	Miami	Florida	No website	https://m.weddingwire.com/biz/posh-petals-miami-miami/c2d124c6d163689e	2026-10-27
 Vendor	TreatYouFul	Cake	Pembroke Pines	Florida	Social only	https://www.instagram.com/treatyouful/	2026-10-27
-Vendor	Alluring Bridal Makeup & Hair	Hair & Makeup	Coral Gables	Florida	Site back up	https://www.alluringmiami.com	2026-10-27
+Vendor	Alluring Bridal Makeup & Hair	Hair & Makeup	Coral Gables	Florida	Site dead	https://www.alluringmiami.com	2026-10-27
 Vendor	Briefly Yours	Officiant	Miami	Florida	Site dead	https://brieflyyours.com	2026-10-27
 Vendor	Circle Miami LLC	Officiant	Miami	Florida	Site dead	https://www.circlemiami.com	2026-10-27
 Vendor	Guerdy Design	Planning	Miami	Florida	Inactive	https://www.guerdydesign.com	2026-10-27
@@ -934,7 +926,7 @@ Vendor	Enzo Custom	Bridal & Formalwear	Miami	Florida	Franchise	https://www.enzoc
 Vendor	Grace Loves Lace Miami	Bridal & Formalwear	Miami	Florida	Franchise	https://graceloveslace.com/showrooms/miami	2026-10-27
 Vendor	Velvet Love Studio	Photography	Miami	Florida	Franchise	https://velvetlovestudio.com	2026-10-27
 Vendor	Bloominescent	Florals	South Miami	Florida	No website	https://bloominescent.wpengine.com/	2026-10-27
-Vendor	Miami Centerpieces	Florals	Miami	Florida	Site back up	https://www.miamicenterpieces.com	2026-10-27
+Vendor	Miami Centerpieces	Florals	Miami	Florida	No wedding page	https://www.miamicenterpieces.com	2026-10-27
 Vendor	Luxury Flowers Miami	Florals	Miami Beach	Florida	No website	https://weddingwire.com/biz/luxury-candles-miami/8b073f54afbb54fc.html	2026-10-27
 Vendor	Luum Lighting Production	Decor & Lighting	Miami	Florida	No website	https://weddingwire.com/biz/luum-lighting-production/faf72dceb46c58c6.html	2026-10-27
 Vendor	Vintage by Two Sisters	Rentals	Miami	Florida	No website	https://weddingwire.com/biz/vintage-by-two-sisters/71d8ed2db4b868e1.html	2026-10-27
@@ -951,10 +943,9 @@ Vendor	Eioni's Group	Cake	Miami	Florida	No website	https://weddingwire.com/biz/e
 Vendor	T-Vice	Music	Miami	Florida	No website	https://www.weddingwire.com/biz/t-vice-miami/5b921511eda4425e.html	2026-10-27
 Vendor	Chauffeured Miami	Transportation	Miami	Florida	No website	https://weddingwire.com/biz/chauffeured-miami/fd2f24a5118319e3.html	2026-10-27
 Vendor	Custom Cakes Bakery Miami	Cake	Miami	Florida	Franchise	https://customcakesbakeryusa.com/locations/location-miami-florida/	2026-10-27
-Vendor	Alito Photography	Photography	Miami	Florida	Site back up	https://www.alitophotography.com	2026-10-27
 Vendor	Gloria Couture	Bridal & Formalwear	North Miami Beach	Florida	Site dead	https://www.gloriacouture.com	2026-10-27
 Vendor	Pictory Events	Photo Booth	Miami	Florida	Site blocks automated visits, unconfirmed	https://pictoryevents.com	2026-10-27
-Vendor	We Rent Fun	Rentals	Miami	Florida	Site back up	https://www.werentfun.net/	2026-10-27
+Vendor	We Rent Fun	Rentals	Miami	Florida	No wedding page	https://www.werentfun.net/	2026-10-27
 Venue	Gramps Getaway		Key Biscayne	Florida	Site back up	https://www.grampsgetaway.com	2026-10-27
 Venue	Miami Springs Golf & Country Club		Miami Springs	Florida	Site blocks automated visits, unconfirmed	https://www.miamisprings-fl.gov/golfcourse/page/golf-and-country-club-overview	2026-10-27
 Venue	Le Basilic Miami		Miami	Florida	Site dead	https://www.lebasilicmiami.com	2026-10-27
@@ -985,7 +976,7 @@ Venue	The Pelican Key Largo Waterfront Cottages		Key Largo	Florida	Site blocks a
 Vendor	FEMISH Events	Planning	Miami	Florida	No website	https://weddingwire.com/biz/femish-events-miami/803d3120aa0b2fb1.html	2026-10-27
 Vendor	Royal Events Company	Planning	Miami	Florida	No website	https://m.weddingwire.com/biz/royal-events-company-llc/ca885edd231ad364	2026-10-27
 Vendor	Shavon Events	Planning	Miami	Florida	Site dead	https://www.shavonevents.com/	2026-10-27
-Vendor	OA Weddings	Planning	Miami	Florida	Site back up	https://oaweddings.com/	2026-10-27
+Vendor	OA Weddings	Planning	Miami	Florida	Site dead	https://oaweddings.com/	2026-10-27
 Vendor	MJ Artist	Hair & Makeup	Miami	Florida	No website	https://www.weddingwire.com/biz/mj-artist/243c7203d972d892.html	2026-10-27
 Vendor	Master of Glam	Hair & Makeup	Miami	Florida	No website	https://loverly.com/vendors/master-of-glam	2026-10-27
 Vendor	Breanna Camile Invitation Studio	Stationery & Invitations	Miami	Florida	Site dead	https://www.weddingwire.com/biz/breanna-camile/fd66d423fdf895a3.html	2026-10-27
@@ -1040,7 +1031,6 @@ Vendor	Curated Events Miami	Planning	Miami	Florida	Social only	https://www.insta
 Vendor	Eterna Events Miami	Planning	Miami	Florida	Social only	https://www.instagram.com/eternaeventsmiami/	2026-10-28
 Vendor	Events by Gia	Planning	Miami	Florida	Social only	https://www.instagram.com/eventsbygia.miami/	2026-10-28
 Vendor	Beltro Entertainment	Music	Miami	Florida	Site back up	https://beltroentertainment.com/	2026-10-28
-Vendor	Music Revolution Miami	Music	Miami	Florida	Site back up	https://musicrevmiami.com/	2026-10-28
 Vendor	Amazing Parties Plus	Music	Miami	Florida	Site back up	https://amazingpartiesplus.com/	2026-10-28
 Vendor	S. Dulcio Designs	Florals	North Miami	Florida	Inactive	https://sdulciodesign.com/	2026-10-28
 Vendor	Marz Makeup and Hair	Hair & Makeup	Miami	Florida	Inactive	https://marzmakeupandhair.com/	2026-10-28
@@ -1055,7 +1045,6 @@ Vendor	Sam&Jayne	Hair & Makeup	Sunny Isles Beach	Florida	Site dead	https://www.i
 Vendor	Elise Bridal	Hair & Makeup	Miami	Florida	Site dead	https://www.instagram.com/elisebridal/	2026-10-28
 Vendor	Chez Liv	Cake	Homestead	Florida	Site dead	https://www.instagram.com/chezliv/	2026-10-28
 Vendor	Stella Strings	Music	Miami	Florida	Inactive	https://www.stellastrings.net	2026-10-28
-Vendor	Trio Los Cubanos	Music	Miami	Florida	Site back up	https://trioloscubanos.com	2026-10-28
 Vendor	Serenade Events	Music	Miami	Florida	Franchise	https://www.serenadeevents.com/miami-florida	2026-10-28
 Vendor	Desi Decibel	Music	Miami	Florida	Franchise	https://desidecibel.com	2026-10-28
 Vendor	Studio Hallow	Stationery & Invitations	Miami	Florida	Site back up	https://studiohallow.com	2026-10-28
@@ -1298,3 +1287,16 @@ Venue	The Shanty & Co.		St. Augustine	Florida	No wedding page	https://theshantya
 Venue	Conch House Marina Resort		St. Augustine	Florida	No wedding page	https://www.conchhousemarinaresort.com/property-events	2026-11-08
 Venue	Cannon Farm Plantation		Bell	Florida	No website	https://www.weddingwire.com/biz/cannon-farm-plantation-bell/576699536d923c1f.html	2026-11-08
 Venue	The Pointe Gulf Breeze		Gulf Breeze	Florida	Site dead	https://thepointegb.com/weddings	2026-11-08
+Vendor	Key Biscayne Flowers	Florals	Miami	Florida	Site blocks automated visits, unconfirmed	https://keybiscayneflowers.com/	2026-11-08
+Vendor	Wedding Photography by Liam	Photography	Miami	Florida	Site blocks automated visits, unconfirmed	https://www.weddingphotographybyliam.com/	2026-11-08
+Vendor	I Marry Miami	Officiant	Coral Gables	Florida	Site blocks automated visits, unconfirmed	http://imarrymiami.com/	2026-11-08
+Vendor	A-Z Formalwear	Bridal & Formalwear	North Miami	Florida	Site blocks automated visits, unconfirmed	https://a-zformalwear.com/	2026-11-08
+Vendor	Easy Peasy Bridal	Hair & Makeup	Miami	Florida	Site dead	http://www.easypeasybridal.com/	2026-11-08
+Vendor	Coral Gables Bridals	Bridal & Formalwear	Coral Gables	Florida	Site dead	https://www.coralgables-bridal.com/	2026-11-08
+Vendor	The Stuffed Cuban	Catering	Coral Gables	Florida	No website	https://www.theknot.com/marketplace/the-stuffed-cuban-coral-gables-fl-2064180	2026-11-08
+Vendor	Paleta305	Desserts	Palmetto Bay	Florida	No website	https://www.theknot.com/marketplace/paleta305-miami-fl-2056564	2026-11-08
+Vendor	Jay's Sweets	Cake	Homestead	Florida	No website	https://www.theknot.com/marketplace/jays-sweets-homestead-fl-2057481	2026-11-08
+Vendor	The Food Art Group	Catering	Miami	Florida	No wedding page	https://www.foodartmiami.com/	2026-11-08
+Vendor	Kombi Keg	Bar	Miami	Florida	Franchise	https://www.kombikeg.com/	2026-11-08
+Vendor	Tova Photography	Photography	Miami	Florida	No wedding page	https://tovaphotography.com	2026-11-08
+Vendor	The Blonde Tulip	Florals	Coconut Grove	Florida	No wedding page	https://theblondetulip.com/	2026-11-08
