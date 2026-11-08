@@ -219,7 +219,7 @@ function TemplatePreview({
           <p className="mt-2 text-[13px] text-ink/60">Any colour you like once you&apos;re editing.</p>
 
           {/* Sticks to the bottom of a phone screen while the preview scrolls past. */}
-          <div className="fixed inset-x-0 bottom-0 z-10 border-t border-hairline bg-white p-4 sm:static sm:mt-7 sm:border-0 sm:bg-transparent sm:p-0">
+          <div data-wren-avoid className="fixed inset-x-0 bottom-0 z-10 border-t border-hairline bg-white p-4 sm:static sm:mt-7 sm:border-0 sm:bg-transparent sm:p-0">
             <button
               type="button"
               onClick={customize}

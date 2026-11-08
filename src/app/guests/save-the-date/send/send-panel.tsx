@@ -396,7 +396,7 @@ export function SendPanel({
 
       {/* Phone: the send button stays in reach. */}
       {canEdit && slug && guests.length > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-hairline bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
+        <div data-wren-avoid className="fixed inset-x-0 bottom-0 z-20 border-t border-hairline bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
           <button
             type="button"
             disabled={!chosen.length || !!busy}
