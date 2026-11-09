@@ -1,0 +1,18 @@
+# Daily planning reminders to couples, timed to their wedding date
+# (src/lib/planning-reminders.ts). The endpoint decides who is due; this only
+# asks. Mails ADMIN_EMAIL only until PLANNING_REMINDERS_LIVE is "on".
+name: Planning reminders
+on:
+  schedule:
+    - cron: "43 16 * * *" # 9:43am Pacific (8:43 in winter)
+  workflow_dispatch:
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask the site to send any due reminders
+        env:
+          PLANNING_REMINDER_SECRET: ${{ secrets.PLANNING_REMINDER_SECRET }}
+        run: |
+          curl -fsS -X POST https://youdoido.com/api/planning-reminders \
+            -H "Authorization: Bearer $PLANNING_REMINDER_SECRET"

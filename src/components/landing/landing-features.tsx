@@ -38,7 +38,7 @@ const BLURBS: Record<string, string> = {
   "/guests": "RSVPs, meals, addresses and plus-ones in one table — or keep using your Google Sheet, synced both ways.",
   "/venues": "Browse on a map or by city, shortlist, and send inquiries.",
   "/vendors": "Every vendor conversation and quote in one place.",
-  "/checklist": "A month-by-month plan built around your date.",
+  "/checklist": "A month-by-month plan built around your date, with an email when each step is due.",
   "/bookings": "Everyone you book, with their contract and contact details.",
   "/attire": "Dresses, suits and rings — save favorites, then buy or rent.",
   "/itinerary": "One schedule, hour by hour, with each event shown only to the people it's for.",

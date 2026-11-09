@@ -10,6 +10,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 export const AUTOMATIONS = {
   batches: { label: "Batches (merge + import)", where: "GitHub Action, hourly", everyHours: 1 },
   spend_reminders: { label: "Spend reminders", where: "GitHub Action, daily", everyHours: 24 },
+  planning_reminders: { label: "Planning reminders (couples)", where: "GitHub Action, daily", everyHours: 24 },
   batch_builder_west: { label: "Batch builder: West", where: "Claude routine, twice a day", everyHours: 15 },
   batch_builder_central: { label: "Batch builder: Central", where: "Claude routine, twice a day", everyHours: 15 },
   batch_builder_south: { label: "Batch builder: South", where: "Claude routine, twice a day", everyHours: 15 },
