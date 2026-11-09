@@ -5,6 +5,7 @@ import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { JsonLd } from "@/components/json-ld";
+import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/listing-seo";
 import {
   HubBreadcrumb,
   HubButton,
@@ -30,7 +31,7 @@ import {
   metroHref,
   type Metro,
 } from "@/lib/metros";
-import { SITE_URL, VENUE_LIST_COLUMNS, venueHref, type VenueListing } from "@/lib/public-listings";
+import { VENUE_LIST_COLUMNS, venueHref, type VenueListing } from "@/lib/public-listings";
 import { currentVenueType, venueTypeImage } from "@/lib/wedding-options";
 import { priceHeadline } from "@/lib/venue-pricing";
 
@@ -164,18 +165,23 @@ export default async function MetroVenuesPage({
 
   const vendorCategories = countBy(vendors, (v) => v.category).filter((c) => c.value !== "Other");
 
-  const breadcrumb = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Wedding venues", item: `${SITE_URL}/venues` },
-      { "@type": "ListItem", position: 2, name: `${metro.name} area`, item: `${SITE_URL}${href}` },
-    ],
-  };
+  // Matches the visible crumbs; the ItemList names every listing the page
+  // links to (src/lib/listing-seo.ts).
+  const jsonLd = [
+    breadcrumbJsonLd([
+      { name: "Wedding venues", href: "/venues" },
+      { name: "Cities", href: "/cities" },
+      { name: `${metro.name} area`, href },
+    ]),
+    itemListJsonLd(
+      `Wedding venues in ${metro.name}, ${metro.state}`,
+      venues.map((row) => ({ name: row.name, href: venueHref(row) })),
+    ),
+  ];
 
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={jsonLd} />
       <HubBreadcrumb items={[{ label: "Wedding venues", href: "/venues" }, { label: "Cities", href: "/cities" }, { label: `${metro.name} area` }]} />
       <HubHero
         title={["Wedding venues in ", `, ${metro.state}`]}

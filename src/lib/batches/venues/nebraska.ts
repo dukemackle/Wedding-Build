@@ -116,6 +116,26 @@ Holthus Convention Center	3130 Holen Avenue	York	Nebraska			Ballroom	Indoor	800	
 Prichard Auditorium		Falls City	Nebraska			Ballroom	Indoor		250	Rental	City-owned auditorium that the city promotes for wedding receptions at a flat day rate.			https://www.fallscitynebraska.org/news/p/item/20521/prichard-auditorium-is-available-to-rent
 Strategic Air Command & Aerospace Museum		Ashland	Nebraska			Museum, Gallery & Rooftop	Indoor	200			Aerospace museum whose atrium and hangars can be rented for events, with wedding listed on its rental request form.	info@sacmuseum.org		https://www.sacmuseum.org/rentals/`,
   },
+  {
+    name: "NE: Kearney, Hastings, Scottsbluff, North Platte, Lincoln, Fremont, Wayne and more",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Archway (Platte River Room)	3060 E 1st St	Kearney	Nebraska			Museum, Gallery & Rooftop	Indoor & Outdoor	125			A banquet room inside the Great Platte River Road Archway museum above I-80, with a full bar, a patio and an outdoor pavilion for ceremonies.	hsmith@archway.org	308-206-0808	https://archway.org/plan-your-visit/platte-river-room/
+Lochland Country Club	601 W Lochland Rd	Hastings	Nebraska			Country Club & Golf	Indoor	250			A golf club clubhouse open since 1962 whose ballroom has a two-story window over the course, with locker rooms for wedding parties to get ready.		402-462-4151	https://www.lochlandcc.com/web/pages/weddings
+Scottsbluff Country Club	5014 Avenue I	Scottsbluff	Nebraska			Country Club & Golf	Indoor				A country club that lists weddings among its special events, with banquet rooms available to rent.		308-632-8297	https://www.scottsbluffcc.com
+The Village Farm	51460 100th Rd	Shelton	Nebraska			Barn & Farm	Indoor & Outdoor	480			A working farm setting near Kearney with a barn, a 100-by-100-foot pergola, a three-bedroom farmhouse and a groom's quarters, with on-site bar service.		308-293-0231	https://thevillageevents.com/the-farm
+Homestead Country	6459 South Homestead Road	North Platte	Nebraska			Barn & Farm	Indoor & Outdoor				An outdoor farm venue about six miles from the I-80 North Platte exit, with a scenic backdrop and an event building with tables, chairs and restrooms.		308-398-6444	https://www.homesteadpumpkinpatch.com/event-rental.html
+Lincoln County Fairgrounds	5015 West Highway 30	North Platte	Nebraska			Ballroom	Indoor & Outdoor	300			County fairgrounds just outside North Platte where the climate-controlled Ag Activities Center seats up to 300 and has a full kitchen, plus an outdoor pavilion.			https://www.lincofair.com/facilities
+Gering Civic Center	1050 M Street	Gering	Nebraska			Ballroom	Indoor				A downtown Gering event center of roughly 26,000 square feet whose Grand Ballroom is made by combining seven rooms, and which lists wedding receptions among its uses.		(308) 436-6888	https://geringciviccenter.com/
+Gothenburg Impact Center Event Center	902 12th Street	Gothenburg	Nebraska			Ballroom	Indoor				A community event center whose large ballroom is pitched for weddings, with several rental options for ceremony and reception time.	info@myimpactcenter.com	308-351-5010	https://www.gothenburgimpactcenter.com/event-center
+Woodcliff Community Center	980 County Rd W	Fremont	Nebraska			Lake & River	Indoor & Outdoor		1500	Rental	Lakefront community hall near Fremont with lake-view outdoor seating, a grill and a full catering kitchen, with no catering restrictions.		402-909-3232	https://woodcliffcommunitycenter.squarespace.com
+The Beaumont Event & Concert Hall	2611 North Highway 15	Wayne	Nebraska			Ballroom	Indoor	500			Family-owned event hall in Wayne with a main ballroom, a meeting room and a party room with a patio, plus on-site catering.	info@thebeaumontwayne.com	402-369-6428	https://www.beaumontwayne.com/
+Rococo Theatre	140 N 13th St	Lincoln	Nebraska			Ballroom	Indoor	500			Downtown Lincoln theatre that hosts both wedding ceremonies and receptions, with catering through two named partners.		402-476-6540	https://rococotheatre.com/weddings/
+Wilderness Ridge Club & Resort	1800 Wilderness Woods Place	Lincoln	Nebraska			Country Club & Golf	Indoor & Outdoor	230			Golf club with an outdoor ceremony spot on the first hole of the Talon Course and a timber-built ballroom overlooking the Championship Course.		402-434-5120	https://www.wrccgolf.com/Events/Weddings
+Soaring Wings Vineyard	17111 S 138th Street	Springfield	Nebraska			Vineyard & Winery	Indoor & Outdoor	125			Winery with a tasting room overlooking the Platte River that hosts weddings indoors and on its outdoor grounds.			https://soaringwings.com/private-events/
+Fox Creek Landing	5101 I Road	Dunbar	Nebraska			Barn & Farm	Indoor & Outdoor				Southeast Nebraska wedding venue with an indoor barn space and a separate outdoor ceremony site.		402-500-6283	https://foxcreeklanding.com/
+Nielsen Community Center	200 Anna Stalp Avenue	West Point	Nebraska			Ballroom	Indoor	1000			City-run event center in West Point, opened in 2008, with a large ballroom and a covered entrance and foyer for guest drop-off.		402-372-0184	https://wpnielsencenter.com/
+`,
+  },
 ];
 
 export default batches;
