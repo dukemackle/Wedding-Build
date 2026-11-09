@@ -11,6 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-09:** "Compared with the <area>" card on venue and vendor
+  listings, approved from 375/1440 screenshots: count of the same style or
+  category in the metro (else state), capacity and starting price against
+  the area middle with a gold-dot percentile track, the estimator's
+  simple-to-luxury range for that line. Computed figures only, no written
+  filler (SEO, Google's scaled-content policy). `src/components/area-comparison.tsx`.
+
 - **2026-11-06:** Wedding cities page (`/cities`, `src/app/cities/`) approved
   from screenshots: replaces the footer's list of every hub (owner disliked
   it) and a nav tab per city. Text-led cards by region (city, state, venue and

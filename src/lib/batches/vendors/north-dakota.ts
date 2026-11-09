@@ -149,6 +149,66 @@ Huntly Photography	Photography		Jamestown	North Dakota	North Dakota	Wedding, eng
 AVANT Hair & Skin Care Studio	Hair & Makeup	214 N 4th St	Grand Forks	North Dakota		Downtown Grand Forks hair and skin studio offering bridal packages with practice updo, makeup and lash trials plus day-of styling.	avantdowntown@gmail.com	701-775-5333	https://www.avanthairstudio.com/weddings	https://www.instagram.com/avanthairandskincare/
 `,
   },
+  {
+    name: "Fargo: photography, music, videography, cakes, hair and makeup, rentals, transportation, stationery, bridal and photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Bakehouse 23	Cake	208 Roberts Alley	Fargo	North Dakota		Downtown Fargo bakery in Roberts Alley making custom wedding cakes and royal icing cookies, with a cutting guide supplied with every cake.	hello@bakehouse23.com	701-532-0292	https://bakehouse23.com/weddings	https://www.instagram.com/bakehouse.23/		
+Take the Leap Entertainment	Music		Fargo	North Dakota		Fargo wedding DJ company led by Corey Hansen, focused on keeping the day's flow smooth and getting guests onto the dance floor.	corey@taketheleapdj.com	701-639-8989	https://taketheleapdj.com/	https://www.instagram.com/taketheleap_dj/		
+FUZE Entertainment	Music		Fargo	North Dakota	Fargo-Moorhead	Boutique wedding DJ and event lighting company serving Fargo-Moorhead, with a social photo booth available as an add-on.			https://www.fuzemobileent.com/	https://www.instagram.com/fuzeent/		
+Zeitlos Studios	Videography		Fargo	North Dakota	Minnesota and North Dakota	Videography studio splitting its time between Fargo and Minneapolis, making artistic wedding and legacy films across both states.	julia@zeitlosstudios.com		https://www.zeitlosstudios.com/	https://www.instagram.com/zeitlosstudios/		
+Dynamic Studios	Videography		Fargo	North Dakota		Fargo photo and video studio documenting weddings, with client reviews praising both its wedding photography and highlight videos.			https://dynamicstudioscreate.com/	https://www.instagram.com/dynamicstudioscreate/		
+Kiella Lawrence Photography	Photography		Fargo	North Dakota	North Dakota and beyond	Fargo wedding photographer serving North Dakota and beyond, covering both full-scale celebrations and intimate elopements.	hello@kiellalawrence.com		https://kiellalawrence.com/	https://www.instagram.com/kiellalawrencephoto/		
+Sophie Grace Photography	Photography		Wahpeton	North Dakota		Wahpeton wedding photographer on the North Dakota and Minnesota border with ten seasons of weddings, available to travel.	sophie.g.syvertsen@gmail.com		https://www.sophiegracephoto.com/	https://www.instagram.com/sophiegracephoto/		
+LUXE Events ND	Photo Booth		West Fargo	North Dakota	Fargo-Moorhead and surrounding areas	Black-and-white portrait booth with a live photographer, red carpet and instant prints for Fargo-Moorhead weddings and events.		(701) 491-8204	https://www.luxeeventsnd.com/	https://www.instagram.com/luxeeventsnd/		
+The Whitehouse Co.	Rentals	916 Main Ave	Fargo	North Dakota		Fargo rental and design company for weddings, with vintage and one-of-a-kind pieces, studio hire and an appointment-only warehouse.	hellowhitehouseco@gmail.com	701-552-9881	https://www.thewhitehouseco.com/	https://www.instagram.com/whitehouse.co/		
+Fargo Party Ride	Transportation	4151 38th St S, Suite C	Fargo	North Dakota	75 miles around Fargo-Moorhead	Fargo limo-coach company offering party-bus wedding transport, with a named fleet and a 75-mile service radius around Fargo-Moorhead.	info@fargopartyride.com	701-371-3615	https://www.fargopartyride.com/	https://www.instagram.com/fargopartyride/		
+Tailored Tru Designs	Stationery & Invitations		Fargo	North Dakota	Nationwide	Fargo-based designer of save the dates, invitations, signage and stationery for couples, working with clients across the country.	marissa@tailoredtrudesigns.com		https://tailoredtrudesigns.com/			
+I Do Crew	Hair & Makeup	3224 Oak Ridge Loop E	West Fargo	North Dakota	Fargo-Moorhead	West Fargo wedding hair and makeup team of three, working together since 2015 and travelling to the venue, with set bridal packages.			https://www.thepowderroomsln.com/idocrew	https://www.instagram.com/thepowderroomsln/	195	package
+LeeAnne's Bridal & Bliss Prom	Bridal & Formalwear	4340 13th Ave SW	Fargo	North Dakota		Family-owned Fargo bridal and prom salon with gowns in sizes 0 to 30, tuxedos and alterations, serving the area for 25 years.		(701) 232-7433	https://www.leeannesbridalnd.com/	https://www.instagram.com/lapromfargo/		
+Your Day by Nicole	Bridal & Formalwear		Fargo	North Dakota		Bridal boutique with Fargo showrooms stocking gowns, bridesmaid dresses, tuxedos and jewellery, plus regular designer trunk shows.		(701) 964-1399	https://shopydbn.com/	https://www.instagram.com/yourdaybynicole/		
+`,
+  },
+  {
+    name: "Bismarck: hair and makeup, videography, bar, transportation, rentals, decor and bridal",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Hi Honey Hairstylist	Hair & Makeup	117 N 4th St	Bismarck	North Dakota	Bismarck and Mandan, with travel to weddings	Downtown Bismarck salon offering bridal hair packages with trials, a private salon for the wedding party, and optional makeup artists.	hi@hihoneysalon.com	(701) 751-1231	https://www.hihoneysalon.com/wedding-hair-stylist	https://www.instagram.com/hihoneysalon/	300	package
+Reel Love Films	Videography		Bismarck	North Dakota		Bismarck wedding videographers capturing ceremonies and receptions on film, with destination weddings offered for couples marrying further afield.	info@thereellove.com		http://www.thereellove.com/			
+Golden Hour Taps	Bar		Bismarck	North Dakota	Bismarck and across North Dakota	Mobile bar from Bismarck with tap equipment, a cocktail cart and an Italian mini-truck bar, with customised drink menus for weddings.	events@goldenhourtaps.com	(701) 595-9661	https://goldenhourtaps.com/	https://www.instagram.com/goldenhourtaps/		
+The Craftcade	Bar	405 N 4th Street	Bismarck	North Dakota		Downtown Bismarck arcade-bar that runs a mobile bar for weddings and events, serving craft beer and cocktails off site.		701-450-1414	https://www.thecraftcade.com/mobile-bartending/	https://www.instagram.com/thecraftcade/		
+Go 4 Bev Shuttle & Party Bus	Transportation		Bismarck	North Dakota		Bismarck party bus and shuttle with a 14-passenger bus, karaoke and Bluetooth sound for wedding transport and bar-hopping send-offs.	mail@go4bev.com	701-400-1609	https://go4bev.com/		125	per hour
+Bisman Party Rentals	Rentals		Bismarck	North Dakota	Bismarck, Mandan and Lincoln	Event rentals for weddings around Bismarck, Mandan and Lincoln, with free delivery, setup and pickup included in the service area.		701-484-3726	https://bismanpartyrentals.com/			
+Letter the Lawn	Decor & Lighting		Bismarck	North Dakota	Bismarck-Mandan, Lincoln, Wilton and Washburn	Giant 18-inch lawn letter displays spelling out wedding messages, set up and collected the same evening around Bismarck-Mandan.		(701) 341-0626	http://www.letterthelawn.com			
+KW Couture	Decor & Lighting		Bismarck	North Dakota	Bismarck and Mandan	Bismarck decorating studio creating handcrafted wedding and special event decor in styles from rustic to boho, with free consultations.			https://www.kwcouture.com/	https://www.instagram.com/kwcouture/		
+Brides on a Dime	Bridal & Formalwear	227 West Broadway Avenue	Bismarck	North Dakota		Appointment-only bridal shop in downtown Bismarck stocking wedding dresses and veils in sizes 2 to 32 for brides on every budget.		(701) 226-7387	https://bridesonadime.com/	https://www.instagram.com/bridesonadime		
+`,
+  },
+  {
+    name: "Grand Forks: catering, officiant, photography and rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Something Sweet	Catering	620 8th Ave S	Grand Forks	North Dakota		Grand Forks caterer doing charcuterie, boxed lunches and event setup, from rehearsal dinner through to the reception.	somethingsweetgf@gmail.com	(612) 352-7351	https://somethingsweetgf.com	https://www.instagram.com/somethingsweetgf/		
+Officiant Amber	Officiant		Grand Forks	North Dakota		Grand Forks wedding officiant who writes and leads personalised ceremonies for couples, from small elopements to larger services.	OfficiantAmber@gmail.com	701-330-1563	https://www.officiantamber.com/	https://www.instagram.com/officiantamber/		
+My Wanderlust	Photography		Grand Forks	North Dakota	Grand Forks and beyond, travel billed by mileage	Grand Forks wedding and elopement photographer with a relaxed, candid style that focuses on emotion and real moments.			https://mywanderlust.love/	https://www.instagram.com/_my_wanderlust/		
+An Elegant Affair	Rentals	1595 N 42nd St	Grand Forks	North Dakota	Grand Forks, Fargo and surrounding areas	Grand Forks rental warehouse for wedding tables, chairs, tents and backdrops, with decorating and limousine service too.	ndweddings@yahoo.com	701.795.5620	https://www.myndweddings.com/	https://www.instagram.com/weddingdayelganceelegantlimo/		
+Grand Forks Party Tents	Rentals		Grand Forks	North Dakota	Grand Forks, Fargo and the Minnesota lakes area	Family-run Grand Forks company renting tents, tables and chairs for weddings and other events.		701-405-2200	https://www.gfptents.com/	https://www.instagram.com/gfpartytents/		
+`,
+  },
+  {
+    name: "Minot: photography, florals, music, cakes, catering, hair and makeup, videography, bridal and transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Riveted Photography	Photography		Williston	North Dakota	Within two hours of Williston	Husband-and-wife Williston photography team covering weddings, engagements and elopements across western North Dakota.		(720) 471-2278	https://rivetedphotography.com/weddings/	https://www.instagram.com/rivetedphoto/	3200	package
+Kellie Photography	Photography		Minot	North Dakota	Minot	Minot photographer taking on engagement and wedding sessions alongside portrait, maternity and boudoir work.			https://www.kelliephotographynd.com/	https://www.instagram.com/kelliephotographynd/		
+Artistic Ambiance	Florals	301 Burdick Expy W	Minot	North Dakota	Minot	Long-running Minot flower shop designing wedding bouquets and arrangements, with consultations booked through its weddings page.	artisticambiance@live.com	(701) 838-9302	https://artisticambianceminot.com/	https://www.instagram.com/artisticambiance/		
+Musik Worx D.J. & Photo Booths	Music	526 6th St NE	Minot	North Dakota		Minot DJ and photo booth company providing wedding reception music, dance floor lighting and booths, plus karaoke.		(701) 720-8532	https://musikworxdjphotobooths.com/			
+Oh, Nyla Cake Designs	Cake	1800 14th St SW	Minot	North Dakota		Minot cake maker offering custom wedding cakes and cupcakes, booked by phone or email.	nylastromberg@gmail.com	(701) 852-0215	https://www.ohnyla.com/			
+Sundbakes	Cake		Minot	North Dakota	Minot and nearby towns	Minot home bakery known for hand-painted cakes and macarons, including floral wedding cakes.			https://sundbakes.com/	https://www.instagram.com/sundbakes/		
+White Orchid Beauty Bar	Hair & Makeup	422 2nd Ave NW, Suite B	Jamestown	North Dakota	North Dakota and surrounding areas	Jamestown hair and makeup team styling brides and their wedding parties, with on-location service and a consultation first.		701-659-7013	https://whiteorchidbeautybar.com/	https://www.instagram.com/whiteorchidbeautybar/		
+The Grateful Plate	Catering		Jamestown	North Dakota	Jamestown and the surrounding area	Jamestown caterer with 35-plus weddings behind it, feeding groups from 15 to 500 guests.	thegratefulplatend@gmail.com	(701) 269-4260	https://www.thegratefulplatend.com/			
+Taylar Dawn Photography	Photography		Dickinson	North Dakota	Southwest North Dakota, plus destination weddings	Dickinson wedding and elopement photographer with a lifestyle, adventurous approach, packages include timeline help.	taylardawnphotography@gmail.com		https://taylardawnphotography.com/wedding	https://www.instagram.com/taylardawnphotography/	1200	package
+Slow Burn Cinematics	Videography		Dickinson	North Dakota	Dickinson, and travels	Dickinson photographer and videographer offering wedding photography and wedding films, and willing to travel.	slowburncinematics@gmail.com		https://slowburncinematics.com	https://www.instagram.com/slowburncinematics/		
+Night Ride Luxuries	Transportation		Dickinson	North Dakota	Dickinson	Dickinson party bus company with three 18 to 20 seat buses, available for weddings and other occasions.		701-590-4298	http://nightrideluxuries.com/			
+All In Events & Catering	Catering	20 E Broadway St	Dickinson	North Dakota	Dickinson	Dickinson event space and caterer used for wedding receptions, with food, servers and bar service on site.		(701) 483-3663	https://www.allineventsandcatering.com/			
+`,
+  },
 ];
 
 export default batches;

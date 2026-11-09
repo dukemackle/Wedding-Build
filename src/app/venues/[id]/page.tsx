@@ -10,6 +10,7 @@ import { loadVenueListing, VenueListing, type VenueListingData } from "./venue-l
 import { trackEvent } from "@/lib/events";
 import { parseThen } from "@/lib/signup-intent";
 import { metroForPoint, metroHref } from "@/lib/metros";
+import { listingBreadcrumbJsonLd, priceRange } from "@/lib/listing-seo";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /venues opens. Clicking a venue in the search results
@@ -54,7 +55,9 @@ function venueJsonLd({ venue, faqs }: VenueListingData) {
   const images = [...new Set([venue.image_url, ...venue.photo_urls].filter(Boolean))];
   const business = {
     "@context": "https://schema.org",
-    "@type": "EventVenue",
+    // A place for events and a business you can book: Google's local
+    // results read LocalBusiness, EventVenue carries the capacity.
+    "@type": ["EventVenue", "LocalBusiness"],
     "@id": url,
     name: venue.name,
     url,
@@ -72,12 +75,13 @@ function venueJsonLd({ venue, faqs }: VenueListingData) {
         ? { "@type": "GeoCoordinates", latitude: venue.latitude, longitude: venue.longitude }
         : undefined,
     maximumAttendeeCapacity: venue.capacity ?? undefined,
+    priceRange: priceRange(venue.price_tier),
     amenityFeature: venue.amenities.length
       ? venue.amenities.map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true }))
       : undefined,
     sameAs: [venue.website, venue.instagram_url, venue.facebook_url, venue.pinterest_url, venue.tiktok_url, venue.youtube_url].filter(Boolean),
   };
-  return [business, ...faqJsonLd(faqs)];
+  return [business, listingBreadcrumbJsonLd("venues", venue, venueHref(venue)), ...faqJsonLd(faqs)];
 }
 
 export default async function VenueDetailPage({
