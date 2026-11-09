@@ -37,6 +37,44 @@ function optionalChoice<T extends string>(raw: FormDataEntryValue | null, allowe
   return allowed.includes(value as T) ? (value as T) : null;
 }
 
+/**
+ * "Keep apart from" (0166): two guests not to seat at one table. Both must be
+ * on this wedding's list; the pair is stored smaller id first.
+ */
+export async function addKeepApart(guestId: string, otherId: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  if (!guestId || !otherId || guestId === otherId) return { error: "Choose someone else on the list." };
+
+  const { data: found } = await supabase
+    .from("guests")
+    .select("id")
+    .eq("wedding_id", wedding.id)
+    .in("id", [guestId, otherId])
+    .returns<{ id: string }[]>();
+  if ((found ?? []).length !== 2) return { error: "That guest isn't on your list any more." };
+
+  const [a, b] = guestId < otherId ? [guestId, otherId] : [otherId, guestId];
+  const { error } = await supabase
+    .from("guest_keep_apart")
+    .upsert({ wedding_id: wedding.id, guest_a: a, guest_b: b }, { onConflict: "guest_a,guest_b", ignoreDuplicates: true });
+  if (error) return { error: error.message };
+
+  revalidatePath("/guests");
+  revalidatePath("/venue-layout");
+  return {};
+}
+
+export async function removeKeepApart(pairId: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const { error } = await supabase.from("guest_keep_apart").delete().eq("id", pairId).eq("wedding_id", wedding.id);
+  if (error) return { error: error.message };
+  revalidatePath("/guests");
+  revalidatePath("/venue-layout");
+  return {};
+}
+
 function guestFieldsFromForm(formData: FormData) {
   const name = (formData.get("name") as string)?.trim();
   const status = formData.get("status") as string;

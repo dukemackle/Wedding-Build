@@ -1,5 +1,6 @@
 "use client";
 
+import type { KeepApartPair } from "@/lib/keep-apart";
 import Image from "next/image";
 import { createContext, useContext, useEffect, useId, useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
 import type {
@@ -32,6 +33,8 @@ import {
   setSideColors,
   updateGuestsFields,
   deleteGuests,
+  addKeepApart,
+  removeKeepApart,
 } from "./actions";
 import { draftThankYouNote, saveThankYouNote } from "./thank-you-actions";
 import { SpreadsheetLink } from "@/components/spreadsheet-link";
@@ -161,6 +164,80 @@ function downloadGuestsCsv(guests: Guest[]) {
 const MealsContext = createContext<string[]>(mealChoices(null));
 /** The guest site's slug while it's on, for each guest's personal RSVP link (0141). */
 const SiteSlugContext = createContext<string | null>(null);
+/** Keep-apart pairs and everyone's names, for the guest editor (0166). Null for a viewer. */
+const KeepApartContext = createContext<{ pairs: KeepApartPair[]; guests: Pick<Guest, "id" | "name">[] } | null>(
+  null,
+);
+
+/**
+ * "Keep apart from": people this guest shouldn't share a table with. Saves
+ * straight away (it isn't part of the guest form), and the seating screen
+ * warns if a pair ends up together.
+ */
+function KeepApartField({ guest }: { guest: Guest }) {
+  const ctx = useContext(KeepApartContext);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+  if (!ctx) return null;
+  const mine = ctx.pairs.filter((p) => p.guest_a === guest.id || p.guest_b === guest.id);
+  const otherOf = (p: KeepApartPair) => (p.guest_a === guest.id ? p.guest_b : p.guest_a);
+  const taken = new Set(mine.map(otherOf));
+  const nameOf = new Map(ctx.guests.map((g) => [g.id, g.name]));
+  const choices = ctx.guests.filter((g) => g.id !== guest.id && !taken.has(g.id));
+
+  return (
+    <div className={`${labelClass} sm:col-span-2`}>
+      Keep apart from
+      <span className="text-xs text-ink/60">Seating warns you if they end up at the same table. Only you and your partner see this.</span>
+      {mine.length > 0 && (
+        <ul className="flex flex-wrap gap-2">
+          {mine.map((p) => (
+            <li key={p.id} className="flex items-center gap-1 rounded-full border border-hairline bg-card py-1 pl-3 pr-1 text-sm">
+              {nameOf.get(otherOf(p)) ?? "A guest"}
+              <button
+                type="button"
+                aria-label={`Stop keeping ${guest.name} apart from ${nameOf.get(otherOf(p)) ?? "this guest"}`}
+                disabled={isPending}
+                onClick={() =>
+                  startTransition(async () => {
+                    const r = await removeKeepApart(p.id);
+                    setError(r.error);
+                  })
+                }
+                className="flex h-7 w-7 items-center justify-center rounded-full text-ink/60 hover:bg-hairline/40 hover:text-ink"
+              >
+                ×
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {choices.length > 0 && (
+        <select
+          value=""
+          disabled={isPending}
+          onChange={(e) => {
+            const otherId = e.target.value;
+            if (!otherId) return;
+            startTransition(async () => {
+              const r = await addKeepApart(guest.id, otherId);
+              setError(r.error);
+            });
+          }}
+          className={inputClass}
+        >
+          <option value="">{isPending ? "Saving…" : "Add someone…"}</option>
+          {choices.map((g) => (
+            <option key={g.id} value={g.id}>
+              {g.name}
+            </option>
+          ))}
+        </select>
+      )}
+      {error && <span className="text-xs text-red-800">{error}</span>}
+    </div>
+  );
+}
 
 function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
   const meals = useContext(MealsContext);
@@ -315,6 +392,7 @@ function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
           className={inputClass}
         />
       </label>
+      {guest && <KeepApartField guest={guest} />}
       <label className={`${labelClass} sm:col-span-2`}>
         Notes
         <textarea
@@ -1503,7 +1581,10 @@ export function GuestsManager({
   mealOptions = null,
   publicSlug = null,
   canEdit = true,
+  keepApart = [],
 }: {
+  /** Pairs not to seat together (0166). */
+  keepApart?: KeepApartPair[];
   guests: Guest[];
   /** A Google Sheet they've imported from before, if there is one. */
   spreadsheetUrl: string | null;
@@ -1786,6 +1867,7 @@ export function GuestsManager({
 
   return (
     <MealsContext.Provider value={mealChoices(mealOptions)}>
+    <KeepApartContext.Provider value={canEdit ? { pairs: keepApart, guests } : null}>
       <SiteSlugContext.Provider value={publicSlug}>
     <div className="flex w-full min-w-0 flex-col gap-6">
     {tidyShowing && <TidyList items={tidyItems} onHide={hideTidy} />}
@@ -2132,6 +2214,7 @@ export function GuestsManager({
     </div>
     </div>
       </SiteSlugContext.Provider>
+    </KeepApartContext.Provider>
     </MealsContext.Provider>
   );
 }

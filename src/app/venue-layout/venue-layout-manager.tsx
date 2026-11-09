@@ -69,6 +69,7 @@ import {
 } from "@/lib/layout-styles";
 import { Centerpiece, RoomBackdrop, itemSurface } from "./room-art";
 import { LayoutTemplatePicker, SeatTheRest } from "./layout-helpers";
+import { seatingClashes, type KeepApartPair } from "@/lib/keep-apart";
 
 const VenueLayout3DView = dynamic(() => import("./venue-layout-3d-view"), {
   ssr: false,
@@ -1945,6 +1946,36 @@ function GuestNote({ guest }: { guest: Guest }) {
 }
 
 /** Guests who declined after they'd been seated, so their seats are free again. */
+/** Says so when two guests the couple asked to keep apart share a table. */
+function ApartNotice({
+  guests,
+  pairs,
+  tables,
+}: {
+  guests: Guest[];
+  pairs: KeepApartPair[];
+  tables: SeatingTable[];
+}) {
+  const clashes = seatingClashes(guests, pairs);
+  if (clashes.length === 0) return null;
+  const tableName = new Map(tables.map((t) => [t.id, t.name]));
+  return (
+    <div role="alert" className="mb-4 rounded-lg border border-red-700/30 bg-red-50 px-4 py-3 text-sm text-red-900">
+      <p className="font-medium">
+        {clashes.length === 1 ? "Two guests you asked to keep apart are" : "Guests you asked to keep apart are"} at the
+        same table:
+      </p>
+      <ul className="mt-1 list-disc pl-5">
+        {clashes.map((c) => (
+          <li key={`${c.a.id}-${c.b.id}`}>
+            {c.a.name} and {c.b.name} ({tableName.get(c.tableId) ?? "a table"})
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function DeclinedNotice({
   guests,
   tables,
@@ -2422,9 +2453,12 @@ export function VenueLayoutManager({
   phases: storedPhases,
   sides,
   declinedSeated,
+  keepApart = [],
   roomStyle: storedRoomStyle,
   initialRoomId = null,
 }: {
+  /** Pairs not to seat together (0166); empty for a view-only member. */
+  keepApart?: KeepApartPair[];
   roomStyle: string;
   /** Opens on this room in Rooms mode ("Design my wedding here" lands here). */
   initialRoomId?: string | null;
@@ -2806,6 +2840,8 @@ export function VenueLayoutManager({
           </p>
         )}
 
+        <ApartNotice guests={guests} pairs={keepApart} tables={tables} />
+
         {declinedSeated.length > 0 && (
           <DeclinedNotice
             guests={declinedSeated}
@@ -2953,7 +2989,9 @@ export function VenueLayoutManager({
                   ) : undefined
                 }
               />
-              {showGuests && <SeatTheRest guests={guests} tables={phaseTables} phaseId={activePhaseId} />}
+              {showGuests && (
+                <SeatTheRest guests={guests} tables={phaseTables} phaseId={activePhaseId} keepApart={keepApart} />
+              )}
               {showGuests && (
                 <GuestPanel
                     unassigned={unassigned}

@@ -7,6 +7,7 @@ import { frameForPlan, planCanvas, type PlanShape } from "@/lib/venue-plans";
 import { LAYOUT_TEMPLATES, buildTemplate, type TemplateItem, type TemplateLayout } from "@/lib/layout-templates";
 import { AISLE, CEREMONY_TEMPLATES, buildCeremony } from "@/lib/ceremony-templates";
 import { planSeating } from "@/lib/auto-seat";
+import { pairIds, type KeepApartPair } from "@/lib/keep-apart";
 import { assignGuestsTable } from "@/app/seating/actions";
 import { WrenBirdIcon } from "@/components/icons";
 import { applyLayoutTemplate, seatTheRest } from "./template-actions";
@@ -223,16 +224,21 @@ export function SeatTheRest({
   guests,
   tables,
   phaseId,
+  keepApart = [],
 }: {
   guests: Guest[];
   tables: SeatingTable[];
   phaseId?: string | null;
+  keepApart?: KeepApartPair[];
 }) {
   const [open, setOpen] = useState(false);
   const [undoIds, setUndoIds] = useState<string[] | null>(null);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  const plan = useMemo(() => (open ? planSeating(guests, tables) : null), [open, guests, tables]);
+  const plan = useMemo(
+    () => (open ? planSeating(guests, tables, pairIds(keepApart)) : null),
+    [open, guests, tables, keepApart],
+  );
   const unseated = guests.filter((g) => !g.table_id);
 
   const byId = useMemo(() => new Map(guests.map((g) => [g.id, g])), [guests]);
