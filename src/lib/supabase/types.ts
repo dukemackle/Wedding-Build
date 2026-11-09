@@ -216,6 +216,8 @@ export type Guest = {
   email: string | null;
   plus_one: boolean;
   plus_one_name: string | null;
+  /** The plus-one's own meal (0165). */
+  plus_one_meal: string | null;
   status: GuestStatus;
   priority: GuestPriority;
   side: GuestSide | null;

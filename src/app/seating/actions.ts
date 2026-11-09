@@ -434,7 +434,7 @@ export async function splitPlusOne(formData: FormData): Promise<{ error?: string
   // counted twice.
   const { error } = await supabase
     .from("guests")
-    .update({ plus_one: false, plus_one_name: null })
+    .update({ plus_one: false, plus_one_name: null, plus_one_meal: null })
     .eq("id", guest.id)
     .eq("wedding_id", wedding.id);
 
@@ -450,12 +450,13 @@ export async function splitPlusOne(formData: FormData): Promise<{ error?: string
     priority: guest.priority,
     side: guest.side,
     guest_type: guest.guest_type,
+    meal: guest.plus_one_meal,
   });
 
   if (insertError) {
     await supabase
       .from("guests")
-      .update({ plus_one: guest.plus_one, plus_one_name: guest.plus_one_name })
+      .update({ plus_one: guest.plus_one, plus_one_name: guest.plus_one_name, plus_one_meal: guest.plus_one_meal })
       .eq("id", guest.id)
       .eq("wedding_id", wedding.id);
     return { error: insertError.message };

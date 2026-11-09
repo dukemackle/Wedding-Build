@@ -26,7 +26,8 @@ export default async function GuestSaveTheDate({ params }: { params: Promise<{ s
   if (!code || !household) redirect(`/w/${encodeURIComponent(slug)}/s`);
 
   const names = household.members.map((m) => m.name.trim()).filter(Boolean);
-  const guest = names.length && names.length <= 2 ? names.join(" & ") : household.label;
+  // Never the household text: that's the couple's own label ("Okafor (mom)").
+  const guest = names.length && names.length <= 2 ? names.join(" & ") : household.names;
 
   return (
     <GuestReveal
