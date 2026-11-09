@@ -126,14 +126,26 @@ export async function updateGuest(formData: FormData): Promise<{ error?: string 
     return { error: parsed.error };
   }
 
-  const { error } = await supabase
+  // The edit form writes every field, so a form left open while the guest
+  // RSVPs or a partner edits them would put the old answers back. It sends
+  // the updated_at it was opened with; if the row has moved on since, nothing
+  // is written and the couple is asked to reopen it.
+  const loadedAt = formData.get("loaded_updated_at");
+  let query = supabase
     .from("guests")
     .update({ ...parsed.fields, updated_at: new Date().toISOString() })
     .eq("id", guestId)
     .eq("wedding_id", wedding.id);
+  if (typeof loadedAt === "string" && loadedAt) query = query.eq("updated_at", loadedAt);
+
+  const { data: saved, error } = await query.select("id");
 
   if (error) {
     return { error: error.message };
+  }
+  if (saved.length === 0) {
+    revalidatePath("/guests");
+    return { error: "This guest changed since you opened it (an RSVP or your partner). Close and reopen to see the latest." };
   }
 
   revalidatePath("/guests");
@@ -639,6 +651,7 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
           household: match.household ?? submission.household,
           side: match.side ?? submission.side,
           notes: [match.notes, ...submittedNotes].filter(Boolean).join("\n\n") || null,
+          updated_at: new Date().toISOString(),
         })
         .eq("id", match.id)
         .eq("wedding_id", wedding.id)

@@ -27,29 +27,45 @@ export type UpcomingPayment = {
   dueDate: string;
 };
 
+/**
+ * What's still owed: cost minus anything already paid. A bill paid off (or
+ * overpaid) drops out, so a settled deposit never sits here turning red.
+ */
+function stillOwed(cost: number, paid: number | null) {
+  return Math.max(0, cost - (paid ?? 0));
+}
+
 export function paymentsFromRows(
   rows: BudgetRow[],
-  customItems: { label: string; amount: number; due_date: string | null }[],
+  customItems: { label: string; amount: number; paid_amount: number | null; due_date: string | null }[],
 ): UpcomingPayment[] {
   const fromCategories = rows
     .filter((row): row is BudgetRow & { dueDate: string } => Boolean(row.dueDate))
-    .map((row) => ({
-      key: row.key,
-      label: row.label,
-      amount: row.override ?? row.computed ?? 0,
-      dueDate: row.dueDate,
-    }));
+    .map((row) => {
+      const cost = row.override ?? row.computed ?? 0;
+      return {
+        key: row.key,
+        label: row.label,
+        amount: stillOwed(cost, row.paidAmount),
+        paidOff: cost > 0 && (row.paidAmount ?? 0) >= cost,
+        dueDate: row.dueDate,
+      };
+    });
 
   const fromCustom = customItems
     .filter((item): item is typeof item & { due_date: string } => Boolean(item.due_date))
     .map((item, index) => ({
       key: `custom-${index}`,
       label: item.label,
-      amount: item.amount,
+      amount: stillOwed(item.amount, item.paid_amount),
+      paidOff: item.amount > 0 && (item.paid_amount ?? 0) >= item.amount,
       dueDate: item.due_date,
     }));
 
-  return [...fromCategories, ...fromCustom].sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+  return [...fromCategories, ...fromCustom]
+    .filter((payment) => !payment.paidOff)
+    .map(({ key, label, amount, dueDate }) => ({ key, label, amount, dueDate }))
+    .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
 }
 
 export function UpcomingPayments({ payments }: { payments: UpcomingPayment[] }) {
@@ -59,7 +75,7 @@ export function UpcomingPayments({ payments }: { payments: UpcomingPayment[] }) 
     <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
       <span className="font-display text-2xl font-semibold text-forest">Upcoming payments</span>
       <p className="mt-1 text-sm text-ink/70">
-        Deposits and balances you&apos;ve given a due date, soonest first.
+        What&apos;s still owed on anything with a due date, soonest first.
       </p>
       <div className="mt-4">
         {payments.map((payment) => (

@@ -852,6 +852,7 @@ function GuestRow({
       <div className="border-b border-hairline py-4 last:border-b-0">
         <form action={handleSave}>
           <input type="hidden" name="id" value={guest.id} />
+          <input type="hidden" name="loaded_updated_at" defaultValue={guest.updated_at} />
           <GuestFields guest={guest} theme={theme} />
           {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
           <div className="mt-4 flex items-center gap-3">
@@ -1383,6 +1384,7 @@ function GuestTableRow({
             {isEditing && (
               <form action={handleSave}>
                 <input type="hidden" name="id" value={guest.id} />
+                <input type="hidden" name="loaded_updated_at" defaultValue={guest.updated_at} />
                 <GuestFields guest={guest} theme={theme} />
                 {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
                 <div className="mt-4 flex items-center gap-3">

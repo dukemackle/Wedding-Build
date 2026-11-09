@@ -178,6 +178,8 @@ export async function applyHouseholdAnswers(household: Household, answers: Membe
         plus_one_name: plusOne ? answer.plusOneName : member.plus_one_name,
         ...(member.eventIds.length > 0 ? { event_rsvps: events } : {}),
         rsvp_changed_at: now,
+        // Lets an edit form the couple opened earlier see it's out of date.
+        updated_at: now,
       })
       .eq("id", member.id)
       .eq("wedding_id", household.weddingId);

@@ -198,11 +198,13 @@ const ROW_GRID =
   "lg:grid-cols-[2.75rem_minmax(0,1fr)_5.5rem_6.5rem_5.5rem_8.75rem_2rem] lg:gap-x-3 2xl:grid-cols-[2.75rem_minmax(0,1fr)_6.5rem_7.5rem_6.5rem_10rem_2rem] 2xl:gap-x-4";
 
 /** "Due Aug 28", turning urgent inside a week and red once it's passed. */
-function dueStatus(dateStr: string): { text: string; tone: "overdue" | "soon" | "set" } {
+function dueStatus(dateStr: string, paidOff = false): { text: string; tone: "overdue" | "soon" | "set" } {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const due = new Date(`${dateStr}T00:00:00`);
   const label = due.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  // A bill that's paid off isn't overdue or urgent, whatever its date says.
+  if (paidOff) return { text: `Due ${label}`, tone: "set" };
   const days = Math.round((due.getTime() - today.getTime()) / 86_400_000);
   if (days < 0) return { text: `Overdue · ${label}`, tone: "overdue" };
   if (days === 0) return { text: "Due today", tone: "soon" };
@@ -339,13 +341,15 @@ function BudgetRowItem({
   const payerDatalistId = `paid-by-${row.key}`;
   const Icon = CATEGORY_ICONS[row.key] ?? CustomItemIcon;
 
-  /** Writes all three amounts, whichever one the edit touched. */
-  function saveAmounts(next: { actual: string; paid: string; saved: string }) {
+  /**
+   * Writes only the amount the edit touched. The other two inputs were filled
+   * when the page loaded, so sending them too would put back stale figures
+   * over anything the partner saved since (the server skips absent fields).
+   */
+  function saveAmount(field: AmountField, value: string) {
     const formData = new FormData();
     formData.set("category", row.key);
-    formData.set("override_value", next.actual);
-    formData.set("paid_amount", next.paid);
-    formData.set("saved_amount", next.saved);
+    formData.set(field, value);
     return onSaveAmounts(formData);
   }
 
@@ -366,7 +370,7 @@ function BudgetRowItem({
     const changed = next.actual !== was.actual || next.paid !== was.paid || next.saved !== was.saved;
 
     startTransition(async () => {
-      const result = await saveAmounts(next);
+      const result = await saveAmount(field, value);
       setError(result?.error);
       if (result?.error || !changed) return;
 
@@ -376,10 +380,12 @@ function BudgetRowItem({
       onEdited({
         label: `${row.label} ${what} set to ${amount ? currency.format(Number(amount)) : "—"}`,
         undo: () => {
-          setActualInput(was.actual);
-          setPaidInput(was.paid);
-          setSavedInput(was.saved);
-          return saveAmounts(was);
+          const before =
+            field === "override_value" ? was.actual : field === "paid_amount" ? was.paid : was.saved;
+          if (field === "override_value") setActualInput(before);
+          else if (field === "paid_amount") setPaidInput(before);
+          else setSavedInput(before);
+          return saveAmount(field, before);
         },
       });
     });
@@ -437,7 +443,7 @@ function BudgetRowItem({
   // The row's amounts, chips and menu. Who's paying, when it's due and notes
   // live in the details form the chips open.
   const actionOpen = showDetails || showContracts || confirmingDelete || reminderSent || !!error;
-  const due = row.dueDate ? dueStatus(row.dueDate) : null;
+  const due = row.dueDate ? dueStatus(row.dueDate, isFullyPaid) : null;
   const liveSaved = Number(savedInput) || 0;
   const chipClass =
     "inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[12.5px] font-medium transition-[transform,box-shadow,background-color,border-color] hover:-translate-y-px hover:shadow-[0_2px_6px_rgb(20_32_61/0.08)] motion-reduce:transform-none";
@@ -835,6 +841,8 @@ function AddItemForm({
           type="number"
           name="amount"
           min={0}
+          step="0.01"
+          inputMode="decimal"
           required
           className="rounded-md border border-hairline bg-card px-3 py-2 text-ink outline-none focus:border-forest"
         />
@@ -1031,13 +1039,15 @@ export function BudgetTable({
         onSaveAmounts={(formData) => {
           formData.set("id", row.key);
           formData.set("label", row.label);
-          formData.set("amount", formData.get("override_value") as string);
+          if (formData.has("override_value")) {
+            formData.set("amount", formData.get("override_value") as string);
+            formData.delete("override_value");
+          }
           return updateBudgetCustomItem(formData);
         }}
         onSaveDetails={(formData) => {
           formData.set("id", row.key);
           formData.set("label", row.label);
-          formData.set("amount", String(row.override ?? 0));
           return updateBudgetCustomItem(formData);
         }}
         onDelete={() => {

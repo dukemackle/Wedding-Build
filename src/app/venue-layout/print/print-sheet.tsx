@@ -10,8 +10,14 @@ function guestLabel(guest: Guest) {
   return guest.plus_one_name ? `${guest.name} (+1 ${guest.plus_one_name})` : `${guest.name} (+1)`;
 }
 
+/** Seats held by guests who haven't said yes yet (the print includes them). */
+function awaiting(guests: Guest[]) {
+  return guests.filter((guest) => guest.status !== "confirmed").reduce((sum, guest) => sum + seats(guest), 0);
+}
+
 function TableCard({ table, guests }: { table: SeatingTable; guests: Guest[] }) {
   const taken = guests.reduce((sum, guest) => sum + seats(guest), 0);
+  const unconfirmed = awaiting(guests);
 
   return (
     <div className="break-inside-avoid rounded-lg border border-hairline p-4">
@@ -20,6 +26,7 @@ function TableCard({ table, guests }: { table: SeatingTable; guests: Guest[] }) 
         <p className="font-mono-numbers text-[11px] text-ink/55">
           {taken}
           {table.capacity ? ` / ${table.capacity}` : ""} seated
+          {unconfirmed > 0 ? ` · ${unconfirmed} awaiting reply` : ""}
         </p>
       </div>
       {guests.length > 0 ? (
@@ -27,6 +34,7 @@ function TableCard({ table, guests }: { table: SeatingTable; guests: Guest[] }) 
           {guests.map((guest) => (
             <li key={guest.id} className="py-0.5 text-sm text-ink">
               {guestLabel(guest)}
+              {guest.status !== "confirmed" ? <span className="text-ink/55"> · no reply yet</span> : null}
             </li>
           ))}
         </ol>
@@ -79,6 +87,11 @@ export function SeatingPrintSheet({
 
   const tableName = new Map(tables.map((table) => [table.id, table.name]));
   const seated = guests.filter((guest) => guest.table_id);
+  // People, not guest rows: a +1 is a second seat, as on each table card, so
+  // the header matches the per-table numbers the caterer adds up.
+  const seatedPeople = seated.reduce((sum, guest) => sum + seats(guest), 0);
+  const unseatedPeople = unseated.reduce((sum, guest) => sum + seats(guest), 0);
+  const seatedAwaiting = awaiting(seated);
   const index = [...seated].sort((a, b) => {
     const aKey = a.name.split(" ").slice(-1)[0] || a.name;
     const bKey = b.name.split(" ").slice(-1)[0] || b.name;
@@ -104,8 +117,9 @@ export function SeatingPrintSheet({
         </h1>
         {formattedDate && <p className="mt-1 text-sm text-ink/60">{formattedDate}</p>}
         <p className="mt-2 font-mono-numbers text-[11px] text-ink/55">
-          {tables.length} {tables.length === 1 ? "table" : "tables"} · {seated.length} seated
-          {unseated.length > 0 ? ` · ${unseated.length} not yet seated` : ""}
+          {tables.length} {tables.length === 1 ? "table" : "tables"} · {seatedPeople} seated
+          {seatedAwaiting > 0 ? ` (${seatedAwaiting} awaiting reply)` : ""}
+          {unseatedPeople > 0 ? ` · ${unseatedPeople} not yet seated` : ""}
         </p>
       </header>
 

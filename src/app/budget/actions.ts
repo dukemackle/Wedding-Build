@@ -277,15 +277,18 @@ export async function sendBudgetReminder(formData: FormData): Promise<{ error?: 
   return {};
 }
 
-function customItemFieldsFromForm(formData: FormData) {
+function customItemFieldsFromForm(formData: FormData, { amountOptional = false } = {}) {
   const label = (formData.get("label") as string)?.trim();
   if (!label) {
     return { error: "Give the item a name." } as const;
   }
 
+  // An edit that only touches paid/saved/details leaves amount out, so the
+  // row's load-time figure isn't written back over a partner's newer one.
   const amountRaw = formData.get("amount") as string;
   const amount = Number(amountRaw);
-  if (!amountRaw || Number.isNaN(amount) || amount < 0) {
+  const amountMissing = amountOptional && !formData.has("amount");
+  if (!amountMissing && (!amountRaw || Number.isNaN(amount) || amount < 0)) {
     return { error: "Enter a valid amount." } as const;
   }
 
@@ -320,7 +323,7 @@ function customItemFieldsFromForm(formData: FormData) {
 function presentCustomItemFields(formData: FormData, fields: Record<string, unknown>) {
   const out: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(fields)) {
-    if (key === "label" || key === "amount" || formData.has(key)) out[key] = value;
+    if (key === "label" || formData.has(key)) out[key] = value;
   }
   return out;
 }
@@ -360,7 +363,7 @@ export async function updateBudgetCustomItem(formData: FormData): Promise<{ erro
   }
 
   const itemId = formData.get("id") as string;
-  const parsed = customItemFieldsFromForm(formData);
+  const parsed = customItemFieldsFromForm(formData, { amountOptional: true });
   if ("error" in parsed) {
     return { error: parsed.error };
   }
