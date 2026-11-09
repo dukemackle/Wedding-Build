@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { PageTransition } from "@/components/page-transition";
 import { SiteFooter } from "@/components/site-footer";
 import { AssistantProvider } from "@/components/assistant-context";
@@ -9,22 +9,34 @@ import { FirstTouch } from "@/components/first-touch";
 import "./globals.css";
 import { SITE_URL } from "@/lib/public-listings";
 
-const cormorant = Cormorant({
+// Self-hosted (latin subset, OFL-licensed files from Fontsource) rather than
+// next/font/google: the Google download at build time kept failing Cloudflare
+// builds (deploy-doctor #2). Arguments must stay literals for next/font.
+const cormorant = localFont({
   variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  src: [
+    { path: "./fonts/cormorant-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/cormorant-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/cormorant-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/cormorant-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
 });
 
-const plexSans = IBM_Plex_Sans({
+const plexSans = localFont({
   variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  src: [
+    { path: "./fonts/ibm-plex-sans-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-latin-600-normal.woff2", weight: "600", style: "normal" },
+  ],
 });
 
-const plexMono = IBM_Plex_Mono({
+const plexMono = localFont({
   variable: "--font-mono-numbers",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  src: [
+    { path: "./fonts/ibm-plex-mono-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/ibm-plex-mono-latin-500-normal.woff2", weight: "500", style: "normal" },
+  ],
 });
 
 export const metadata: Metadata = {

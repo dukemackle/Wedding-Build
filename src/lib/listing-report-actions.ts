@@ -2,6 +2,7 @@
 
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { REPORT_REASONS } from "@/lib/listing-report-reasons";
+import { allowListingReport } from "@/lib/guest-rate-limit";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -37,6 +38,9 @@ export async function reportListing(formData: FormData): Promise<{ error?: strin
     .eq("id", listingId)
     .maybeSingle();
   if (!listing) return { error: "Missing listing." };
+  if (!(await allowListingReport(listingId))) {
+    return { error: "We've had a lot of reports just now. Please try again in a little while." };
+  }
 
   const { error } = await admin.from("listing_reports").insert({
     listing_type: listingType,

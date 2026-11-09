@@ -105,6 +105,23 @@ RFC 8058 one-click `/api/unsubscribe` write both `marketing_consents` and
 bounced addresses, and mails couples only with a confirmed opt-in. Still open:
 the postal address itself (owner getting a PO box), and the two secrets.
 
+**Planning reminders (2026-11-08):** eight emails timed to the couple's
+wedding date (`src/lib/planning-reminders.ts`, sent daily by
+`/api/planning-reminders` from a GitHub Action). Classed as **transactional**
+(CAN-SPAM's "relationship" content: about the couple's own wedding and the
+service they signed up for, with no promotion), which is what /account means
+by "emails about your own wedding come either way". To stay on that side of
+the line: no vendor, venue, offer or upgrade is ever named in one; the button
+goes to the couple's own page (checklist, budget, guests, invitations,
+itinerary, or venue search for the venue reminder); and a line promoting
+anything would make it marketing, needing the opt-in and `sendMarketingEmail`.
+Belt and braces anyway: each has a signed "Stop planning reminders" link and
+one-click `List-Unsubscribe` (`l=reminders`), /account has its own toggle,
+opt-outs live in `planning_reminder_opt_outs` (0164) and are checked before
+every send, and turning off marketing doesn't stop them or vice versa.
+Privacy "How we use" lists them. Sent to the owner and edit-role partners
+only, never guests or view-only members.
+
 **SMS beyond the current opt-in text updates:** explicit opt-in per number,
 STOP handling, and record of consent (TCPA). Current texts are
 wedding-schedule only and never marketing — keep it that way or revisit.

@@ -19,7 +19,9 @@ import { RsvpForm } from "./rsvp-form";
 import { HouseholdRsvpForm } from "./household-rsvp-form";
 import type { Household } from "@/lib/households";
 import { turnstileSiteKey } from "@/lib/turnstile";
+import { smsConfigured } from "@/lib/sms";
 import { RsvpSection } from "./rsvp-section";
+import { rsvpNotOpenYet } from "@/lib/rsvp-opening";
 import { ItineraryView } from "./itinerary-view";
 import { audienceOf } from "@/lib/itinerary";
 import { GuestbookView } from "./guestbook-view";
@@ -262,7 +264,12 @@ export function GuestSiteView({
         deadline={wedding.rsvp_deadline ? formatDate(wedding.rsvp_deadline) : null}
         photo={galleryPhotos[nextPhoto]?.photo_url ?? bannerPhoto(wedding)}
         form={
-          household ? (
+          rsvpNotOpenYet(wedding.rsvp_opens_on) ? (
+            <p className="mt-6 rounded-lg border border-hairline bg-parchment/60 px-4 py-4 text-sm leading-relaxed text-ink">
+              RSVPs open on <strong>{formatDate(wedding.rsvp_opens_on!)}</strong>. Your invitation will have the
+              details. Until then, the schedule, travel and stays are all here.
+            </p>
+          ) : household ? (
             <HouseholdRsvpForm
               household={household}
               slug={wedding.public_slug}
@@ -284,6 +291,7 @@ export function GuestSiteView({
               weddingId={wedding.id}
               slug={wedding.public_slug}
               turnstileSiteKey={turnstileSiteKey()}
+              smsEnabled={smsConfigured()}
               partnerAName={wedding.partner_a_name}
               partnerBName={wedding.partner_b_name}
               mealOptions={wedding.meal_options}

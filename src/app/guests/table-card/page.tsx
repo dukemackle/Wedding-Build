@@ -47,8 +47,31 @@ export default async function TableCardPage() {
   const host = (await headers()).get("host");
   const protocol = host?.startsWith("localhost") ? "http" : "https";
   const shareUrl = `${protocol}://${host}/w/${wedding.public_slug}/share`;
-  const svg = await qrSvg(shareUrl);
   const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
+
+  // One card per seating table, each code naming its table, so the couple can
+  // see which tables have posted (0159). One more without a table for the bar
+  // or the gift table. No seating chart yet: four of the plain card, as before.
+  const { data: tableRows } = await supabase
+    .from("seating_tables")
+    .select("id, name")
+    .eq("wedding_id", wedding.id)
+    .returns<{ id: string; name: string }[]>();
+  const tables = (tableRows ?? []).sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }),
+  );
+  const cards: { key: string; table: string | null; svg: string }[] = await Promise.all(
+    tables.length > 0
+      ? [
+          ...tables.map(async (table) => ({
+            key: table.id,
+            table: table.name,
+            svg: await qrSvg(`${shareUrl}?t=${table.id}`),
+          })),
+          qrSvg(shareUrl).then((svg) => ({ key: "any", table: null, svg })),
+        ]
+      : [0, 1, 2, 3].map((i) => qrSvg(shareUrl).then((svg) => ({ key: String(i), table: null, svg }))),
+  );
 
   return (
     <main className="flex flex-col items-center gap-6 bg-parchment px-4 py-8 print:bg-white print:p-0">
@@ -61,20 +84,20 @@ export default async function TableCardPage() {
       </div>
 
       <div className="grid w-[7.7in] max-w-full grid-cols-1 bg-white shadow-sm sm:grid-cols-2 print:shadow-none">
-        {[0, 1, 2, 3].map((i) => (
+        {cards.map((card) => (
           <div
-            key={i}
-            className="flex h-[5in] flex-col items-center justify-center border border-dashed border-hairline px-6 text-center"
+            key={card.key}
+            className="flex h-[5in] break-inside-avoid flex-col items-center justify-center border border-dashed border-hairline px-6 text-center"
           >
             <p className="font-mono-numbers text-[10px] uppercase tracking-[0.24em] text-brass">
-              Share your photos
+              {card.table ? `${card.table} · Share your photos` : "Share your photos"}
             </p>
             <p className="mt-2 font-display text-3xl font-medium leading-tight text-forest">
               {names}
             </p>
             <div
               className="mt-4 w-36 [&>svg]:h-auto [&>svg]:w-full"
-              dangerouslySetInnerHTML={{ __html: svg }}
+              dangerouslySetInnerHTML={{ __html: card.svg }}
             />
             <p className="mt-4 text-sm text-ink/70">
               Scan to add your pictures to our wall

@@ -302,7 +302,7 @@ export async function recomputeCostDataFromCustomerQuotes(): Promise<{
     if (existing) {
       const { error } = await admin
         .from("regional_cost_data")
-        .update({ ...update, source: "Wren customer data", notes, updated_at: now })
+        .update({ ...update, source: "You Do, I Do customer data", notes, updated_at: now })
         .eq("id", existing.id);
       if (error) return { error: error.message };
     } else {
@@ -310,7 +310,7 @@ export async function recomputeCostDataFromCustomerQuotes(): Promise<{
         state,
         category_key: categoryKey,
         per_guest: category.perGuestAmount > 0,
-        source: "Wren customer data",
+        source: "You Do, I Do customer data",
         notes,
         updated_at: now,
         ...update,

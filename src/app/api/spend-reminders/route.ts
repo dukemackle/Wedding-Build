@@ -2,6 +2,7 @@ import { refuseUnlessSecret } from "@/lib/batch-secret";
 import { INQUIRY_FROM_ADDRESS, getResendClient } from "@/lib/resend";
 import { BILLING_CYCLES, REMINDER_DAYS, daysUntil, formatUsd, rolledRenewal, type OpsService } from "@/lib/spend";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { logAutomationRun } from "@/lib/automation-log";
 
 // The daily pass over Spend & renewals. First, subscriptions whose renewal
 // date has passed move on to their next one (they renew themselves). Then the
@@ -21,6 +22,18 @@ function line(s: OpsService, today: Date): string {
 export async function POST(request: Request) {
   const refused = refuseUnlessSecret(request, process.env.SPEND_REMINDER_SECRET, "Spend reminders aren't switched on.");
   if (refused) return refused;
+  const response = await remind();
+  // Logged for /admin/automations: the JSON body is counts or an error only.
+  const result = (await response.clone().json().catch(() => ({}))) as { sent?: number; rolled?: number; error?: string };
+  await logAutomationRun(
+    "spend_reminders",
+    response.ok,
+    result.error ?? `${result.sent ?? 0} reminders sent, ${result.rolled ?? 0} renewals rolled on`,
+  );
+  return response;
+}
+
+async function remind(): Promise<Response> {
 
   const today = new Date();
   const horizon = new Date(today.getTime() + REMINDER_DAYS * 86_400_000).toISOString().slice(0, 10);

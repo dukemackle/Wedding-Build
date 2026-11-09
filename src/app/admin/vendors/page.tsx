@@ -9,6 +9,7 @@ import { parseListingParams } from "../_listing/params";
 import { addBundledVendors, pendingBundledVendors } from "./actions";
 import { AdminVendorsManager, type VendorStats } from "./admin-vendors-manager";
 import { VENDOR_LISTING } from "./listing-config";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export default async function AdminVendorsPage({
   searchParams,
@@ -85,7 +86,7 @@ export default async function AdminVendorsPage({
 
   const heading = (
     <>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Marketplace</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Vendors</h1>
       <p className="mt-1 text-sm text-ink/55">
         {statusCounts.all.toLocaleString()} vendors

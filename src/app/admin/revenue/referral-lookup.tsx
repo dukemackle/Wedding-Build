@@ -21,7 +21,8 @@ export function ReferralLookup({ weddings }: { weddings: LookupWedding[] }) {
             .join(" ")
             .toLowerCase();
           const code = (wedding.referral_code ?? "").toLowerCase();
-          const q = query.trim().toLowerCase();
+          // Old codes were WREN-XXXXXX; they are now IDO-XXXXXX with the same suffix.
+          const q = query.trim().toLowerCase().replace(/^wren-/, "ido-");
           return names.includes(q) || code.includes(q);
         });
 

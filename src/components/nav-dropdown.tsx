@@ -3,21 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
-import { useEffect, useRef, useState, type ComponentType } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "@/components/icons";
+import { NavTileFace, navTabClass, type NavGroup } from "@/components/nav-links";
 import { isActiveLink } from "@/lib/nav";
 
-const PANEL_WIDTH = 192; // w-48
+const PANEL_WIDTH = 304;
 
-export function NavDropdown({
-  label,
-  icon: Icon,
-  links,
-}: {
-  label: string;
-  icon: ComponentType<{ className?: string }>;
-  links: { href: string; label: string }[];
-}) {
+export function NavDropdown({ group }: { group: NavGroup }) {
+  const { label, icon, tile, links } = group;
   const [open, setOpen] = useState(false);
   const [anchor, setAnchor] = useState<{ left: number; top: number } | null>(null);
   const pathname = usePathname();
@@ -42,7 +36,9 @@ export function NavDropdown({
   function place() {
     const rect = buttonRef.current?.getBoundingClientRect();
     if (!rect) return;
-    const left = Math.max(8, Math.min(rect.left, window.innerWidth - PANEL_WIDTH - 8));
+    // Centred under the tile, kept on screen.
+    const centre = rect.left + rect.width / 2 - PANEL_WIDTH / 2;
+    const left = Math.max(8, Math.min(centre, window.innerWidth - PANEL_WIDTH - 8));
     setAnchor({ left, top: rect.bottom + 8 });
   }
 
@@ -86,14 +82,18 @@ export function NavDropdown({
           setOpen((v) => !v);
         }}
         aria-expanded={open}
-        className={`flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 font-display text-lg transition-colors xl:text-xl ${
-          isActive ? "bg-forest/10 text-forest" : "text-ink/70 hover:text-forest"
-        }`}
+        className={navTabClass(isActive)}
       >
-        <Icon className={`h-4 w-4 shrink-0 xl:h-5 xl:w-5 ${isActive ? "text-forest" : "text-brass"}`} />
-        {label}
-        <ChevronDownIcon
-          className={`h-3.5 w-3.5 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+        <NavTileFace
+          icon={icon}
+          tile={tile}
+          label={label}
+          active={isActive}
+          chevron={
+            <ChevronDownIcon
+              className={`h-3 w-3 shrink-0 opacity-70 transition-transform ${open ? "rotate-180" : ""}`}
+            />
+          }
         />
       </button>
       {open &&
@@ -102,20 +102,31 @@ export function NavDropdown({
           <div
             ref={panelRef}
             style={{ position: "fixed", left: anchor.left, top: anchor.top, width: PANEL_WIDTH }}
-            className="z-40 overflow-hidden rounded-md border border-hairline bg-card py-1 shadow-sm animate-page-in"
+            className="z-40 overflow-hidden rounded-2xl border border-hairline bg-card p-1.5 shadow-xl animate-page-in"
           >
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className={`block px-3 py-2 font-display text-base transition-colors hover:bg-parchment ${
-                  isActiveLink(pathname, link.href, links) ? "text-forest" : "text-ink/80"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) => {
+              const LinkIcon = link.icon;
+              const current = isActiveLink(pathname, link.href, links);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={current ? "page" : undefined}
+                  className={`flex items-center gap-3 rounded-xl px-2.5 py-2 transition-colors hover:bg-parchment ${
+                    current ? "bg-parchment" : ""
+                  }`}
+                >
+                  <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-[10px] ${tile}`}>
+                    <LinkIcon className="h-5 w-5" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-sans text-[15px] font-semibold leading-tight text-ink">{link.label}</span>
+                    <span className="block font-sans text-[13px] leading-snug text-ink/60">{link.hint}</span>
+                  </span>
+                </Link>
+              );
+            })}
           </div>,
           document.body,
         )}

@@ -440,6 +440,35 @@ Spanish Peaks Weddings at Sporleder Centennial Ranch	19530 County Road 54.2	Agui
 Niwot Hall	195 2nd Avenue	Niwot	Colorado			Historic Mansion & Estate	Indoor	70			A historic community hall in Niwot's historic district that hosts micro weddings of up to 70 guests.			https://niwothall.org/micro-weddings/
 Sangre de Cristo Arts & Conference Center	210 N. Santa Fe Ave	Pueblo	Colorado			Museum, Gallery & Rooftop	Indoor	500			An arts center with a conference center, theater and pavilion that rents space for wedding receptions.	rentals@sdc-arts.org	719-722-2420	https://sdc-arts.org/event-rentals`,
   },
+  {
+    name: "Colorado: Front Range and Western Slope (pass 7)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Eddy Taproom & Hotel	1640 8th St	Golden	Colorado			Hotel & Resort	Indoor & Outdoor				A Golden taproom and hotel with rooftops, patios and lawns for wedding events, using in-house catering only.	sales@theeddygolden.com	720-442-8150	https://www.theeddygolden.com/event-venue/weddings/
+Stone House	2900 S Estes St	Lakewood	Colorado			Historic Mansion & Estate	Indoor & Outdoor	100	680	Rental	A mid-1800s stone house among mature trees in the Bear Creek Greenbelt, with a small indoor room and a fenced yard for outdoor ceremonies.	Weddings@LakewoodCO.gov	303-987-7806	https://www.weddingsatlakewood.com/Venues/Stone-House
+Douglas County Events Center	500 Fairgrounds Dr	Castle Rock	Colorado			Barn & Farm	Indoor & Outdoor				The county fairgrounds, which host weddings alongside rodeos, concerts and trade shows in both indoor and outdoor spaces.		720-733-6900	https://www.douglasco.gov/county-fair-grounds/
+Center for Creativity	200 Mathews St	Fort Collins	Colorado			Museum, Gallery & Rooftop	Indoor & Outdoor	265	133	Package	A city-owned former Carnegie library with a public gallery, classrooms and a historic courtyard, offering wedding packages by room.	ccinfo@fortcollins.gov	970-416-2069	https://fortcollins.gov/Activities/Arts-and-Culture/Center-for-Creativity
+Blackstone Country Club	7777 S Country Club Pkwy	Aurora	Colorado			Country Club & Golf	Indoor & Outdoor				A private club in Aurora with clubhouse spaces and golf-course views, bookable for weddings without membership.		303-680-0245	https://www.invitedclubs.com/clubs/blackstone-black-bear/host-an-event/black-bear/weddings
+The Maven Hotel at Dairy Block	1850 Wazee St	Denver	Colorado			Hotel & Resort	Indoor & Outdoor				A modern hotel in the Dairy Block district with a splittable hall, a built-in stage opening to an alley, and microwedding options.	sales@themavenhotel.com	720-460-2727	https://themavenhotel.com/weddings
+Centennial Village Museum	1475 A St	Greeley	Colorado			Museum, Gallery & Rooftop	Indoor & Outdoor				A city-run living-history museum offering a 1917 church for ceremonies, an Italianate house, a pavilion, and an 1885 gazebo with gardens.	museums@greeleygov.com	970-350-9220	https://greeleyco.gov/things-to-do/arts-and-culture/museums/visit/centennial-village-museum
+Colorado Wine Country Inn	777 Grande River Dr	Palisade	Colorado			Hotel & Resort	Indoor & Outdoor				An 80-room inn on 21 acres of vineyards where couples can marry in an open pavilion among the vines, a landscaped courtyard or a vineyard ballroom.	inquiries@coloradowinecountryinn.com	970-464-5777	https://coloradowinecountryinn.com/weddings/
+Adobe Creek National Golf Course	876 18 1/2 Rd	Fruita	Colorado			Country Club & Golf	Indoor & Outdoor				A public golf course whose clubhouse and back patio over the course host ceremonies and receptions, with landscaped grounds for photos.		970-858-0521	https://www.adobecreekgolf.com/weddings-and-parties/
+Woodlands	8884 US Hwy 285	Morrison	Colorado			Barn & Farm	Indoor & Outdoor				A barn-style wedding venue on 52 acres of Rocky Mountain foothills about 30 minutes from downtown Denver.	events@woodlandscolorado.com	720-443-1796	https://woodlandscolorado.com
+Acreage by Stem Ciders	1380 Horizon Ave	Lafayette	Colorado			Restaurant & Brewery	Indoor & Outdoor	200	3000	Minimum	A cider house with over 4,000 square feet of private event space, mountain views and a deck for receptions.	info@acreageco.com	720-443-3007	https://acreageco.com/private-corporate-events/
+Redlands Community Center	2463 Broadway	Grand Junction	Colorado			Historic Mansion & Estate	Indoor & Outdoor				A historic community building with expansive grounds in the Redlands, rented out for weddings to fund its upkeep.	Redlandscc7@gmail.com	970-245-0204	https://redlandscommunitycenter.org/
+Tiara Rado Golf Course (Clubhouse 25)	2057 S Broadway	Grand Junction	Colorado			Country Club & Golf	Indoor				A municipal golf course clubhouse that hosts weddings and other social events with meeting space and catering.		970-261-8494	https://golfgrandjunction.net/tiara-rado/clubhouse-25/
+Black Bridge Winery (Orchard Valley Farms)	15836 Black Bridge Rd	Paonia	Colorado			Vineyard & Winery	Outdoor				A winery with a riverfront ceremony area and vineyard reception space, with West Elk Mountain views, a duck pond and fruit trees.		970-527-6838	https://orchardvalleyfarms.com/black-bridge-weddings/
+Wrich Ranches	36851 Fruitland Mesa Rd	Crawford	Colorado			Ranch	Indoor & Outdoor				A working cattle ranch with three large metal-sided barns, a barnyard and a ranch house, hosting weddings from intimate to large.			https://wrichranches.com/events/
+`,
+  },
+  {
+    name: "Colorado: mountain towns (pass 7)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Tivoli Lodge	386 Hanson Ranch Rd	Vail	Colorado			Hotel & Resort	Indoor				A small Vail Village lodge pitched at intimate weddings, with 360-degree views of the Rockies.		970-476-5615	https://www.tivolilodge.com/
+Harvest at the Sonnenalp Club	1265 Berry Creek Rd	Edwards	Colorado			Country Club & Golf	Indoor & Outdoor	200			A golf-club restaurant in the Singletree community, with ceremonies on a putting green and receptions on its decks, with views toward Vail Mountain.			https://harvestvail.com/
+Frisco Adventure Park	621 Recreation Way	Frisco	Colorado			Garden & Park	Indoor & Outdoor	120			A town-run park with a ceremony overlook (mid-May to mid-October) and a day lodge that can be rented year-round for receptions.	Recreation@townoffrisco.com	970-668-2558	https://www.townoffrisco.com/things-to-do/frisco-adventure-park/adventure-park-facility-rentals/
+The Lodge + Grove at Cheley Colorado Camps	3960 Fish Creek Rd	Estes Park	Colorado			Mountain & Lodge	Outdoor				A former family summer camp, at this site since 1927, backing onto Twin Sisters Mountain, with tent receptions from mid-August to mid-October.			https://www.cheleyweddings.com/
+`,
+  },
 ];
 
 export default batches;

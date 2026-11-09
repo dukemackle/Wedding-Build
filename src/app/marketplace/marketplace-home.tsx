@@ -315,6 +315,7 @@ export function MarketplaceHome({
         <button
           type="button"
           onClick={() => onBrowse({ type: typeFilter, mode: "map" })}
+          data-wren-avoid
           className="fixed bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full bg-forest px-5 py-3 text-sm font-medium text-parchment shadow-[0_10px_24px_-8px_rgba(20,32,61,0.6)] hover:bg-forest/90"
         >
           <svg aria-hidden width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8">

@@ -3,6 +3,14 @@ import Link from "next/link";
 export function SiteFooter() {
   return (
     <footer className="site-footer mt-auto w-full border-t border-hairline px-6 py-6">
+      {/* Every page links to /cities, which links to every metro hub, so search
+          engines reach the hubs (and through them, every listing) from
+          anywhere on the site. */}
+      <nav aria-label="Wedding venues and vendors by city" className="mx-auto mb-4 flex w-full max-w-5xl justify-center text-xs sm:justify-start">
+        <Link href="/cities" className="link-underline text-ink/60 transition-colors hover:text-ink">
+          Wedding venues and vendors by city &rarr;
+        </Link>
+      </nav>
       <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-3 text-xs text-ink/50 sm:flex-row">
         <span>&copy; {new Date().getFullYear()} You Do, I Do LLC</span>
         <nav className="flex items-center gap-4">
@@ -11,6 +19,9 @@ export function SiteFooter() {
           </Link>
           <Link href="/privacy" className="link-underline transition-colors hover:text-ink">
             Privacy
+          </Link>
+          <Link href="/copyright" className="link-underline transition-colors hover:text-ink">
+            Copyright
           </Link>
           <Link href="/data-sources" className="link-underline transition-colors hover:text-ink">
             Data sources

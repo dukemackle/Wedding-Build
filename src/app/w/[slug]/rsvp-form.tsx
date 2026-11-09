@@ -27,6 +27,7 @@ export function RsvpForm({
   mealOptions = null,
   askDietary = true,
   turnstileSiteKey,
+  smsEnabled = false,
 }: {
   /** The open RSVP events, known when the page renders; refined by name as they type. */
   initialEvents?: RsvpEvent[];
@@ -42,6 +43,8 @@ export function RsvpForm({
   askDietary?: boolean;
   /** Cloudflare's bot check, when it's switched on (src/lib/turnstile.ts). */
   turnstileSiteKey?: string | null;
+  /** Offer "text me schedule changes" only when texts can really be sent. */
+  smsEnabled?: boolean;
 }) {
   // "John's side" reads to a guest; "Side A" doesn't. With no names set up
   // yet the question is dropped rather than asked in the abstract.
@@ -349,15 +352,17 @@ export function RsvpForm({
                         className={inputClass}
                       />
                     </label>
-                    <div className="flex flex-col justify-end gap-2 sm:pb-2">
-                      <label className="flex items-start gap-2 text-sm text-ink">
-                        <input type="checkbox" name="sms_opt_in" className="mt-0.5 h-4 w-4 shrink-0 rounded border-hairline" />
-                        <span>
-                          Text me schedule changes for this wedding
-                          <span className="block text-xs text-ink/70">{SMS_CONSENT_DETAIL}</span>
-                        </span>
-                      </label>
-                    </div>
+                    {smsEnabled && (
+                      <div className="flex flex-col justify-end gap-2 sm:pb-2">
+                        <label className="flex items-start gap-2 text-sm text-ink">
+                          <input type="checkbox" name="sms_opt_in" className="mt-0.5 h-4 w-4 shrink-0 rounded border-hairline" />
+                          <span>
+                            Text me schedule changes for this wedding
+                            <span className="block text-xs text-ink/70">{SMS_CONSENT_DETAIL}</span>
+                          </span>
+                        </label>
+                      </div>
+                    )}
                   </>
                 )}
                 <label className={`${labelClass} sm:col-span-2`}>

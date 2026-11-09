@@ -40,6 +40,8 @@ export function GuestsPageBody({
   contactSubmissions,
   origin,
   guestPosts = [],
+  photoWallEvents = [],
+  photoWallTables = [],
   shareUrl = null,
   shareQrSvg = null,
   sheetLink = null,
@@ -59,6 +61,10 @@ export function GuestsPageBody({
   contactSubmissions: ContactSubmission[];
   origin: string;
   guestPosts?: GuestPost[];
+  /** The whole itinerary, for the photo wall's chapters (0159). */
+  photoWallEvents?: ItineraryEvent[];
+  /** Seating tables, for which tables have posted. */
+  photoWallTables?: { id: string; name: string }[];
   /** The photo wall's posting page, when the guest site is on. */
   shareUrl?: string | null;
   shareQrSvg?: string | null;
@@ -242,7 +248,9 @@ export function GuestsPageBody({
                 ? `Photo wall (${pendingPostCount} to review)`
                 : `Photo wall (${guestPosts.length})`,
               hidden: guestPosts.length === 0,
-              content: <GuestPostsFeed posts={guestPosts} />,
+              content: (
+                <GuestPostsFeed posts={guestPosts} events={photoWallEvents} tables={photoWallTables} />
+              ),
             },
             {
               key: "guestbook",

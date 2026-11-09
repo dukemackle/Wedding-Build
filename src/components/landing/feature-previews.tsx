@@ -925,6 +925,23 @@ function ChecklistDemo() {
         <span className="btn-primary pointer-events-none max-sm:hidden">+ Add task</span>
       </div>
 
+      {/* The planning reminder email (src/lib/planning-reminders.ts), as it lands in an inbox. */}
+      <div className="mt-4 flex items-start gap-3 rounded-lg bg-[#14203d] px-4 py-3">
+        <svg aria-hidden viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 text-[#5AE4FF]" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3.5 6.5 8.5 6 8.5-6" />
+        </svg>
+        <div className="min-w-0">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#5AE4FF]">
+            In your inbox · about 9 months out
+          </p>
+          <p className="mt-1 text-[15px] font-medium leading-snug text-white">
+            Photographer, food and music book up first
+          </p>
+          <p className="mt-0.5 text-sm text-white/70">Wren emails when it&apos;s time, and skips what you&apos;ve ticked off.</p>
+        </div>
+      </div>
+
       {/* Phone: the journey as one column, the stage you're on open. */}
       <div className="mt-4 md:hidden">
         {stages.map((s, i) => {

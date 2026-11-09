@@ -111,6 +111,18 @@ function wave(w: number, y: number, amp: number, len: number, phase: number) {
 }
 
 export const ART: Record<string, ArtDef> = {
+  panel: {
+    kind: "vector",
+    label: "Panel",
+    aspect: 1060 / 780,
+    draw: (w) => <rect width={w} height={(w * 1060) / 780} rx={22} fill="currentColor" />,
+  },
+  lineFrame: {
+    kind: "vector",
+    label: "Line frame",
+    aspect: 1310 / 910,
+    draw: (w) => <rect x={1} y={1} width={w - 2} height={(w * 1310) / 910 - 2} fill="none" stroke="currentColor" strokeWidth={2} />,
+  },
   rule: {
     kind: "vector",
     label: "Rule",

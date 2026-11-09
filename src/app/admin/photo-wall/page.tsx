@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { GuestPost, Wedding } from "@/lib/supabase/types";
 import { PhotoWallManager } from "./photo-wall-manager";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export default async function AdminPhotoWallPage() {
   await requireAdmin();
@@ -31,7 +32,7 @@ export default async function AdminPhotoWallPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Photo wall</h1>
       <p className="mb-6 text-xs text-ink/50">
         Everything guests have posted to any couple&apos;s wall, newest first. Couples approve

@@ -27,9 +27,13 @@ export const EVENTS = {
   guest_site_published: "once",
   rsvp_invites_sent: "once",
   save_the_dates_sent: "once",
+  invitations_sent: "once",
   rsvp_received: "every",
   listing_claim_submitted: "every",
   listing_claimed: "once",
+  // One per text attempted (schedule updates to opted-in guests), with
+  // props { ok, opted_out }. Read on /admin/usage: texts are a per-message cost.
+  sms_sent: "every",
 } as const;
 
 export type EventName = keyof typeof EVENTS;

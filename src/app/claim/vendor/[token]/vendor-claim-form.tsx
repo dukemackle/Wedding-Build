@@ -5,14 +5,14 @@ import { useRef, useState, useTransition } from "react";
 import { BUSINESS_HEARD_FROM, readFirstTouch } from "@/lib/attribution";
 import { LegalNotice } from "@/components/legal-notice";
 import { ClaimDone } from "../../claim-done";
-import { createClient } from "@/lib/supabase/client";
+import { uploadClaimPhotos } from "../../upload-photos";
 import { STATES, STYLE_TIERS, VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import { MAX_CLAIM_PHOTOS, type ClaimFaq } from "@/lib/venue-claim";
 import type { VendorClaimDetails, VendorClaimSubmission } from "@/lib/vendor-claim";
 import type { Vendor, VendorPriceUnit } from "@/lib/supabase/types";
 import { Field, inputClass, labelClass, PhotoGridEditor, Section, Select } from "../../form-parts";
 import {
-  createVendorClaimPhotoUploads,
+  uploadVendorClaimPhoto,
   submitVendorClaim,
   createImportUpload,
   readListingSource,
@@ -98,24 +98,8 @@ export function VendorClaimForm({
       return;
     }
     setUploading(chosen.length);
-    const result = await createVendorClaimPhotoUploads(
-      token,
-      chosen.map((f) => ({ type: f.type, size: f.size })),
-    );
-    if (result.error || !result.uploads) {
-      setPhotoError(result.error ?? "Couldn't upload those photos.");
-      setUploading(0);
-      return;
-    }
-    const supabase = createClient();
-    const added: string[] = [];
-    for (const [i, u] of result.uploads.entries()) {
-      const { error } = await supabase.storage
-        .from("vendor-photos")
-        .uploadToSignedUrl(u.path, u.token, chosen[i], { contentType: chosen[i].type });
-      if (error) setPhotoError("Some photos didn't upload -- try adding them again.");
-      else added.push(u.publicUrl);
-    }
+    const { urls: added, error } = await uploadClaimPhotos(chosen, (fd) => uploadVendorClaimPhoto(token, fd));
+    if (error) setPhotoError(error);
     setUploading(0);
     setPhotos((p) => [...p, ...added]);
   }

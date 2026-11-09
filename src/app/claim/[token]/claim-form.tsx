@@ -5,7 +5,7 @@ import { useRef, useState, useTransition } from "react";
 import { BUSINESS_HEARD_FROM, readFirstTouch } from "@/lib/attribution";
 import { LegalNotice } from "@/components/legal-notice";
 import { ClaimDone } from "../claim-done";
-import { createClient } from "@/lib/supabase/client";
+import { uploadClaimPhotos } from "../upload-photos";
 import {
   ALCOHOL_POLICIES,
   AMENITY_OPTIONS,
@@ -36,7 +36,7 @@ import {
   type ClaimSubmission,
 } from "@/lib/venue-claim";
 import {
-  createClaimPhotoUploads,
+  uploadClaimPhoto,
   submitVenueClaim,
   createImportUpload,
   readListingSource,
@@ -139,27 +139,12 @@ export function ClaimForm({
   const set = <K extends keyof ClaimDetails>(key: K, value: ClaimDetails[K]) =>
     setDetails((d) => ({ ...d, [key]: value }));
 
-  // Straight from the browser to storage, through URLs the server signs for
-  // this link only. Returns the public URLs of the ones that made it.
+  // Shrunk in the browser, then checked and stored by the server for this
+  // link only. Returns the public URLs of the ones that made it.
   async function upload(files: File[]): Promise<string[]> {
-    const result = await createClaimPhotoUploads(
-      token,
-      files.map((f) => ({ type: f.type, size: f.size })),
-    );
-    if (result.error || !result.uploads) {
-      setPhotoError(result.error ?? "Couldn't upload those photos.");
-      return [];
-    }
-    const supabase = createClient();
-    const added: string[] = [];
-    for (const [i, u] of result.uploads.entries()) {
-      const { error } = await supabase.storage
-        .from("venue-photos")
-        .uploadToSignedUrl(u.path, u.token, files[i], { contentType: files[i].type });
-      if (error) setPhotoError("Some photos didn't upload -- try adding them again.");
-      else added.push(u.publicUrl);
-    }
-    return added;
+    const { urls, error } = await uploadClaimPhotos(files, (fd) => uploadClaimPhoto(token, fd));
+    if (error) setPhotoError(error);
+    return urls;
   }
 
   async function addPhotos(files: FileList | null) {

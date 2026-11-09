@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export type Entry = {
   id: string;
@@ -17,7 +18,7 @@ export const AREAS = {
   all: { label: "All", prefixes: [] },
   listings: { label: "Listings & claims", prefixes: ["vendor.", "venue.", "listing."] },
   couples: { label: "Couples", prefixes: ["couple."] },
-  moderation: { label: "Moderation", prefixes: ["guest_post.", "market.", "listing_report.", "feedback."] },
+  moderation: { label: "Moderation", prefixes: ["guest_post.", "market.", "listing_report.", "feedback.", "copyright."] },
   content: { label: "Content & data", prefixes: ["attire.", "cost_data.", "lead.", "spend."] },
 } as const;
 export type Area = keyof typeof AREAS;
@@ -58,7 +59,7 @@ export function AuditLogView({
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Admin log</h1>
       <p className="mt-2 max-w-2xl text-sm text-ink/70">
         Every change made in the admin panel: claims approved, listings hidden or deleted, couples emailed, test flags

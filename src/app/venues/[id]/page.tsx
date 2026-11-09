@@ -9,6 +9,8 @@ import { SITE_URL, isIndexable, metaDescription, venueHref } from "@/lib/public-
 import { loadVenueListing, VenueListing, type VenueListingData } from "./venue-listing";
 import { trackEvent } from "@/lib/events";
 import { parseThen } from "@/lib/signup-intent";
+import { metroForPoint, metroHref } from "@/lib/metros";
+import { listingBreadcrumbJsonLd, priceRange } from "@/lib/listing-seo";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /venues opens. Clicking a venue in the search results
@@ -53,7 +55,9 @@ function venueJsonLd({ venue, faqs }: VenueListingData) {
   const images = [...new Set([venue.image_url, ...venue.photo_urls].filter(Boolean))];
   const business = {
     "@context": "https://schema.org",
-    "@type": "EventVenue",
+    // A place for events and a business you can book: Google's local
+    // results read LocalBusiness, EventVenue carries the capacity.
+    "@type": ["EventVenue", "LocalBusiness"],
     "@id": url,
     name: venue.name,
     url,
@@ -71,12 +75,13 @@ function venueJsonLd({ venue, faqs }: VenueListingData) {
         ? { "@type": "GeoCoordinates", latitude: venue.latitude, longitude: venue.longitude }
         : undefined,
     maximumAttendeeCapacity: venue.capacity ?? undefined,
+    priceRange: priceRange(venue.price_tier),
     amenityFeature: venue.amenities.length
       ? venue.amenities.map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true }))
       : undefined,
     sameAs: [venue.website, venue.instagram_url, venue.facebook_url, venue.pinterest_url, venue.tiktok_url, venue.youtube_url].filter(Boolean),
   };
-  return [business, ...faqJsonLd(faqs)];
+  return [business, listingBreadcrumbJsonLd("venues", venue, venueHref(venue)), ...faqJsonLd(faqs)];
 }
 
 export default async function VenueDetailPage({
@@ -94,12 +99,21 @@ export default async function VenueDetailPage({
   // visitors and bots aren't counted.
   if (data.wedding) trackEvent("listing_viewed", { weddingId: data.wedding.id, listing: { kind: "venue", id: data.venue.id } });
 
+  const metro = metroForPoint(data.venue.latitude, data.venue.longitude);
+
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">
       <JsonLd data={venueJsonLd(data)} />
-      <Link href="/venues" className="mb-4 inline-block text-sm text-brass hover:underline">
-        &larr; {user ? "Back to venues" : "Browse wedding venues"}
-      </Link>
+      <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+        <Link href="/venues" className="text-brass hover:underline">
+          &larr; {user ? "Back to venues" : "Browse wedding venues"}
+        </Link>
+        {metro && (
+          <Link href={metroHref("venues", metro)} className="text-brass hover:underline">
+            More {metro.name}-area venues
+          </Link>
+        )}
+      </div>
       <VenueListing data={{ ...data, then }} />
     </PageShell>
   );

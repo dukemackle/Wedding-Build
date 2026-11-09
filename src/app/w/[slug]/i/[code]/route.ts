@@ -33,7 +33,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
   const household = await findHousehold(wedding.id, code);
   if (!household) return NextResponse.redirect(site);
 
-  // From a save-the-date ("?to=site") it's the site itself: RSVPs aren't open yet.
+  // From a save-the-date ("?to=site") it's the site itself; one asking for early RSVPs sends no "to" and lands on the form.
   if (new URL(request.url).searchParams.get("to") !== "site") site.hash = "rsvp";
   const response = NextResponse.redirect(site);
   const cookie = {

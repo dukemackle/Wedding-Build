@@ -9,9 +9,6 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { venueForClaimToken } from "@/lib/venue-claim-server";
 import {
-  CLAIM_PHOTO_TYPES,
-  MAX_CLAIM_PHOTO_BYTES,
-  MAX_CLAIM_PHOTOS,
   CLAIM_FIELD_LABELS,
   validateClaim,
   type ClaimSubmission,
@@ -20,6 +17,7 @@ import { trackEvent } from "@/lib/events";
 import { claimNotification } from "@/lib/claim-notify";
 import { cleanFirstTouch, cleanHeardFrom, cleanVia } from "@/lib/attribution";
 import { deleteClaimDraft, storeClaimDraft } from "@/lib/claim-drafts";
+import { storeClaimPhoto } from "@/lib/claim-photos";
 
 /**
  * Everything on the claim page runs through the service role, because the
@@ -30,47 +28,16 @@ import { deleteClaimDraft, storeClaimDraft } from "@/lib/claim-drafts";
 
 const BUCKET = "venue-photos";
 
-const EXTENSIONS: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-};
-
 /**
- * Hands out one signed upload URL per photo. The browser uploads straight to
- * storage with them -- ten phone photos are far past what a server action can
- * carry in one request body.
+ * Adds one photo, sent by the browser after it has shrunk it. Uploaded here
+ * rather than straight from the browser, so the file's real type is checked
+ * before it lands in a public bucket.
  */
-export async function createClaimPhotoUploads(
-  token: string,
-  files: { type: string; size: number }[],
-): Promise<{ error?: string; uploads?: { path: string; token: string; publicUrl: string }[] }> {
+export async function uploadClaimPhoto(token: string, formData: FormData): Promise<{ error?: string; url?: string }> {
   const venue = await venueForClaimToken(token);
   if (!venue) return { error: "This link is no longer valid." };
-
-  // Per request, not per listing: gallery and space photos are uploaded
-  // separately, and the submission itself caps how many are kept.
-  if (files.length > MAX_CLAIM_PHOTOS) return { error: `Add at most ${MAX_CLAIM_PHOTOS} photos at a time.` };
-  for (const file of files) {
-    if (!(CLAIM_PHOTO_TYPES as readonly string[]).includes(file.type)) {
-      return { error: "Photos need to be JPEG, PNG or WebP." };
-    }
-    if (file.size > MAX_CLAIM_PHOTO_BYTES) return { error: "Each photo needs to be under 10MB." };
-  }
-
-  const admin = createAdminSupabaseClient();
-  const uploads = [];
-  for (const file of files) {
-    const path = `claims/${venue.id}/${randomUUID()}.${EXTENSIONS[file.type]}`;
-    const { data, error } = await admin.storage.from(BUCKET).createSignedUploadUrl(path);
-    if (error || !data) return { error: "Couldn't start the upload -- please try again." };
-    uploads.push({
-      path,
-      token: data.token,
-      publicUrl: admin.storage.from(BUCKET).getPublicUrl(path).data.publicUrl,
-    });
-  }
-  return { uploads };
+  const stored = await storeClaimPhoto(BUCKET, venue.id, formData.get("photo"));
+  return "error" in stored ? { error: stored.error } : { url: stored.url };
 }
 
 export async function submitVenueClaim(

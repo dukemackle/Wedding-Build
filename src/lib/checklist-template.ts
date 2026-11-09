@@ -321,7 +321,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     notes: "Passport renewals take months, and many countries want six months' validity left.",
     weeksBefore: 16,
   },
-  { phase: "lock", title: "Order your invitations", weeksBefore: 14 },
+  { phase: "lock", title: "Order your invitations", weeksBefore: 14, href: "/guests/invitations" },
   {
     phase: "lock",
     title: "Plan the rehearsal dinner",

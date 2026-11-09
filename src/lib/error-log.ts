@@ -45,14 +45,61 @@ export async function logError(area: ErrorArea, source: string, error: unknown, 
         ? String((error as { message: unknown }).message)
         : String(error);
   try {
-    const { error: rpcError } = await createAdminSupabaseClient().rpc("log_app_error", {
+    const message = scrubErrorMessage(raw) || "(no message)";
+    const { data: isNew, error: rpcError } = await createAdminSupabaseClient().rpc("log_app_error", {
       p_area: area,
       p_source: source,
-      p_message: scrubErrorMessage(raw) || "(no message)",
+      p_message: message,
       p_digest: digest ?? null,
     });
     if (rpcError) console.error("app_errors insert failed:", rpcError.message);
+    // true only once 0163 is run, and only the first time today.
+    else if (isNew === true) await alertAdmins(area, source, message);
   } catch (logFailure) {
     console.error("app_errors insert failed:", logFailure);
+  }
+}
+
+/** Alerts per day at most, so a bad deploy can't flood the inbox. */
+const DAILY_ALERT_CAP = 10;
+
+/**
+ * Emails the admins (ADMIN_EMAIL) the first time a distinct error shows up
+ * each day. The message is already scrubbed of emails and numbers, and the
+ * source is a route pattern, so nothing personal goes out. Never throws.
+ */
+async function alertAdmins(area: ErrorArea, source: string, message: string): Promise<void> {
+  const to = (process.env.ADMIN_EMAIL ?? "")
+    .split(",")
+    .map((e) => e.trim())
+    .filter(Boolean);
+  if (!to.length || !process.env.RESEND_API_KEY) return;
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const { count } = await createAdminSupabaseClient()
+      .from("app_errors")
+      .select("id", { count: "exact", head: true })
+      .eq("day", today);
+    if ((count ?? 0) > DAILY_ALERT_CAP) return;
+    const capped = (count ?? 0) === DAILY_ALERT_CAP;
+    const { getResendClient, INQUIRY_FROM_ADDRESS } = await import("@/lib/resend");
+    await getResendClient().emails.send({
+      from: INQUIRY_FROM_ADDRESS,
+      to,
+      subject: `Site error: ${ERROR_AREA_LABEL[area]} · ${source}`.slice(0, 150),
+      text: [
+        `A new error came up on youdoido.com (${ERROR_AREA_LABEL[area]}).`,
+        "",
+        `Where: ${source}`,
+        `Error: ${message}`,
+        "",
+        "You get one email per distinct error per day; repeats are counted, not emailed.",
+        ...(capped ? ["That's today's limit: no more error emails until tomorrow (UTC). The rest are on the page below."] : []),
+        "",
+        "All errors: https://admin.youdoido.com/admin/errors",
+      ].join("\n"),
+    });
+  } catch (alertFailure) {
+    console.error("error alert email failed:", alertFailure);
   }
 }

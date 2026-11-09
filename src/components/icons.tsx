@@ -31,6 +31,15 @@ export function ChecklistIcon(props: IconProps) {
   );
 }
 
+export function MapPinIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" />
+      <circle cx="12" cy="10" r="2.25" />
+    </IconBase>
+  );
+}
+
 export function VenueIcon(props: IconProps) {
   return (
     <IconBase {...props}>
@@ -372,9 +381,10 @@ export function HairMakeupIcon(props: IconProps) {
 export function RingsIcon(props: IconProps) {
   return (
     <IconBase {...props}>
-      <circle cx="9" cy="14" r="5" />
-      <circle cx="15" cy="14" r="5" />
-      <path d="M9 9v-2l1.5-3h1L13 7v2" />
+      {/* The logo's rings and gem: the four-point gem sits on top of the right ring. */}
+      <circle cx="7.4" cy="15" r="5.6" />
+      <circle cx="16.6" cy="15" r="5.6" />
+      <path d="M16.6 3.1Q16.98 5.13 18.4 5.73Q16.98 6.33 16.6 8.2Q16.23 6.33 14.8 5.73Q16.23 5.13 16.6 3.1Z" fill="currentColor" strokeWidth={1} />
     </IconBase>
   );
 }

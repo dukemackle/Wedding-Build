@@ -104,6 +104,16 @@ function WeddingForm({
         />
       </label>
       <label className={labelClass}>
+        RSVPs open
+        <input
+          type="date"
+          name="rsvp_opens_on"
+          defaultValue={wedding?.rsvp_opens_on ?? ""}
+          className={selectClass}
+        />
+        <span className="text-xs font-normal text-ink/55">Blank: open now. Pick the day your invitations go out to hold replies until then.</span>
+      </label>
+      <label className={labelClass}>
         Expected headcount
         <input
           type="number"

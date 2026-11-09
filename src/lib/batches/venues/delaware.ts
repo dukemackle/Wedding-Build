@@ -79,6 +79,30 @@ The Inn at Montchanin Village	528 Montchanin Road	Montchanin	Delaware			Hotel & 
 Arden Gild Hall	2126 The Highway	Arden	Delaware			Ballroom	Indoor	120	2200	Rental	A 167-year-old hall in the historic village of Arden with a stage, a stone fireplace and beamed ceilings, rented for wedding receptions.	gildhallrental@gmail.com		https://ardenclub.org/rent-the-gild-hall/
 White Clay Creek Country Club	879 Delaware Park Blvd	Wilmington	Delaware			Country Club & Golf	Indoor	250			A public golf club with a ballroom for weddings of 20 to 250 guests and an event designer on staff.	kpauley@whiteclaycreek.com	302-994-6700	https://www.whiteclaycreek.com/book-your-wedding/`,
   },
+  {
+    name: "Delaware venues: estates, wineries, shore and ballrooms",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Heritage Shores Club	1 Heritage Shores Circle	Bridgeville	Delaware			Country Club & Golf	Indoor & Outdoor	350			Nantucket-style clubhouse on a golf course with a 350-seat grand ballroom, card rooms, gazebos and a pergola lawn for ceremonies.		302-337-9910	https://www.heritageshores.com/weddings-showers/
+Salted Vines Vineyard & Winery	32512 Blackwater Road	Frankford	Delaware			Vineyard & Winery	Indoor & Outdoor	150			Sussex County winery renting its tasting room, barrel room, patios and vineyard grounds in five-hour blocks for weddings.		302-436-1500	https://www.saltedvines.com/events/event-spaces
+Harvest Ridge Winery	447 Westville Rd	Marydel	Delaware			Vineyard & Winery	Indoor & Outdoor	150			Family farm winery in the Delaware countryside with a banquet room for up to 150 and an outdoor courtyard for ceremonies.		302.343.9437	https://harvestridgewinery.com/private-events/
+Mansion Farm Inn	26285 Broadkill Road	Milton	Delaware			Historic Mansion & Estate	Indoor & Outdoor				Country inn on two acres of gardens, a fountain and a saltwater pool, set among cornfields near Milton.	info@mansionfarminn.com	(302) 664-2540	https://www.mansionfarminn.com/
+CHEER Community Center	20520 Sand Hill Road	Georgetown	Delaware			Ballroom	Indoor	325			Community center banquet room that seats up to 325 and can be split into three smaller spaces, with required in-house catering.	events@cheerde.com	302-854-9500	https://cheerde.com/weddingsbanquets/
+Indian River Marina (Weddings at the Point)		Rehoboth Beach	Delaware			Beach & Coast	Outdoor	150			Tented waterside receptions at the Indian River Inlet marina in Delaware Seashore State Park, with the inlet bridge as a backdrop and cottages for overnight stays.	valeria.maresgutierrez@atlasrestaurantgroup.com	(302) 216-8211	https://bigfishevents.com/weddings/
+Boardwalk Plaza Hotel	2 Olive Avenue	Rehoboth Beach	Delaware			Hotel & Resort	Indoor	100			Pink Victorian oceanfront hotel on the boardwalk with the Kent and Sussex banquet halls for weddings of 20 to 100 guests.		(800) 332-3224	https://www.boardwalkplaza.com/weddings
+Big Fish Grill (The Cove)	20298 Coastal Highway	Rehoboth Beach	Delaware			Restaurant & Brewery	Indoor				Coastal Highway seafood restaurant with a private event space called The Cove and catering for weddings.	brandon.nitsche@atlasrestaurantgroup.com	(302) 227-3474	https://www.bigfishgrill.com/
+Copeland Maritime Center at the Kalmar Nyckel Shipyard	1124 E 7th Street	Wilmington	Delaware			Lake & River	Indoor & Outdoor	175	3000	Package	Christina River shipyard where couples marry dockside or aboard the tall ship Kalmar Nyckel and hold a reception in the maritime center.		(302) 429-7447	https://www.kalmarnyckel.org/weddings
+`,
+  },
+  {
+    name: "Delaware depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Winterthur Museum, Garden & Library	5105 Kennett Pike	Winterthur	Delaware			Historic Mansion & Estate	Indoor & Outdoor	300			Former du Pont family estate on nearly 1,000 acres with a 60-acre garden, a reflecting pool ceremony site and a glass-walled Visitor Center pavilion for receptions.	ccater@winterthur.org		https://www.winterthurwedding.com/
+Park Café	2510 W 5th Street	Wilmington	Delaware			Restaurant & Brewery	Indoor & Outdoor	65			Small neighborhood cafe with a patio that hosts micro weddings and rehearsal dinners on a full buyout.		(302) 543-2233	https://parkcafede.getbento.com/private-events
+Maple Dale Country Club	180 Maple Dale Circle	Dover	Delaware			Country Club & Golf	Indoor & Outdoor	175			Golf club open to non-member weddings, with a ballroom looking over the course and a new outdoor ceremony pergola.	crbrosius@pga.com	302-674-2877	https://www.mapledalecc.com/weddings/
+Ed Oliver Golf Club	800 N. DuPont Rd	Wilmington	Delaware			Country Club & Golf	Indoor & Outdoor	140			Public golf course with a 4,000-square-foot clubhouse that has Wilmington skyline views and an outdoor ceremony spot beside the historic Green Hill Presbyterian Church.		302-571-9041	https://www.edolivergolfclub.com/weddings
+Delaware Park	777 Delaware Park Blvd	Wilmington	Delaware			Ballroom	Indoor & Outdoor	500			Racetrack and casino complex with two ballrooms overlooking the track and paddock, plus a tented outdoor area at the paddock gardens.	Banquetmanagement@delawarepark.com	302-994-2521	https://delawarepark.com/private-events/
+Evergreen Farms	2826 Seven Hickories Road	Dover	Delaware			Barn & Farm	Indoor & Outdoor				Dover farm property that rents for single-day or full-weekend wedding packages and includes a residence on site.	events@evergreenfarmsde.com	(302) 386-8886	https://evergreenfarmsde.com/`,
+  },
 ];
 
 export default batches;

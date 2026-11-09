@@ -1,5 +1,6 @@
 "use server";
 
+import { RSVP_NOT_OPEN_ERROR, rsvpNotOpenYet } from "@/lib/rsvp-opening";
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createGuestSiteClientFor } from "@/lib/supabase/guest-site";
@@ -7,6 +8,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { SITE_URL } from "@/lib/public-listings";
 import { SMS_CONSENT_DETAIL } from "@/lib/sms-consent";
+import { smsConfigured } from "@/lib/sms";
 import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
 import { trackEvent } from "@/lib/events";
@@ -160,15 +162,16 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   // Past the password, if there is one, before anything is stored.
   const { data: open } = await supabase
     .from("public_weddings")
-    .select("id, rsvp_deadline")
+    .select("*")
     .eq("id", weddingId)
-    .maybeSingle<{ id: string; rsvp_deadline: string | null }>();
+    .maybeSingle<{ id: string; rsvp_deadline: string | null; rsvp_opens_on?: string | null }>();
   if (!open) {
     return { error: "This page has expired. Reload it and try again." };
   }
   if (rsvpClosed(open.rsvp_deadline)) {
     return { error: "RSVPs for this wedding have closed. Please get in touch with the couple directly." };
   }
+  if (rsvpNotOpenYet(open.rsvp_opens_on)) return { error: RSVP_NOT_OPEN_ERROR };
   if (!(await isHuman(formData))) {
     return { error: NOT_HUMAN_ERROR };
   }
@@ -184,7 +187,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   const events = await eventAnswers(formData, weddingId, guestName, status === "confirmed");
   const dietary = field(formData, "dietary", 300);
   const phone = field(formData, "phone", 30);
-  const smsOptIn = formData.get("sms_opt_in") === "on" && !!phone;
+  const smsOptIn = smsConfigured() && formData.get("sms_opt_in") === "on" && !!phone;
 
   // Written by the app, not the browser: the limits above are the only way in (0140).
   const { error } = await createAdminSupabaseClient().from("rsvp_submissions").insert({
@@ -225,6 +228,36 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
 }
 
 const MAX_MESSAGE_LENGTH = 500;
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * The seating table a table card's code names, if it's this wedding's.
+ * Anything else -- an old card, a table since deleted, a hand-edited link --
+ * is just a post with no table, never an error: the guest still gets to post.
+ */
+async function tableOfWedding(weddingId: string, tableId: string | null): Promise<string | null> {
+  if (!tableId || !UUID.test(tableId)) return null;
+  const { data } = await createAdminSupabaseClient()
+    .from("seating_tables")
+    .select("id")
+    .eq("id", tableId)
+    .eq("wedding_id", weddingId)
+    .maybeSingle<{ id: string }>();
+  return data?.id ?? null;
+}
+
+/**
+ * The phone's wall-clock time for the photo, as "YYYY-MM-DDTHH:MM:SS" (0159).
+ * It comes from the browser, so it's only trusted to sort the couple's own
+ * view: anything malformed or implausible is dropped.
+ */
+function localTimestamp(value: string | null): string | null {
+  if (!value || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/.test(value)) return null;
+  const year = Number(value.slice(0, 4));
+  if (Number.isNaN(Date.parse(`${value}Z`)) || year < 2000 || year > 2100) return null;
+  return value;
+}
 
 /**
  * A post to the photo wall, separate from an RSVP.
@@ -268,6 +301,8 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
     return { error: RATE_LIMIT_ERROR };
   }
 
+  const seatingTableId = await tableOfWedding(weddingId, formData.get("table") as string | null);
+
   const upload = await uploadGuestPhoto(weddingId, photo);
   if ("error" in upload) {
     return { error: upload.error };
@@ -280,6 +315,8 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
     name: name.slice(0, 120),
     message,
     photo_url: upload.photoUrl,
+    seating_table_id: seatingTableId,
+    taken_local: localTimestamp(formData.get("taken_local") as string | null),
   });
 
   if (error) {
@@ -302,13 +339,14 @@ export async function submitHouseholdRsvp(formData: FormData): Promise<{ error?:
 
   const { data: wedding } = await createAdminSupabaseClient()
     .from("weddings")
-    .select("id, public_slug, rsvp_deadline")
+    .select("*")
     .eq("id", weddingId)
-    .maybeSingle<{ id: string; public_slug: string | null; rsvp_deadline: string | null }>();
+    .maybeSingle<{ id: string; public_slug: string | null; rsvp_deadline: string | null; rsvp_opens_on?: string | null }>();
   if (!wedding?.public_slug) return { error: "This wedding's site isn't up any more." };
   if (rsvpClosed(wedding.rsvp_deadline)) {
     return { error: "RSVPs for this wedding have closed. Please get in touch with the couple directly." };
   }
+  if (rsvpNotOpenYet(wedding.rsvp_opens_on)) return { error: RSVP_NOT_OPEN_ERROR };
   if (!(await isHuman(formData))) return { error: NOT_HUMAN_ERROR };
   if (!(await allowGuestWrite(weddingId, "rsvp"))) return { error: RATE_LIMIT_ERROR };
 

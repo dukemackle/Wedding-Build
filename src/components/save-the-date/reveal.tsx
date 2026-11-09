@@ -1,8 +1,9 @@
 "use client";
 
+import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import { useState } from "react";
 import { downloadIcs } from "@/lib/ics";
-import { templateById } from "@/lib/save-the-date/templates";
+import { cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { fontById } from "@/lib/site-design";
 import type { CardDoc } from "@/lib/save-the-date/types";
 import type { ItineraryEvent } from "@/lib/supabase/types";
@@ -35,18 +36,24 @@ export function Reveal({
   doc,
   guest,
   siteHref,
+  rsvpHref = `${siteHref}#rsvp`,
   compact,
   onOpen,
+  site = null,
 }: {
   doc: CardDoc;
   guest: string;
   siteHref: string;
+  /** Where "RSVP" goes when the card asks for early replies (doc.back.rsvp). */
+  rsvpHref?: string;
   compact?: boolean;
+  /** The website the card's back prints; with a back, the open card turns over. */
+  site?: string | null;
   /** Called once, when the guest opens the envelope. */
   onOpen?: () => void;
 }) {
   const t = templateById(doc.template);
-  const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
+  const palette = cardPalette(doc);
   const pairing = t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0];
   const dark = luminance(palette.paper) < 0.35;
   const envelope = dark ? shade(palette.paper, 0.08) : shade(palette.paper, -0.05);
@@ -58,6 +65,23 @@ export function Reveal({
   const caps = fontById(pairing.sans)?.css ?? "sans-serif";
 
   const [stage, setStage] = useState<Stage>("closed");
+  const [flipped, setFlipped] = useState(false);
+  const [turning, setTurning] = useState(false);
+  /** Turning over: the card narrows to its edge, swaps sides and widens again (flat at rest, so it stays sharp). */
+  const turn = () => {
+    if (turning) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setFlipped((f) => !f);
+    setTurning(true);
+    setTimeout(() => {
+      setFlipped((f) => !f);
+      setTurning(false);
+    }, 260);
+  };
+  const hasBack = Boolean(doc.back?.on && site);
+  const invitation = isInvitationTemplate(doc.template);
+  const rsvp = invitation || Boolean(doc.back?.rsvp);
+  const filled = { background: dark ? palette.ink : "#14203d", color: dark ? palette.paper : "#fff" };
+  const outline = { borderColor: dark ? `${palette.ink}55` : "#14203d33", color: dark ? palette.ink : "#14203d" };
 
   const open = () => {
     if (stage !== "closed") return;
@@ -80,7 +104,7 @@ export function Reveal({
       end_time: null,
       title: `${c.nameA} & ${c.nameB}'s wedding`,
       location: c.place || null,
-      description: `Save the date! Details: ${new URL(siteHref, location.href).href}`,
+      description: `${invitation ? "You're invited" : "Save the date"}! Details: ${new URL(siteHref, location.href).href}`,
     } as ItineraryEvent);
   };
 
@@ -96,7 +120,7 @@ export function Reveal({
         className="std-kicker mb-6 text-center text-[11px] uppercase tracking-[0.3em]"
         style={{ color: dark ? shade(palette.muted, 0) : "#6f6458", fontFamily: caps }}
       >
-        {isOpen ? "Save the date" : `${c.nameA} & ${c.nameB} sent you something`}
+        {isOpen ? (invitation ? "You're invited" : "Save the date") : `${c.nameA} & ${c.nameB} sent you something`}
       </p>
 
       <div className="relative" style={{ width: w, aspectRatio: "1000 / 1400" }}>
@@ -116,12 +140,22 @@ export function Reveal({
         {/* The card, inside the envelope until it's lifted out. */}
         <button
           type="button"
-          onClick={open}
-          aria-label={isOpen ? "Your save the date" : "Open your save the date"}
+          onClick={isOpen ? turn : open}
+          aria-label={isOpen ? (flipped ? "Turn the card to the front" : "Turn the card over") : invitation ? "Open your invitation" : "Open your save the date"}
           className="std-card absolute inset-[4%] block cursor-pointer outline-none focus-visible:ring-4 focus-visible:ring-[#2243B6]/40"
-          disabled={isOpen}
+          disabled={isOpen && !hasBack}
         >
-          <CardSvg doc={doc} className="h-full w-full rounded-[3px] shadow-[0_18px_40px_-12px_rgba(0,0,0,.45)]" />
+          <div
+            className="h-full w-full transition-transform duration-[260ms] ease-in-out"
+            style={{ transform: turning ? "scaleX(0.02)" : undefined }}
+          >
+            <CardSvg
+              doc={doc}
+              side={flipped && hasBack ? "back" : "front"}
+              site={site}
+              className="h-full w-full rounded-[3px] shadow-[0_18px_40px_-12px_rgba(0,0,0,.45)]"
+            />
+          </div>
         </button>
 
         {/* Front pocket: the side and bottom folds, addressed to the guest. */}
@@ -160,23 +194,32 @@ export function Reveal({
       <div className="std-actions mt-8 flex min-h-[48px] flex-wrap items-center justify-center gap-3">
         {isOpen ? (
           <>
+            {/* The card's one filled button: RSVP when it asks for replies, else Add to calendar. */}
+            {rsvp && (
+              <a href={rsvpHref} className="rounded-full px-5 py-3 text-sm font-medium" style={{ ...filled, fontFamily: caps }}>
+                RSVP
+              </a>
+            )}
             {c.date && (
               <button
                 type="button"
                 onClick={addToCalendar}
-                className="rounded-full px-5 py-3 text-sm font-medium"
-                style={{ background: dark ? palette.ink : "#14203d", color: dark ? palette.paper : "#fff", fontFamily: caps }}
+                className={`rounded-full px-5 py-3 text-sm font-medium ${rsvp ? "border" : ""}`}
+                style={{ ...(rsvp ? outline : filled), fontFamily: caps }}
               >
                 Add to calendar
               </button>
             )}
-            <a
-              href={siteHref}
-              className="rounded-full border px-5 py-3 text-sm font-medium"
-              style={{ borderColor: dark ? `${palette.ink}55` : "#14203d33", color: dark ? palette.ink : "#14203d", fontFamily: caps }}
-            >
-              See our wedding website
-            </a>
+            {hasBack && (
+              <button type="button" onClick={turn} className="rounded-full border px-5 py-3 text-sm font-medium" style={{ ...outline, fontFamily: caps }}>
+                {flipped ? "See the front" : "Turn it over"}
+              </button>
+            )}
+            {!rsvp && (
+              <a href={siteHref} className="rounded-full border px-5 py-3 text-sm font-medium" style={{ ...outline, fontFamily: caps }}>
+                See our wedding website
+              </a>
+            )}
           </>
         ) : (
           <button

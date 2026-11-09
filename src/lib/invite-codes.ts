@@ -22,3 +22,8 @@ export function personalRsvpPath(slug: string, code: string) {
 export function personalCardPath(slug: string, code: string) {
   return `/w/${slug}/s/${code}`;
 }
+
+/** /w/<slug>/v/<code>: a guest's own invitation, the same envelope with the invitation inside. */
+export function personalInvitationPath(slug: string, code: string) {
+  return `/w/${slug}/v/${code}`;
+}

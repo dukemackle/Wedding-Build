@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
+import QRCode from "qrcode";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
+import { BACK_QR, backQrUrl, backTemplate } from "@/lib/save-the-date/back";
 import { hasNumericDate, layerText, wrapText } from "@/lib/save-the-date/format";
-import { templateById } from "@/lib/save-the-date/templates";
+import { cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { ARTBOARD, type CardDoc, type ColorRole, type Layer, type LayerOverride, type Palette, type TextLayer } from "@/lib/save-the-date/types";
 import { ART } from "./art";
 
@@ -16,10 +19,33 @@ type Props = {
   onSelect?: (id: string | null) => void;
   /** A finished drag, in artboard units. */
   onMove?: (id: string, dx: number, dy: number) => void;
+  /** A double-click on words: retype them. */
+  onEdit?: (id: string) => void;
   /** Hands over the drawn <svg>, for export. */
   svgRef?: (el: SVGSVGElement | null) => void;
   title?: string;
+  /** Editor mode: the "Add your photo" button in an empty photo frame. */
+  onAddPhoto?: () => void;
+  /** Which side to draw. The back is the Details layout in this design's colours (back.ts). */
+  side?: "front" | "back";
+  /** The back's website, e.g. youdoido.com/w/alex-and-jordan; null while the site is off. */
+  site?: string | null;
 };
+
+/** Relative luminance-ish, 0-255: enough to tell a dark paper from a light one. */
+function lum(hex: string) {
+  const n = parseInt(hex.slice(1), 16);
+  return 0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255);
+}
+
+/** A QR code's dark modules as one path, one unit per module. */
+function qrPath(url: string) {
+  const { modules } = QRCode.create(url, { errorCorrectionLevel: "M" });
+  let d = "";
+  for (let y = 0; y < modules.size; y++)
+    for (let x = 0; x < modules.size; x++) if (modules.get(y, x)) d += `M${x} ${y}h1v1h-1z`;
+  return { d, size: modules.size };
+}
 
 /** Where scaling pivots: a text's anchor point, a picture's centre. */
 function pivot(layer: Layer): [number, number] {
@@ -28,6 +54,19 @@ function pivot(layer: Layer): [number, number] {
   const def = ART[layer.art];
   return [layer.x + layer.w / 2, layer.y + (layer.w * (def?.aspect ?? 1)) / 2];
 }
+
+/** A drawn layer's box on the artboard, after its move and resize. */
+export function layerBox(svg: SVGSVGElement, layer: Layer, o: LayerOverride | undefined) {
+  const g = svg.querySelector<SVGGElement>(`[data-layer="${layer.id}"]`);
+  if (!g) return null;
+  const b = g.getBBox();
+  const s = o?.scale ?? 1;
+  const [px, py] = pivot(layer);
+  return { x: px + s * (b.x - px) + (o?.dx ?? 0), y: py + s * (b.y - py) + (o?.dy ?? 0), w: b.width * s, h: b.height * s };
+}
+
+/** How close (artboard units) an edge or centre must come before it snaps. */
+const SNAP = 12;
 
 function overrideTransform(layer: Layer, o: LayerOverride | undefined, live: [number, number] | null) {
   const dx = (o?.dx ?? 0) + (live?.[0] ?? 0);
@@ -43,10 +82,13 @@ function overrideTransform(layer: Layer, o: LayerOverride | undefined, live: [nu
  * canvas, the guest's reveal and the source of the PNG/PDF export, so what
  * the couple designs is exactly what guests get.
  */
-export function CardSvg({ doc, className, editable, selected, onSelect, onMove, svgRef, title }: Props) {
+export function CardSvg({ doc, className, editable, selected, onSelect, onMove, onEdit, svgRef, title, onAddPhoto, side = "front", site = null }: Props) {
   const uid = useId().replace(/:/g, "");
-  const t = templateById(doc.template);
-  const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
+  const back = side === "back";
+  const t = back ? backTemplate(templateById(doc.template), doc, site) : templateById(doc.template);
+  const rsvp = Boolean(doc.back?.rsvp);
+  const qr = useMemo(() => (back ? qrPath(backQrUrl(site, rsvp)) : null), [back, site, rsvp]);
+  const palette = cardPalette(doc);
   const pairing = t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0];
   const own = useRef<SVGSVGElement | null>(null);
 
@@ -79,7 +121,9 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     if (changed) setFit(next);
     // fit is read, not a dependency: re-measuring after our own update would loop.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [doc, fontsTick]);
+  }, [doc, fontsTick, side, site]);
+
+  const layers = doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers;
 
   // Dragging, in artboard units.
   const [drag, setDrag] = useState<{ id: string; x0: number; y0: number; dx: number; dy: number } | null>(null);
@@ -91,23 +135,66 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     const p = pt.matrixTransform(svg.getScreenCTM()!.inverse());
     return [p.x, p.y] as const;
   };
+  // Snapping: the moving layer's edges and centre line up with the card's
+  // centre and with the other layers' edges and centres, measured at the start.
+  const snap = useRef<{ box: { x: number; y: number; w: number; h: number }; xs: number[]; ys: number[] } | null>(null);
+  const [guides, setGuides] = useState<{ x?: number; y?: number }>({});
   const startDrag = (id: string) => (e: ReactPointerEvent) => {
     if (!editable) return;
     e.stopPropagation();
     onSelect?.(id);
     (e.target as Element).setPointerCapture?.(e.pointerId);
     const [x, y] = toArtboard(e);
+    const svg = own.current!;
+    const me = layers.find((l) => l.id === id);
+    const box = me ? layerBox(svg, me, doc.overrides[id]) : null;
+    const xs = [ARTBOARD.w / 2];
+    const ys = [ARTBOARD.h / 2];
+    for (const l of layers) {
+      if (l.id === id || l.kind === "photo" || doc.overrides[l.id]?.hidden) continue;
+      const b = layerBox(svg, l, doc.overrides[l.id]);
+      if (!b || !b.w) continue;
+      xs.push(b.x, b.x + b.w / 2, b.x + b.w);
+      ys.push(b.y + b.h / 2);
+    }
+    snap.current = box ? { box, xs, ys } : null;
     setDrag({ id, x0: x, y0: y, dx: 0, dy: 0 });
   };
   const moveDrag = (e: ReactPointerEvent) => {
     if (!drag) return;
     const [x, y] = toArtboard(e);
-    setDrag({ ...drag, dx: x - drag.x0, dy: y - drag.y0 });
+    let dx = x - drag.x0;
+    let dy = y - drag.y0;
+    const next: { x?: number; y?: number } = {};
+    const sn = snap.current;
+    if (sn && !e.altKey) {
+      const best = (edges: number[], targets: number[]) => {
+        let hit: { by: number; at: number } | null = null;
+        for (const edge of edges)
+          for (const t of targets) if (Math.abs(t - edge) < SNAP && (!hit || Math.abs(t - edge) < Math.abs(hit.by))) hit = { by: t - edge, at: t };
+        return hit;
+      };
+      const { box } = sn;
+      const hx = best([box.x + dx, box.x + box.w / 2 + dx, box.x + box.w + dx], sn.xs);
+      if (hx) {
+        dx += hx.by;
+        next.x = hx.at;
+      }
+      const hy = best([box.y + box.h / 2 + dy], sn.ys);
+      if (hy) {
+        dy += hy.by;
+        next.y = hy.at;
+      }
+    }
+    if (next.x !== guides.x || next.y !== guides.y) setGuides(next);
+    setDrag({ ...drag, dx, dy });
   };
   const endDrag = () => {
     if (!drag) return;
     if (Math.abs(drag.dx) + Math.abs(drag.dy) > 1) onMove?.(drag.id, drag.dx, drag.dy);
     setDrag(null);
+    setGuides({});
+    snap.current = null;
   };
 
   // The selected layer's outline, measured after drawing.
@@ -123,8 +210,6 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
   const family = (layer: TextLayer, o?: LayerOverride) =>
     fontById(o?.font ?? pairing[layer.font])?.css ?? "serif";
 
-  const layers = doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers;
-
   return (
     <svg
       ref={(el) => {
@@ -134,7 +219,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       viewBox={`0 0 ${ARTBOARD.w} ${ARTBOARD.h}`}
       className={className}
       role="img"
-      aria-label={title ?? `Save the date: ${doc.content.nameA} and ${doc.content.nameB}`}
+      aria-label={title ?? (back ? `Back of the card: ${site ?? "the wedding website"}` : `${isInvitationTemplate(doc.template) ? "Invitation" : "Save the date"}: ${doc.content.nameA} and ${doc.content.nameB}`)}
       onPointerMove={moveDrag}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
@@ -188,6 +273,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
             data-layer={layer.id}
             transform={overrideTransform(layer, o, live)}
             onPointerDown={editable ? startDrag(layer.id) : undefined}
+            onDoubleClick={editable && layer.kind === "text" ? () => onEdit?.(layer.id) : undefined}
             style={editable ? { cursor: drag?.id === layer.id ? "grabbing" : "grab" } : undefined}
           >
             {renderLayer(layer, o)}
@@ -198,6 +284,29 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       {t.grain ? (
         <rect width={ARTBOARD.w} height={ARTBOARD.h} filter={`url(#grain-${uid})`} opacity={t.grain * 6} style={{ mixBlendMode: "multiply" }} pointerEvents="none" />
       ) : null}
+
+      {qr && (() => {
+        // Drawn over the paper grain, which would speckle the code. Phones read dark modules on a light ground most reliably, so the code
+        // takes the darker of paper and ink on the lighter, on a tile if the paper is dark.
+        const [dark, lighter] = lum(palette.paper) < lum(palette.ink) ? [palette.paper, palette.ink] : [palette.ink, palette.paper];
+        // Too little between them to scan (a dark ink set on a badge): white tile, darkest ink.
+        const light = lum(lighter) - lum(dark) < 110 ? "#ffffff" : lighter;
+        const pad = 26;
+        const k = BACK_QR.w / qr.size;
+        return (
+          <g data-layer="back-qr" opacity={site ? 1 : 0.35}>
+            <rect x={BACK_QR.x - pad} y={BACK_QR.y - pad} width={BACK_QR.w + pad * 2} height={BACK_QR.w + pad * 2} rx={16} fill={light} />
+            <path d={qr.d} transform={`translate(${BACK_QR.x} ${BACK_QR.y}) scale(${k})`} fill={dark} shapeRendering="crispEdges" />
+          </g>
+        );
+      })()}
+
+      {editable && drag && guides.x !== undefined && (
+        <line data-editor-only x1={guides.x} x2={guides.x} y1={0} y2={ARTBOARD.h} stroke="#00BFFE" strokeWidth={2} vectorEffect="non-scaling-stroke" pointerEvents="none" />
+      )}
+      {editable && drag && guides.y !== undefined && (
+        <line data-editor-only x1={0} x2={ARTBOARD.w} y1={guides.y} y2={guides.y} stroke="#00BFFE" strokeWidth={2} vectorEffect="non-scaling-stroke" pointerEvents="none" />
+      )}
 
       {editable && box && (
         <rect
@@ -261,9 +370,12 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
   }
 
   function renderText(layer: TextLayer, o: LayerOverride | undefined) {
-    let text = layerText(layer, doc.content);
+    let text = o?.text ?? layerText(layer, doc.content);
     if (!text.trim()) return null;
-    if (layer.upper) text = text.toUpperCase();
+    if (o?.upper ?? layer.upper) text = text.toUpperCase();
+    const tracking = o?.tracking ?? layer.tracking;
+    const italic = o?.italic ?? layer.italic;
+    const weight = o?.bold === undefined ? layer.weight : o.bold ? 700 : (layer.weight ?? 400) >= 600 ? 400 : layer.weight;
     if (layer.wrap && layer.bind !== "names") text = wrapText(text, layer.wrap);
     const lines = text.split("\n");
     const size = layer.size * (fit[layer.id] ?? 1);
@@ -274,9 +386,9 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       "data-max": layer.maxWidth,
       fontFamily: family(layer, o),
       fontSize: size,
-      fontStyle: layer.italic ? "italic" : undefined,
-      fontWeight: layer.weight,
-      letterSpacing: layer.tracking ? layer.tracking * size : undefined,
+      fontStyle: italic ? "italic" : undefined,
+      fontWeight: weight,
+      letterSpacing: tracking ? tracking * size : undefined,
       fill: paint(layer.color, o),
       opacity: layer.opacity,
       filter: layer.shadow ? `url(#lift-${uid})` : undefined,
@@ -353,11 +465,39 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       );
     }
     if (!p) {
-      return editable ? (
+      if (!editable) return null;
+      // A frame that fills the card sits behind the headline and names, so its
+      // button goes in the open space below the middle rather than dead centre.
+      const k = Math.min(1, layer.w / 520);
+      const cx = layer.x + layer.w / 2;
+      const cy = layer.y + layer.h * (layer.h >= 1200 ? 0.63 : 0.5);
+      const bw = 380 * k;
+      const bh = 84 * k;
+      return (
         <g data-editor-only>
           <rect x={layer.x + 40} y={layer.y + 40} width={layer.w - 80} height={layer.h - 80} fill="none" stroke={palette.muted} strokeWidth={2} strokeDasharray="12 10" opacity={0.5} />
+          {onAddPhoto && (
+            <g
+              role="button"
+              aria-label="Add your photo"
+              style={{ cursor: "pointer" }}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                onAddPhoto();
+              }}
+            >
+              <rect x={cx - bw / 2} y={cy - bh / 2} width={bw} height={bh} rx={bh / 2} fill="#ffffff" stroke="#14203d" strokeOpacity={0.12} strokeWidth={2} />
+              <g transform={`translate(${cx - bw / 2 + 34 * k} ${cy - 15 * k}) scale(${1.25 * k})`} fill="none" stroke="#2243B6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.5-2h7.6l1.5 2h2.2A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" />
+                <circle cx="12" cy="12.5" r="3.5" />
+              </g>
+              <text x={cx + 22 * k} y={cy + 11 * k} textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize={30 * k} fontWeight={600} fill="#14203d">
+                Add your photo
+              </text>
+            </g>
+          )}
         </g>
-      ) : null;
+      );
     }
     // Cover the frame, then slide so the focal point stays in view.
     const f = layer.focus;

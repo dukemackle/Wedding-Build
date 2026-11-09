@@ -29,6 +29,8 @@ export type Wedding = {
   /** Which photos play behind the dashboard (0143); null picks the best available. Absent until that migration runs. */
   dashboard_photo_source?: "own" | "venue" | "inspiration" | null;
   rsvp_deadline: string | null;
+  /** RSVPs open on the guest site from this day; null = open now (0159). Absent until that migration runs. */
+  rsvp_opens_on?: string | null;
   dress_code: string | null;
   travel_notes: string | null;
   referral_code: string | null;
@@ -94,6 +96,8 @@ export type PublicWedding = {
   region: string | null;
   hero_photo_url: string | null;
   rsvp_deadline: string | null;
+  /** RSVPs open on the guest site from this day; null = open now (0159). Absent until that migration runs. */
+  rsvp_opens_on?: string | null;
   dress_code: string | null;
   travel_notes: string | null;
   venue_name: string | null;
@@ -247,6 +251,9 @@ export type Guest = {
   /** Save-the-date last emailed / first opened from their link (0156). */
   std_sent_at: string | null;
   std_opened_at: string | null;
+  /** Invitation emailed / first opened (0161); absent until that migration runs. */
+  inv_sent_at?: string | null;
+  inv_opened_at?: string | null;
   invite_code: string;
   /** May bring a plus-one; plus_one is whether they are (0141). */
   plus_one_allowed: boolean;
@@ -951,6 +958,10 @@ export type GuestPost = {
   photo_url: string | null;
   status: GuestPostStatus;
   created_at: string;
+  /** The table card it was scanned from, when it came from one (0159). */
+  seating_table_id: string | null;
+  /** Phone wall-clock time the photo was taken, no zone (0159). */
+  taken_local: string | null;
 };
 
 /** A photo, story or quote the couple added to their guest site. */
@@ -969,6 +980,10 @@ export type SiteDesignRow = {
 export type SaveTheDateRow = {
   id: string;
   wedding_id: string;
+  /** The couple's name for this design (0157). */
+  name: string;
+  /** The card guests see at their link; one per wedding (0157). */
+  chosen: boolean;
   doc: unknown;
   /** The card as a picture for email and link previews (0156), and the updated_at it shows. */
   image_url: string | null;

@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { AttireItem, AttireMerchant } from "@/lib/supabase/types";
 import { AdminAttireManager } from "./admin-attire-manager";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 const sinceIso = (days: number) => new Date(Date.now() - days * 864e5).toISOString();
 
@@ -33,7 +34,7 @@ export default async function AdminAttirePage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">Attire</h1>
       <AdminAttireManager
         items={items ?? []}

@@ -97,6 +97,22 @@ Cordova Center Atrium		Cordova	Alaska			Ballroom	Indoor				Window-lined atrium w
 Anchorage Golf Course	3651 O'Malley Road	Anchorage	Alaska			Country Club & Golf	Indoor	300			Municipal golf course clubhouse that hosts wedding and banquet receptions, with separate rooms for ceremonies and rehearsal dinners.		(907) 522-3363	https://www.anchoragegolfcourse.com/
 The Government Peak Chalet	10690 North Mountain Trails Drive	Palmer	Alaska			Mountain & Lodge	Indoor & Outdoor	200	1000	Rental	Gable-roofed 45 by 51 foot banquet hall with a warming kitchen and two lawns at the base of Hatcher Pass.	info@governmentpeakchalet.com	(907) 354-5016	https://www.governmentpeakchalet.com/`,
   },
+  {
+    name: "Alaska: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Glacier Gardens Rainforest Adventure	7600 Glacier Hwy	Juneau	Alaska			Garden & Park	Indoor & Outdoor				A 50-acre botanical garden on a Tongass rainforest hillside, toured by cart along a two-mile path, with a visitor center and cafe at its base.			https://glaciergardens.com/
+Salmon Falls Resort	16707 N Tongass Hwy	Ketchikan	Alaska			Beach & Coast	Indoor & Outdoor				A log fishing lodge in the forest north of Ketchikan, with an outdoor ceremony site facing the bay and a waterfall and a reception room overlooking the water.			https://salmonfallsresort.com/
+Gwin's Lodge	14865 Sterling Hwy	Cooper Landing	Alaska			Mountain & Lodge	Indoor & Outdoor				A roadhouse lodge from the early 1950s by the Kenai River at the foot of the Kenai Mountains, with two event pavilions and cottages for guests.			https://www.gwinslodge.com
+Inn at Whittier		Whittier	Alaska			Beach & Coast	Indoor				A small harborside inn in Whittier, reached through the Anton Anderson tunnel, whose window-lined public rooms look out on Prince William Sound.			https://www.innatwhittier.com
+Alaska Adventure Cabins	2525 Sterling Hwy	Homer	Alaska			Mountain & Lodge	Indoor & Outdoor				A group of log cabins on 10 acres atop Baycrest Hill above Homer, looking over Kachemak Bay toward the Homer Spit and the glaciers beyond.			https://alaskaadventurecabins.com/
+`,
+  },
+  {
+    name: "Alaska: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Mushers Hall (Alaska Dog Mushers Association)	925 Farmers Loop Rd	Fairbanks	Alaska			Mountain & Lodge	Indoor & Outdoor				A log hall of about 1,100 square feet with a commercial kitchen, on the dog mushers' 45-acre race grounds off Farmers Loop Road.			https://alaskadogmushers.com/the-hall-and-racegrounds/
+`,
+  },
 ];
 
 export default batches;

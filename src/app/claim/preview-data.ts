@@ -44,6 +44,7 @@ export function vendorPreview(
     isFavorited: false,
     faqs: answered(faqs).map((f) => ({ ...f, vendor_id: vendor.id })),
     similarVendors: [],
+    comparison: null,
     preview: true,
   };
 }
@@ -97,6 +98,7 @@ export function venuePreview(
         created_at: at,
       })),
     similarVenues: [],
+    comparison: null,
     preview: true,
   };
 }

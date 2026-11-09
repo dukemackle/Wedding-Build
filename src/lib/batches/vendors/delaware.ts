@@ -126,6 +126,66 @@ Patty Cakes	Cake		Dover	Delaware	Delmarva and southern Pennsylvania	Dover custom
 Craig and Company Premiere Disc Jockeys	Music		Middletown	Delaware	Kent County, Dover, Harrington, Delaware, New Jersey and Pennsylvania	Middletown DJ company with experienced DJs offering wedding entertainment across Delaware, New Jersey and Pennsylvania, with backup equipment on site.		609-221-9959	https://www.djcraigandco.com/			
 `,
   },
+  {
+    name: "Wilmington: photography, hair & makeup, music, catering, rentals, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Tiffany Travis Photography	Photography		Rehoboth Beach	Delaware	Delaware beaches	Rehoboth Beach photographer covering weddings, with collections and portrait sessions shot along the Delaware coast.			https://tiffanytravisphotography.com/		2700	package
+Becca Neufeld Photography	Photography		Lewes	Delaware		Lewes-based photographer, living near the beach, who shoots weddings alongside family sessions, with a dedicated weddings portfolio.			https://www.beccaneufeldphotography.com/	https://www.instagram.com/beccaneufeldphoto/		
+GLOSS Salon	Hair & Makeup	1320 N. Union St.	Wilmington	Delaware		Wilmington salon that began as an on-site wedding hair and make-up service and still styles bridal parties for weddings.		302-888-4520	https://salondelaware.com/	https://www.instagram.com/glosssalondelaware/		
+DJ Jimmy T Entertainment	Music		Newark	Delaware	Newark and the surrounding Delaware region	Newark wedding DJ and MC service that also offers cold sparklers, up-lighting and photo booth add-ons.	info@djjimmyt.com	844-951-1010	https://djjimmyt.com/	https://www.instagram.com/djjimmyt/		
+Don Dolce	Catering		Bear	Delaware		Bear-based dessert caterer whose roaming performers pipe cannoli to order at weddings, alongside cigar hospitality and LED entertainment.	Reserve@DonDolce.com	833-226-6654	https://dondolce.com/	https://www.instagram.com/dondolcecatering/	1000	per event
+Wilmington Catering Authority	Catering	913 Brandywine Boulevard	Wilmington	Delaware	Wilmington, Marshallton, Newark, Christiana, Bear, Hockessin and Talleyville	Wilmington caterer offering customisable wedding menus with vegetarian and gluten-free options, supported by its own service staff.		302-600-1577	https://www.cateringauthorityde.com/			
+Delaware Valley Tent Rentals	Rentals	251 Airport Rd	New Castle	Delaware	Northern Delaware, with reach into PA, NJ, MD and VA	Locally owned rental company supplying wedding tents, tables, chairs, linens, lighting and dance floors with delivery and set-up included.		302-593-1933	https://www.delawarevalleytentrentals.com/	https://www.instagram.com/delawarevalleytentrentals/		
+Wilmington String Quartet	Music		Wilmington	Delaware	Delaware and surrounding areas, including Maryland, Virginia and Washington DC	String ensemble, also known as String Poets, playing ceremony and cocktail-hour music for weddings in Wilmington and Newark.	StringPoets@gmail.com	202-465-2310	https://wilmingtonstringquartet.com/			
+Kerry Harrison Photography	Photography		Wilmington	Delaware	Delaware	Wilmington-titled wedding photography team shooting timeless, romantic and authentic images for Delaware couples since 2009.	kerry@kerryharrison.net	302-494-4141	https://www.kerryharrison.net/	https://www.instagram.com/kerryharrisonphotography/	3300	package
+DMDJ Entertainment	Music		Dover	Delaware	Dover, Camden, Magnolia, Felton, Smyrna, Harrington, Milford and Townsend	Dover DJ and MC service for weddings and other events, with LED and laser lighting, a wireless mic system and a laptop for requests.	dmdj@dmdjentertainment.com	(302) 222-1251	https://www.dmdjentertainment.com/			
+Cakerybake	Cake		Smyrna	Delaware		Smyrna bakery making tiered and single-tier wedding cakes alongside birthday and sculpted cakes, with a tasting box available.			https://www.cakerybake.com/	https://www.instagram.com/cakerybakebakery/		
+`,
+  },
+  {
+    name: "Wilmington: photography, planning, florals and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+ROONI STUDIO	Florals		Wilmington	Delaware		Wilmington floral studio designing wedding flowers for ceremonies and receptions, from small gatherings to multi-space events, and happy to travel.	hello@roonistudio.com		https://www.roonistudio.com/weddings	https://www.instagram.com/thisisrooni/		
+Petals Flowers and Fine Gifts	Florals	4 West Rockland Road	Wilmington	Delaware		Wilmington flower shop doing custom wedding and event floral design, with online galleries of past weddings and a dedicated wedding inquiry form.	petalsflowers@comcast.net	(302) 654-9556	https://petalsflowersgifts.com/	https://www.instagram.com/petalsflowers/		
+Beauty Bar by Kristina Ruggerio	Hair & Makeup	1702 Augustine Cut-Off	Wilmington	Delaware		Wilmington salon doing bridal hair and makeup for the whole party, with in-house wedding coordination and travel to your venue for a fee.	BBKRfrontdesk@gmail.com	(302) 658-4400	https://www.beautybarbykristinaruggerio.com/bridal			
+Pixiest Photography	Photography	18 Cheswold Blvd	Newark	Delaware	New Castle County	Newark photographer covering full wedding days from ceremony to reception, with portraits, edited images and an online gallery; travels for weddings.	info@pixiestphotography.com	302-407-8775	https://pixiestphotography.com/wedding-photography/			
+Secretariat Wedding & Event Planning	Planning		Wilmington	Delaware		Wilmington wedding and event planning firm that has operated since 1948, helping couples choose vendors and run larger, formal weddings.			http://secevents.com/			
+`,
+  },
+  {
+    name: "Dover: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Aster & Daffodil Photo Co.	Photography		Dover	Delaware	Wilmington, Dover, Rehoboth Beach and points between	Dover-based wedding photographer covering Kent County celebrations and the stretch from Wilmington down to Rehoboth Beach.	asterdaffodilphotoco@gmail.com		https://asterdaffodilphoto.com/	https://www.instagram.com/asterdaffodilphotoco/		
+Flat Ridge Photography	Photography		Dover	Delaware	Delaware, Pennsylvania and Maryland	Owner-run wedding and family photographer in Dover who regularly travels for couples across Delaware, Pennsylvania and Maryland.			https://www.flatridgephotography.com/	https://www.instagram.com/flatridgephotography/		
+`,
+  },
+  {
+    name: "Rehoboth Beach: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Angie Moon Photographer	Photography		Harbeson	Delaware	East coast and beyond	Eastern Shore of Delaware photographer with wedding and portrait galleries, working out of Harbeson and happy to travel for couples.	angiemoon@verizon.net	(302) 841-5519	http://www.angiemoonphotographer.com/	https://www.instagram.com/angiemoonphotographer/		
+`,
+  },
+  {
+    name: "Dover: photography and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Seraiah Roslin Photography	Photography		Dover	Delaware	Destination weddings and elopements	Dover-based destination photographer covering weddings and elopements, with a four-hour minimum and 400-plus edited images in the entry package.	photographybyroslin@gmail.com		https://www.seraiahroslinphotography.com/	https://www.instagram.com/photographybyroslin/	2000	package
+Bavarian Bakery & Deli	Cake	1819 South DuPont Hwy	Dover	Delaware		Long-running Dover bakery making handmade buttercream wedding cakes from all-natural ingredients, designed around the flavours you pick.			https://yourfavoritebakery.com/custom-cakes/	https://www.instagram.com/bakerybavarian/		`,
+  },
+  {
+    name: "Rehoboth Beach: catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Big Fish Events	Catering		Rehoboth Beach	Delaware	Throughout Delaware	Full-service caterer from a coastal restaurant group, handling wedding receptions with custom menus, raw bars, bar service and event staffing.	valeria.maresgutierrez@atlasrestaurantgroup.com	302-216-8211	https://bigfishevents.com/	https://www.instagram.com/bigfisheventscatering/		
+Goolee's Grille	Catering	11 S First St	Rehoboth Beach	Delaware		Boardwalk-side restaurant catering beach receptions with American, Greek and Tex-Mex menus, gluten-free choices and full bar service.			https://gooleesgrille.com/catering/			
+Beach Baes Catering	Catering		Rehoboth Beach	Delaware		Family-run Rehoboth caterer with a coastal menu of grilled shrimp skewers, fish tacos and beach desserts, plus event styling and a tiki bar.			https://beachbaescatering.com/	https://www.instagram.com/beachbaescatering/		
+Pasqualini's Bakery	Cake	37560 Atlantic Avenue	Rehoboth Beach	Delaware		Owner-run Rehoboth bakery making wedding cakes with a free first-anniversary cake, tastings by appointment and delivery around town.		302-227-2111	https://www.pasqualinisbakery.net/services-1			`,
+  },
+  {
+    name: "Wilmington: catering, hair & makeup and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+322 BBQ & Tavern	Catering	1845 Marsh Road	Wilmington	Delaware	South Jersey, Delaware and the PA line	Slow-smoked barbecue catering for receptions and rehearsal dinners, as full service with on-site cooking or a styled drop-off buffet.	catering@322bbq.com	302-308-3162	https://322bbq.com/wedding-bbq-catering-south-jersey	https://www.instagram.com/322bbq/		
+Salon by Dominic	Hair & Makeup	130 Lantana Dr	Hockessin	Delaware	Brandywine Valley	Family-owned Hockessin salon since 1992 offering hair styling and wedding make-up application in the Brandywine Valley.		302-239-8282	https://www.salonbydominic.com/	https://www.instagram.com/salonbydominic/		
+Crescendo DJ & Drums	Music		Wilmington	Delaware	Delaware, Maryland, New Jersey and Philadelphia	Pairs a DJ with a live drummer and emcee so a reception feels like a live band, serving weddings across the tri-state area.	info@crescendodjdrums.com	215-858-8868	https://crescendodjdrums.com/			`,
+  },
 ];
 
 export default batches;

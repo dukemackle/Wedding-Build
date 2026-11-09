@@ -14,10 +14,15 @@ export async function shrinkImage(file: File, maxEdge = 2000, quality = 0.85): P
   if (!isImage(file) || file.type === "image/gif") return file;
   try {
     const bitmap = await decode(file);
-    // HEIC always becomes JPEG: only Safari can show it.
+    // HEIC always becomes JPEG: only Safari can show it. A JPEG is always
+    // re-encoded too, however small: drawing it to a canvas drops its EXIF,
+    // which on a phone photo includes where it was taken (GPS), and these
+    // photos are served at public URLs. PNG, WebP and GIF pass through when
+    // small, to keep transparency; phone cameras don't write them.
     const heic = /hei[cf]/i.test(file.type) || HEIC.test(file.name);
+    const reencode = heic || isJpeg(file);
     const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
-    if (scale === 1 && file.size < 2 * 1024 * 1024 && !heic) {
+    if (scale === 1 && file.size < 2 * 1024 * 1024 && !reencode) {
       bitmap.close();
       return file;
     }
@@ -29,7 +34,7 @@ export async function shrinkImage(file: File, maxEdge = 2000, quality = 0.85): P
     const blob = await new Promise<Blob | null>((resolve) =>
       canvas.toBlob(resolve, "image/jpeg", quality),
     );
-    if (!blob || (blob.size >= file.size && !heic)) return file;
+    if (!blob || (blob.size >= file.size && !reencode)) return file;
     const name = file.name.replace(/\.[^.]+$/, "") + ".jpg";
     return new File([blob], name, { type: "image/jpeg" });
   } catch {
@@ -38,6 +43,10 @@ export async function shrinkImage(file: File, maxEdge = 2000, quality = 0.85): P
 }
 
 const HEIC = /\.(heic|heif)$/i;
+
+function isJpeg(file: File) {
+  return file.type === "image/jpeg" || /\.jpe?g$/i.test(file.name);
+}
 
 // Some browsers hand over an iPhone photo with an empty type, so the name counts too.
 function isImage(file: File) {
