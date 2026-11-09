@@ -368,6 +368,7 @@ export async function submitHouseholdRsvp(formData: FormData): Promise<{ error?:
       meal: field(formData, `meal_${member.id}`, 80),
       bringingPlusOne: formData.get(`plus_one_${member.id}`) === "on",
       plusOneName: field(formData, `plus_one_name_${member.id}`, 120),
+      plusOneMeal: field(formData, `plus_one_meal_${member.id}`, 80),
       events,
     });
   }

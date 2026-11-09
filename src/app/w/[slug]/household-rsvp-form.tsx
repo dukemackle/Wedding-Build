@@ -17,6 +17,7 @@ type Answer = {
   meal: string;
   bringing: boolean;
   plusOneName: string;
+  plusOneMeal: string;
   events: Record<string, boolean>;
 };
 
@@ -38,6 +39,7 @@ function startingAnswers(household: Household): Record<string, Answer> {
         meal: m.meal ?? "",
         bringing: m.plus_one,
         plusOneName: m.plus_one_name ?? "",
+        plusOneMeal: m.plus_one_meal ?? "",
         events: Object.fromEntries(
           m.eventIds.map((id) => [id, m.event_rsvps?.[id] !== false]),
         ),
@@ -113,7 +115,7 @@ export function HouseholdRsvpForm({
             const a = answers[m.id];
             const extra = [
               a.coming && a.meal,
-              a.coming && a.bringing && `+ ${a.plusOneName || "a guest"}`,
+              a.coming && a.bringing && `+ ${a.plusOneName || "a guest"}${askMeal && a.plusOneMeal ? `, ${a.plusOneMeal}` : ""}`,
             ]
               .filter(Boolean)
               .join(", ");
@@ -144,7 +146,7 @@ export function HouseholdRsvpForm({
 
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <p className="text-ink">
-          Replying for <span className="font-medium">{household.label}</span>
+          Replying for <span className="font-medium">{household.names}</span>
         </p>
         <button
           type="button"
@@ -298,6 +300,26 @@ export function HouseholdRsvpForm({
                             Not sure yet? Write TBD and update it from this
                             page later.
                           </span>
+                        </label>
+                      )}
+                      {a.bringing && askMeal && (
+                        <label className="flex flex-col gap-1 text-sm text-ink">
+                          Your guest&apos;s meal
+                          <select
+                            name={`plus_one_meal_${m.id}`}
+                            value={a.plusOneMeal}
+                            onChange={(e) =>
+                              update(m.id, { plusOneMeal: e.target.value })
+                            }
+                            className={inputClass}
+                          >
+                            <option value="">Choose one</option>
+                            {meals.map((meal) => (
+                              <option key={meal} value={meal}>
+                                {meal}
+                              </option>
+                            ))}
+                          </select>
                         </label>
                       )}
                     </div>

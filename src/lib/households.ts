@@ -13,7 +13,7 @@ import { normalizeInviteCode } from "@/lib/invite-codes";
 
 export type HouseholdMember = Pick<
   Guest,
-  "id" | "name" | "status" | "plus_one" | "plus_one_allowed" | "plus_one_name" | "meal" | "event_rsvps"
+  "id" | "name" | "status" | "plus_one" | "plus_one_allowed" | "plus_one_name" | "plus_one_meal" | "meal" | "event_rsvps"
 > & {
   /** The RSVP events this person answers: the open ones plus any invite-only ones they're on. */
   eventIds: string[];
@@ -22,15 +22,21 @@ export type HouseholdMember = Pick<
 export type Household = {
   weddingId: string;
   code: string;
-  /** "The Alvarez household", or the guest's own name when there's no household. */
+  /** "The Alvarez household", or the guest's own name when there's no household. For the couple only. */
   label: string;
+  /**
+   * Who the RSVP is for, as the guest sees it: "Richard & Sofia". The
+   * household text is the couple's own filing label ("Okafor (dad)") and
+   * never shown to guests.
+   */
+  names: string;
   members: HouseholdMember[];
   /** Every event any member answers, in date order. */
   events: RsvpEvent[];
 };
 
 const MEMBER_COLUMNS =
-  "id, name, household, status, plus_one, plus_one_allowed, plus_one_name, meal, event_rsvps, invite_code";
+  "id, name, household, status, plus_one, plus_one_allowed, plus_one_name, plus_one_meal, meal, event_rsvps, invite_code";
 
 type MemberRow = Omit<HouseholdMember, "eventIds"> & { household: string | null; invite_code: string };
 
@@ -43,6 +49,12 @@ function householdLabel(household: string | null): string | null {
 
 function sameHousehold(a: string | null, b: string | null) {
   return !!a?.trim() && !!b?.trim() && normalizeGuestName(a) === normalizeGuestName(b);
+}
+
+/** "Richard", "Richard & Sofia", "Linda, Dave & Ruth". */
+function joinNames(names: string[]): string {
+  if (names.length <= 1) return names[0] ?? "";
+  return `${names.slice(0, -1).join(", ")} & ${names[names.length - 1]}`;
 }
 
 /** The household a code opens on this wedding, or null for a code that isn't one. */
@@ -96,6 +108,7 @@ export async function findHousehold(weddingId: string, rawCode: string | null | 
     plus_one: row.plus_one,
     plus_one_allowed: row.plus_one_allowed,
     plus_one_name: row.plus_one_name,
+    plus_one_meal: row.plus_one_meal,
     meal: row.meal,
     event_rsvps: row.event_rsvps,
     eventIds: allEvents
@@ -108,6 +121,7 @@ export async function findHousehold(weddingId: string, rawCode: string | null | 
     weddingId,
     code,
     label: householdLabel(guest.household) ?? guest.name,
+    names: joinNames(members.map((m) => m.name.trim().split(/\s+/)[0] || m.name)),
     members,
     events: allEvents.filter((e) => asked.has(e.id)),
   };
@@ -149,6 +163,7 @@ export type MemberAnswer = {
   status: Extract<GuestStatus, "confirmed" | "declined">;
   meal: string | null;
   plusOneName: string | null;
+  plusOneMeal: string | null;
   bringingPlusOne: boolean;
   events: EventAnswers | null;
 };
@@ -176,6 +191,7 @@ export async function applyHouseholdAnswers(household: Household, answers: Membe
         meal: coming ? answer.meal : member.meal,
         plus_one: plusOne,
         plus_one_name: plusOne ? answer.plusOneName : member.plus_one_name,
+        plus_one_meal: plusOne ? answer.plusOneMeal : member.plus_one_meal,
         ...(member.eventIds.length > 0 ? { event_rsvps: events } : {}),
         rsvp_changed_at: now,
       })

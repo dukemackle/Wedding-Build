@@ -112,6 +112,7 @@ const EXPORT_COLUMNS: { header: string; value: (guest: Guest) => string }[] = [
   { header: "Country", value: (g) => g.country ?? "" },
   { header: "Plus One", value: (g) => (g.plus_one ? "yes" : "no") },
   { header: "Plus One Name", value: (g) => g.plus_one_name ?? "" },
+  { header: "Plus One Meal", value: (g) => (g.plus_one ? (g.plus_one_meal ?? "") : "") },
   { header: "Status", value: (g) => g.status },
   { header: "Priority", value: (g) => g.priority },
   { header: "Side", value: (g) => g.side ?? "" },
@@ -279,7 +280,7 @@ function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
         </label>
       )}
       {bringingPlusOne && (
-        <label className={`${labelClass} sm:col-span-2`}>
+        <label className={labelClass}>
           Plus one&apos;s name
           <input
             name="plus_one_name"
@@ -287,6 +288,22 @@ function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
             defaultValue={guest?.plus_one_name ?? ""}
             className={inputClass}
           />
+        </label>
+      )}
+      {bringingPlusOne && (
+        <label className={labelClass}>
+          Plus one&apos;s meal
+          <select name="plus_one_meal" defaultValue={guest?.plus_one_meal ?? ""} className={inputClass}>
+            <option value="">Not selected</option>
+            {guest?.plus_one_meal && !meals.includes(guest.plus_one_meal) && (
+              <option value={guest.plus_one_meal}>{guest.plus_one_meal}</option>
+            )}
+            {meals.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </label>
       )}
       <label className={`${labelClass} sm:col-span-2`}>
@@ -1640,9 +1657,12 @@ export function GuestsManager({
   for (const guest of confirmedGuests) {
     const key = guest.meal || "Not selected";
     mealCounts.set(key, (mealCounts.get(key) ?? 0) + 1);
-    // A +1's meal isn't asked separately; count them so the tally adds up
-    // to the headcount the caterer gets.
-    if (guest.plus_one) mealCounts.set("Plus-ones", (mealCounts.get("Plus-ones") ?? 0) + 1);
+    // A +1 has their own meal (0165); one not chosen yet still counts, so
+    // the tally adds up to the headcount the caterer gets.
+    if (guest.plus_one) {
+      const plusOneKey = guest.plus_one_meal || "Not selected";
+      mealCounts.set(plusOneKey, (mealCounts.get(plusOneKey) ?? 0) + 1);
+    }
   }
   const mealBreakdown = Array.from(mealCounts.entries()).sort((a, b) => b[1] - a[1]);
 

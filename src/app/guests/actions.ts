@@ -61,6 +61,8 @@ function guestFieldsFromForm(formData: FormData) {
       // Bringing one means allowed one (the 0141 trigger keeps that true too).
       plus_one_allowed: formData.get("plus_one") === "on" || formData.get("plus_one_allowed") === "on",
       plus_one_name: ((formData.get("plus_one_name") as string) || "").trim() || null,
+      plus_one_meal:
+        formData.get("plus_one") === "on" ? ((formData.get("plus_one_meal") as string) || "").trim() || null : null,
       status: status as GuestStatus,
       priority: priority as GuestPriority,
       side: optionalChoice(formData.get("side"), GUEST_SIDES),

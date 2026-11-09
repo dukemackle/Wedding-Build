@@ -23,6 +23,7 @@ export type GuestImportValues = {
   country: string | null;
   plus_one: boolean;
   plus_one_name: string | null;
+  plus_one_meal: string | null;
   status: GuestStatus;
   priority: GuestPriority;
   side: GuestSide | null;
@@ -128,6 +129,9 @@ export const FIELD_ALIASES: Record<string, GuestField> = {
   guestof: "plus_one",
   plusonename: "plus_one_name",
   plusoneguest: "plus_one_name",
+  plusonemeal: "plus_one_meal",
+  plusonesmeal: "plus_one_meal",
+  guestmeal: "plus_one_meal",
   status: "status",
   rsvp: "status",
   rsvpstatus: "status",
@@ -326,6 +330,7 @@ export function parseGuestTable(
       country: cell("country") || null,
       plus_one: plusOne,
       plus_one_name: plusOneName || null,
+      plus_one_meal: (plusOne && cell("plus_one_meal")) || null,
       status: parseStatus(cell("status")),
       priority: parsePriority(cell("priority")),
       side: parseSide(cell("side"), partnerNames?.a ?? null, partnerNames?.b ?? null),
