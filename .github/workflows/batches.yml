@@ -38,6 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/merge-batch-prs.mjs | tee merge.log && tail -1 merge.log >> "$GITHUB_OUTPUT"
       - name: Import batches
+        id: import
         # After a check_run event, only when something was merged.
         if: github.event_name != 'check_run' || steps.merge.outputs.merged != '0'
         env:
@@ -49,3 +50,17 @@ jobs:
           # Once a day, re-check every venue's pin against its address.
           if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%H)" = "10" ]; then extra="--repair-pins"; fi
           npm run import:batches -- --minutes 35 $extra
+      - name: Report the run to /admin/automations
+        # Always, so a failed merge or import shows up on the admin. Best
+        # effort: a failed report never fails the run.
+        if: always()
+        env:
+          BATCH_IMPORT_SECRET: ${{ secrets.BATCH_IMPORT_SECRET }}
+          OK: ${{ job.status == 'success' }}
+          SUMMARY: "${{ github.event_name }} · merged ${{ steps.merge.outputs.merged || '0' }} · import ${{ steps.import.outcome || 'skipped' }} · ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        run: |
+          curl -sS -m 20 -X POST https://youdoido.com/api/automation-log \
+            -H "Authorization: Bearer $BATCH_IMPORT_SECRET" \
+            -H "Content-Type: application/json" \
+            -d "$(node -e 'console.log(JSON.stringify({ job: "batches", ok: process.env.OK === "true", summary: process.env.SUMMARY }))')" \
+            || true

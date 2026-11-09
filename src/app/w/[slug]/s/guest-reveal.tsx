@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "@/components/save-the-date/reveal";
+import { siteAddress } from "@/lib/save-the-date/back";
 import type { CardDoc } from "@/lib/save-the-date/types";
 
 /**
@@ -12,20 +13,25 @@ export function GuestReveal({
   doc,
   guest,
   siteHref,
+  rsvpHref,
   fontsHref,
   slug,
   code,
+  invitation,
 }: {
   doc: CardDoc;
   guest: string;
   siteHref: string;
+  rsvpHref?: string;
   fontsHref: string;
   slug: string;
   code?: string;
+  /** An invitation's envelope: its open is stamped on inv_opened_at. */
+  invitation?: boolean;
 }) {
   const opened = () => {
     if (!code) return;
-    fetch("/api/save-the-date/opened", {
+    fetch(invitation ? "/api/invitation/opened" : "/api/save-the-date/opened", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ slug, code }),
@@ -35,7 +41,7 @@ export function GuestReveal({
   return (
     <div className="flex min-h-dvh flex-col">
       <link rel="stylesheet" href={fontsHref} precedence="default" />
-      <Reveal doc={doc} guest={guest} siteHref={siteHref} onOpen={opened} />
+      <Reveal doc={doc} guest={guest} siteHref={siteHref} rsvpHref={rsvpHref} site={siteAddress(slug)} onOpen={opened} />
     </div>
   );
 }

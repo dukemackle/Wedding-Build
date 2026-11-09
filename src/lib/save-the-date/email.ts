@@ -24,10 +24,13 @@ export type CardEmail = {
   /** The guest's own link, /w/<slug>/s/<code>. */
   url: string;
   imageUrl: string;
+  /** An invitation (Guests › Invitations), not a save-the-date: its own wording. */
+  invitation?: boolean;
 };
 
-export function cardEmailSubject({ names, when }: Pick<CardEmail, "names" | "when">) {
-  return when ? `Save the date: ${names} · ${when}` : `Save the date: ${names}`;
+export function cardEmailSubject({ names, when, invitation }: Pick<CardEmail, "names" | "when" | "invitation">) {
+  const lead = invitation ? "You're invited" : "Save the date";
+  return when ? `${lead}: ${names} · ${when}` : `${lead}: ${names}`;
 }
 
 export function cardEmailText(e: CardEmail) {
@@ -35,9 +38,11 @@ export function cardEmailText(e: CardEmail) {
   return [
     `Dear ${e.greeting},`,
     "",
-    `We're getting married${details ? ` (${details})` : ""}, and we'd love you to save the date.`,
+    e.invitation
+      ? `We're getting married${details ? ` (${details})` : ""}, and we'd love you to be there.`
+      : `We're getting married${details ? ` (${details})` : ""}, and we'd love you to save the date.`,
     "",
-    `Open your save the date: ${e.url}`,
+    e.invitation ? `Open your invitation and RSVP: ${e.url}` : `Open your save the date: ${e.url}`,
     "",
     `Love, ${e.names}`,
     "",
@@ -47,17 +52,19 @@ export function cardEmailText(e: CardEmail) {
 
 export function cardEmailHtml(e: CardEmail) {
   const sans = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif";
-  const alt = esc(`Save the date: ${[e.names, e.when, e.place].filter(Boolean).join(", ")}`);
+  const alt = esc(`${e.invitation ? "Invitation" : "Save the date"}: ${[e.names, e.when, e.place].filter(Boolean).join(", ")}`);
+  const teaser = e.invitation ? "would love you to be there" : "would love you to save the date";
+  const button = e.invitation ? "Open your invitation &amp; RSVP" : "Open your save the date";
   return `<!doctype html>
 <html><body style="margin:0;padding:0;background:#f4f1ec;">
-<div style="display:none;max-height:0;overflow:hidden;">${esc(e.names)} would love you to save the date${e.when ? ` · ${esc(e.when)}` : ""}</div>
+<div style="display:none;max-height:0;overflow:hidden;">${esc(e.names)} ${teaser}${e.when ? ` · ${esc(e.when)}` : ""}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f1ec;">
 <tr><td align="center" style="padding:32px 16px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:420px;">
 <tr><td align="center" style="font:15px/1.5 ${sans};color:#4a5068;padding-bottom:18px;">Dear ${esc(e.greeting)},</td></tr>
 <tr><td align="center"><a href="${esc(e.url)}"><img src="${esc(e.imageUrl)}" width="400" alt="${alt}" style="display:block;width:100%;max-width:400px;height:auto;border:0;border-radius:3px;"></a></td></tr>
 <tr><td align="center" style="padding:26px 0 8px;">
-<a href="${esc(e.url)}" style="display:inline-block;background:#14203d;color:#ffffff;font:600 15px ${sans};text-decoration:none;padding:13px 26px;border-radius:999px;">Open your save the date</a>
+<a href="${esc(e.url)}" style="display:inline-block;background:#14203d;color:#ffffff;font:600 15px ${sans};text-decoration:none;padding:13px 26px;border-radius:999px;">${button}</a>
 </td></tr>
 <tr><td align="center" style="font:12px/1.6 ${sans};color:#8a8f9e;padding-top:18px;">
 Sent by ${esc(e.names)} with You Do, I Do.<br>Reply to this email to reach them.

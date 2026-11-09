@@ -29,7 +29,7 @@ export type GuestCard = {
 };
 
 /**
- * A wedding's save-the-date as guests get it, read with the service role:
+ * A wedding's save-the-date as guests get it (the chosen card), read with the service role:
  * guests aren't signed in, and the card has no public view of its own. Only
  * what the couple put on the card leaves here.
  */
@@ -45,10 +45,31 @@ export const loadGuestCard = cache(async (slug: string): Promise<GuestCard | nul
     .from("save_the_dates")
     .select("*")
     .eq("wedding_id", wedding.id)
+    .eq("chosen", true)
     .maybeSingle<SaveTheDateRow>();
   const doc = row ? parseCardDoc(row.doc) : null;
   if (!row || !doc) return null;
   return { wedding, doc, imageUrl: row.image_url, ...cardWords(doc), fontsHref: cardFontsHref(doc) };
+});
+
+/** A wedding's invitation as guests get it (the chosen one), as loadGuestCard does for the save-the-date. */
+export const loadGuestInvitation = cache(async (slug: string): Promise<GuestCard | null> => {
+  const admin = createAdminSupabaseClient();
+  const { data: wedding } = await admin
+    .from("weddings")
+    .select("id, user_id, member_ids, public_slug, site_password_hash")
+    .eq("public_slug", slug)
+    .maybeSingle<CardWedding>();
+  if (!wedding) return null;
+  const { data: row } = await admin
+    .from("invitations")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .eq("chosen", true)
+    .maybeSingle<{ doc: unknown; image_url: string | null }>();
+  const doc = row ? parseCardDoc(row.doc) : null;
+  if (!row || !doc) return null;
+  return { wedding, doc, imageUrl: row.image_url ?? null, ...cardWords(doc), fontsHref: cardFontsHref(doc) };
 });
 
 /** The couple's names and the date, as the card reads them. */

@@ -11,7 +11,12 @@ import {
   type ReactNode,
 } from "react";
 import { loadMapStyle } from "@/lib/map-tiles";
-import { MAP_MAX_ZOOM, MAP_MIN_ZOOM, US_MAP_BOUNDS } from "@/lib/map-view";
+import {
+  MAP_MAX_ZOOM,
+  MAP_MIN_ZOOM,
+  US_MAP_BOUNDS,
+  US_MAP_BOUNDS_PHONE,
+} from "@/lib/map-view";
 
 /**
  * Every map in the app: MapLibre drawing the base map, pins and outlines on
@@ -105,7 +110,11 @@ export function GlMap({
         zoom,
         minZoom: MAP_MIN_ZOOM,
         maxZoom: MAP_MAX_ZOOM,
-        maxBounds: bounded ? US_MAP_BOUNDS : undefined,
+        maxBounds: bounded
+          ? window.innerWidth < 1024
+            ? US_MAP_BOUNDS_PHONE
+            : US_MAP_BOUNDS
+          : undefined,
         interactive,
         renderWorldCopies: false,
         // A flat street map: no tilting or spinning by accident.

@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/admin";
 import { LeadsList, ResearchList } from "./leads-list";
 import { loadLeads } from "./load";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export default async function AdminLeadsPage() {
   await requireAdmin();
@@ -10,7 +11,7 @@ export default async function AdminLeadsPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Businesses couples booked that we don&apos;t list</h1>
       <p className="mt-2 mb-6 max-w-3xl text-sm text-ink/60">
         Names couples typed into &ldquo;Purchased from&rdquo; on their budget without picking a listing. Nothing here

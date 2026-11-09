@@ -5,7 +5,7 @@ import { saveSaveTheDate } from "@/app/guests/save-the-date/actions";
 // with every build, so an editor tab opened before a deploy would fail every
 // save after it. This URL doesn't change between builds.
 //
-//   POST {"doc": {...}, "version": "<updated_at>" | null}
+//   POST {"id": "<card id>", "doc": {...}, "version": "<updated_at>"}
 
 export async function POST(request: Request) {
   // Cookies ride along on cross-site POSTs, so only accept our own pages.
@@ -15,12 +15,13 @@ export async function POST(request: Request) {
     return Response.json({ error: "That request didn't come from the editor." }, { status: 403 });
   }
 
-  let body: { doc?: unknown; version?: unknown };
+  let body: { id?: unknown; doc?: unknown; version?: unknown };
   try {
     body = JSON.parse(await request.text());
   } catch {
     return Response.json({ error: "That card couldn't be saved." }, { status: 400 });
   }
   const version = typeof body.version === "string" ? body.version : null;
-  return Response.json(await saveSaveTheDate(body.doc, version));
+  const id = typeof body.id === "string" ? body.id : "";
+  return Response.json(await saveSaveTheDate(id, body.doc, version));
 }

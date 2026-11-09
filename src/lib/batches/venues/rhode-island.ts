@@ -87,6 +87,23 @@ Norman Bird Sanctuary	583 Third Beach Road	Middletown	Rhode Island			Garden & Pa
 International Tennis Hall of Fame	194 Bellevue Avenue	Newport	Rhode Island			Museum, Gallery & Rooftop	Indoor & Outdoor				Tennis museum on the historic grounds of the Newport Casino, with more than seven acres and a range of event spaces for weddings and rehearsal dinners.	newport@tennisfame.com	401-849-3990	https://www.tennisfame.com/visit/host-an-event
 Forty 1° North	351 Thames Street	Newport	Rhode Island			Hotel & Resort	Indoor & Outdoor				Harbor-front hotel and marina on Thames Street with deck, courtyard, pavilion and gallery spaces that can be combined and tented for weddings.		401-846-8018	https://www.41north.com/meetings-events/`,
   },
+  {
+    name: "Rhode Island depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Rosecliff (Newport Mansions)	548 Bellevue Avenue	Newport	Rhode Island			Historic Mansion & Estate	Indoor & Outdoor	160			Oceanfront Bellevue Avenue mansion on more than eight acres whose ballroom seats a dinner-and-dancing reception.	info@newportmansions.org	401-847-1000	https://www.newportmansions.org/museum-rentals-weddings/
+The Vanderbilt, Auberge Resorts Collection	41 Mary Street	Newport	Rhode Island			Hotel & Resort	Indoor & Outdoor	125			Downtown Newport mansion hotel with a garden, roof deck and conservatory for small weddings and wedding weekends.		401.846.6200	https://auberge.com/vanderbilt/events/weddings
+Roger Williams Park Casino	1000 Elmwood Avenue	Providence	Rhode Island			Ballroom	Indoor	150	3300	Rental	Historic 1896 park building with a ballroom and first-floor rooms rented by the five-hour block.		401.680.7240	https://rogerwilliamsparkevents.com/the-casino/
+Dye House	46 Dike Street	Providence	Rhode Island			Industrial Loft & Warehouse	Indoor & Outdoor	80			Former dye works with a white-brick, concrete-floored studio, an outdoor lot and on-site guest rooms.	stay@dyehouseri.com	401-427-0277	https://www.dyehouseri.com/events
+Cafe Nuovo	1 Citizens Plaza	Providence	Rhode Island			Restaurant & Brewery	Indoor & Outdoor	200			Riverwalk restaurant with a glass-and-marble rotunda and a piazza for weddings and private events.	info@cafenuovo.com	(401) 421-2525	https://www.cafenuovo.com/private-events
+JPT Film + Event Center (Jane Pickens Theater)	49 Touro Street	Newport	Rhode Island			Museum, Gallery & Rooftop	Indoor		4000	Rental	Downtown Newport theater and event center that stages wedding ceremonies, with a ceremony-only rental fee.		(401) 846-5474	https://janepickens.com/rentals
+The Elliotte on Park	848 Park Avenue	Cranston	Rhode Island			Ballroom	Indoor				Second-floor event space in Cranston's historic Park Theatre building, hosting weddings with on-site catering.	info@theelliotteonpark.com	(401) 542-5281	https://www.theelliotteonpark.com/
+Hamilton Hoppin House (Villa 120)	120 Miantonomi Avenue	Middletown	Rhode Island			Historic Mansion & Estate	Indoor & Outdoor				Historic Middletown inn with a terrace, lawns and period interior rooms, with quotes by request form.	hamiltonhoppin@gmail.com	(401) 835-7007	https://www.thehamiltonhoppinhouse.com/weddings-and-events
+Newport Harbor Hotel & Marina	49 Americas Cup Avenue	Newport	Rhode Island			Hotel & Resort	Indoor & Outdoor				Downtown Newport waterfront hotel and marina with over 6,000 square feet of event space.	sales@newporthotel.com	401-847-9000	https://www.newporthotel.com/meetings-and-events/social-events/
+Rose Farm Inn		Block Island	Rhode Island			Hotel & Resort	Indoor & Outdoor	150			Hilltop Block Island estate set among gardens with ocean and countryside views.		401-466-2034	https://rosefarminn.com/weddings/
+Block Island Resorts (Narragansett Inn, 1661 Farm & Gardens)	43 Spring Street	New Shoreham	Rhode Island			Hotel & Resort	Indoor & Outdoor	400			Family-run island group whose inns, farm and gardens host weddings across several properties, including a bridal cottage.		401-466-2421	https://www.blockislandresorts.com/special-occasions
+Casey Farm	2325 Boston Neck Road	Saunderstown	Rhode Island			Barn & Farm	Outdoor	150			Working farm south of Wickford that rents its farmhouse lawn and gardens from mid-May to early September.		401-295-1030	https://casey.farm/location/welcome-to-casey-farm/
+Newport Polo (International Polo Grounds at Glen Farm)	250 Linden Lane	Portsmouth	Rhode Island			Barn & Farm	Outdoor	500			Glen Farm polo grounds whose open-air pavilion hosts tented wedding receptions in season.	info@newportpolo.com		https://newportpolo.com/experience/private-events/`,
+  },
 ];
 
 export default batches;

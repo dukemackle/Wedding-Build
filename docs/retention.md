@@ -10,7 +10,8 @@ have to hold.
 1. **Never lose or corrupt their data.** A guest list or budget is months of
    work. One lost RSVP or a wrong total sends them back to a spreadsheet for
    good. Every save surfaces its error; nothing shows "saved" when it wasn't;
-   destructive actions confirm; couples can export their data.
+   destructive actions confirm; couples can export their data
+   (/account → Download your data, one JSON file; built 2026-11-08).
    **Backups (2026-10-08):** the "Weekly backup" routine runs
    `npm run backup` every Sunday: all public tables, auth users and every
    Storage file, to the "You Do, I Do backups" Shared drive and the private

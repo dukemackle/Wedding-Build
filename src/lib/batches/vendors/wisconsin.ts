@@ -377,6 +377,66 @@ Aphrodite Studios LLC	Videography	1600 Walls St	Green Bay	Wisconsin		Green Bay s
 Artemis Photography	Photography		Baileys Harbor	Wisconsin	Door County, Green Bay, Appleton, the Fox Cities, Milwaukee, Madison and across Wisconsin	Fine art wedding photographer in Baileys Harbor whose collections include 100 miles of travel and individually quoted elopements.	artemis.portraits@gmail.com	920.559.3117	http://www.artemis-portraits.com/	https://www.instagram.com/artemis.photo/
 Sonny's Catering	Catering	129 N Madison Avenue	Sturgeon Bay	Wisconsin		Sturgeon Bay Italian caterer offering on-site and off-site wedding catering, plus late-night food delivery.		(920) 743-2300	https://sonnysdoorcountycatering.com/	https://www.instagram.com/sonnyspizzeriadoorcounty/`,
   },
+  {
+    name: "Madison: Photography, Videography, Catering, Hair & Makeup, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Bobbi Petersen Photography	Photography		Madison	Wisconsin	Throughout Wisconsin and destination weddings	Madison photographer covering full-day weddings, micro weddings and elopements in a relaxed, natural style, with an engagement session included.	bobbi@guildedgrey.com		https://bobbipetersenphoto.com	https://www.instagram.com/bobbipetersenphotographer/	4000	package
+Brad Cisewski Wedding Films	Videography		Madison	Wisconsin	Madison, Milwaukee and Chicago	Madison-based videographer making authentic, emotive wedding films and teasers for couples across Madison, Milwaukee and Chicago.			https://www.bradcisewski.com/	https://www.instagram.com/brad.cisewski/		
+Lovely Elegance Hair & Makeup	Hair & Makeup	98 South 2nd Street	Mount Horeb	Wisconsin	Madison and Milwaukee	On-site hair and makeup team for weddings, photoshoots and special events, based in Mount Horeb and working across Madison and Milwaukee.			https://www.lovelyelegance.com/	https://www.instagram.com/lovelyelegancehairandmakeup/		`,
+  },
+  {
+    name: "Wisconsin Dells: Florals, Videography, Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit`,
+  },
+  {
+    name: "La Crosse: Photography, Planning, Catering, Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Atypik Studio	Photography		La Crosse	Wisconsin		La Crosse portrait and wedding photography studio with several wedding galleries on its site.			http://www.atypikstudio.com/			
+Placek Photography & Design	Photography	400 Main Street	La Crosse	Wisconsin		La Crosse photography business offering engagement, wedding and senior portfolios from a Main Street studio.	info@placekphotography.com		https://www.placekphotography.com/wedding	https://www.instagram.com/placekphotography/		
+Jenna Walker Photography	Photography		La Crosse	Wisconsin	La Crosse area, with destination weddings	La Crosse wedding photographer with a warm, moody style, offering elopement, eight-hour and ten-hour coverage and a wedding portfolio.			https://jenna-walker-photography.com/	https://www.instagram.com/jennawalkerphotography/		
+J.L. Wiswell Photography	Photography		Onalaska	Wisconsin	La Crosse, Holmen, West Salem, La Crescent and the Coulee Region	Husband-and-wife team in Onalaska offering wedding and engagement photography with optional photo and film coverage.		608-279-8095	https://jlwiswell.com/wedding-photography/	https://www.instagram.com/jlwiswell.photography/		
+Modern Elm Events	Planning		La Crosse	Wisconsin	La Crosse, Onalaska, Holmen, Sparta, Viroqua, Winona, Eau Claire, Madison and Rochester	La Crosse event planner covering weddings, private, corporate and community events with a focus on the guest experience.	hannah@modernelmevents.com		https://www.modernelmevents.com/	https://www.instagram.com/modernelmevents/		
+Pogy's Catering	Catering	1232 Avon Street	La Crosse	Wisconsin		La Crosse caterer for weddings and other events, able to include dishes from its sister restaurant Pogreba, with a wedding menu.	info@pogyscatering.com	(608) 789-2386	https://pogyscatering.com/			
+Sue Kolve's Salon and Day Spa	Hair & Makeup	230 Main Street	Onalaska	Wisconsin		Onalaska salon offering bridal hair, makeup and airbrush services, plus packages for brides and their wedding parties.	clientcare@suekolves.com	(608) 784-2363	https://stylenet.com/SueKolvesSalonandDaySpa/weddings/			
+Makeup By Sarah Koblitz	Hair & Makeup	127 Sand Lake Road	Onalaska	Wisconsin	La Crosse area	Boutique makeup studio in Onalaska offering wedding and event makeup applications and lessons for clients across the La Crosse area.	makeupbysarahkoblitz@gmail.com	(608) 799-1260	https://www.sarahkoblitz.com/	https://www.instagram.com/makeupbysarahkoblitzteam/		`,
+  },
+  {
+    name: "Lake Geneva: Videography, Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Simply Detailed Wedding	Planning		Lake Geneva	Wisconsin	Lake Geneva, Wisconsin	Lake Geneva wedding planning and design studio offering full, partial and day-of coordination for couples marrying around Geneva Lake.	info@simplydetailedwedding.com		https://simplydetailedwedding.com	https://www.instagram.com/simplydetailedweddinglg/		`,
+  },
+  {
+    name: "Door County: Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Design Door County	Florals		Baileys Harbor	Wisconsin		Certified floral designer in downtown Baileys Harbor creating custom wedding flowers, with work featured in Martha Stewart Weddings.			https://designdoorcounty.com			`,
+  },
+  {
+    name: "Green Bay: Photography, Catering, Cake, Rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Runaway Spoon	Catering	129 N Broadway	De Pere	Wisconsin	Green Bay, Appleton and Door County	Craft caterer in De Pere cooking handmade food for weddings and other events, with cooking classes on the side.			http://www.runspoon.com/			
+Simple Simon Bakery	Cake	218 E Wisconsin Ave	Appleton	Wisconsin	Fox Valley (local pickup and delivery)	Appleton bakery making wedding cakes, with a free tasting and design consultation by appointment and a deposit to hold a date.	info@simplesimonbakery.com	(920) 733-4351	https://simplesimonbakery.com			
+Daniela Rollin Photography	Photography		Green Bay	Wisconsin	Green Bay, Door County and Wisconsin	Green Bay photographer shooting weddings since 2016, alongside maternity, branding and family sessions.			https://danielarollin.com/	https://www.instagram.com/danielarollinphotoco/		
+Megan Leonard Photography	Photography		Green Bay	Wisconsin		Green Bay photographer covering weddings and elopements with a focus on genuine connection and in-between moments.			https://meganleonardphotography.com/	https://www.instagram.com/megleo_/		
+Michiels Catering	Catering	1100 Appleton Rd	Menasha	Wisconsin	Green Bay and the Fox Cities	Full-service caterer handling set-up, service and clean-up for weddings, corporate events and social occasions.	info@michielscatering.com	(920) 731-7271	https://michielscatering.com/	https://www.instagram.com/michielscatering/		
+The Marq	Catering	3177 French Road	De Pere	Wisconsin	Green Bay and the Fox Valley	Family-run supper club and event space in De Pere that also caters weddings from intimate to large celebrations.	info@themarqwi.com	920-785-8090	https://www.themarqwi.com/	https://www.instagram.com/themarqwi/		
+Manderfield's Home Bakery	Cake	5100 W Michaels Dr	Appleton	Wisconsin	Green Bay to Fond du Lac	Fox Valley bakery open since 1934 that has decorated thousands of wedding cakes, with delivery and set-up.		(920) 882-6500	https://manderfieldsbakery.com/wedding-cakes/	https://www.instagram.com/manderfieldshomebakery/		
+La Sure's Bakery	Cake	3125 S Washburn St	Oshkosh	Wisconsin		Family-owned Oshkosh bakery and banquet hall making made-to-order wedding cakes and offering catering.		920-651-0796	https://lasures.com/			
+Mckayla Marie Sweets	Cake	2160 Holmgren Way, Suite 2	Green Bay	Wisconsin	Green Bay (pickup)	Green Bay bakery offering wedding cakes alongside macarons, cookies and cupcakes, with a short consultation at the shop.	info@McKaylaMarieSweets.com	(920) 489-2844	https://www.mckaylamariesweets.com/wedding-cakes	https://www.instagram.com/mckaylamariesweets/		
+Green Bay Event Rental	Rentals	2300 Riverside Drive	Green Bay	Wisconsin	Green Bay, De Pere, Appleton, Oshkosh and Northeast Wisconsin	Green Bay party hire company supplying tents, furniture, linens, photo booths and DJ services for weddings and other events.	info@greenbayeventrental.com	920-280-1001	https://www.greenbayeventrental.com/			`,
+  },
+  {
+    name: "Milwaukee: Florals, Music, Hair & Makeup, Cake, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Ritual Floral	Florals		Milwaukee	Wisconsin	Milwaukee	Home-based Bay View studio designing bold, colourful wedding flowers, either as pre-designed Vibes or fully custom work.	hello@ritualfloral.com	(414) 465-8489	https://ritualfloral.com/	https://www.instagram.com/ritual.floral/	500	per event
+The Wedding Band	Music		Milwaukee	Wisconsin	Milwaukee and nationwide	Milwaukee live music group for ceremonies, cocktail hours and receptions, with a hybrid option that pairs the band with a DJ.	Cigarettebreak@live.com	(414) 349-1479	https://theweddingband.org/	https://www.instagram.com/cigarettebreakmke/		
+Nicole Christine Styling & Spa	Hair & Makeup	17780 W Capitol Drive, Suite 6	Brookfield	Wisconsin	Brookfield, Oconomowoc, Milwaukee, Waukesha, Racine, Green Bay and more of Wisconsin	Brookfield studio offering tiered bridal hair and makeup teams, on location or in studio, plus a space to get ready on the wedding morning.	info@ncstylingandspa.com	(414) 243-2858	https://ncstylingandspa.com/bridal-services/	https://www.instagram.com/nicolechristinestyling/		
+Ruffolo's Salon & Spa	Hair & Makeup	3519 52nd St	Kenosha	Wisconsin	Kenosha area, with on-site travel	Kenosha salon with a bridal team for hair, makeup, airbrush and lashes, in the salon or at your wedding location.	ruffolosbridal@gmail.com	(262) 654-6154	https://ruffolossalonspa.com/bridal/	https://www.instagram.com/ruffolosbridal/		
+Baked Whims	Cake		Milwaukee	Wisconsin	Milwaukee, Wauwatosa, St Francis, Oak Creek, Greendale and surrounding areas	Milwaukee home bakery making custom wedding cakes, cookies, macarons and dessert tables from scratch.			https://www.bakedwhims.com/	https://www.instagram.com/bakedwhims/		
+Good Feeling Films	Videography		Milwaukee	Wisconsin	Milwaukee, Chicago, San Diego and destination weddings	Wisconsin wedding film and photo team making natural-feeling, high-end wedding films for couples in Milwaukee and beyond.	hello@goodfeelingfilms.com	(414) 326-6400	https://www.goodfeelingfilms.com/	https://www.instagram.com/goodfeelingfilms/	3850	package
+Simply Finn	Videography		Milwaukee	Wisconsin	Wisconsin and beyond	Husband-and-wife team in Milwaukee shooting relaxed, authentic wedding photography and video.			https://www.simplyfinn.com/	https://www.instagram.com/simplyfinnphoto/		
+Betcher Photo	Videography		Milwaukee	Wisconsin	Milwaukee, Chicago and Madison	Milwaukee wedding photographer offering hybrid photo and video coverage or full videography.		414-522-1552	https://www.betcherphoto.com/videography	https://www.instagram.com/betcher_photo/		
+Sweet Something's Pastries	Cake		Kenosha	Wisconsin		Kenosha custom bake shop making wedding cakes and pastries, also sold at local farmers' markets.	rmmattefs@hotmail.com	262-960-1524	https://www.sweetsomethingspastries.com/			`,
+  },
 ];
 
 export default batches;

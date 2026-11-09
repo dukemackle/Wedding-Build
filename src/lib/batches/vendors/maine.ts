@@ -193,6 +193,48 @@ Brick & Embers	Catering		Bangor	Maine	Greater Bangor area, travels across Maine	
 Photo Booth Bangor	Photo Booth		Bangor	Maine		Drop-off photo booth rental service in Bangor that specialises in booths for weddings and other events.		207-735-7910	https://photoboothbangor.com/			
 Flash Me Maine Photo Booth Rentals	Photo Booth		Bangor	Maine	All of Maine, selectively New England	Bangor photo booth company offering wedding booths such as editorial portrait, caricature and vintage scrapbook styles.		207-735-7910	https://www.flashmemaine.com/weddingphotoboothrental/	https://www.instagram.com/flashmemainephotoboothrentals/		`,
   },
+  {
+    name: "Bangor: photography, florals, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Bell Imaging & Design	Photography	890 Coldbrook Rd	Hermon	Maine	Across Maine, including Bangor and Mount Desert Island	Hermon studio photographing weddings across Maine, from Bangor to Mount Desert Island, with coverage packages and prints.		(207) 356-2353	https://www.bellphotostudio.com/photography-services/wedding-portraits/	https://www.instagram.com/bellimagingdesign/	2000	package
+The Robin's Nest	Florals	173 Main St	Waterville	Maine	Central Maine	Waterville florist offering bridal bouquets, ceremony flowers and centrepieces, booked through a bridal consultation.		(207) 616-0281	https://www.therobinsnestflowers.com/wedding-flowers	https://www.instagram.com/robnsnest/		
+Rebekah Wheeler Photography & Design	Photography	136 State St, Suite 240	Augusta	Maine	Augusta, travelling across New England	Augusta photographer with a studio at Hill Mansion, shooting candid, documentary-style weddings at Maine barns, lakes and hotels.	hello@rebekahwheeler.com	(207) 318-0421	https://www.rebekahwheeler.com/work/weddings	https://www.instagram.com/rebekahwheelerphotodesign/		
+The Cupcakery Cafe & Bake Shop	Cake	56 Sabattus St	Lewiston	Maine		Lewiston cafe and bakeshop making wedding cakes alongside cupcakes and macarons, with a gallery of wedding and anniversary designs.		(207) 784-2253	https://www.thecupcakery.org/home			`,
+  },
+  {
+    name: "Midcoast and Bar Harbor: cake, florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+TORTA	Cake		Southwest Harbor	Maine	Mount Desert Island and beyond	Southwest Harbor cake studio designing custom wedding cakes for Mount Desert Island couples, with a clean, detailed finish.	tortamainellc@gmail.com		https://www.tortamaine.com/	https://www.instagram.com/tortacakestudio/		
+Shelley's Flowers and Gifts	Florals	1738 Atlantic Hwy	Waldoboro	Maine	Midcoast Maine, from Boothbay to Camden	Waldoboro florist and gift shop offering wedding packages and flowers for Midcoast venues from Boothbay to Camden.		(207) 832-6312	https://shelleysflowers.com/	https://www.instagram.com/shelleysflowers/		
+Flowers + Herb Florals	Florals	235 Coombs Rd	Brunswick	Maine	Brunswick, Topsham, Bath and Harpswell	Family-run Brunswick florist taking wedding enquiries through an online quote builder, with delivery around Bath and Harpswell.	hello@flowersandherbmaine.com	(207) 200-6256	https://www.flowersandherbflorals.com/	https://www.instagram.com/flowersandherbflorals/		
+Celadon Floral	Florals		Brunswick	Maine	Brunswick, Harpswell and surrounding coastal Maine towns	Brunswick florist designing flowers for smaller, intimate weddings and elopements, with a published pricing guide and FAQ.			https://www.celadonfloral.com/maine-weddings	https://www.instagram.com/celadonfloral/		
+Seacoast Catering & Lobster Bakes	Catering	44A Sprague Rd	Nobleboro	Maine		Nobleboro caterer for wedding receptions and lobster bakes across the Midcoast, also running its own event venue.	seacoasts@tidewater.net	(207) 632-5117	https://www.seacoastcatering.com/	https://www.instagram.com/seacoastcatering/		`,
+  },
+  {
+    name: "Southern Maine Coast: hair and makeup, planning, music, florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sparrow Hair Studio	Hair & Makeup	120 Main St, Suite 250	Saco	Maine		Bridal hair specialist working from a Saco salon, offering trials weeks before the day and timeless updos and soft waves built to last.	Heather@SparrowHairStudio.com	(207) 229-1671	https://sparrowhairstudio.com/weddings	https://www.instagram.com/sparrowhairstudio/		
+The Crown A Hair & Makeup Boutique	Hair & Makeup	235 Main Street	South Berwick	Maine	Travels throughout New England	Downtown South Berwick boutique offering bridal hair and makeup for wedding parties, with travel available across New England.	thecrownboutique235@gmail.com	(207) 384-4200	https://thecrownboutique.com/			
+Harbor Hair Company	Hair & Makeup		York Harbor	Maine		York Harbor salon offering on-site bridal hair and airbrush makeup for the couple and wedding party, with trials.			https://harborhair.com/brides			
+A Family Affair Events	Planning		North Yarmouth	Maine	New England	North Yarmouth wedding planning studio offering full planning, styling, logistics and hourly guidance for Maine and New England weddings.			https://www.afamilyaffairevents.com/	https://www.instagram.com/afamilyaffairmaine/		
+Azalea Events	Planning		Kennebunkport	Maine		Kennebunkport planning and design company with portfolios at local resort venues such as Hidden Pond and the Cape Arundel clubhouse.	audrey@azaleaevents.com	(207) 771-0300	https://www.azaleaevents.com/			
+Greg Powers Wedding and Event DJ	Music		Saco	Maine		Saco wedding and event DJ who specialises in wedding celebrations and has won a WeddingWire Couples' Choice award.			https://gregpowers.net/	https://www.instagram.com/gpofgpe/		
+OffMill Flowers	Florals		Kennebunk	Maine	York and Cumberland counties in Maine and coastal New Hampshire	Kennebunk florist creating full-service wedding flowers for couples in York and Cumberland counties and coastal New Hampshire.	sally.wells@offmill.com	(207) 985-2831	https://offmill.com/			
+Bliss Caterers & Event Planning	Catering		Kennebunk	Maine	Kennebunk, Scarborough, Portland, Brunswick, Lewiston/Auburn, southern Maine and New Hampshire	Kennebunk caterer for weddings and lobster bakes, serving southern Maine, Portland, and the New Hampshire seacoast.		(207) 318-9060	https://www.blisscaterers.net/			
+Pizza By Fire	Catering		Scarborough	Maine	Southern Maine, the Lakes Region and the mid and southern coast	Scarborough wood-fired pizza truck catering weddings, rehearsal dinners and brunches, with a full menu of appetisers and salads.	info@pizzabyfire.com		https://www.pizzabyfire.com/	https://www.instagram.com/pizzabyfire/		
+Tide and True Photography	Photography		Scarborough	Maine		Scarborough photographer capturing candid, true-to-colour wedding days across Maine, with all-inclusive full-day packages and hands-on help on the day.	info@tideandtruephotography.com	(207) 370-5716	https://tideandtruephotography.com/	https://www.instagram.com/tideandtruephoto/	3900	package
+Fawn Meadow Flowers	Florals	74 Beech Ridge Rd	Scarborough	Maine	Greater Portland and coastal Maine	Scarborough flower farm and design studio creating seasonal, locally grown wedding florals, with a rental library of vases, linens and candles.	studio@fawnmeadowflowers.com		https://fawnmeadowflowers.com/weddings	https://www.instagram.com/fawnmeadowflowers/		`,
+  },
+  {
+    name: "Portland: hair and makeup, planning, music, cake, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Akari	Hair & Makeup	193 Middle St	Portland	Maine		Old Port hair studio in Portland offering bridal packages and a photo-ready bridal makeup look for weddings.		(207) 772-9060	https://akaribeauty.com/	https://www.instagram.com/akariportlandme/		
+B Merry Events	Planning		Portland	Maine		Portland boutique planning firm for weddings and special events that assembles a tailored team of florists, caterers and musicians.	bmerryevents@gmail.com		https://www.bmerryevents.com/			
+Goldenwood Ensembles	Music		Portland	Maine	Portland and all of New England	Portland string and wind ensemble playing ceremony, cocktail hour and reception music at coastal venues since 1995.		(207) 332-0945	https://www.goldenwoodensembles.com/	https://www.instagram.com/goldenwoodensembles/		
+Maine Photo Booth	Photo Booth		Portland	Maine	Portland, South Portland, Westbrook, Scarborough, Cape Elizabeth and Southern Maine	Portland photo booth rental company bringing open-air booths with attendants to weddings across Southern Maine.	maine.phobooth@gmail.com	(207) 409-8837	https://www.mainephobooth.com/		199	per event
+European Bakery	Cake	395 US Route 1	Falmouth	Maine	Orders from across Maine	Falmouth bakery taking wedding cake orders from across Maine, with a choice of cake flavours, buttercream fillings and cupcake displays.	europeanbakerymaine@gmail.com	(207) 781-3541	https://www.europeanbakerymaine.com/weddings			
+Baked with Love	Desserts	261 Main Street, Suite 1	Bridgton	Maine		Bridgton bakery making dessert tables, cakes and custom sweets for weddings, from a Main Street shop open Wednesday to Sunday.	bakedwithlove4you@gmail.com	(207) 221-0560	https://www.bakedwithlovedesserts.com/			`,
+  },
 ];
 
 export default batches;

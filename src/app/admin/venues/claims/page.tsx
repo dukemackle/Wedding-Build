@@ -6,6 +6,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { RecentlyApproved, type ApprovedClaim } from "../../_listing/recently-approved";
 import type { Venue, VenueSubmission } from "@/lib/supabase/types";
 import { SubmissionReview } from "./submission-review";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export default async function AdminVenueClaimsPage() {
   await requireAdmin();
@@ -46,7 +47,7 @@ export default async function AdminVenueClaimsPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Venue changes to review</h1>
       <p className="mt-2 mb-6 text-sm text-ink/60">
         Sent by venues through their claim links. Nothing here is live until you approve it.{" "}

@@ -42,3 +42,20 @@ export async function allowGuestWrite(
     return true;
   }
 }
+
+/**
+ * "Something wrong?" on a listing (0162): 10 an hour per visitor, 20 a day
+ * per listing. Open when the database can't answer, like allowGuestWrite.
+ */
+export async function allowListingReport(listingId: string): Promise<boolean> {
+  try {
+    const { data, error } = await createAdminSupabaseClient().rpc("allow_listing_report", {
+      p_listing: listingId,
+      p_ip_hash: await ipHash(),
+    });
+    if (error) return true;
+    return data !== false;
+  } catch {
+    return true;
+  }
+}

@@ -182,6 +182,19 @@ Howerton+Wooten Events	Planning		Washington	District of Columbia	DC, Maryland, V
 Capitol Hill Celebrant	Officiant	920 G Street SE	Washington	District of Columbia		Capitol Hill officiant, Rev. Clare Palace, performing personalised wedding ceremonies for couples in Washington, DC.	capitolhillcelebrant@gmail.com	202-904-1096	https://www.capitolhillcelebrant.com/			
 DC Elopements	Officiant		Washington	District of Columbia	Washington, DC	Elopement and officiant service for couples marrying in the District, with licence help, ceremonies and photography on offer.	info@dcelopements.com	800-721-8697	https://www.dcelopements.com/	https://www.instagram.com/dcelopements/		`,
   },
+  {
+    name: "Washington: florals, catering, music, hair & makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+A Little Shop of Flowers	Florals	2421 18th St NW	Washington	District of Columbia	Adams Morgan, Dupont Circle, Georgetown and nearby DC neighbourhoods	Adams Morgan florist with a wedding planner service, offering bouquets plus ceremony and reception flowers alongside its everyday shop.	Littleshopofflowers@gmail.com	(202) 387-7255	https://www.littleshopofflowersdc.com/	https://www.instagram.com/littleshopofflowersdc/		
+Convention Floral	Florals	5932 3rd St NW	Washington	District of Columbia		Northwest DC florist offering bridal consultations and wedding and event flowers alongside its everyday arrangements.	nubia@conventionfloral.com	(202) 939-0510	https://www.conventionfloral.com/	https://www.instagram.com/conventionfloral/		
+Tempo Lazer	Florals	1508 Columbia Rd NW	Washington	District of Columbia	DC, Maryland and Northern Virginia	Columbia Road studio designing wedding flowers from bouquets and arches to centrepieces, delivering across DC, Maryland and Northern Virginia.	tempolazerflowers@gmail.com	(227) 225-4749	https://tempolazer.com/	https://www.instagram.com/tempolazer/		
+Flowers by Alexes	Florals	851 Upshur St NW	Washington	District of Columbia	Petworth and wider DC area	Petworth florist taking wedding consultations for bridal bouquets, ceremony and reception flowers, alongside everyday delivery across DC.		(202) 910-7490	https://flowersbyalexes.com/	https://www.instagram.com/youruptownflorist/		
+VIPS Catering	Catering	1750 Pennsylvania Ave NW	Washington	District of Columbia	Washington DC	Downtown DC caterer based on Pennsylvania Avenue, offering full-service wedding catering as well as everyday menus and online ordering.		(202) 331-3354	https://www.vipscatering.com/	https://www.instagram.com/vipscateringdc/		
+The Headliner Group	Music		Washington	District of Columbia	DC metro area	DC booking agency matching couples with wedding DJs, live bands and solo musicians, with a same-day quote after a short phone call.	bookings@theheadlinergroup.com		https://theheadlinergroup.com/	https://www.instagram.com/headliner.group/		
+Veux Beauty	Hair & Makeup	3636 16th St NW	Washington	District of Columbia	Washington DC and worldwide	Salon on 16th Street offering wedding hair and makeup, including Hollywood waves and updos, with packages for bridal parties on location.		(202) 441-8938	https://www.nrbeautyco.com/	https://www.instagram.com/veuxbeauty/		
+Carl Ray Makeup Artist	Hair & Makeup		Washington	District of Columbia		Washington makeup artist, educator and creative director offering a dedicated bridal makeup service for DC weddings.	carlray@carlraymakeupartist.com		https://www.carlraymakeupartist.com/	https://www.instagram.com/carlraymua/		
+Oak and Pearl Films	Videography		Washington	District of Columbia	DC, Baltimore, Richmond and beyond	DC wedding videographers making unscripted, authentic films, covering Washington, Baltimore, Richmond and destination weddings.			https://oakandpearlfilms.com/	https://www.instagram.com/oakandpearlfilms/		`,
+  },
 ];
 
 export default batches;

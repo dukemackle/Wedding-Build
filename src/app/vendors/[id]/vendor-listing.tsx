@@ -20,6 +20,9 @@ import {
   vendorHref,
   verifiedLabel,
 } from "@/lib/public-listings";
+import { nearestListings } from "@/lib/listing-seo";
+import { vendorAreaComparison, type AreaComparison } from "@/lib/area-comparison";
+import { AreaComparisonCard } from "@/components/area-comparison";
 import { UnclaimedNote } from "@/components/unclaimed-note";
 import { VendorDetailClient } from "./vendor-detail-client";
 
@@ -37,6 +40,8 @@ export type VendorListingData = {
   isFavorited: boolean;
   faqs: VendorFaq[];
   similarVendors: Vendor[];
+  /** "Compared with the Austin area" (src/lib/area-comparison.ts). */
+  comparison: AreaComparison | null;
   /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
   preview?: boolean;
   /** What they tapped before signing up, to finish now (signup-sheet.tsx). */
@@ -58,7 +63,7 @@ export async function loadVendorListing(
     .maybeSingle<Vendor>();
   if (!vendor) return null;
 
-  const [{ data: wedding }, { data: faqs }, { data: similarVendors }] = await Promise.all([
+  const [{ data: wedding }, { data: faqs }, similarVendors, comparison] = await Promise.all([
     userId
       ? supabase
           .from("weddings")
@@ -67,16 +72,12 @@ export async function loadVendorListing(
           .maybeSingle<Wedding>()
       : Promise.resolve({ data: null }),
     supabase.from("vendor_faqs").select("*").eq("vendor_id", vendor.id).order("sort_order").returns<VendorFaq[]>(),
+    // The nearest of the same kind, so each listing links to its own
+    // neighbours (src/lib/listing-seo.ts).
     vendor.category
-      ? supabase
-          .from("vendors")
-          .select(columns)
-          .eq("active", true)
-          .eq("category", vendor.category)
-          .neq("id", vendor.id)
-          .limit(3)
-          .returns<Vendor[]>()
-      : Promise.resolve({ data: [] as Vendor[] }),
+      ? nearestListings<Vendor>(supabase, "vendors", vendor, columns, 3, { category: vendor.category })
+      : Promise.resolve([] as Vendor[]),
+    vendorAreaComparison(supabase, vendor),
   ]);
 
   const { data: favorite } = wedding
@@ -94,14 +95,15 @@ export async function loadVendorListing(
     wedding: wedding ?? null,
     isFavorited: Boolean(favorite),
     faqs: faqs ?? [],
-    similarVendors: similarVendors ?? [],
+    similarVendors,
+    comparison,
   };
 }
 
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VendorListing({ data }: { data: VendorListingData }) {
-  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors, preview, then } = data;
+  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors, comparison, preview, then } = data;
   // Cover first, no repeats.
   const photos = [...new Set([vendor.image_url, ...vendor.photo_urls].filter((u): u is string => Boolean(u)))];
   const links = [
@@ -248,6 +250,8 @@ export function VendorListing({ data }: { data: VendorListingData }) {
 
           <BookingFactsCard facts={vendor} />
 
+          {comparison && !preview && <AreaComparisonCard data={comparison} kind="vendor" />}
+
           {faqs.length > 0 && (
             <div className={card}>
               <h2 className="font-display text-xl font-semibold text-forest">Frequently asked questions</h2>
@@ -268,7 +272,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
           {similarVendors.length > 0 && !preview && (
             <div>
               <h2 className="font-display text-xl font-semibold text-forest">
-                More {vendor.category?.toLowerCase() ?? "vendors"} like this
+                More {vendor.category?.toLowerCase() ?? "vendors"} nearby
               </h2>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {similarVendors.map((v) => (

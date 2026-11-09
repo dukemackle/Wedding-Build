@@ -1,6 +1,6 @@
 # Marketing state
 
-Last updated: 2026-10-20 (installation). Keep this under ~80 lines; it's read on
+Last updated: 2026-11-04. Keep this under ~80 lines; it's read on
 every run.
 
 ## Stage
@@ -43,4 +43,6 @@ signups and activity but not where anyone came from.
 
 ## In flight
 
-Nothing yet. Top of `BACKLOG.md` is the next proposal.
+- 2026-11-04 SEO basics PR (homepage title/description, Organization+WebSite JSON-LD, `/llms.txt`).
+- Search Console verified; 2026-11-04: 11 indexed, 14,851 "Discovered - currently not indexed" (no internal links to listings).
+- Metro hub pages built 2026-11-04 (plan approved). Re-check indexed count in Search Console ~4 weeks after deploy.

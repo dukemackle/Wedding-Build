@@ -2017,7 +2017,7 @@ function SeatingBar({
       : `${guests.length} guests`;
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
-      <div className="pointer-events-auto flex max-w-full items-center gap-3 rounded-full bg-forest py-2 pl-5 pr-2 text-sm text-parchment shadow-lg">
+      <div data-wren-avoid className="pointer-events-auto flex max-w-full items-center gap-3 rounded-full bg-forest py-2 pl-5 pr-2 text-sm text-parchment shadow-lg">
         <span className="truncate">
           <span className="font-medium">{names}</span>
           <span className="text-parchment/70"> · {peopleLabel(people)} — tap a table</span>

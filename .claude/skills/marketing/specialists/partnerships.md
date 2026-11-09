@@ -9,7 +9,7 @@ from `analytics.md`); number of live partner arrangements; owner hours spent.
 
 ## What exists
 
-Each wedding has a referral code (`WREN-XXXXXX`, migration 0040) used only to
+Each wedding has a referral code (`IDO-XXXXXX`, migrations 0040 and 0157) used only to
 tag vendor inquiries; the Terms call it "informal tracking only". No referral
 rewards, partner page or affiliate links. `docs/monetization.md` calls a
 self-built referral system weak as revenue infrastructure. Respect that.

@@ -1,5 +1,6 @@
 import { READING_WIDTH } from "@/lib/layout";
 import Link from "next/link";
+import { COMPANY_POSTAL_ADDRESS } from "@/lib/company";
 
 export const metadata = {
   title: "Privacy Policy",
@@ -11,7 +12,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: November 3, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: November 8, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -102,7 +103,10 @@ export default function PrivacyPage() {
                 QR code on a reception table), with the name you give. It waits for the couple to
                 approve it before it appears on their wedding site, and they can remove it at any
                 time. Your name is remembered on your own device so a second post is quicker;
-                it&apos;s never used to track you.
+                it&apos;s never used to track you. We also keep the time the photo was taken (read
+                from the photo, or your phone&apos;s clock when it has none) and which table&apos;s code
+                you scanned, so the couple can sort their photos by the moment and the table;
+                neither is shown on the site.
               </li>
               <li>
                 Whatever you submit through a couple&apos;s address-collection link: your name,
@@ -230,6 +234,11 @@ export default function PrivacyPage() {
               <li>
                 send emails the Service needs — RSVP confirmations, vendor inquiries and reminders
                 you choose to send, and a notice when someone messages you in the marketplace;
+              </li>
+              <li>
+                send a few planning reminders timed to your wedding date (skipping anything already
+                ticked off your checklist), each with a link to stop them, which you can also do on
+                your Account page;
               </li>
               <li>
                 send occasional planning tips and news, only if you turned that on, each with an
@@ -453,8 +462,8 @@ export default function PrivacyPage() {
               Questions about this Privacy Policy or your data? Contact us at{" "}
               <a href="mailto:privacy@youdoido.com" className="text-brass hover:underline">
                 privacy@youdoido.com
-              </a>
-              .
+              </a>{" "}
+              or by mail at You Do, I Do LLC, {COMPANY_POSTAL_ADDRESS}.
             </p>
           </Section>
         </div>

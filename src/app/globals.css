@@ -110,6 +110,19 @@ html {
   animation: page-in 0.4s ease-out;
 }
 
+/* The phone menu sliding in from the right (mobile-nav.tsx). */
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+.animate-drawer-in {
+  animation: drawer-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-drawer-in { animation: none; }
+}
+
 /* A listing's ••• menu opening (listing-menu.tsx). */
 @keyframes menu-in {
   from {
@@ -1010,6 +1023,49 @@ body:has(.dashboard-backdrop) header[data-top="true"] :is(.text-ink, .text-fores
 }
 body:has(.dashboard-backdrop) header[data-top="true"] .text-brass {
   color: #ffd301;
+}
+/* App nav tab dock (nav-links.tsx): coloured tiles that lift on hover; the
+   page you're on gets a navy ring round its tile and a gold dot under it. */
+.nav-tab .nav-tile {
+  box-shadow: 0 4px 10px rgb(20 32 61 / 0.14);
+  transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1), box-shadow 0.25s;
+}
+.nav-tab:hover .nav-tile,
+.nav-tab:focus-visible .nav-tile {
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 8px 16px rgb(20 32 61 / 0.2);
+}
+.nav-tab:focus-visible {
+  outline: 2px solid #2243b6;
+  outline-offset: 0;
+}
+.nav-tab-on .nav-tile {
+  outline: 2.5px solid #14203d;
+  outline-offset: 3px;
+}
+.nav-tab::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: transparent;
+}
+.nav-tab-on::after {
+  background: #ffd301;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-tab .nav-tile { transition: none; }
+  .nav-tab:hover .nav-tile { transform: none; }
+}
+/* Over the dashboard photo: white ring, and a soft shadow so labels read. */
+body:has(.dashboard-backdrop) header[data-top="true"] .nav-tab-on .nav-tile {
+  outline-color: #fff;
+}
+body:has(.dashboard-backdrop) header[data-top="true"] .nav-tab-label {
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.45);
+}
+body:has(.dashboard-backdrop) header[data-top="true"] .nav-tab .nav-tile.bg-\[\#14203d\] {
+  box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.7);
 }
 body:has(.dashboard-backdrop) header[data-top="true"] [class*="bg-forest/10"] {
   background-color: rgb(255 255 255 / 0.18);

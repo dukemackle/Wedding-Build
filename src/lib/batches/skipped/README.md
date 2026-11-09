@@ -22,11 +22,18 @@ Kind	Name	Category	City	State	Reason	Link	Date
   - `No website`: no website or active social profile found.
   - `Site dead`: website down or parked, and nothing else to confirm it.
   - `Site blocks automated visits, unconfirmed`: the site turns our checker
-    away (401/403/429/503), so the business is probably real but needs a
+    away (401/403/429/502/503/520), so the business is probably real but needs a
     second source before it can be listed. Never disguise the checker to get
     past it.
   - `Site back up`: was `Site dead`, loaded on a later `npm run
     recheck:skipped`; research it into a batch again.
+  - `Confirmed on Google, site blocks us`: `npm run places:check` found it
+    open on Google (answers kept in `src/lib/batches/places/`). Add it to a
+    batch; leave phone, email and capacity blank. Never copy Google's address
+    or details (its terms forbid it): take the address from elsewhere and the
+    checker compares it with Google's.
+  - `Not on Google, site blocks us`: blocked and not on Google either. Leave
+    it until it lists itself or can be confirmed by hand.
   - `Inactive`: nothing posted or updated for about two years.
   - `Closed`: says it has closed or stopped doing weddings.
   - `Franchise`: a franchise, or a directory posing as a business.

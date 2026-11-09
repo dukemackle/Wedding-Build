@@ -8,7 +8,7 @@ description: The shared instructions for the four scheduled "Batch builder" rout
 You are running unattended. Your scheduled prompt gives YOUR REGION (a list of
 states) and YOUR LAUNCH METROS in priority order. Add batches toward the
 coverage plan for ONE state in your region, as one PR of 40-60 rows. Finish
-within 100 minutes (the next run in your region starts 3 hours after this one).
+within 100 minutes (each region runs twice a day, 15 hours apart).
 Three other builders cover the other regions at the same time. Never touch a
 state outside your region, so you can never collide with them.
 
@@ -58,8 +58,8 @@ state outside your region, so you can never collide with them.
      left, add the other kind for the SAME metro or state in the same PR.
 4. Research in parallel: spawn 3 general-purpose subagents at once, splitting
    the work by metro, town or category.
-   Hand the state's `Site back up` skipped rows for those towns to the
-   subagents first (see the skill); they're re-research, not repeats. Give each the skill's column list and
+   Hand the state's `Site back up` and `Confirmed on Google, site blocks us`
+   skipped rows for those towns to the subagents first (see the skill); they're re-research, not repeats. Give each the skill's column list and
    rules, the towns to cover, and the names/websites already in that state's
    batch and skipped files so they don't repeat them. Each returns TSV rows
    confirmed on the business's own site plus a LEFT OUT list (name, reason,
@@ -93,9 +93,25 @@ state outside your region, so you can never collide with them.
    If the build fails on your PR, fix it within this run if you can.
 8. Never touch any file outside `src/lib/batches/`. If your region has nothing
    left in the plan and every launch metro is dry, change nothing and end at
-   once with one line saying so.
+   once with one line saying so (after step 9).
+
+9. Last, however the run ended (PR opened, nothing to do, or failed), report
+   it to the admin's Automations page. Use your region in the job name
+   (`batch_builder_west`, `_central`, `_south` or `_northeast`), `ok` false
+   only when something failed, and a summary of the PR link (or "no PR") and
+   row count. Skip this step if `BATCH_IMPORT_SECRET` isn't set, and never
+   print the secret:
+
+   ```sh
+   curl -sS -m 20 -X POST https://youdoido.com/api/automation-log \
+     -H "Authorization: Bearer $BATCH_IMPORT_SECRET" -H "Content-Type: application/json" \
+     -d '{"job":"batch_builder_west","ok":true,"summary":"<PR link or no PR> · <n> rows"}'
+   ```
 
 Finish with a three-line report: the PR link, this run's kind and row counts by
 metro (or map-fill town) and category, and what's still thin there (for a
 launch metro, roughly how many venues it now has). Add a fourth line listing
-any stalled or dry picks and why.
+any stalled or dry picks and why. If this run took a plan metro to its venue
+target and it has no hub yet (not in `METROS` in `src/lib/metros.ts`), add a
+line "Hub ready: <State>: <Metro>" to the PR body and report. Don't add the hub
+yourself (step 8); the owner adds it in a normal PR.

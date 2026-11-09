@@ -2,6 +2,15 @@ import "server-only";
 
 const TWILIO_API_BASE = "https://api.twilio.com/2010-04-01";
 
+/**
+ * Whether texts can actually go out. Until the Twilio keys are set (and the
+ * number is registered for A2P 10DLC), guests aren't offered texts at all:
+ * an opt-in that never sends anything is a promise we'd be breaking.
+ */
+export function smsConfigured(): boolean {
+  return Boolean(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_FROM_NUMBER);
+}
+
 // A thin fetch-based wrapper (no Twilio SDK) so this stays lightweight and
 // runs fine on the Cloudflare Workers runtime, same reasoning as the Resend
 // integration. Silently configured-or-not: callers get back an `error`

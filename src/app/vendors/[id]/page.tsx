@@ -9,6 +9,8 @@ import { SITE_URL, isIndexable, metaDescription, vendorHref } from "@/lib/public
 import { loadVendorListing, VendorListing, type VendorListingData } from "./vendor-listing";
 import { trackEvent } from "@/lib/events";
 import { parseThen } from "@/lib/signup-intent";
+import { metroForPoint, metroHref } from "@/lib/metros";
+import { listingBreadcrumbJsonLd, priceRange } from "@/lib/listing-seo";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /vendors opens. From the vendor search the same listing
@@ -71,10 +73,11 @@ function vendorJsonLd({ vendor, faqs }: VendorListingData) {
         ? { "@type": "GeoCoordinates", latitude: vendor.latitude, longitude: vendor.longitude }
         : undefined,
     areaServed: vendor.service_area ?? undefined,
+    priceRange: priceRange(vendor.price_tier),
     knowsAbout: vendor.category ? `Wedding ${vendor.category.toLowerCase()}` : undefined,
     sameAs: [vendor.website, vendor.instagram_url, vendor.facebook_url, vendor.pinterest_url].filter(Boolean),
   };
-  return [business, ...faqJsonLd(faqs)];
+  return [business, listingBreadcrumbJsonLd("vendors", vendor, vendorHref(vendor)), ...faqJsonLd(faqs)];
 }
 
 export default async function VendorDetailPage({
@@ -92,12 +95,21 @@ export default async function VendorDetailPage({
   // visitors and bots aren't counted.
   if (data.wedding) trackEvent("listing_viewed", { weddingId: data.wedding.id, listing: { kind: "vendor", id: data.vendor.id } });
 
+  const metro = metroForPoint(data.vendor.latitude, data.vendor.longitude);
+
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">
       <JsonLd data={vendorJsonLd(data)} />
-      <Link href="/vendors" className="mb-4 inline-block text-sm text-brass hover:underline">
-        &larr; {user ? "Back to vendors" : "Browse wedding vendors"}
-      </Link>
+      <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+        <Link href="/vendors" className="text-brass hover:underline">
+          &larr; {user ? "Back to vendors" : "Browse wedding vendors"}
+        </Link>
+        {metro && (
+          <Link href={metroHref("vendors", metro)} className="text-brass hover:underline">
+            More {metro.name}-area vendors
+          </Link>
+        )}
+      </div>
       <VendorListing data={{ ...data, then }} />
     </PageShell>
   );

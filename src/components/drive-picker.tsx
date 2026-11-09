@@ -22,6 +22,28 @@ import { cachedToken, loadScript, rememberToken } from "@/lib/google-sheets";
  */
 
 const GIS_SRC = "https://accounts.google.com/gsi/client";
+
+/**
+ * Keeps Google's dialog on screen.
+ *
+ * The Picker positions its dialog against the top of the document, not the
+ * window, so opened from halfway down a long guest list it lands above the
+ * fold while its grey backdrop covers what you can see -- a page that looks
+ * frozen, with the one thing that would unfreeze it out of view. Pinning it
+ * to the middle of the window means it's always where you're looking.
+ */
+const PICKER_CSS = `
+.picker-dialog-bg{position:fixed!important;inset:0!important;width:auto!important;height:auto!important}
+.picker-dialog{position:fixed!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;max-width:calc(100vw - 16px)!important;max-height:calc(100vh - 16px)!important}
+`;
+
+function pinPickerInView() {
+  if (document.getElementById("wren-picker-pin")) return;
+  const style = document.createElement("style");
+  style.id = "wren-picker-pin";
+  style.textContent = PICKER_CSS;
+  document.head.appendChild(style);
+}
 const GAPI_SRC = "https://apis.google.com/js/api.js";
 const SCOPE = "https://www.googleapis.com/auth/drive.file";
 // Same scope as src/lib/google-sheets.ts, so one consent covers both.
@@ -79,7 +101,7 @@ type GoogleGlobal = {
     PickerBuilder: new () => PickerBuilder;
     DocsView: new () => DocsView;
     DocsViewMode: { LIST: string; GRID: string };
-    Action: { PICKED: string; CANCEL: string };
+    Action: { PICKED: string; CANCEL: string; LOADED?: string };
   };
 };
 
@@ -244,9 +266,32 @@ export function DrivePickerButton({
     let built: BuiltPicker | null = null;
     let stuck: ReturnType<typeof setTimeout> | null = null;
 
+    /**
+     * A way out that never depends on the dialog.
+     *
+     * If the Picker paints its backdrop but its dialog never shows (blocked,
+     * misconfigured, or somewhere off screen), clicking the grey or pressing
+     * Esc gives the page back. Without this the only escape was a reload.
+     */
+    const onBackdrop = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      if (target?.closest?.(".picker-dialog-bg")) {
+        close();
+        setBusy(false);
+      }
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        close();
+        setBusy(false);
+      }
+    };
+
     const close = () => {
       if (stuck) clearTimeout(stuck);
       stuck = null;
+      document.removeEventListener("click", onBackdrop, true);
+      document.removeEventListener("keydown", onKey, true);
       built?.setVisible(false);
       built?.dispose?.();
       built = null;
@@ -259,6 +304,14 @@ export function DrivePickerButton({
       .setOAuthToken(token)
       .setDeveloperKey(apiKey!)
       .setCallback((data) => {
+        // The dialog arrived, so the escape hatch below has done its job.
+        // Without this the timer kept running and closed a Picker someone
+        // was still browsing, 20 seconds in, blaming Safari for it.
+        if (data.action === (picker.Action.LOADED ?? "loaded")) {
+          if (stuck) clearTimeout(stuck);
+          stuck = null;
+          return;
+        }
         if (data.action === picker.Action.CANCEL) {
           close();
           setBusy(false);
@@ -295,6 +348,9 @@ export function DrivePickerButton({
       })
       .build();
 
+    pinPickerInView();
+    document.addEventListener("click", onBackdrop, true);
+    document.addEventListener("keydown", onKey, true);
     built.setVisible(true);
 
     /**
@@ -313,7 +369,7 @@ export function DrivePickerButton({
       close();
       setBusy(false);
       setError(
-        "Google Drive didn't open. Safari blocks it when cross-site tracking prevention is on — either turn that off for this site, or upload the file directly instead.",
+        "Google Drive didn't open. Try reloading the page or using Chrome. In Safari, \"Prevent cross-site tracking\" (Safari › Settings › Privacy) can block it.",
       );
     }, 20000);
   }

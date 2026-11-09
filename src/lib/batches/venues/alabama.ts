@@ -246,6 +246,42 @@ Monroeville Community House	271 Park Drive	Monroeville	Alabama			Ballroom	Indoor
 Camellia Pavilion	309 Fort Dale Street	Greenville	Alabama			Garden & Park	Outdoor				Outdoor pavilion on the Greenville-Butler County Library grounds with a warming kitchen, rented for weddings.		334-382-3216	https://www.greenville-bcpl.org/Default.asp?ID=335&pg=Camellia+Pavilion
 Daphne Civic Center	2603 US Highway 98	Daphne	Alabama			Ballroom	Indoor	1450			City civic center that hosts weddings, balls and other events for groups from about 40 up to 1,450.		251-620-2301	https://www.daphneal.com/188/Civic-Center`,
   },
+  {
+    name: "Alabama: confirmed on Google (own site blocks our checker)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Oaks at Magnolia Springs	16000 Beasley Rd	Foley	Alabama			Barn & Farm	Indoor & Outdoor				A countryside property outside Foley, renovated by its owners after Hurricane Sally, with an indoor room with a fireplace, covered and open-air outdoor areas and a fire pit.			https://theoaksatmagnoliasprings.com/
+Cragsmere Manor	17871 County Road 89	Mentone	Alabama			Historic Mansion & Estate	Indoor & Outdoor				A post-Civil War estate house on the brow of Lookout Mountain that rents as lodging for up to 24 guests and hosts weddings with views off the bluff.			https://www.mentonevacationrentals.com/weddings
+Barns and Bins	3335 Campground Church Rd	Luverne	Alabama			Barn & Farm	Indoor & Outdoor				A Crenshaw County farm venue about 10 minutes from Luverne and 15 from Troy, with a barn for receptions and grounds for ceremonies.			https://barnsandbins.com/
+The Stables at Russell Crossroads		Alexander City	Alabama			Barn & Farm	Indoor & Outdoor				A working two-story equestrian center in the Russell Crossroads community near Lake Martin, run by Russell Lands and set among the oaks of the Russell Forest.			https://www.russelllands.com/weddings/stables/
+The Ezell House	407 Conti St	Mobile	Alabama			Historic Mansion & Estate	Indoor & Outdoor				An Italianate house from the 1860s a block west of Cathedral Square in downtown Mobile, with a courtyard beside its event rooms.			https://ezellhouse.com/
+Wynlakes Golf & Country Club	7900 Wynlakes Blvd	Montgomery	Alabama			Country Club & Golf	Indoor & Outdoor				A private golf club in east Montgomery with a ballroom and a courtyard for weddings, open to non-members through a member sponsor.			https://www.wynlakes.com/banquets
+Pelham Civic Complex Banquet Hall	500 Amphitheater Rd	Pelham	Alabama			Ballroom	Indoor				A city-run 7,000-square-foot banquet hall at the Pelham Civic Complex that opens as one room or divides into four.			https://www.pelhamalabama.gov/1147/Banquet-Hall
+`,
+  },
+  {
+    name: "Alabama: confirmed on Google (own site blocks our checker), part 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Annabella at Cedar Glen	5264 Rustic Trail	Huntsville	Alabama			Historic Mansion & Estate	Indoor & Outdoor				A 5,600-square-foot plantation-style house on three and a half acres in northeast Huntsville, with gardens, a footbridge and two outdoor ceremony sites.			https://annabellaweddings.com
+Crest Farm Barn	351 Crest Farm Dr	Wilsonville	Alabama			Barn & Farm	Indoor & Outdoor				A family-owned event barn on 16 wooded acres in Shelby County, with a bridal suite included for two nights in its packages.			https://crestfarmbarn.com
+Hampton Cove Wedding Venue	823 Cherry Tree Rd	Huntsville	Alabama			Lake & River	Indoor & Outdoor				A veteran-family-owned 23-acre property below the mountains east of Huntsville, with a reception hall, a bridal suite and a lakeside ceremony site.			https://hamptoncoveweddingvenue.com/
+Children's Harbor Lake Martin	434 Children's Harbor Dr	Eclectic	Alabama			Chapel & Church	Indoor & Outdoor				A nonprofit campus on Lake Martin with two ceremony sites: the lakeside Radney Family Children's Chapel, seating about 220, and the open-air Church in the Pines.			https://www.childrensharbor.com/rental-facilities/weddings/
+The Barn at Shady Lane	290 Sunbelt Pkwy	Birmingham	Alabama			Barn & Farm	Indoor & Outdoor				An air-conditioned event barn on eight acres beside the Oxmoor Valley golf course, about a mile from Ross Bridge.			https://thebarnatshadylane.com/
+Dothan Area Botanical Gardens	5130 Headland Ave	Dothan	Alabama			Garden & Park	Indoor & Outdoor				A public botanical garden with a formal wedding garden with a fountain and pergola, an indoor hall in its botanical center, a restored farmhouse and a gazebo.			https://dothanbotanicalgardens.com/rentals/
+`,
+  },
+  {
+    name: "Alabama: Birmingham, Huntsville, Tuscaloosa, Mobile and Dothan",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Vulcan Park	1701 Valley View Drive	Birmingham	Alabama			Garden & Park	Indoor & Outdoor				A hilltop park and museum at the foot of the cast iron Vulcan statue, available for ceremonies and receptions.	info@vulcanpark.org	(205) 933-1409	https://www.vulcanpark.org/weddings
+Lemon Ridge Events	12333 Highway 78	Jasper	Alabama			Barn & Farm	Indoor & Outdoor	250			A 10,000-square-foot event property west of Birmingham, with room for 110 guests inside and 250 outside.	LemonRidgeEvents@gmail.com	(205) 898-0800	https://www.lemonridgeevents.com
+Mathews Manor		Springville	Alabama			Historic Mansion & Estate		400			A manor on U.S. 11 in Springville, about 25 minutes from Birmingham, offering customizable wedding packages.	Contact@MathewsManor.com	(205) 467-3935	https://www.mathewsmanor.com
+Maria's Vineyard	3940 Fortner Street	Dothan	Alabama			Vineyard & Winery	Indoor & Outdoor				A Tuscan-style vineyard house with a bridal suite and banquet area, set among jasmine-covered arbors, a marble gazebo and rose gardens inside a working muscadine vineyard.			https://mariasvineyard.com
+Gardner's Eden	441 Jenifer Rd	Munford	Alabama			Ranch	Indoor & Outdoor				A ranch-style post-and-beam wedding venue in the foothills by Talladega National Forest, with gardens, an indoor hall, bridal and groom suites, and ADA-accessible spaces.	gardnerseden@mail.com	(256) 239-8189	https://gardnerseden.com/
+The Rose Chapel	5970 US Hwy 11	Attalla	Alabama			Chapel & Church					A small Attalla chapel with no fixed layout, offering couples free use of its Victorian sofas, barrels and backdrops and no vendor restrictions.	therosechapel5970@yahoo.com	205-283-3643	https://therosechapel.com/
+Tall Pines		Grand Bay	Alabama			Barn & Farm	Indoor & Outdoor				A pine-surrounded property outside Mobile with an event barn for receptions, an outdoor ceremony area, and separate cottage-style bridal and groom suites.	info@tallpinesvenue.com	251-800-1903	https://tallpinesvenue.com/
+Mobile Carnival Museum		Mobile	Alabama			Museum, Gallery & Rooftop	Indoor & Outdoor		2000	Rental	A downtown Mobile history museum in the Bernstein-Bush mansion whose rentable Den and grassy back lawn host receptions of up to 200 guests among Mardi Gras exhibits.			https://mobilecarnivalmuseum.com/event-venue-information/
+`,
+  },
 ];
 
 export default batches;

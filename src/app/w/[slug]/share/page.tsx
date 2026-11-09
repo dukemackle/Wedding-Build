@@ -13,10 +13,16 @@ import { turnstileSiteKey } from "@/lib/turnstile";
  */
 export default async function SharePhotoPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ t?: string | string[] }>;
 }) {
   const { slug } = await params;
+  // A per-table card's code adds ?t=<seating table id>; the action checks it's
+  // this wedding's table before saving it (0159).
+  const { t } = await searchParams;
+  const tableId = typeof t === "string" ? t : null;
   // By slug alone, password or not: guests reach this from a link or a
   // table card, often before they've opened the site (0121).
   const wedding = await guestSiteCover(slug);
@@ -46,6 +52,7 @@ export default async function SharePhotoPage({
             weddingId={wedding.id}
             coupleNames={coupleNames || "the couple"}
             turnstileSiteKey={turnstileSiteKey()}
+            tableId={tableId}
           />
         </div>
         <p className="mt-6 text-center">

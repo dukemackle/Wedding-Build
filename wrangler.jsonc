@@ -46,7 +46,10 @@
 		// Cloudflare Turnstile on the guest site's forms. The site key is public
 		// (the browser needs it); TURNSTILE_SECRET_KEY is a Worker secret, set
 		// in the dashboard. Both must be set for the check to run (src/lib/turnstile.ts).
-		"TURNSTILE_SITE_KEY": "0x4AAAAAAFnj_mlKxTVHxSCt"
+		"TURNSTILE_SITE_KEY": "0x4AAAAAAFnj_mlKxTVHxSCt",
+		// CAN-SPAM footer on marketing email (src/lib/marketing-email.ts).
+		// Public, and the same line as COMPANY_POSTAL_ADDRESS in src/lib/company.ts.
+		"MARKETING_POSTAL_ADDRESS": "1106 2nd St, Ste 103 #723, Encinitas, CA 92024"
 	}
 	// Optional upgrades once the app is live on Cloudflare:
 	// - R2 incremental cache (persists ISR/data-cache across deploys): see

@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { AssistantConversation, FeedbackSubmission, Wedding } from "@/lib/supabase/types";
 import { AdminFeedbackManager } from "./admin-feedback-manager";
+import { AdminEyebrow } from "@/app/admin/admin-nav";
 
 export default async function AdminFeedbackPage() {
   await requireAdmin();
@@ -46,7 +47,7 @@ export default async function AdminFeedbackPage() {
 
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
+      <AdminEyebrow />
       <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">Feedback</h1>
       <AdminFeedbackManager
         feedback={feedback ?? []}

@@ -270,3 +270,80 @@ rules, batch self-merge, 50-state coverage, page widths) and
   (more admin drawing before anyone has used plans).
 - Also: approving a claim used to delete and reinsert a venue's spaces, which
   would have dropped their plans; it now updates spaces in place by name.
+
+## 2026-11-04 — Printed save-the-dates: print-on-demand later, no local-shop partnerships
+
+- Decision: the owner wants to make money from printed stationery later,
+  through a print-on-demand API (Prodigi, Gelato, Lob or similar) ordered
+  inside the app at a markup. That waits for real couples using the studio and
+  the phase rules in `docs/monetization.md`. For now the studio's PDF has 1/8 in
+  bleed and a "Printing it" note so couples can take it to any print shop.
+- Why: FedEx Office or Staples deals happen at corporate level, and local
+  printers would each be a one-off deal. A print API needs no negotiation, and
+  the couple never leaves the app.
+- Rough money (estimate, not quoted): ~100 cards at $1.50–3 each, 20–40% margin,
+  so about $30–100 per couple. It repeats for invitations and thank-yous.
+
+## 2026-11-04 — Venue catalog target raised toward ~25,000 (pass 5)
+
+- Decision: once a state meets its pass 4 stage 2 venue target, that target
+  rises 1.6× (`PASS5_VENUE_FACTOR` in `scripts/coverage-plan.mjs`), about 25.7k
+  venues nationally. Vendor targets are unchanged for now. Routine pace is not
+  changed.
+- Why: outside estimates (Rentech, MMCG, unverified) put US wedding venues at
+  27k–36k, but research skips about a third of what it finds, so ~25k is a
+  realistic ceiling to aim at. A state whose skips outnumber its new pass 5
+  venues is probably near full.
+
+## 2026-11-04: Admin nav, "Marketplace" is now "Listings"; Buy & sell under Customers
+
+- Decision (owner delegated: "whatever you think is best"): the admin group
+  named Marketplace is renamed Listings, and Buy & sell moves to Customers.
+  It doesn't go under Content, which stays for material we curate (Attire,
+  Cost data). Buy & sell's success measure is items **handed on** (marked
+  sold or rental dates booked), shown with live listings and conversations.
+- Why: "marketplace" now names the couple-to-couple feature, so a group of
+  venue and vendor listings under that name was misleading. Buy & sell is
+  couples' own posts to moderate, like Photo wall.
+- Alternatives: under Content (it isn't curated content); its own group (too
+  small for one).
+
+## 2026-11-04: App icon is gold rings on a Royal tile with an Aqua diamond
+
+- Decision (owner): the app icon, favicon and Apple icon use the owner's
+  chosen ChatGPT draft as-is: gold linked rings on a Royal-blue tile with a
+  Sky/Aqua diamond. Source: `public/logo/app-icon.png` (1024px). A clean
+  vector redraw was tried and set aside; the owner preferred the draft.
+- Why: brightest of the options on both light and dark wallpapers, the rings
+  stay gold, and it still reads as two rings at 32px. The navy tile vanished
+  on dark wallpapers; the gold tile lost the gold rings.
+- Trade-off: blue is Wren's colour, so the tile leans "Wren", with gold as
+  the brand on top. No vector master exists; a print or very large use would
+  need one drawn.
+
+## 2026-11-05: City hubs grow with coverage, no routine of their own
+
+- Decision (owner): keep adding metro hubs (`/venues/in/…`, `/vendors/in/…`),
+  but with no scheduled routine for them. Hubs are one line each in
+  `src/lib/metros.ts`. The plan's 30 major markets are in, except Long Island
+  (its radius would cross into Connecticut). Batch builders flag
+  "Hub ready: <State>: <Metro>" when a metro reaches its venue target, and
+  the hub goes in by a normal PR.
+- Why: a hub is only as good as its listings, which the batch builders
+  already add; a routine would cost usage and add nothing. Thin hubs stay
+  noindex until they have 8 indexable listings.
+- Trade-off: the footer now lists 30 hub links. Check first whether Google
+  indexes the hubs at all (Search Console) before adding many more.
+
+## 2026-11-08: Guest texting waits; error alerts by email, not Sentry
+
+- Decision (owner): don't fund Twilio or register A2P 10DLC yet. Twilio keys
+  aren't set in production, so no texts were going out; the RSVP form now
+  hides "Text me schedule changes" until they are (`smsConfigured()` in
+  `src/lib/sms.ts`), so guests aren't promised texts that never come.
+- Error alerts go by email through Resend (already a sub-processor), no
+  Sentry, so the Privacy Policy doesn't change.
+- Why: the first invited couples can use email; texting costs money and
+  weeks of registration for a feature no one uses yet.
+- Revisit: when couples ask for texts. Then add funds, register the brand and
+  campaign (Account Notifications), set the three TWILIO_* secrets.

@@ -16,9 +16,13 @@ vendor (LocalBusiness) pages, FAQPage JSON-LD helper
 (`src/components/json-ld.tsx`). Guest sites have dynamic OG tags and noindex
 when locked.
 
-**Missing:** state/city landing pages (state and city are only filters today),
-Organization/WebSite JSON-LD, generated OG images for public pages, `llms.txt`,
-Search Console verification, content/guide pages.
+**Shipped 2026-11-04:** homepage title, Organization/WebSite JSON-LD, `llms.txt`;
+metro hubs `/venues/in/<metro>` and `/vendors/in/<metro>` for the nine launch
+metros (`src/lib/metros.ts`), linked from the footer, sitemap and each listing.
+Search Console is verified (owner).
+
+**Missing:** generated OG images for public pages, state cost pages,
+content/guide pages.
 
 ## SOP
 
