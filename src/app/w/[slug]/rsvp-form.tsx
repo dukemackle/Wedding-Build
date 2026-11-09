@@ -133,7 +133,7 @@ export function RsvpForm({
         <p>Thanks — your RSVP has been sent!</p>
         {shareHref && (
           <a href={shareHref} className="mt-1 inline-block text-sm font-medium text-brass hover:underline">
-            Add another photo to the wall &rarr;
+            Add a photo to the wall &rarr;
           </a>
         )}
       </div>

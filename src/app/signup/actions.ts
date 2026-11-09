@@ -6,6 +6,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { normalizeEmail } from "@/lib/unsubscribe";
 import { trackEvent } from "@/lib/events";
 import { cleanFirstTouch, cleanHeardFrom } from "@/lib/attribution";
+import { logError } from "@/lib/error-log";
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
@@ -36,7 +37,15 @@ export async function signup(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/signup?error=${encodeURIComponent(error.message)}&next=${encodeURIComponent(next)}`);
+    // A failure on Supabase's side (e.g. the confirmation email couldn't be
+    // sent) comes back as a 500 whose message is literally "{}". Showing that
+    // tells the couple nothing, and nobody here would hear about it.
+    const serverFault = !error.message || error.message === "{}" || (error.status ?? 0) >= 500;
+    if (serverFault) await logError("app", "signup", error);
+    const message = serverFault
+      ? "We couldn't create your account just now. Please try again in a few minutes, or email hello@youdoido.com and we'll sort it out."
+      : error.message;
+    redirect(`/signup?error=${encodeURIComponent(message)}&next=${encodeURIComponent(next)}`);
   }
 
   // Supabase answers a repeat signup with a stand-in user with no

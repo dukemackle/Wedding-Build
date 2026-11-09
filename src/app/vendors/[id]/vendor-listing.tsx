@@ -68,14 +68,17 @@ export async function loadVendorListing(
       : Promise.resolve({ data: null }),
     supabase.from("vendor_faqs").select("*").eq("vendor_id", vendor.id).order("sort_order").returns<VendorFaq[]>(),
     vendor.category
-      ? supabase
-          .from("vendors")
-          .select(columns)
-          .eq("active", true)
-          .eq("category", vendor.category)
-          .neq("id", vendor.id)
-          .limit(3)
-          .returns<Vendor[]>()
+      ? (() => {
+          let similar = supabase
+            .from("vendors")
+            .select(columns)
+            .eq("active", true)
+            .eq("category", vendor.category)
+            .neq("id", vendor.id);
+          // Same state: an Austin videographer used to suggest Oregon and California.
+          if (vendor.state) similar = similar.eq("state", vendor.state);
+          return similar.limit(30).returns<Vendor[]>();
+        })()
       : Promise.resolve({ data: [] as Vendor[] }),
   ]);
 
@@ -94,7 +97,10 @@ export async function loadVendorListing(
     wedding: wedding ?? null,
     isFavorited: Boolean(favorite),
     faqs: faqs ?? [],
-    similarVendors: similarVendors ?? [],
+    // Same city first, then the rest of the state.
+    similarVendors: (similarVendors ?? [])
+      .sort((a, b) => Number(a.city !== vendor.city) - Number(b.city !== vendor.city))
+      .slice(0, 3),
   };
 }
 

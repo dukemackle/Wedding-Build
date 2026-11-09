@@ -40,10 +40,23 @@ export default async function StartDonePage() {
       .select("*")
       .eq("state", wedding.state)
       .returns<RegionalCostData[]>();
-    estimate = estimateWeddingCost(regionalData ?? [], wedding.state, guests, wedding.style_tier, {
+    // Same lines as the Budget page: a new wedding starts with some
+    // categories hidden (planner, videography, ...), and counting them here
+    // promised ~$8k more than the budget it says it "starts from".
+    const hidden = new Set(wedding.hidden_budget_categories ?? []);
+    const all = estimateWeddingCost(regionalData ?? [], wedding.state, guests, wedding.style_tier, {
       region: wedding.region,
       season: wedding.season,
+      hidden,
     });
+    const total = all.breakdown.filter((item) => !hidden.has(item.key)).reduce((sum, item) => sum + item.amount, 0);
+    const scale = all.total > 0 ? total / all.total : 1;
+    estimate = {
+      ...all,
+      total,
+      low: Math.floor((all.low * scale) / 500) * 500,
+      high: Math.ceil((all.high * scale) / 500) * 500,
+    };
   }
 
   return <DoneView wedding={wedding} estimate={estimate} />;

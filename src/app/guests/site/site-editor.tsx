@@ -664,7 +664,7 @@ export function SiteEditor({
       } ${publishReady ? "publish-ready" : ""}`}
     >
       {publishBusy ? (
-        site.isPending ? (publicSlug ? "Unpublishing…" : "Turning on…") : "Publishing…"
+        site.isPending ? (site.turningOff ? "Unpublishing…" : "Turning on…") : "Publishing…"
       ) : publishAction === "publish" ? (
         !isLive ? "Make this live" : "Publish changes"
       ) : publishAction === "turnOn" ? (
@@ -953,7 +953,7 @@ export function SiteEditor({
           >
             {publishBusy
               ? site.isPending
-                ? publicSlug
+                ? site.turningOff
                   ? "Unpublishing…"
                   : "Turning on…"
                 : "Publishing…"

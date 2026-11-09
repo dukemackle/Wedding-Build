@@ -76,11 +76,9 @@ export async function loadVenueListing(
     .maybeSingle<Venue>();
   if (!venue) return null;
 
-  const similarityFilters = [
-    // Quoted: "Museum, Gallery & Rooftop" has a comma, which would split the or().
-    venue.venue_type ? `venue_type.eq."${venue.venue_type}"` : null,
-    venue.state ? `state.eq.${venue.state}` : null,
-  ].filter((f): f is string => Boolean(f));
+  // Same state always (an Austin barn used to suggest barns in Nebraska and
+  // Michigan, since type OR state matched anything); same type first.
+  const hasSimilar = Boolean(venue.state || venue.venue_type);
 
   const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: plans }, { data: preferredVendors }, { data: similarVenues }] =
     await Promise.all([
@@ -101,16 +99,19 @@ export async function loadVenueListing(
         .eq("venue_id", venue.id)
         .order("sort_order")
         .returns<VenuePreferredVendor[]>(),
-      similarityFilters.length
-        ? supabase
-            .from("venues")
-            .select(columns)
-            .eq("active", true)
-            .eq("is_sample", false)
-            .neq("id", venue.id)
-            .or(similarityFilters.join(","))
-            .limit(3)
-            .returns<Venue[]>()
+      hasSimilar
+        ? (() => {
+            let similar = supabase
+              .from("venues")
+              .select(columns)
+              .eq("active", true)
+              .eq("is_sample", false)
+              .neq("id", venue.id);
+            similar = venue.state
+              ? similar.eq("state", venue.state)
+              : similar.eq("venue_type", venue.venue_type!);
+            return similar.limit(30).returns<Venue[]>();
+          })()
         : Promise.resolve({ data: [] as Venue[] }),
     ]);
 
@@ -132,7 +133,11 @@ export async function loadVenueListing(
     spaces: spaces ?? [],
     plans: plans ?? [],
     preferredVendors: preferredVendors ?? [],
-    similarVenues: similarVenues ?? [],
+    similarVenues: (similarVenues ?? [])
+      .map((v) => ({ v, rank: (v.venue_type === venue.venue_type ? 0 : 2) + (v.city === venue.city ? 0 : 1) }))
+      .sort((a, b) => a.rank - b.rank)
+      .slice(0, 3)
+      .map(({ v }) => v),
   };
 }
 

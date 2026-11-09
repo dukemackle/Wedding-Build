@@ -36,6 +36,7 @@ export async function seedStandardPlan(
     venueBooked: Boolean(wedding.venue_id),
     budgetSet: Boolean(wedding.budget_target),
     sitePublished: Boolean(wedding.public_slug),
+    guestCountSet: wedding.guest_count_override != null,
   }).filter((task) => !have.has(task.title.trim().toLowerCase()));
 
   if (planned.length > 0) {
