@@ -35,6 +35,8 @@ import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
 import { BookingFactsCard } from "@/components/booking-facts-card";
 import { nearestListings } from "@/lib/listing-seo";
+import { venueAreaComparison, type AreaComparison } from "@/lib/area-comparison";
+import { AreaComparisonCard } from "@/components/area-comparison";
 import { priceCheckedNote, priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
 
 /**
@@ -56,6 +58,8 @@ export type VenueListingData = {
   plans?: VenueSpacePlan[];
   preferredVendors: VenuePreferredVendor[];
   similarVenues: Venue[];
+  /** "Compared with the Austin area" (src/lib/area-comparison.ts). */
+  comparison: AreaComparison | null;
   /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
   preview?: boolean;
   /** What they tapped before signing up, to finish now (signup-sheet.tsx). */
@@ -77,7 +81,7 @@ export async function loadVenueListing(
     .maybeSingle<Venue>();
   if (!venue) return null;
 
-  const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: plans }, { data: preferredVendors }, similarVenues] =
+  const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: plans }, { data: preferredVendors }, similarVenues, comparison] =
     await Promise.all([
       userId
         ? supabase
@@ -99,6 +103,7 @@ export async function loadVenueListing(
       // The nearest venues, so each listing links to its own neighbours
       // (src/lib/listing-seo.ts).
       nearestListings<Venue>(supabase, "venues", venue, columns, 3),
+      venueAreaComparison(supabase, venue),
     ]);
 
   const { data: shortlistEntry } = wedding
@@ -120,6 +125,7 @@ export async function loadVenueListing(
     plans: plans ?? [],
     preferredVendors: preferredVendors ?? [],
     similarVenues,
+    comparison,
   };
 }
 
@@ -141,7 +147,7 @@ function photosOf(venue: Venue): string[] {
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VenueListing({ data }: { data: VenueListingData }) {
-  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, plans = [], preferredVendors, similarVenues, preview, then } = data;
+  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, plans = [], preferredVendors, similarVenues, comparison, preview, then } = data;
 
   // "Must book from these" and "we recommend these" change a couple's budget
   // very differently, so they're shown apart, required first.
@@ -351,6 +357,8 @@ export function VenueListing({ data }: { data: VenueListingData }) {
           )}
 
           <VenueGoodToKnow venue={venue} />
+
+          {comparison && !preview && <AreaComparisonCard data={comparison} kind="venue" />}
 
           {faqs.length > 0 && (
             <div className={card}>

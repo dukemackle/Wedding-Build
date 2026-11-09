@@ -21,6 +21,8 @@ import {
   verifiedLabel,
 } from "@/lib/public-listings";
 import { nearestListings } from "@/lib/listing-seo";
+import { vendorAreaComparison, type AreaComparison } from "@/lib/area-comparison";
+import { AreaComparisonCard } from "@/components/area-comparison";
 import { UnclaimedNote } from "@/components/unclaimed-note";
 import { VendorDetailClient } from "./vendor-detail-client";
 
@@ -38,6 +40,8 @@ export type VendorListingData = {
   isFavorited: boolean;
   faqs: VendorFaq[];
   similarVendors: Vendor[];
+  /** "Compared with the Austin area" (src/lib/area-comparison.ts). */
+  comparison: AreaComparison | null;
   /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
   preview?: boolean;
   /** What they tapped before signing up, to finish now (signup-sheet.tsx). */
@@ -59,7 +63,7 @@ export async function loadVendorListing(
     .maybeSingle<Vendor>();
   if (!vendor) return null;
 
-  const [{ data: wedding }, { data: faqs }, similarVendors] = await Promise.all([
+  const [{ data: wedding }, { data: faqs }, similarVendors, comparison] = await Promise.all([
     userId
       ? supabase
           .from("weddings")
@@ -73,6 +77,7 @@ export async function loadVendorListing(
     vendor.category
       ? nearestListings<Vendor>(supabase, "vendors", vendor, columns, 3, { category: vendor.category })
       : Promise.resolve([] as Vendor[]),
+    vendorAreaComparison(supabase, vendor),
   ]);
 
   const { data: favorite } = wedding
@@ -91,13 +96,14 @@ export async function loadVendorListing(
     isFavorited: Boolean(favorite),
     faqs: faqs ?? [],
     similarVendors,
+    comparison,
   };
 }
 
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VendorListing({ data }: { data: VendorListingData }) {
-  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors, preview, then } = data;
+  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors, comparison, preview, then } = data;
   // Cover first, no repeats.
   const photos = [...new Set([vendor.image_url, ...vendor.photo_urls].filter((u): u is string => Boolean(u)))];
   const links = [
@@ -243,6 +249,8 @@ export function VendorListing({ data }: { data: VendorListingData }) {
           )}
 
           <BookingFactsCard facts={vendor} />
+
+          {comparison && !preview && <AreaComparisonCard data={comparison} kind="vendor" />}
 
           {faqs.length > 0 && (
             <div className={card}>
