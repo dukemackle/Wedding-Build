@@ -112,7 +112,6 @@ Venue	Fallen Oaks Estate		Paso Robles	California	Closed		2026-10-09
 Venue	The Grand 1401		Fresno	California	Inactive	https://thegrand1401.com	2026-10-09
 Venue	Terra Mia		Paso Robles	California	Site dead		2026-10-09
 Venue	Hartley Farms		San Miguel	California	Site dead		2026-10-09
-Venue	Eagle Oak Ranch		Paso Robles	California	Site back up	https://www.eagleoakranch.com	2026-10-09
 Venue	Galway Downs		Temecula	California	Franchise	https://www.wedgewoodweddings.com/galwaydowns	2026-10-10
 Venue	Mt. Woodson Castle		Ramona	California	Franchise	https://www.wedgewoodweddings.com/mtwoodsoncastle	2026-10-10
 Venue	Wayfarers Chapel		Rancho Palos Verdes	California	Inactive	https://www.wayfarerschapel.org	2026-10-10
@@ -475,7 +474,6 @@ Vendor	MUAH Makeup & Hair		Monterey	California	Social only	https://www.instagram
 Vendor	Custom Cakes Monterey		Monterey	California	Social only	https://www.instagram.com/ilovecake_monterey/	2026-10-19
 Vendor	LIV Entertainment Group		Culver City	California	Franchise	https://liventgroup.com/dj-for-hire/sacramento-ca/	2026-10-19
 Vendor	Marisa Perel Makeup + Hair	Hair & Makeup	San Francisco	California	Social only	https://www.instagram.com/marisaperel/	2026-10-19
-Vendor	Gina & Ryan Photography	Photography	Los Angeles	California	Site back up	https://ginaandryan.com/	2026-10-19
 Vendor	Styled by Iryna	Hair & Makeup	Sacramento	California	Site back up	https://styledbyiryna.com/	2026-10-19
 Vendor	Tania's Cake Studio	Cake	Rancho Cordova	California	Site back up	https://taniascakestudio.com/	2026-10-19
 Vendor	Wedded Details	Planning	Sacramento	California	Site back up	https://www.weddedetails.com/	2026-10-19
@@ -1846,3 +1844,81 @@ Vendor	Masrour Catering	Catering	Tarzana	California	Site blocks automated visits
 Vendor	Jill's Cake Creations	Cake	Valencia	California	Site blocks automated visits, unconfirmed	https://jillscakecreations.com	2026-11-08
 Vendor	Edoughble	Desserts	Los Angeles	California	Site blocks automated visits, unconfirmed	https://edoughble.com	2026-11-08
 Vendor	The Park's Finest	Catering	Echo Park	California	Site blocks automated visits, unconfirmed	https://theparksfinest.com	2026-11-08
+Venue	Montage Laguna Beach		Laguna Beach	California	Site blocks automated visits, unconfirmed	https://montage.com/lagunabeach/weddings/	2026-11-09
+Venue	Big Sur Lodge		Big Sur	California	Site blocks automated visits, unconfirmed	https://www.bigsurlodge.com	2026-11-09
+Venue	Carmel Valley Lodge		Carmel Valley	California	Site blocks automated visits, unconfirmed	https://www.carmelvalleylodge.com	2026-11-09
+Venue	Cypress Inn		Carmel-by-the-Sea	California	Site blocks automated visits, unconfirmed	https://www.cypress-inn.com	2026-11-09
+Venue	Brookdale Lodge		Brookdale	California	Site blocks automated visits, unconfirmed	https://www.brookdalelodge.com	2026-11-09
+Venue	Dolphin Bay Resort		Pismo Beach	California	Site blocks automated visits, unconfirmed	https://www.dolphinbay.com	2026-11-09
+Venue	Lido House Hotel		Newport Beach	California	Site blocks automated visits, unconfirmed	https://www.lidohouse.com	2026-11-09
+Venue	Sparrows Lodge		Palm Springs	California	Site blocks automated visits, unconfirmed	https://www.sparrowslodge.com	2026-11-09
+Venue	Halter Ranch		Paso Robles	California	No wedding page	https://www.halterranch.com	2026-11-09
+Venue	Tablas Creek Vineyard		Paso Robles	California	No wedding page	https://www.tablascreek.com	2026-11-09
+Venue	San Luis Obispo Botanical Garden		San Luis Obispo	California	No wedding page	https://slobg.org/host-an-event/	2026-11-09
+Venue	Santa Barbara Maritime Museum		Santa Barbara	California	No wedding page	https://sbmm.org/museum-private-rentals/	2026-11-09
+Venue	Riverside Art Museum		Riverside	California	No wedding page	https://riversideartmuseum.org/about/private-events/	2026-11-09
+Venue	Oak Farm Vineyards		Lodi	California	No wedding page	https://www.oakfarmvineyards.com/private-events	2026-11-09
+Venue	Michael David Winery		Lodi	California	No wedding page	https://www.michaeldavidwinery.com	2026-11-09
+Venue	California Museum		Sacramento	California	No wedding page	https://www.californiamuseum.org/rentals	2026-11-09
+Venue	Gallo Center for the Arts		Modesto	California	No wedding page	https://www.galloarts.org	2026-11-09
+Venue	Montage Healdsburg		Healdsburg	California	Site blocks automated visits, unconfirmed	https://www.montage.com/healdsburg/weddings/	2026-11-09
+Venue	Glenn Ranch		Petaluma	California	Site blocks automated visits, unconfirmed	https://www.glennranch.com	2026-11-09
+Venue	The Dance Palace		Point Reyes Station	California	Site blocks automated visits, unconfirmed	https://dancepalace.org/rentals/	2026-11-09
+Venue	de Young Museum		San Francisco	California	Site blocks automated visits, unconfirmed	https://www.famsf.org/about/weddings-private-events	2026-11-09
+Venue	EmmaLily Vineyards		Morgan Hill	California	Site blocks automated visits, unconfirmed	https://emmalilyvineyards.com	2026-11-09
+Venue	Willow Heights Mansion		Morgan Hill	California	Site blocks automated visits, unconfirmed	https://www.leal.com/experience/willow-heights-mansion-weddings	2026-11-09
+Venue	Hillside Club		Berkeley	California	Site blocks automated visits, unconfirmed	https://bhcweb.wixsite.com/hillsideclub/clubrental	2026-11-09
+Venue	The Marker San Francisco		San Francisco	California	Site shows no street number or wedding details	https://www.themarkersf.com/gather/wedding-reception-packages/	2026-11-09
+Vendor	Lin & Jirsa	Photography/Videography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.linandjirsa.com/	2026-11-09
+Vendor	Hessler Photography	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://hesslerphotography.com/	2026-11-09
+Vendor	Tales of Woo	Videography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://zola.com/wedding-vendors/wedding-videographers/tales-of-woo	2026-11-09
+Vendor	Blue Voltage Media	Videography	Pasadena	California	Site blocks automated visits, unconfirmed	https://zola.com/wedding-vendors/wedding-videographers/blue-voltage-media	2026-11-09
+Vendor	DJ Shahar & Co	Music	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.djshahar.com/	2026-11-09
+Vendor	Hartfelt Pictures	Videography	Burbank	California	No website	https://wedj.com/videographers/burbank/california/	2026-11-09
+Vendor	My RockStar Wedding	Videography/Photography	Studio City	California	Site dead	https://www.mapquest.com/us/california/my-rockstar-wedding-videography-photography-452667372	2026-11-09
+Vendor	Peterson Design & Photography	Photography	Fullerton	California	Closed	https://peterson-photography.blogspot.com/	2026-11-09
+Vendor	Bedrosian Photo	Photography	Granada Hills	California	No wedding page	https://www.bedrosianphoto.com/	2026-11-09
+Vendor	Bella Rosa Gardens	Florals	Altadena	California	Site dead	https://bellarosagardens.com	2026-11-09
+Vendor	Taquito Y Mas	Catering	North Hills	California	Site dead	https://taquitoymas.com	2026-11-09
+Vendor	Stems Floral Design	Florals	Palos Verdes Estates	California	Site dead	http://stemsbykate.com/	2026-11-09
+Vendor	Jack Special Cebu Lechon	Catering	Long Beach	California	No wedding page	https://jackcebulechon.com/	2026-11-09
+Vendor	Upton Grey Floral	Florals	Pasadena	California	No wedding page	https://www.uptongreyfloral.com/	2026-11-09
+Vendor	Emmanuel Kosher Catering	Catering	Los Angeles	California	Site never names its town	https://emmanuelkoshercateringinc.com/	2026-11-09
+Vendor	Simon's Caterers & Special Events	Catering	Los Angeles	California	No wedding page	https://simonscaterers.com/	2026-11-09
+Vendor	Sason Catering	Catering	Los Angeles	California	Site blocks automated visits, unconfirmed	https://sasoncatering.com/weddings/	2026-11-09
+Vendor	Sip n Glam LA	Bar	Los Angeles	California	Site never names its town	https://sipnglamla.com/	2026-11-09
+Vendor	Special Events Rental	Rentals	Los Angeles	California	Site never names its town	https://specialeventsrental.com/	2026-11-09
+Vendor	Worthy Rentals SoCal	Rentals	Los Angeles	California	Site never names its town	https://worthy-rentals.com/	2026-11-09
+Vendor	Pico Party Rentals	Rentals	Los Angeles	California	No wedding page	https://picopartyrents.com/	2026-11-09
+Vendor	The Pin-Up Kitchen	Cake	Long Beach	California	Site never names its town	https://www.thepinupkitchen.com/	2026-11-09
+Vendor	Nicole Bakes Cakes	Cake	Los Angeles	California	Site never names its town	https://www.nicolebakescakes.com/	2026-11-09
+Vendor	Twice Baked Bakery	Cake	Long Beach	California	No wedding page	https://www.twice-baked.com/	2026-11-09
+Vendor	Monarch Balloon Boutique	Decor & Lighting	Santa Ana	California	No wedding page	https://www.monarchballoonboutique.com/	2026-11-09
+Vendor	Bollywood Bites	Catering	Los Angeles	California	Site dead	https://www.thebollywoodbites.com/	2026-11-09
+Vendor	Mini Kabob	Catering	Glendale	California	Site blocks automated visits, unconfirmed	https://mini-kabob.com/	2026-11-09
+Vendor	Sip Society LA	Bar	Los Angeles	California	Site blocks automated visits, unconfirmed	https://sipsocietyla.com/	2026-11-09
+Vendor	Ultraviolet Flower Co.	Florals	Los Angeles	California	Site blocks automated visits, unconfirmed	https://ultravioletflowerco.com/	2026-11-09
+Vendor	My Blooming Business / Highland Park Florist / Sherman Oaks Florist / Mid Valley Flowers	Florals	Los Angeles	California	No wedding page	https://mybloomingbusiness.com/	2026-11-09
+Vendor	Lin & Jirsa	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.linandjirsa.com/	2026-11-09
+Vendor	Classic Limos	Transportation	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.classiclimos.com/	2026-11-09
+Vendor	Fitz Carlile Photography	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.fitzcarlile.com	2026-11-09
+Vendor	Lumina Art Collective (Alicia Anne Art)	Other	Southern California	California	No wedding page	https://www.aliciaanneart.com/live-event-painting	2026-11-09
+Vendor	Ryan Kindseth Art	Other	Southern California	California	No wedding page	https://www.ryankindsethart.com/livepainting-1	2026-11-09
+Vendor	Karen Winters (Wedding Paintings)	Other	Southern California	California	Inactive	https://www.weddingpaintings.biz/	2026-11-09
+Vendor	Joshua Spieker Art	Other	Los Angeles	California	No wedding page	https://joshuaspieker.com/	2026-11-09
+Vendor	Candace Miller Makeup	Hair & Makeup	Burbank	California	Inactive	https://www.candacemillermakeup.com/brides	2026-11-09
+Vendor	Shanaz Hair Design	Hair & Makeup	Sherman Oaks	California	Inactive	https://www.shanazhair.com/	2026-11-09
+Vendor	Bravo Salon & Spa	Hair & Makeup	Pasadena	California	No wedding page	https://www.bravosalon.com/	2026-11-09
+Vendor	Making the Brides	Hair & Makeup	Studio City	California	Site dead	https://www.theknot.com/marketplace/making-the-brides-studio-city-ca-2035610	2026-11-09
+Vendor	Aardvark Letterpress	Stationery & Invitations	Los Angeles	California	No wedding page	https://www.aardvarkletterpress.com/	2026-11-09
+Vendor	Flora and Fauna Press	Stationery & Invitations	Los Angeles	California	Site dead	https://floraandfaunapress.com/	2026-11-09
+Vendor	Color & Creation	Stationery & Invitations	Los Angeles	California	Site dead	https://www.colorandcreation.com/	2026-11-09
+Vendor	Pasadena Limo Service	Transportation	Pasadena	California	Inactive	https://www.limoservicepasadena.com/	2026-11-09
+Vendor	Greater Los Angeles Charter Bus	Transportation	Los Angeles	California	Franchise	https://www.greaterlosangelescharterbus.com/	2026-11-09
+Vendor	EZ Vans	Transportation	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.ezvans.com/	2026-11-09
+Vendor	KimFilms	Videography	Orange County	California	No wedding page	https://kimfilms.com/	2026-11-09
+Vendor	Global Photography	Photography	Los Angeles	California	Site dead	https://www.globalphotography.com/	2026-11-09
+Vendor	Armen Nazarian Photography	Photography	La Crescenta	California	Site dead	https://www.theknot.com/marketplace/armen-nazarian-photography-la-crescenta-ca-2022416	2026-11-09
+Vendor	Thomas Kim Photography	Photography	Los Angeles	California	No website	https://www.zola.com/wedding-vendors/wedding-photographers/thomas-kim-photography	2026-11-09
+Vendor	Ketubahs by Design	Other	Los Angeles	California	Site never names its town	https://www.ketubahsbydesign.com/	2026-11-09
+Vendor	Neon Gods	Other	Long Beach	California	Site never names its town	https://www.neongods.com/	2026-11-09

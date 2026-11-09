@@ -34,6 +34,9 @@ import {
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
 import { BookingFactsCard } from "@/components/booking-facts-card";
+import { nearestListings } from "@/lib/listing-seo";
+import { venueAreaComparison, type AreaComparison } from "@/lib/area-comparison";
+import { AreaComparisonCard } from "@/components/area-comparison";
 import { priceCheckedNote, priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
 
 /**
@@ -55,6 +58,8 @@ export type VenueListingData = {
   plans?: VenueSpacePlan[];
   preferredVendors: VenuePreferredVendor[];
   similarVenues: Venue[];
+  /** "Compared with the Austin area" (src/lib/area-comparison.ts). */
+  comparison: AreaComparison | null;
   /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
   preview?: boolean;
   /** What they tapped before signing up, to finish now (signup-sheet.tsx). */
@@ -76,11 +81,7 @@ export async function loadVenueListing(
     .maybeSingle<Venue>();
   if (!venue) return null;
 
-  // Same state always (an Austin barn used to suggest barns in Nebraska and
-  // Michigan, since type OR state matched anything); same type first.
-  const hasSimilar = Boolean(venue.state || venue.venue_type);
-
-  const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: plans }, { data: preferredVendors }, { data: similarVenues }] =
+  const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: plans }, { data: preferredVendors }, similarVenues, comparison] =
     await Promise.all([
       userId
         ? supabase
@@ -99,20 +100,10 @@ export async function loadVenueListing(
         .eq("venue_id", venue.id)
         .order("sort_order")
         .returns<VenuePreferredVendor[]>(),
-      hasSimilar
-        ? (() => {
-            let similar = supabase
-              .from("venues")
-              .select(columns)
-              .eq("active", true)
-              .eq("is_sample", false)
-              .neq("id", venue.id);
-            similar = venue.state
-              ? similar.eq("state", venue.state)
-              : similar.eq("venue_type", venue.venue_type!);
-            return similar.limit(30).returns<Venue[]>();
-          })()
-        : Promise.resolve({ data: [] as Venue[] }),
+      // The nearest venues, so each listing links to its own neighbours
+      // (src/lib/listing-seo.ts).
+      nearestListings<Venue>(supabase, "venues", venue, columns, 3),
+      venueAreaComparison(supabase, venue),
     ]);
 
   const { data: shortlistEntry } = wedding
@@ -133,11 +124,8 @@ export async function loadVenueListing(
     spaces: spaces ?? [],
     plans: plans ?? [],
     preferredVendors: preferredVendors ?? [],
-    similarVenues: (similarVenues ?? [])
-      .map((v) => ({ v, rank: (v.venue_type === venue.venue_type ? 0 : 2) + (v.city === venue.city ? 0 : 1) }))
-      .sort((a, b) => a.rank - b.rank)
-      .slice(0, 3)
-      .map(({ v }) => v),
+    similarVenues,
+    comparison,
   };
 }
 
@@ -159,7 +147,7 @@ function photosOf(venue: Venue): string[] {
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VenueListing({ data }: { data: VenueListingData }) {
-  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, plans = [], preferredVendors, similarVenues, preview, then } = data;
+  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, plans = [], preferredVendors, similarVenues, comparison, preview, then } = data;
 
   // "Must book from these" and "we recommend these" change a couple's budget
   // very differently, so they're shown apart, required first.
@@ -370,6 +358,8 @@ export function VenueListing({ data }: { data: VenueListingData }) {
 
           <VenueGoodToKnow venue={venue} />
 
+          {comparison && !preview && <AreaComparisonCard data={comparison} kind="venue" />}
+
           {faqs.length > 0 && (
             <div className={card}>
               <h2 className="font-display text-xl font-semibold text-forest">Frequently asked questions</h2>
@@ -397,7 +387,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
 
           {similarVenues.length > 0 && !preview && (
             <div>
-              <h2 className="font-display text-xl font-semibold text-forest">More venues like this</h2>
+              <h2 className="font-display text-xl font-semibold text-forest">More venues nearby</h2>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {similarVenues.map((v) => (
                   <Link

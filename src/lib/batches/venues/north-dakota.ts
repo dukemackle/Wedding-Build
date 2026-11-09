@@ -75,6 +75,19 @@ Grand Williston Hotel & Conference Center	3601 2nd Ave	Williston	North Dakota			
 Fairfield Inn & Suites Jamestown	930 25th St SW	Jamestown	North Dakota			Hotel & Resort	Indoor	66		Small hotel event room, the Buffalo Room, suited to an intimate reception or rehearsal dinner, with a room block for wedding guests.		701-952-6300	https://www.marriott.com/en-us/hotels/jmsfi-fairfield-inn-and-suites-jamestown/events/
 `,
   },
+  {
+    name: "ND: Dickinson, Fargo, Wahpeton, Grand Forks, Stanley, Dunseith, Oxbow",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Stark County Veterans Pavilion	801 5th Ave W	Dickinson	North Dakota			Garden & Park	Indoor	85	150	Rental	City-owned pavilion in Dickinson with one meeting room, rented by the hour block and listing wedding receptions among its uses.		701-456-2074	https://dickinsonparks.org/facilities/
+Wahpeton Event Center	995 21st Ave N	Wahpeton	North Dakota			Ballroom	Indoor & Outdoor	500	1600	Rental	Event center attached to a Travelodge hotel, with a main hall, patio, bridal suite and a next-day gift-opening room.	wahpetoneventcenter@gmail.com	(218) 585-1401	https://www.wahpetoneventcenter.com/
+Red River Zoo	4255 23rd Ave S	Fargo	North Dakota			Garden & Park	Outdoor				Fargo zoo that rents its grounds for weddings and receptions, with a wolf cabin and outdoor tent setups shown on its rentals page.		(701) 277-9240	https://www.redriverzoo.org/rentals/
+Rheault Farm	2902 25th Street S	Fargo	North Dakota			Garden & Park	Indoor & Outdoor	160			Fargo Park District farm site that can be rented whole for weddings, with a picnic shelter, a bunkhouse and open grass.		(701) 499-7788	https://www.fargoparks.com/parks-and-facilities/rheault-farm
+Oxbow Country Club	40 Clubhouse Drive	Oxbow	North Dakota			Country Club & Golf	Indoor & Outdoor				Golf club ballroom with its own entrance, lobby and coat check, a private patio and golf course views, open to non-member weddings.		(701) 588-4666	https://www.oxbowcc.com/web/pages/weddings-special-events
+International Peace Garden	10939 Highway 281	Dunseith	North Dakota			Garden & Park	Indoor & Outdoor				A 2,400-acre garden in the Turtle Mountains on the U.S.-Canada border, with the Peace Chapel and Formal Gardens for ceremonies plus indoor and outdoor reception sites.		701-263-4390	https://peacegarden.com/rentals/weddings/
+Grand Forks Country Club	794 County Road 6	Grand Forks	North Dakota			Country Club & Golf	Indoor				A golf club clubhouse with an indoor ballroom and pub that hosts wedding ceremonies and receptions, open to non-members.	gfcountryclub@gmail.com	701-772-4831	https://gfcountryclub.com/?p=4525
+Peaceful Prairie Ponderosa	5965 85th Ave NW	Stanley	North Dakota			Barn & Farm	Indoor & Outdoor				A rustic retreat built around a 100-year-old barn beside a pond near Stanley.	prairieponderosaranch@gmail.com	701-651-9308	https://peacefulprairieponderosa.com
+`,
+  },
 ];
 
 export default batches;

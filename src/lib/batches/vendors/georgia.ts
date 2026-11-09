@@ -866,6 +866,20 @@ Boswell Events	Music		Statesboro	Georgia	Statesboro, Savannah, Augusta, Brunswic
 Tamara Gibson Photography	Photography		Brunswick	Georgia	St. Simons Island, Brunswick, Jekyll Island, Sea Island, Savannah and destination weddings	Brunswick wedding photographer blending documentary photojournalism with fashion-forward portraits, covering the Golden Isles, Savannah and destinations.	hello@tamara-gibson.com		https://tamara-gibson.com/brunswick-ga-wedding-photographers/	https://www.instagram.com/bytamaragibson/		
 `,
   },
+  {
+    name: "Georgia: Atlanta, Savannah, Columbus, Golden Isles, Valdosta, Warner Robins, Jefferson: planning, catering, florals, cake, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Ribha Events	Planning		Atlanta	Georgia	Atlanta	Atlanta planner for Indian weddings, handling hospitality, logistics and custom event design from first concept through to the day itself.	Info@ribha.com	404-242-9068	https://www.ribha.com/	https://www.instagram.com/ribhaevents/		
+Thyme to Cater	Catering	960 Lee St. Suite 200	Jefferson	Georgia		Caterer offering personalised wedding menus, plated or buffet service, bar services and tastings, plus a mobile coffee and bar trailer for hire.	catering@thymetocater.com	706-338-1163	https://thymetocater.com/weddings-1			
+Bahel Ethiopian Restaurant	Catering	3125 Briarcliff Rd NE ste c	Atlanta	Georgia	Atlanta, Buckhead and Alpharetta	Ethiopian restaurant catering weddings, rehearsal dinners and receptions, with set packages or a custom menu and dietary requests accommodated.			https://bahelethiopianrestaurant.com/catering			
+Chef Kirk Blaine Catering	Catering		Savannah	Georgia	Savannah and the Lowcountry	Chef-led Savannah caterer for weddings, with custom menus, full staffing, plated or buffet service, chef-attended stations and bar planning.		912-604-4329	https://chefkirkblaine.com/	https://www.instagram.com/kirkblaine/		
+Callie Carr Events	Planning		Warner Robins	Georgia	Georgia and the Southeast	Warner Robins planner offering full and partial planning, wedding day management and destination weddings, working in the industry since 2012.	callie@calliecarrevents.com	(478) 244-1190	https://www.calliecarrevents.com/	https://www.instagram.com/calliecarrevents/		
+Valdosta Greenhouses	Florals	406G Northside Drive	Valdosta	Georgia	Valdosta	Valdosta flower shop making custom wedding bouquets, centrepieces and ceremony and reception decor, with consultations arranged by phone.		(229) 242-5653	https://www.valdostagagreenhouses.com/wedding-flowers			
+Sugarhi Sweet Eats N Treats	Cake		Atlanta	Georgia		Atlanta bakery offering faux tiered wedding cakes served from kitchen sheet cakes, plus showpiece cakes for couples who skip the cake cutting.	sugarhigirl@gmail.com	404-424-3885	https://www.sugarhigirl.com/			
+Petite Sweets N Treats	Cake		Columbus	Georgia		Appointment-only Columbus bakery making custom cakes, cupcakes, pies and cheesecakes, with wedding packages available.		(706) 907-6373	https://psweetsntreats.biz/	https://www.instagram.com/psweetsntreats/		
+Island Day Spa	Hair & Makeup	60 Cinema Ln #140	St. Simons Island	Georgia		Spa and hair salon on St. Simons Island offering bridal hair, bridesmaid updos and wedding-day makeup for the bridal party.	hello@theislanddayspa.com	(912) 638-7799	https://www.theislanddayspa.com/		75	per person
+`,
+  },
 ];
 
 export default batches;

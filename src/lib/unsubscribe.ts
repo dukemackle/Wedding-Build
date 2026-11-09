@@ -43,20 +43,43 @@ export async function isValidUnsubscribeToken(email: string, token: string): Pro
   return diff === 0;
 }
 
-/** The page link for the email footer, or null when unsubscribe isn't configured. */
-export async function unsubscribeUrl(email: string): Promise<string | null> {
+/**
+ * What an unsubscribe link stops: "marketing" (the default, no `l` param) or
+ * "reminders" (planning reminders, src/lib/planning-reminders.ts). Both use
+ * the same signature, which only proves the address; the list is chosen by
+ * the link and only ever stops mail, the safe direction.
+ */
+export type UnsubscribeList = "marketing" | "reminders";
+
+export const parseUnsubscribeList = (value: string | null | undefined): UnsubscribeList =>
+  value === "reminders" ? "reminders" : "marketing";
+
+async function linkParams(email: string, list: UnsubscribeList): Promise<URLSearchParams | null> {
   const token = await unsubscribeToken(email);
   if (!token) return null;
   const params = new URLSearchParams({ e: normalizeEmail(email), t: token });
-  return `https://youdoido.com/unsubscribe?${params}`;
+  if (list === "reminders") params.set("l", "reminders");
+  return params;
+}
+
+/** The page link for the email footer, or null when unsubscribe isn't configured. */
+export async function unsubscribeUrl(email: string, list: UnsubscribeList = "marketing"): Promise<string | null> {
+  const params = await linkParams(email, list);
+  return params && `https://youdoido.com/unsubscribe?${params}`;
 }
 
 /** The RFC 8058 one-click endpoint mail apps POST to from their own button. */
-export async function oneClickUnsubscribeUrl(email: string): Promise<string | null> {
-  const token = await unsubscribeToken(email);
-  if (!token) return null;
-  const params = new URLSearchParams({ e: normalizeEmail(email), t: token });
-  return `https://youdoido.com/api/unsubscribe?${params}`;
+export async function oneClickUnsubscribeUrl(email: string, list: UnsubscribeList = "marketing"): Promise<string | null> {
+  const params = await linkParams(email, list);
+  return params && `https://youdoido.com/api/unsubscribe?${params}`;
+}
+
+/** Stop planning reminders to this address. Marketing preferences are untouched. */
+export async function recordReminderOptOut(email: string, source: "link" | "one-click" | "form" | "account") {
+  const { error } = await createAdminSupabaseClient()
+    .from("planning_reminder_opt_outs")
+    .upsert({ email: normalizeEmail(email), source, opted_out_at: new Date().toISOString() }, { onConflict: "email" });
+  return !error;
 }
 
 /**

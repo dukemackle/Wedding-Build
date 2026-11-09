@@ -71,6 +71,20 @@ Gate City Events & Lodging	47947 W 5th St	Canton	South Dakota			Ballroom	Indoor 
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
 Crossroads Hotel and Huron Event Center	100 4th St SW	Huron	South Dakota			Hotel & Resort	Indoor			Downtown Huron hotel joined to the Huron Event Center and arena, giving weddings large indoor halls, an on-site restaurant and lodging for guests.	reservations@crossroadshotel.com	(800) 876-5858	https://crossroadshotelhuron.com/`,
   },
+  {
+    name: "SD: Black Hills, Madison, Watertown, Aberdeen",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Prairie Shores Resort and Events	45156 235th St	Madison	South Dakota			Lake & River	Indoor & Outdoor		9950	Package	Lakeside resort on 14 acres at Lake Herman with a reception venue, a climate-controlled chapel, outdoor ceremony sites, a gazebo, and on-site lodge, cabins and campsites.	info@prairieshoresresort.com		https://www.prairieshoresresort.com/wedding-information
+Stable Waters Ranch & Estates	801 N Lake Dr	Watertown	South Dakota			Ranch	Outdoor	450			Pond, timber arbor, wooded lanes and a horse meadow on the grounds, with a four-bedroom guest house on site and bring-your-own catering and bar.	info@stablewatersranch.com	(605) 881-9391	https://www.stablewatersranch.com/weddings
+Elkhorn Ridge Resort	20189 US Hwy 85	Spearfish	South Dakota			Barn & Farm	Indoor & Outdoor				Wedding venue on the historic Frawley Ranch with 150-year-old Courtyard Barns among ponderosa pines beside Miller Creek, plus a separate event center and on-site cabins and RV sites.		(605) 722-1800	https://elkhornridgeresort.com/weddings-events
+Prairie Sky Ranch	44370 109th Street	Veblen	South Dakota			Ranch	Indoor & Outdoor	300			Private ranch with a rustic lodge, outdoor grounds, bridal rooms and guest lodges, also run as a hunting lodge.	info@prairieskyranch.com	605-738-2411	https://prairieskyranch.com/weddings/
+State Game Lodge Event Barn		Custer	South Dakota			Barn & Farm	Indoor & Outdoor	230			Renovated barn, one of Custer State Park's first buildings, next to a creekside ceremony lawn shaded by old oaks.		605-255-4672	https://www.custerresorts.com/groups-events/weddings/state-game-lodge-event-barn-weddings
+State Game Lodge Pavilion		Custer	South Dakota			Mountain & Lodge	Outdoor	350			4,000 sq ft gabled-roof pavilion among pine trees west of the State Game Lodge, with a ceremony deck above a creek-side lawn.		605-255-4672	https://www.custerresorts.com/groups-events/weddings/state-game-lodge-pavilion-weddings
+Highland Meadows Resort	549 Cold Brook Ave	Hot Springs	South Dakota			Mountain & Lodge	Indoor & Outdoor	200			Private mesa resort in the southern Black Hills with a pine-edged meadow, an earth-sheltered lodge with an event room, and cabins and glamping tipis for the wedding party.		(605) 206-4645	https://www.highlandmeadowsresort.com/meeting-event-venue/wedding-venue
+The Red Rock River Resort	603 N River Street	Hot Springs	South Dakota			Hotel & Resort	Indoor & Outdoor	254			Third-floor event venue with a bar and serving kitchen and four extra bedrooms, with an outdoor ceremony option and an indoor reception backup.	rrrresort@outlook.com	605-745-4400	https://www.redrockriverresort.com
+Engels Event Company		Aberdeen	South Dakota			Ballroom	Indoor				Downtown Aberdeen event space that rents by the half or full day and says it is equipped for weddings.			https://engelseventco.com/
+`,
+  },
 ];
 
 export default batches;

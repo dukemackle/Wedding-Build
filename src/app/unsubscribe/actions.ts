@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { isValidUnsubscribeToken, recordOptOut } from "@/lib/unsubscribe";
+import { isValidUnsubscribeToken, parseUnsubscribeList, recordOptOut, recordReminderOptOut } from "@/lib/unsubscribe";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -14,9 +14,13 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export async function unsubscribe(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const token = String(formData.get("t") ?? "");
-  if (!EMAIL.test(email)) redirect("/unsubscribe?error=1");
+  if (!EMAIL.test(email)) redirect(`/unsubscribe?error=1${formData.get("l") === "reminders" ? "&l=reminders" : ""}`);
 
+  const reminders = parseUnsubscribeList(String(formData.get("l") ?? "")) === "reminders";
   const signed = token ? await isValidUnsubscribeToken(email, token) : false;
-  const ok = await recordOptOut(email, signed ? "link" : "form");
-  redirect(ok ? "/unsubscribe?done=1" : "/unsubscribe?error=2");
+  const ok = reminders
+    ? await recordReminderOptOut(email, signed ? "link" : "form")
+    : await recordOptOut(email, signed ? "link" : "form");
+  const list = reminders ? "&l=reminders" : "";
+  redirect(ok ? `/unsubscribe?done=1${list}` : `/unsubscribe?error=2${list}`);
 }

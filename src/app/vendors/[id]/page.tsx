@@ -10,6 +10,7 @@ import { loadVendorListing, VendorListing, type VendorListingData } from "./vend
 import { trackEvent } from "@/lib/events";
 import { parseThen } from "@/lib/signup-intent";
 import { metroForPoint, metroHref } from "@/lib/metros";
+import { listingBreadcrumbJsonLd, priceRange } from "@/lib/listing-seo";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /vendors opens. From the vendor search the same listing
@@ -72,10 +73,11 @@ function vendorJsonLd({ vendor, faqs }: VendorListingData) {
         ? { "@type": "GeoCoordinates", latitude: vendor.latitude, longitude: vendor.longitude }
         : undefined,
     areaServed: vendor.service_area ?? undefined,
+    priceRange: priceRange(vendor.price_tier),
     knowsAbout: vendor.category ? `Wedding ${vendor.category.toLowerCase()}` : undefined,
     sameAs: [vendor.website, vendor.instagram_url, vendor.facebook_url, vendor.pinterest_url].filter(Boolean),
   };
-  return [business, ...faqJsonLd(faqs)];
+  return [business, listingBreadcrumbJsonLd("vendors", vendor, vendorHref(vendor)), ...faqJsonLd(faqs)];
 }
 
 export default async function VendorDetailPage({
