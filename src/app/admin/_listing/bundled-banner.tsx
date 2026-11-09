@@ -2,9 +2,9 @@
 
 import { useState, useTransition } from "react";
 
-// Offers the batches shipped with the app (src/lib/venue-batches.ts and
-// vendor-batches.ts) that aren't in the database yet, so a new batch is one
-// click, not a paste.
+// Shows batches shipped with the app (src/lib/batches/) that aren't in the
+// database yet. The Batches GitHub Action imports them on its own, so this
+// only says they're on the way; "Add now" is a fallback for a stuck import.
 export function BundledBanner({
   count,
   summary,
@@ -61,7 +61,10 @@ export function BundledBanner({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p>
-            {count} new {count === 1 ? `${noun} is` : `${noun}s are`} ready to add
+            {count} new {count === 1 ? `${noun} is` : `${noun}s are`} being added automatically
+          </p>
+          <p className="mt-0.5 text-xs text-ink/55">
+            Nothing to do: they&apos;ll be live on {livePath} within the hour.
           </p>
           <p className="mt-0.5 text-xs text-ink/55">
             {summary.slice(0, 6).join(", ")}
@@ -74,7 +77,7 @@ export function BundledBanner({
           disabled={isPending}
           className="shrink-0 self-start rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60 sm:self-auto"
         >
-          {isPending ? `Adding… ${progress} of ${count}` : "Add them"}
+          {isPending ? `Adding… ${progress} of ${count}` : "Add now"}
         </button>
       </div>
       {error && <p className="mt-2 text-xs text-red-800">{error}</p>}
