@@ -48,6 +48,7 @@ export function InquiryComposer({
   const [asks, setAsks] = useState(() => questions.filter((q) => q.on).map((q) => q.label));
   const [edited, setEdited] = useState<string | null>(null);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [sent, setSent] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -76,12 +77,31 @@ export function InquiryComposer({
         setError(result.error);
       } else {
         setError(undefined);
-        onDone();
+        // Say it went: closing the form silently left couples unsure, and
+        // the safe-feeling retry sends the business a second email.
+        setSent(true);
       }
     });
   }
 
   const whenLabel = ctx?.date ? longDate(ctx.date) : ctx?.season ? `${ctx.season}, date to come` : null;
+
+  if (sent) {
+    return (
+      <div role="status" className="mt-4 flex flex-col gap-3 border-t border-hairline pt-4">
+        <p className="text-sm text-ink">
+          <span className="font-semibold text-forest">Sent to {to}.</span> Their reply will come straight to your email.
+        </p>
+        <button
+          type="button"
+          onClick={onDone}
+          className="h-11 self-start rounded-md border border-hairline px-4 text-sm text-ink transition-colors hover:border-forest"
+        >
+          Done
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form

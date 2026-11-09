@@ -196,8 +196,14 @@ export function useGuestSite(initialSlug: string | null) {
   const [slug, setSlug] = useState(initialSlug);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+  // Which way the switch is going. Read from this, not from `slug`: the slug
+  // changes as soon as the server answers, while the refresh after it is
+  // still pending, so "on + pending" used to read "Turning off…" right after
+  // a successful turn-on.
+  const [direction, setDirection] = useState<"on" | "off">("on");
 
   function enable() {
+    setDirection("on");
     startTransition(async () => {
       const result = await enablePublicSite();
       if (result?.error) {
@@ -213,6 +219,7 @@ export function useGuestSite(initialSlug: string | null) {
 
   function disable() {
     if (!confirm("Turn off the guest site? The link will stop working.")) return;
+    setDirection("off");
     startTransition(async () => {
       const result = await disablePublicSite();
       if (result?.error) {
@@ -225,7 +232,7 @@ export function useGuestSite(initialSlug: string | null) {
     });
   }
 
-  return { slug, error, isPending, enable, disable };
+  return { slug, error, isPending, turningOff: isPending && direction === "off", enable, disable };
 }
 
 export type GuestSite = ReturnType<typeof useGuestSite>;
@@ -258,7 +265,7 @@ export function SiteSwitch({ site }: { site: GuestSite }) {
           }`}
         />
       </span>
-      {site.isPending ? (on ? "Turning off…" : "Turning on…") : on ? "Live" : "Turn on"}
+      {site.isPending ? (site.turningOff ? "Turning off…" : "Turning on…") : on ? "Live" : "Turn on"}
     </button>
   );
 }

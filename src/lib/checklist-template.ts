@@ -110,7 +110,7 @@ export const CHECKLIST_PHASES: ChecklistPhase[] = [
 ];
 
 /** Something Wren can already see is done, so the task isn't worth showing. */
-export type ChecklistSkipCondition = "venue_booked" | "budget_set" | "site_published";
+export type ChecklistSkipCondition = "venue_booked" | "budget_set" | "site_published" | "date_set" | "guest_count_set";
 
 export type ChecklistTemplateTask = {
   phase: string;
@@ -147,6 +147,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     notes: "Within twenty either way is fine. It decides which venues are even possible.",
     weeksBefore: 52,
     href: "/guests",
+    skipIf: "guest_count_set",
     essential: true,
   },
   {
@@ -154,6 +155,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     title: "Pick a season and a rough date range",
     notes: "A range, not a date — the venue you want will settle the exact day.",
     weeksBefore: 52,
+    skipIf: "date_set",
     essential: true,
   },
   {
@@ -476,6 +478,8 @@ export type PlanContext = {
   venueBooked: boolean;
   budgetSet: boolean;
   sitePublished: boolean;
+  /** A rough headcount was given at setup (or since), so "draft a guest count" is done. */
+  guestCountSet?: boolean;
 };
 
 function shouldSkip(task: ChecklistTemplateTask, context: PlanContext): boolean {
@@ -483,6 +487,8 @@ function shouldSkip(task: ChecklistTemplateTask, context: PlanContext): boolean 
   if (task.skipIf === "venue_booked") return context.venueBooked;
   if (task.skipIf === "budget_set") return context.budgetSet;
   if (task.skipIf === "site_published") return context.sitePublished;
+  if (task.skipIf === "date_set") return Boolean(context.weddingDate);
+  if (task.skipIf === "guest_count_set") return Boolean(context.guestCountSet);
   return false;
 }
 
@@ -518,12 +524,14 @@ export function buildPlan(context: PlanContext): PlannedTask[] {
     if (validDate) {
       const date = new Date(validDate);
       date.setDate(date.getDate() - task.weeksBefore * 7);
-      // A compressed plan's early tasks would land in the past, which reads as
-      // failure before they've started. Anything already overdue becomes due
-      // in a week instead -- soon, but not already lost.
+      // Early tasks can land in the past (a 12-month task for a wedding 11
+      // months out), which reads as failure before they've started. Anything
+      // already overdue becomes due in a week instead -- soon, but not already
+      // lost. Applies to every plan, not just compressed ones: a couple
+      // signing up 11 months out used to see four tasks overdue on day one.
       const soonest = new Date();
       soonest.setDate(soonest.getDate() + 7);
-      const chosen = compressed && date < soonest ? soonest : date;
+      const chosen = date < soonest ? soonest : date;
       due = chosen.toISOString().slice(0, 10);
     }
     return {
