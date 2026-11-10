@@ -410,6 +410,71 @@ For All Time Films	Videography		Indianapolis	Indiana	Indianapolis and worldwide	
 Eliora Films	Videography		Indianapolis	Indiana	Indiana and destinations	Story-driven wedding filmmakers who get to know each couple first, then edit films built to be rewatched for decades.	Montez@eliorafilms.com		https://eliorafilms.com/	https://www.instagram.com/eliorafilms/		
 Mack Media Co.	Videography		Indianapolis	Indiana	Indianapolis, Carmel, Fishers, Greenwood, Noblesville, Bloomington and beyond	Sports-trained cinematographers making six-to-ten-minute wedding films with reels and drone footage, quoted individually within a day of enquiry.		463-275-6225	https://mackmediaco.com/weddings	https://www.instagram.com/mackmediac/		`,
   },
+  {
+    name: "Bloomington: photography, music, catering, hair and makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+James Brosher Photography	Photography		Bloomington	Indiana	Bloomington and beyond, with travel fees	Trained photojournalist covering weddings in a candid, unposed style, with formal portraits when a couple wants them and optional rehearsal dinner coverage.	james@brosher.com	765-744-0865	https://www.brosher.com/services/weddings/	https://www.instagram.com/jamesbrosher/	1200	package
+Seth Teeters Photography	Photography		Bloomington	Indiana	Bloomington, Indianapolis and central Indiana	Documentary wedding photographer with an editorial edge, working in film formats including medium format and 35mm alongside digital.			https://www.sethteeters.com/weddings			
+The Dance Machine	Music		Bloomington	Indiana	Bloomington, Indianapolis, Bedford and statewide	Mobile DJ service playing wedding receptions around Bloomington and across Indiana, with quotes tailored to each event.	thedancemachinedjservice@gmail.com	812-318-0713	https://www.thedancemachine.com/			
+One World Catering	Catering		Bloomington	Indiana		Bloomington caterer for weddings with custom menus, bartending and a cake and dessert bakery, and a set caterer at some local venues.		812-334-3663	https://oneworldcaters.com/weddings	https://www.instagram.com/owcatering/		
+Modish Hair Co.	Hair & Makeup	408 S Walnut St	Bloomington	Indiana	Bloomington and surrounding areas	Downtown Bloomington stylist salon offering bridal hair and makeup for wedding parties, either in the salon or on site at the venue.	modishhairco@gmail.com	(812) 822-2579	https://modishbloomington.com/			
+Jenny's Baking Co	Cake	1711 N College Ave, Suite 105	Bloomington	Indiana		Bloomington bakery making custom layer and tiered cakes, with bridal cake tasting boxes so couples can try flavours before they order.			https://jennybakes.co/	https://www.instagram.com/jennysbakingco/		
+Shawn Keller Photography	Photography	112 N Walnut St, Suite 1000	Bloomington	Indiana	Bloomington	Bloomington photographer covering weddings from ten-guest micro weddings to large events, with engagement sessions that can be bundled for a lower cost.	shawnkellerphotography@gmail.com		https://shawnkellerphotography.com/	https://www.instagram.com/shawnkellerphotography/		`,
+  },
+  {
+    name: "Columbus and Brown County: florals, music, photography, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Gracie Mae Events	Florals	12845 W Sawmill Rd	Columbus	Indiana		Columbus flower shop and wedding florist with floral planning, wedding gallery and bridal workshops for couples who like to be hands-on.		812-603-2025	https://www.graciemaeevents.com/	https://www.instagram.com/graciemaeevents/		
+Maddox Entertainment	Music		Columbus	Indiana	Columbus, Bloomington, Greensburg, Seymour and Franklin	Columbus DJ and MC for weddings who can also handle ceremony and officiant duties, serving a handful of surrounding towns.			https://www.keithmaddox.net/			
+Ali Elizabeth Photography	Photography		Columbus	Indiana		Columbus photographer covering wedding days along with portrait and family sessions, with pricing shared on a details page.	alielizabethphotographer@gmail.com		https://alielizabethphotography.com/	https://www.instagram.com/alielizabethphotographer/		
+Emily Renee Photography	Photography		North Vernon	Indiana	Bartholomew, Brown, Jackson, Johnson and Dearborn counties, plus beyond	North Vernon photographer shooting colourful, vibrant wedding images for couples in the Columbus, Brown County and Seymour areas.			https://emilyreneephotography.org/	https://www.instagram.com/emily_renee_photog/		
+Lola's Modern Kitchen	Catering	820 A Ave E	Seymour	Indiana	Within 60 miles of Seymour, including Columbus and North Vernon	Seymour kitchen catering weddings and other events, delivering any day or time across southern Indiana.		812-777-5707	https://www.lolasmodernkitchen.com/			`,
+  },
+  {
+    name: "Evansville: florals, hair and makeup, bridal & formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Timberview Flower Farm	Florals	4501 Orchard Rd	Evansville	Indiana		A 20-acre cut-flower farm on Evansville's northwest side that grows its own blooms and designs bouquets and full-service wedding flowers.			https://timberviewflowerfarm.com/events/	https://www.instagram.com/timberviewflowerfarm/		
+AP Beauty Collective	Hair & Makeup		Boonville	Indiana	Southern Indiana, travel within 50 miles included	Southern Indiana bridal hair and makeup artist who travels to you, with soft, romantic looks for the bride and up to four guests per package.	apbeautycollective@gmail.com	(812) 316-5102	https://apbeautycollective.com/		450	package
+House of White	Bridal & Formalwear	3 Market St	Newburgh	Indiana	Indiana, Kentucky, Illinois and Tennessee	Luxury bridal boutique in historic Newburgh with designer gowns, styling appointments, veils and accessories, and gown preservation.	info@houseofwhitebridal.com	(812) 858-2998	https://houseofwhitebridal.com/	https://www.instagram.com/houseofwhitebridal/		`,
+  },
+  {
+    name: "Fort Wayne: planning, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Beginning To Forever	Planning		Fort Wayne	Indiana		Locally owned Fort Wayne planner offering full planning, design, month-of coordination and rentals, with vendor discounts and a free first consultation.	planning@BeginningToForever.com		https://beginningtoforever.com/index.php/wedding-planning-in-fort-wayne-in/	https://www.instagram.com/beginning24ever/		
+Sparrow Song Collective	Photography		Fort Wayne	Indiana	Indiana, Michigan and Ohio	Fort Wayne photographer for weddings, elopements and outdoor ceremonies, with customisable collections and payment plans for couples on a budget.	sparrowsongcollective@gmail.com		https://sparrowsongcollective.com/	https://www.instagram.com/sparrowsongcollective/	3200	package`,
+  },
+  {
+    name: "Indianapolis: music, cake, videography, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Forget the Name	Music		Carmel	Indiana	Indianapolis, Carmel and Fishers	Husband-and-wife acoustic duo playing warm, familiar songs for wedding cocktail hours and intimate receptions at a volume guests can talk over.	forgetthenamebandindy@gmail.com	(317) 777-1216	https://www.forgetthenameband.com/wedding-music-indianapolis			
+Gwendolyn Lee Cakery	Cake	7 N 5th Ave	Beech Grove	Indiana		Beech Grove bakery making custom tiered cakes, with wedding consultations by appointment for celebrations of 100 servings or more.		(317) 760-5833	https://gwendolynleecakery.com/			
+Films by Emelie Russell	Videography		Indianapolis	Indiana	Midwest and destination	Indianapolis wedding filmmaker blending digital footage with Super 8 film and home video for an unobtrusive, candid and nostalgic film.	hello@emelierussell.com		https://emelierussell.com/	https://www.instagram.com/filmsbyemelie/		
+Foundations Wedding Planning	Planning		Indianapolis	Indiana		Planning, design, budgeting and day-of management from the team behind The Sixpence and Westwood, with in-person design meetings at the venue.			https://foundationswp.com/	https://www.instagram.com/foundations.wp/		`,
+  },
+  {
+    name: "Lafayette: photography, planning, florals, music, catering, hair and makeup, cake, desserts, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Mollie Wenzel Photography	Photography		Lafayette	Indiana		Wedding, family and graduation photographer in Lafayette, telling each couple's story with a relaxed, personal approach to the day.	molliewenzel@gmail.com		https://molliewenzelphotography.com/	https://www.instagram.com/storiesbymollie/		
+Kelsey Lefever Photography	Photography		Lafayette	Indiana		Lafayette photographer for elopements and small weddings, with an adventurous, laid-back style that suits couples marrying close to home or far afield.			https://kelseylefever.com/	https://www.instagram.com/kelseylefeverphotography/		
+Woven Memories Photography	Photography		Lafayette	Indiana	Lafayette and the Midwest, with travel	Husband-and-wife wedding photography team in Lafayette who shoot together, aiming for timeless, crisp images of unscripted moments throughout the day.			https://www.wovenmemoriesphotography.com/			
+Heart's Arrow Events	Planning		Lafayette	Indiana	Lafayette, West Lafayette and Indianapolis	Lafayette wedding and event planner who handles planning, design and day-of delivery, and also hires out decor rentals from its own showroom.	office@heartsarrowevents.com		https://heartsarrowevents.com/	https://www.instagram.com/heartsarrowevents/		
+21 Petals Florist and Flower Market	Florals	1400 Teal Rd, Suite 30	Lafayette	Indiana	Lafayette and Indianapolis	Lafayette florist offering full-service, guided DIY and hybrid wedding flowers, with a second shop in Indianapolis under the SoBro Flower Co. name.	21petalsflowerfarm@gmail.com	(765) 231-5070	https://the21petals.com/pages/wedding-florals	https://www.instagram.com/21petalsflowerfarm/		
+Lafayette Flower Shoppe & Gifts	Florals	1803 Veterans Memorial Pkwy S, Suite H1	Lafayette	Indiana	Lafayette area	Neighbourhood Lafayette flower shop that designs bridal bouquets and ceremony and reception arrangements, with delivery and setup at the venue.		(765) 474-5251	https://www.laf-flowers.net/wedding-flowers			
+Wright Flower Shop	Florals	1199 Sagamore Pkwy W	West Lafayette	Indiana	Greater Lafayette	West Lafayette florist making wedding bouquets, wedding party flowers and ceremony and reception arrangements, alongside its everyday shop work.		(765) 743-2000	https://www.wrightflowershop.com/wedding-bouquets			
+Adam & Eve Flowers & Balloons	Florals		Lafayette	Indiana	Lafayette	Lafayette florist and balloon shop that offers wedding consultations and designs ceremony and reception flowers, with a portfolio of past weddings and events.			https://adameveflowersballoons.com/	https://www.instagram.com/adamandeve.flowers/		
+Elite Sounds Mobile DJs	Music		Lafayette	Indiana		Lafayette wedding DJ with simple packages for sound and music, plus an uplighting option to set the mood on the dance floor.		(765) 430-9732	https://evanledman.wixsite.com/elitesounds			
+BT Humbles Catering	Catering		Lafayette	Indiana	Lafayette area	Lafayette caterer, open since 2017, serving weddings, corporate events and backyard parties with smoked and baked mains, grazing tables and taco bars.			https://bthumbles.com/			
+Hairspa & Co	Hair & Makeup	953 Park East Blvd	Lafayette	Indiana	Lafayette	Lafayette salon, trading since 2008, with a dedicated wedding team for bridal hair and makeup alongside its colour, cutting and extensions services.			https://www.hairspalafayette.com/			
+Abbie's Sweets & Treats LLC	Cake		Lafayette	Indiana		Small Lafayette home bakery making custom cakes, including wedding and elegant designs, plus cupcakes, cookies, macarons and chocolate-covered strawberries.	abbiestreats@outlook.com	(765) 444-9941	https://sites.google.com/view/abbiessweetsandtreats/home			
+Sweet Revolution Bake Shop	Desserts	109 N 5th St	Lafayette	Indiana	Lafayette	Family-run downtown Lafayette bake shop making fresh pies and pastries from natural ingredients, with catering for weddings and receptions.		(765) 743-7437	https://www.sweetrevolutionbakeshop.com/	https://www.instagram.com/sweetrevolutionbakeshop/		
+Clem Video Productions	Videography		Lafayette	Indiana	Lafayette	Lafayette wedding videographer with set packages, from a short highlight film of the ceremony and reception to longer films, using licensed music.			https://www.cvpindiana.com/weddings-1	https://www.instagram.com/cvproductions.in/	1700	package`,
+  },
+  {
+    name: "South Bend: hair and makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Allee Makeup	Hair & Makeup	340 W Cleveland Rd	Granger	Indiana	South Bend and beyond	Granger makeup artist and studio offering bridal looks, headshots and special-event styling, with on-location wedding bookings by enquiry form.	alleedomymakeup@gmail.com		https://www.alleedomymakeup.com/	https://www.instagram.com/alleemakeup/		
+West End Bakery	Cake	414 W 7th St	Mishawaka	Indiana	Mishawaka and South Bend	Long-running Mishawaka bakery that takes online custom cake orders and lists wedding cakes alongside its donuts, breads and Notre Dame game-day treats.		574-255-1267	https://preorderwestendbakery1928.company.site/			`,
+  },
 ];
 
 export default batches;
