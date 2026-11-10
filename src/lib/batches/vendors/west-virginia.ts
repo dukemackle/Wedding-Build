@@ -307,6 +307,37 @@ Tiffany's Florist & Gifts	Florals	74 East Main	Romney	West Virginia	Romney and s
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
 Hannah Barlow Photography	Photography		Wellsburg	West Virginia	Tri-state area: Ohio Valley and Pittsburgh	Wellsburg wedding photographer covering the Ohio Valley, with a second shooter and an engagement session in every collection.	info@hannahbarlowphotography.com	304-794-8131	https://www.hannahbarlowphotography.com	https://www.instagram.com/hannahbarlowphotography/	4600	package`,
   },
+  {
+    name: "Huntington: photography, hair & makeup, cake and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lavender Photography	Photography		Huntington	West Virginia	West Virginia, Kentucky, Ohio and beyond	Veteran photojournalist Toril Lavender records weddings in an unposed documentary style, drawing on almost 30 years behind the camera.			https://www.lavenderphotography.com/	https://www.instagram.com/lavenderphoto/	1600	package
+Contoured by Kennedy	Hair & Makeup	6326 East Pea Ridge Road	Huntington	West Virginia		Makeup artist Kennedy Fox Dotson offers bridal, bridesmaid and mother-of-the-bride makeup from soft to full glam, plus custom spray tans.	kennedyglams@gmail.com	304-541-2235	https://contouredbykennedy.glossgenius.com/	https://www.instagram.com/contouredbykennedy/		
+Sweet Bliss Bakery	Cake		Huntington	West Virginia		Home bakery making made-to-order wedding cakes and cupcakes, with pickup in downtown Huntington and delivery on larger orders.	sweetbliss2024@gmail.com	304-962-1439	https://sweetbliss-bakery.com/	https://www.instagram.com/sweetblissbakery2024/		
+Rocco's Ristorante	Catering		Ceredo	West Virginia		Family-run Italian restaurant in Ceredo for nearly 50 years that caters weddings from casual to elaborate with its long-loved dishes.			https://roccosristorante.com/catering	https://www.instagram.com/roccos_ristorantewv/		
+Tequila Grill	Catering	5636 Rt. 60	Huntington	West Virginia		Family-owned Mexican restaurant catering wedding receptions, rehearsal dinners and bridal showers at your venue, with a private dining room.		304-948-6499	http://www.tequilagrillwv.com/index.php/catering			
+WOK'D	Catering	3554 Teays Valley Road, Suite 100	Hurricane	West Virginia		Korean and Asian-fusion kitchen in Teays Valley offering catering packages for wedding festivities, rehearsal dinners and parties.	wokdwv@gmail.com	304-562-9658	https://wokdu.com/	https://www.instagram.com/wokdwv/		
+Culinary Art Company	Catering		Mason	West Virginia	West Virginia tri-state area	Chef Austin Cole's catering team handles weddings and events for up to 2,000 guests, with a flexible menu spanning almost any cuisine.		304-812-4835	https://culinaryartcompany.com/	https://www.instagram.com/culinaryartcompany/		`,
+  },
+  {
+    name: "Eastern Panhandle: planning, cake and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Wand & Bash Event Planning	Planning		Falling Waters	West Virginia	Martinsburg, Berkeley Springs, Western Maryland, Northern Virginia, Shenandoah Valley	Falling Waters planner offering day-of coordination, partial and full planning with a whimsical, storybook-inspired design touch.	katy@wandandbashevents.com		https://www.wandandbashevents.com/services-pricing	https://www.instagram.com/wandandbashevents/	1200	package
+Potomac Planners	Planning		Martinsburg	West Virginia	Eastern Panhandle, Shenandoah Valley, Maryland, Washington DC	Martinsburg team offering day-of coordination, partial and full wedding planning across the Potomac valley, with decades of combined experience.			https://www.potomacplanners.com/		950	package
+The Hasty Bride	Planning		Martinsburg	West Virginia		Martinsburg coordinator and officiant offering short-notice day-of coordination plus all-in elopement packages with flowers, cake and photos.	thehastybridewv@gmail.com	304-350-7087	https://www.thehastybride.com/	https://www.instagram.com/thehastybride/	800	package
+Queen Creations	Cake		Martinsburg	West Virginia		Martinsburg home bakery making tiered wedding cakes and dessert displays, with custom designs and seasonal collections.			https://queencreationsonline.com/	https://www.instagram.com/queen_creations2022/		
+The Purple Iris at Hartwood Mansion	Catering		Martinsburg	West Virginia		Hartwood Mansion's in-house kitchen south of Martinsburg, providing chef-prepared on-site and off-site catering for receptions and showers.	info@purpleiris.com	(304) 262-6110	https://www.thepurpleirisathartwood.com/event-catering			`,
+  },
+  {
+    name: "Charleston: planning and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Goforth & Be Married Events	Planning		Charleston	West Virginia	West Virginia, Virginia and North Carolina	Charleston wedding planner offering full planning, day-of coordination and a hands-on planning book with timeline and honeymoon consults.	gbmevents@outlook.com	(304) 887-9774	https://www.gbmevents.net	https://www.instagram.com/goforthandbemarriedevents/		
+Alyssa B. Events	Florals		Nitro	West Virginia	West Virginia	Florist and coordinator Alyssa Baily's team designs wedding florals and runs weekend-of coordination, on West Virginia weddings since 2018.	alyssabevents@gmail.com	304-380-4806	https://www.alyssabeventswv.com/	https://www.instagram.com/alyssab.events/	2500	package`,
+  },
+  {
+    name: "Morgantown: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Media Kings	Videography		Morgantown	West Virginia	Morgantown, Fairmont, Grafton, Clarksburg and Uniontown PA	Morgantown video production company filming weddings and events, with drone footage and edits cut for sharing on social media.		(304) 276-2822	https://mediakingswv.com/wedding-video-production-services/			`,
+  },
 ];
 
 export default batches;
