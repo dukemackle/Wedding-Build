@@ -1,5 +1,5 @@
 import { carriedArt, hasNoMonogram } from "./back";
-import type { ArtLayer, CardContent, Layer, Template, TextLayer } from "./types";
+import type { ArtLayer, CardContent, Layer, Palette, Template, TextLayer } from "./types";
 
 /**
  * Invitations (Guests › Invitations). Each one is a save-the-date design's
@@ -32,14 +32,35 @@ export const INVITATION_PREFIX = "inv-";
 export const isInvitationTemplate = (id: string) => id.startsWith(INVITATION_PREFIX);
 
 /** Where the type starts, for designs whose artwork fills the top. */
-const TOP: Record<string, number> = { decogala: 430 };
+const TOP: Record<string, number> = { decogala: 474 };
 /** How tightly the lines stack, for designs with artwork at the foot too. */
-const STEP: Record<string, number> = { decogala: 0.84 };
+const STEP: Record<string, number> = { decogala: 0.78 };
+
+/**
+ * Invitations whose save the date is a full-bleed photo have nothing to
+ * carry over: their paper is only the colour behind the photo. These get
+ * their own paper and ornament instead, keeping the colourway ids so a card's
+ * look still carries across the suite (src/lib/suites.ts).
+ */
+const OWN: Record<string, { palettes: Palette[]; art: ArtLayer[] }> = {
+  goldenhour: {
+    palettes: [
+      { id: "honey", label: "Honey", paper: "#fbf3e4", ink: "#4a3420", accent: "#a8762a", muted: "#82684c", onPhoto: "#ffffff" },
+      { id: "blush", label: "Blush", paper: "#fbefee", ink: "#4f2a31", accent: "#b06873", muted: "#86666b", onPhoto: "#ffffff" },
+      { id: "white", label: "White", paper: "#ffffff", ink: "#1e1e1e", accent: "#94804f", muted: "#686868", onPhoto: "#ffffff" },
+    ],
+    art: [
+      { kind: "art", id: "art-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.5 },
+      { kind: "art", id: "art-sun", label: "Sun", art: "sunRing", x: 428, y: 92, w: 144, color: "accent" },
+      { kind: "art", id: "art-sundisc", label: "Setting sun", art: "sunDisc", x: 468, y: 132, w: 64, color: "accent", opacity: 0.85 },
+    ],
+  },
+};
 
 const text = (l: Omit<TextLayer, "kind" | "anchor" | "x">): TextLayer => ({ kind: "text", anchor: "middle", x: 500, ...l });
 
 function invitationLayers(t: Template): Layer[] {
-  const art = carriedArt(t, "art-");
+  const art = OWN[t.id]?.art ?? carriedArt(t, "art-");
   const frame: ArtLayer[] = art.length ? art : [{ kind: "art", id: "art-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.45 }];
   // A design whose ornament sits at the top starts the type lower.
   const start = TOP[t.id] ?? (hasNoMonogram(t.id) ? 330 : 300);
@@ -67,6 +88,7 @@ export function invitationFrom(t: Template): Template {
     ...t,
     id: `${INVITATION_PREFIX}${t.id}`,
     source: t.id,
+    ...(OWN[t.id] && { palettes: OWN[t.id].palettes }),
     usesPhoto: false,
     samplePhoto: undefined,
     noPhotoLayers: undefined,

@@ -21,7 +21,7 @@ export const PLACEHOLDER_SITE = "youdoido.com/w/your-names";
 
 /** Front layers each design brings to its back, by id, sometimes moved to clear the type. */
 const KEEP: Record<string, (string | [string, Partial<ArtLayer>])[]> = {
-  heirloom: ["frame", "myrtle", "roses2"],
+  heirloom: ["frame", ["roses", { x: -46, y: -64, w: 250 }], ["peony", { x: 770, y: -58, w: 260 }], "myrtle", "roses2"],
   midnight: ["arch", "stars", "moon"],
   swiss: [["square", { y: 1290 }]],
   riviera: ["tiles", "lemons", "lemons2"],
