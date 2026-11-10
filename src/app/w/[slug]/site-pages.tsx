@@ -230,9 +230,9 @@ function slugify(text: string) {
 }
 
 /**
- * The bar across the top. A computer gets the tabs in a row, the overflow
- * under "More"; a phone gets the names, RSVP and a Menu button that opens
- * the tabs as a full-screen list.
+ * The bar across the top. A computer gets the names centred with the tabs
+ * centred beneath (overflow under "More", RSVP last); a phone gets the
+ * names, RSVP and a Menu button that opens the tabs as a full-screen list.
  */
 function SiteBar({
   pages,
@@ -247,6 +247,7 @@ function SiteBar({
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [compact, setCompact] = useState(false);
   const moreRef = useRef<HTMLLIElement>(null);
   const firstLink = useRef<HTMLAnchorElement>(null);
 
@@ -272,6 +273,15 @@ function SiteBar({
       window.removeEventListener("mousedown", onClick);
     };
   }, [menuOpen, moreOpen]);
+
+  // Fold the names away once the guest scrolls; the gap between the two
+  // thresholds keeps the bar from flickering as its own height changes.
+  useEffect(() => {
+    const onScroll = () => setCompact((c) => (c ? window.scrollY > 24 : window.scrollY > 120));
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // The open menu holds the screen: the page behind it doesn't scroll.
   useEffect(() => {
@@ -311,17 +321,56 @@ function SiteBar({
       aria-label="Wedding website"
       className="site-bar sticky top-0 z-30 border-b border-hairline bg-parchment/95 backdrop-blur supports-[backdrop-filter]:bg-parchment/85"
     >
-      <div className="flex h-14 items-center gap-4 px-4 sm:px-6 lg:h-16 lg:px-10">
+      {/* Phone: the names, RSVP and a Menu button. */}
+      <div className="flex h-14 items-center gap-4 px-4 sm:px-6 lg:hidden">
         <a
           href="#"
           onClick={pick("home")}
-          className="min-w-0 truncate text-lg text-forest [font-family:var(--font-names,var(--font-display))] [font-style:var(--site-name-style)] lg:text-xl"
+          className="min-w-0 truncate text-lg text-forest [font-family:var(--font-names,var(--font-display))] [font-style:var(--site-name-style)]"
         >
           {title}
         </a>
+        <div className="ml-auto flex items-center gap-2">
+          {rsvpButton}
+          {links.length > 1 && (
+            <button
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls="site-menu"
+              onClick={() => setMenuOpen(true)}
+              className="flex items-center gap-1.5 rounded-full border border-hairline px-3.5 py-1.5 text-sm font-medium text-ink"
+            >
+              <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4">
+                <path d="M3 6h14M3 10h14M3 14h14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+              Menu
+            </button>
+          )}
+        </div>
+      </div>
 
-        {/* Computer: the tabs in a row. */}
-        <ul className="ml-auto hidden items-center gap-1 lg:flex">
+      {/* Computer: the names centred, the tabs centred beneath. Once the
+          guest scrolls, the names fold away and only the tabs stay pinned. */}
+      <div className="hidden lg:block">
+        <div
+          inert={compact}
+          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${
+            compact ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="flex justify-center px-10 pt-5">
+              <a
+                href="#"
+                onClick={pick("home")}
+                className="max-w-full truncate text-2xl tracking-wide text-forest [font-family:var(--font-names,var(--font-display))] [font-style:var(--site-name-style)]"
+              >
+                {title}
+              </a>
+            </div>
+          </div>
+        </div>
+        <ul className="flex h-14 items-center justify-center gap-1 px-10">
           {inRow.map((p) => (
             <li key={p.id}>
               <a
@@ -352,7 +401,7 @@ function SiteBar({
                 </svg>
               </button>
               {moreOpen && (
-                <ul className="absolute right-0 top-full mt-2 min-w-48 rounded-lg border border-hairline bg-card py-1.5 shadow-lg">
+                <ul className="absolute left-1/2 top-full mt-2 min-w-48 -translate-x-1/2 rounded-lg border border-hairline bg-card py-1.5 shadow-lg">
                   {inMore.map((p) => (
                     <li key={p.id}>
                       <a
@@ -369,25 +418,8 @@ function SiteBar({
               )}
             </li>
           )}
+          {rsvpButton && <li className="ml-3">{rsvpButton}</li>}
         </ul>
-        <div className="flex items-center gap-2 max-lg:ml-auto lg:ml-3">
-          {rsvpButton}
-          {/* Phone: everything else behind Menu. */}
-          {links.length > 1 && (
-            <button
-              type="button"
-              aria-expanded={menuOpen}
-              aria-controls="site-menu"
-              onClick={() => setMenuOpen(true)}
-              className="flex items-center gap-1.5 rounded-full border border-hairline px-3.5 py-1.5 text-sm font-medium text-ink lg:hidden"
-            >
-              <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4">
-                <path d="M3 6h14M3 10h14M3 14h14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-              </svg>
-              Menu
-            </button>
-          )}
-        </div>
       </div>
     </nav>
 

@@ -2398,32 +2398,42 @@ function SiteDemo() {
                 </svg>
                 youdoido.com/w/juniper-and-sam
               </div>
-              {/* Tabs: a page per section, behind a Menu button on a phone. */}
+              {/* Tabs: a page per section. A computer centres the names over the
+                  tabs; a phone keeps them behind a Menu button. */}
               <div
-                className="flex items-center gap-3 border-b px-3 py-2 text-[11px] transition-colors duration-500"
+                className={`border-b px-3 text-[11px] transition-colors duration-500 ${
+                  phone ? "flex items-center gap-3 py-2" : "flex flex-col items-center gap-1.5 pb-2 pt-2.5"
+                }`}
                 style={{ background: t.bg, color: t.ink, borderColor: `color-mix(in srgb, ${t.ink} 14%, transparent)`, fontFamily: t.body }}
               >
-                <span className="truncate text-[13px]" style={{ fontFamily: t.display, color: heading }}>
+                <span className={`truncate ${phone ? "text-[13px]" : "text-[15px]"}`} style={{ fontFamily: t.display, color: heading }}>
                   Juniper &amp; Sam
                 </span>
-                <span className="flex-1" />
-                {!phone &&
-                  ["Home", "Our story", "Schedule", "Travel", "Registry"].map((label, i) => (
-                    <span
-                      key={label}
-                      className="border-b-2 pb-0.5"
-                      style={{ borderColor: i === 0 ? accent : "transparent", opacity: i === 0 ? 1 : 0.7 }}
-                    >
-                      {label}
+                {phone ? (
+                  <>
+                    <span className="flex-1" />
+                    <span className="rounded-full px-2.5 py-0.5 font-medium" style={{ background: heading, color: t.bg }}>
+                      RSVP
                     </span>
-                  ))}
-                <span className="rounded-full px-2.5 py-0.5 font-medium" style={{ background: heading, color: t.bg }}>
-                  RSVP
-                </span>
-                {phone && (
-                  <span className="rounded-full border px-2 py-0.5" style={{ borderColor: `color-mix(in srgb, ${t.ink} 20%, transparent)` }}>
-                    ☰ Menu
-                  </span>
+                    <span className="rounded-full border px-2 py-0.5" style={{ borderColor: `color-mix(in srgb, ${t.ink} 20%, transparent)` }}>
+                      ☰ Menu
+                    </span>
+                  </>
+                ) : (
+                  <div className="flex items-center justify-center gap-3">
+                    {["Home", "Our story", "Schedule", "Travel", "Registry"].map((label, i) => (
+                      <span
+                        key={label}
+                        className="border-b-2 pb-0.5"
+                        style={{ borderColor: i === 0 ? accent : "transparent", opacity: i === 0 ? 1 : 0.7 }}
+                      >
+                        {label}
+                      </span>
+                    ))}
+                    <span className="rounded-full px-2.5 py-0.5 font-medium" style={{ background: heading, color: t.bg }}>
+                      RSVP
+                    </span>
+                  </div>
                 )}
               </div>
               <div
