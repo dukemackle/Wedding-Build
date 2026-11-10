@@ -1,6 +1,6 @@
 # Suites, wave 2: proposal (2026-11-10)
 
-Status: **Proposed**, waiting on the owner. Source: about 60 Pinterest, Etsy-style and Zola
+Status: **Approved** 2026-11-10. Highland built first. Source: about 60 Pinterest, Etsy-style and Zola
 references the owner sent on 2026-11-10. This builds on wave 1 (8 suites, DESIGN-OPPORTUNITIES
 row 28, PR open on `claude/ecstatic-noether-sgudgf`), so nothing here starts until that merges.
 

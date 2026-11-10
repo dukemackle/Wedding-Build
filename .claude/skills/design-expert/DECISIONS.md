@@ -23,6 +23,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
   tabs (loses list + RSVPs side by side) and a stage-dependent page (things
   move around). Same day: the stage header's "What it means" folds to one
   tappable line on phones (desktop unchanged).
+- **2026-11-10:** Suites wave 2 approved as proposed in `docs/suites-wave-2.md`
+  (Highland, Gilded, Wildflower upgrade, Signature, Desert Arch, Silhouette,
+  Eucalyptus; Conservatory folds into Heirloom, beach into Tide). Highland
+  preview OK'd: painted-sky card in Moorland, Heather and First frost, and a
+  site with the sky as page background and the moor under the hero. Its moor
+  stays an optional extra in the gallery, on by default via "Match my save
+  the date".
 - **2026-11-10:** Templates become **matching suites** (direction A): about
   eight named suites, each a save the date, an invitation and a guest site
   sharing colourways, fonts and art, plus "Match my save the date" on the
