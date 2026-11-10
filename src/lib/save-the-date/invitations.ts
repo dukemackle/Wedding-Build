@@ -12,7 +12,20 @@ import type { ArtLayer, CardContent, Layer, Template, TextLayer } from "./types"
  */
 
 /** The save-the-date designs invitations are made from, in gallery order. */
-export const INVITATION_SOURCES = ["heirloom", "midnight", "engraved", "riviera", "laurelarch", "decogala", "wildflower", "calligraphy", "homestead"];
+export const INVITATION_SOURCES = [
+  "heirloom",
+  "midnight",
+  "engraved",
+  "riviera",
+  "laurelarch",
+  "decogala",
+  "wildflower",
+  "calligraphy",
+  "homestead",
+  // Added 2026-11-10 so every suite (src/lib/suites.ts) has an invitation.
+  "goldenhour",
+  "editorial",
+];
 
 export const INVITATION_PREFIX = "inv-";
 

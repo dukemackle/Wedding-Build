@@ -26,6 +26,7 @@ import { VenuePhotosPanel } from "../../../venue-photos-panel";
 import { Accommodations, DressAndTravel, Faqs, OwnVenue } from "../../../guest-site-details";
 import { RegistryManager } from "../../../registry-manager";
 import { SiteEditor } from "../../site-editor";
+import { suiteCard } from "../../../save-the-date/load-card";
 import type { SectionInfo } from "../../editor-tabs";
 import { BlockEditor } from "../../block-editor";
 import { RsvpQuestions } from "../../rsvp-questions";
@@ -85,6 +86,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     { count: postCount },
     { count: giftCount },
     { data: venue },
+    matchCard,
   ] = await Promise.all([
     supabase
       .from("site_designs")
@@ -143,6 +145,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           .eq("id", wedding.venue_id)
           .maybeSingle<{ name: string; city: string | null; state: string | null; photo_urls: string[] }>()
       : Promise.resolve({ data: null }),
+    suiteCard(supabase, wedding.id),
   ]);
   if (!row) notFound();
   const ownVenuePhotos = wedding.own_venue_photo_urls ?? [];
@@ -339,6 +342,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           hasGuests={Boolean(confirmedCount)}
           names={[wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""]}
           weddingDate={wedding.wedding_date ?? null}
+          matchCard={matchCard?.doc ?? null}
           photos={[wedding.hero_photo_url, ...(galleryPhotos ?? []).map((p) => p.photo_url)].filter(
             (url): url is string => Boolean(url?.startsWith("https://")),
           )}

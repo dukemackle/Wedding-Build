@@ -6,8 +6,9 @@ import { CardSvg } from "@/components/save-the-date/card-svg";
 import { actionFailed } from "@/lib/action-error";
 import { FONTS_HREF } from "@/lib/save-the-date/fonts";
 import { INVITATIONS, MAX_INVITATIONS, newCard } from "@/lib/save-the-date/templates";
-import type { CardContent } from "@/lib/save-the-date/types";
-import { createInvitation, deleteInvitation } from "./actions";
+import type { CardContent, CardDoc } from "@/lib/save-the-date/types";
+import { invitationIdFor, lookFromCard, suiteForCard } from "@/lib/suites";
+import { createInvitation, createMatchingInvitation, deleteInvitation } from "./actions";
 import type { Invitation } from "./load";
 
 /**
@@ -20,6 +21,7 @@ export function InvitationHome({
   canEdit,
   words,
   rsvpOpensOn,
+  matchCard,
 }: {
   invitations: Invitation[];
   canEdit: boolean;
@@ -27,6 +29,8 @@ export function InvitationHome({
   words: CardContent;
   /** When RSVPs open on the site (null = open now). */
   rsvpOpensOn: string | null;
+  /** Their save the date, when its design is part of a suite (src/lib/suites.ts). */
+  matchCard: { id: string; doc: CardDoc } | null;
 }) {
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -109,6 +113,16 @@ export function InvitationHome({
         </div>
       )}
 
+      {matchCard && canEdit && (
+        <MatchCard
+          card={matchCard}
+          content={content}
+          invitations={invitations}
+          disabled={pending || full}
+          onMake={() => run(() => createMatchingInvitation(matchCard.id))}
+        />
+      )}
+
       <div className="mt-12 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <h2 className="font-display text-2xl font-semibold text-forest sm:text-[28px]">
           {invitations.length ? "Start another" : "Pick a design"}
@@ -136,5 +150,66 @@ export function InvitationHome({
         ))}
       </div>
     </div>
+  );
+}
+
+/**
+ * "Match your save the date": the invitation in their card's suite, drawn in
+ * the card's colourway and fonts, beside the card itself. Hidden once they
+ * have that invitation in that look.
+ */
+function MatchCard({
+  card,
+  content,
+  invitations,
+  disabled,
+  onMake,
+}: {
+  card: { id: string; doc: CardDoc };
+  content: CardContent;
+  invitations: Invitation[];
+  disabled: boolean;
+  onMake: () => void;
+}) {
+  const suite = suiteForCard(card.doc.template);
+  const template = invitationIdFor(card.doc);
+  if (!suite || !template) return null;
+  const look = lookFromCard(card.doc);
+  const have = invitations.some((i) => i.doc.template === template && i.doc.palette === look.palette && i.doc.fonts === look.fonts);
+  if (have) return null;
+  const words = { ...content, nameA: card.doc.content.nameA || content.nameA, nameB: card.doc.content.nameB || content.nameB };
+  const preview: CardDoc = { ...newCard(template, words, null, false), ...look };
+  return (
+    <section className="mt-8 flex flex-col gap-5 rounded-2xl border border-hairline bg-card p-5 sm:flex-row sm:items-center sm:gap-8 sm:p-6">
+      <div className="flex shrink-0 items-end gap-3">
+        <div className="w-24 overflow-hidden rounded-md ring-1 ring-ink/10 sm:w-28">
+          <CardSvg doc={card.doc} className="block w-full" title="Your save the date" />
+        </div>
+        <div className="w-32 overflow-hidden rounded-md shadow-md ring-1 ring-ink/10 sm:w-36">
+          <CardSvg doc={preview} className="block w-full" title={`${suite.name} invitation`} />
+        </div>
+      </div>
+      <div className="flex min-w-0 flex-col gap-3">
+        <div>
+          <p className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-ink/70">
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brass" />
+            The {suite.name} suite
+          </p>
+          <h2 className="mt-1 font-display text-2xl font-semibold text-forest">Match your save the date</h2>
+          <p className="mt-1 max-w-xl text-sm text-ink/65">
+            The {suite.name} invitation in your card&apos;s colours and lettering, with your details filled in. You can still
+            change anything on it.
+          </p>
+        </div>
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={onMake}
+          className="h-11 self-start rounded-full bg-[#14203d] px-5 text-sm font-medium text-white hover:bg-[#2243B6] disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Make the matching invitation
+        </button>
+      </div>
+    </section>
   );
 }

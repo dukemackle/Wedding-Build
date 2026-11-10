@@ -170,6 +170,33 @@ export const TEMPLATES: SiteTemplate[] = [
     pageStyle: "homestead",
     background: { texture: "paper" },
   },
+  // Added 2026-11-10 so every suite (src/lib/suites.ts) has a site to match its cards.
+  {
+    id: "deco-gala",
+    name: "Deco Gala",
+    blurb: "Art Deco glamour, gold on black, each section in a framed panel",
+    theme: "blacktie",
+    palette: "black-tie",
+    colourways: ["emerald", "champagne"],
+    fonts: "cb",
+    hero: "card",
+    ornament: "none",
+    pageStyle: "invitation",
+    rsvp: "band",
+  },
+  {
+    id: "wildflower",
+    name: "Wildflower",
+    blurb: "Meadow flowers round an arched photo, the day as a storybook",
+    theme: "botanical",
+    palette: "dusty-blue",
+    colourways: ["blush", "marigold"],
+    fonts: "fw",
+    hero: "framed",
+    ornament: "none",
+    art: { id: "wild-roses", placement: "corners" },
+    pageStyle: "storybook",
+  },
 ];
 
 export function templateById(id: string | null | undefined) {

@@ -53,6 +53,7 @@ import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
 import { AnimatePanel, BannerFocus, PhotoPanel } from "./photo-motion-panels";
 import { TemplatesTab } from "./templates-tab";
+import type { CardDoc } from "@/lib/save-the-date/types";
 import { templateById } from "@/lib/site-templates";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { STALE_DESIGN } from "@/lib/site-designs";
@@ -157,6 +158,7 @@ export function SiteEditor({
   names,
   weddingDate,
   photos,
+  matchCard,
 }: {
   /** Which of the couple's designs this is (site_designs). */
   designId: string;
@@ -183,6 +185,8 @@ export function SiteEditor({
   weddingDate: string | null;
   /** The banner and gallery photos, to place on the page from Elements. */
   photos: string[];
+  /** Their save the date, when its design is part of a suite: the Design tab offers to match it. */
+  matchCard: CardDoc | null;
 }) {
   const site = useGuestSite(initialSlug);
   const router = useRouter();
@@ -758,7 +762,7 @@ export function SiteEditor({
       ) : tab === "design" ? (
         <>
           {pickTarget?.colour && <TargetColourSection design={design} target={pickTarget} actions={targetActions} />}
-          <TemplatesTab design={design} onChange={change} />
+          <TemplatesTab design={design} onChange={change} matchCard={matchCard} />
           <ColoursSection design={design} onChange={change}>
             <PhotoColoursSection
               photos={photos}
