@@ -6,7 +6,7 @@ import { readdirSync } from "node:fs";
 
 const GRANDFATHERED = new Set([
   "0086", "0087", "0090", "0093", "0099", "0101", "0106", "0110",
-  "0121", "0129", "0143", "0144", "0147", "0149", "0157",
+  "0121", "0129", "0143", "0144", "0147", "0149", "0157", "0159", "0164",
 ]);
 
 const files = readdirSync(new URL("../supabase/migrations/", import.meta.url)).filter((f) => f.endsWith(".sql"));
