@@ -457,6 +457,9 @@ export function AssistantChat({
 // edge. The floating bird would sit on the last tool, so below lg it hides
 // and Wren is reached from the menu instead ("Ask Wren").
 const EDITOR_ROUTES = ["/guests/site/edit/", "/guests/save-the-date/edit/", "/guests/invitations/edit/"];
+// Editors that dock Wren in their own bar on desktop too (the site editor's
+// zoom bar), so the floating bird never covers their bottom-right controls.
+const DOCKED_ROUTES = ["/guests/site/edit/"];
 
 // Gap between the bird and the screen edge (bottom-5 / right-5), and the
 // width of the corner it occupies, button plus a little air.
@@ -512,6 +515,7 @@ export function WeddingAssistantWidget() {
   const [expanded, setExpanded] = useState(false);
   const pathname = usePathname();
   const onEditor = EDITOR_ROUTES.some((route) => pathname.startsWith(route));
+  const docked = DOCKED_ROUTES.some((route) => pathname.startsWith(route));
   const lift = useWrenLift(!open);
 
   // Expanded is two different things: on a phone the chat takes the whole
@@ -529,7 +533,7 @@ export function WeddingAssistantWidget() {
       style={{ bottom: EDGE + lift }}
       className={`fixed right-5 flex flex-col items-end gap-3 transition-[bottom] duration-200 ${
         open ? "z-50" : "z-40"
-      } ${onEditor && !open ? "max-lg:hidden" : ""}`}
+      } ${docked && !open ? "hidden" : onEditor && !open ? "max-lg:hidden" : ""}`}
     >
       {open && (
         <div className={`flex flex-col overflow-hidden border border-hairline bg-parchment shadow-lg ${panelSize}`}>
