@@ -232,7 +232,19 @@ with e(m,k,o,cols) as (values
 ('0134_booking_facts','c','vendors','founded_year,weddings_per_year,booking_lead_months,reply_time,deposit_percent,balance_due_days,cancellation_policy'),
 ('0154_venue_map','vc','public_weddings','venue_latitude,venue_longitude'),
 ('0158_automation_runs','t','automation_runs',''),
-('0159_guest_post_table_and_time','c','guest_posts','seating_table_id,taken_local')
+('0159_guest_post_table_and_time','c','guest_posts','seating_table_id,taken_local'),
+('0159_rsvp_opens_on','c','weddings','rsvp_opens_on'),
+('0159_rsvp_opens_on','vc','public_weddings','rsvp_opens_on'),
+('0160_invitations','t','invitations',''),
+('0161_invitation_sending','c','guests','inv_sent_at,inv_opened_at'),
+('0161_invitation_sending','c','invitations','image_url,image_version'),
+('0162_upload_limits_and_copyright','t','listing_report_writes',''),
+('0162_upload_limits_and_copyright','t','copyright_notices',''),
+('0162_upload_limits_and_copyright','f','allow_listing_report',''),
+('0164_planning_reminders','t','planning_reminders_sent',''),
+('0164_planning_reminders','t','planning_reminder_opt_outs',''),
+('0165_plus_one_meal','c','guests','plus_one_meal'),
+('0166_guest_keep_apart','t','guest_keep_apart','')
 ), missing as (
   select e.m, e.k, e.o, x.col
   from e left join lateral unnest(string_to_array(nullif(e.cols,''),',')) x(col) on true
