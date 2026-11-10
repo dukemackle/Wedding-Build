@@ -19,6 +19,7 @@ import {
   wildflowers,
   type Rnd,
 } from "@/lib/scene-shapes";
+import { Moorland } from "@/lib/highland-art";
 
 /**
  * The drawn setting at the top of the guest site (Background tab › Scene): a
@@ -274,6 +275,26 @@ function forest(id: string, snowy: boolean) {
 type Draw = Partial<Record<SceneId, (id: string) => ReactNode>>;
 
 const BANDS: Draw = {
+  // Highland (suites wave 2): the same moor as the card, in the site's colours.
+  moors: (id: string) => (
+    <Moorland
+      id={id}
+      w={1200}
+      h={260}
+      colours={{
+        far: `color-mix(in srgb, #8f9ba3 30%, ${tint2(22)})`,
+        hill: "color-mix(in srgb, var(--site-accent-2, var(--site-accent)) 55%, var(--color-ink))",
+        slope: `color-mix(in srgb, #9a7f5c 40%, ${tint2(55)})`,
+        near: "color-mix(in srgb, #a8843f 50%, var(--site-accent-2, var(--site-accent)))",
+        grass: [
+          "color-mix(in srgb, #d8b874 85%, var(--site-accent-2, var(--site-accent)))",
+          "color-mix(in srgb, #a98b4c 70%, var(--site-accent-2, var(--site-accent)))",
+          "color-mix(in srgb, var(--site-accent-2, var(--site-accent)) 40%, var(--color-ink))",
+          "#9a5a35",
+        ],
+      }}
+    />
+  ),
   mountains: (id: string) => {
     const rnd = seeded(3);
     const foot = wave(198, 7, 150);

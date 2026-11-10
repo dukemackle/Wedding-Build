@@ -725,6 +725,36 @@ export const TEMPLATES: Template[] = [
       { kind: "text", id: "note", label: "Closing line", bind: "note", x: 500, y: 1250, size: 26, font: "display", italic: true, color: "muted", anchor: "middle", maxWidth: 600 },
     ],
   },
+  // ---- Suites wave 2 (2026-11-10, docs/suites-wave-2.md) ----
+  {
+    id: "highland",
+    name: "Highland",
+    family: "Landscape",
+    mood: "A painted moor under a soft sky, golden grass across the bottom.",
+    usesPhoto: false,
+    grain: 0.03,
+    palettes: [
+      { id: "moorland", label: "Moorland", paper: "#ece5d7", ink: "#4d3a40", accent: "#5f6338", muted: "#7a6762", onPhoto: "#ffffff" },
+      { id: "heather", label: "Heather", paper: "#ebe5e6", ink: "#3d3346", accent: "#6e5a78", muted: "#6f6475", onPhoto: "#ffffff" },
+      { id: "frost", label: "First frost", paper: "#e9edef", ink: "#2e3a45", accent: "#55666f", muted: "#66737b", onPhoto: "#ffffff" },
+    ],
+    pairings: [
+      { id: "stone", label: "Standing stone", display: "cormorant", script: "pinyon", sans: "jost" },
+      { id: "chapel", label: "Chapel", display: "cinzel", script: "italiana", sans: "josefin" },
+      { id: "hearth", label: "Hearth", display: "fraunces", script: "sacramento", sans: "karla" },
+    ],
+    layers: [
+      { kind: "art", id: "sky", label: "Painted sky", art: "moorSky", x: 0, y: 0, w: 1000 },
+      { kind: "art", id: "moor", label: "Moorland", art: "moorland", x: 0, y: 840, w: 1000 },
+      { kind: "text", id: "headline", label: "Headline", bind: "headline", text: "Save the date", x: 500, y: 200, size: 20, font: "sans", color: "muted", upper: true, tracking: 0.42, anchor: "middle", maxWidth: 700 },
+      { kind: "text", id: "nameA", label: "First name", bind: "nameA", x: 500, y: 345, size: 76, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, anchor: "middle", maxWidth: 820 },
+      { kind: "text", id: "amp", label: "And", bind: "custom", text: "and", x: 500, y: 420, size: 26, font: "display", italic: true, color: "muted", anchor: "middle", maxWidth: 200 },
+      { kind: "text", id: "nameB", label: "Second name", bind: "nameB", x: 500, y: 520, size: 76, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, anchor: "middle", maxWidth: 820 },
+      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 650, size: 34, font: "display", color: "ink", upper: true, tracking: 0.3, anchor: "middle", maxWidth: 760 },
+      { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 712, size: 19, lineHeight: 1.5, wrap: 40, font: "sans", color: "muted", upper: true, tracking: 0.28, anchor: "middle", maxWidth: 720 },
+      { kind: "text", id: "note", label: "Closing line", bind: "note", x: 500, y: 830, size: 24, font: "display", italic: true, color: "muted", anchor: "middle", maxWidth: 600 },
+    ],
+  },
 ];
 
 /** The families, in the library's order, for the filter chips. */
