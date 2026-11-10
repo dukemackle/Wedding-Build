@@ -11,6 +11,10 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-10:** Guest-site bar on desktop: couple's names centred, tabs
+  centred beneath (RSVP filled, last; More menu centred under its tab);
+  the names fold away once the guest scrolls. Phone bar unchanged.
+  Approved from 1440/375 screenshots.
 - **2026-11-09:** "Compared with the <area>" card on venue and vendor
   listings, approved from 375/1440 screenshots: count of the same style or
   category in the metro (else state), capacity and starting price against
