@@ -1,3 +1,4 @@
+import type { KeepApartPair } from "@/lib/keep-apart";
 import type {
   ContactSubmission,
   Guest,
@@ -50,7 +51,10 @@ export function GuestsPageBody({
   venueCapacity = null,
   costPerGuest = null,
   today = new Date().toISOString().slice(0, 10),
+  keepApart = [],
 }: {
+  /** Guests not to seat together (0166); empty for a view-only member. */
+  keepApart?: KeepApartPair[];
   wedding: Wedding;
   guests: Guest[];
   rsvpSubmissions: RsvpSubmission[];
@@ -163,6 +167,7 @@ export function GuestsPageBody({
               mealOptions={wedding.meal_options}
               publicSlug={wedding.public_slug}
               canEdit={canEdit}
+              keepApart={keepApart}
             />
           </div>
 

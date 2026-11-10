@@ -12,6 +12,7 @@ import type { ItineraryEvent,
   Wedding,
 } from "@/lib/supabase/types";
 import { GuestsPageBody } from "./guests-page-body";
+import { loadKeepApart } from "@/lib/keep-apart";
 import { qrSvg } from "@/lib/qr";
 import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
 import { loadSheetLink, sheetLinkView, siteChangesSince } from "@/lib/sheet-link-server";
@@ -189,6 +190,7 @@ export default async function GuestsPage() {
         canEdit={canEdit}
         venueCapacity={venue?.capacity ?? null}
         costPerGuest={costPerGuest > 0 ? Math.round(costPerGuest) : null}
+        keepApart={await loadKeepApart(supabase, wedding.id)}
       />
     </main>
   );

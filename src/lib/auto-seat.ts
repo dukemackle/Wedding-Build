@@ -9,6 +9,8 @@ import type { Guest, GuestSide, GuestType, SeatingTable } from "@/lib/supabase/t
  * then by family/friends/work, so Partner A's family lands together, then
  * their friends, and so on. Leftover seats at a table go to the same side
  * before an empty table is started. Guests already seated are never moved.
+ * Pairs the couple asked to keep apart (0166) never end up at one table; a
+ * household holding such a pair is seated person by person.
  *
  * The client runs this to show the preview; the server action runs it again
  * on fresh data to apply it, so a stale tab can't over-fill a table.
@@ -69,9 +71,33 @@ function tableOrder(tables: SeatTable[]) {
     .map(({ t }) => t);
 }
 
-export function planSeating(guests: SeatGuest[], tables: SeatTable[]): SeatPlan {
+/** Guest id -> the guests they must not sit with. */
+export function apartMap(pairs: readonly (readonly [string, string])[]): Map<string, Set<string>> {
+  const map = new Map<string, Set<string>>();
+  for (const [a, b] of pairs) {
+    map.set(a, (map.get(a) ?? new Set()).add(b));
+    map.set(b, (map.get(b) ?? new Set()).add(a));
+  }
+  return map;
+}
+
+export function planSeating(
+  guests: SeatGuest[],
+  tables: SeatTable[],
+  apartPairs: readonly (readonly [string, string])[] = [],
+): SeatPlan {
+  const apart = apartMap(apartPairs);
   const open = tableOrder(tables.filter((t) => (t.capacity ?? 0) > 0 && !isReservedTable(t)));
   const free = new Map(open.map((t) => [t.id, t.capacity ?? 0]));
+  // Who is at each table, by id, so a keep-apart pair is never joined.
+  const atTable = new Map<string, Set<string>>();
+  for (const g of guests) {
+    if (g.table_id) atTable.set(g.table_id, (atTable.get(g.table_id) ?? new Set()).add(g.id));
+  }
+  const clashes = (tableId: string, unit: Unit) => {
+    const here = atTable.get(tableId);
+    return !!here && unit.guests.some((g) => [...(apart.get(g.id) ?? [])].some((other) => here.has(other)));
+  };
   // Who's at each table already, for "same side / same group" matching.
   const sitting = new Map<string, { side: GuestSide | null; type: GuestType | null }[]>();
   for (const g of guests) {
@@ -96,7 +122,12 @@ export function planSeating(guests: SeatGuest[], tables: SeatTable[]): SeatPlan 
     list.push(g);
     byHousehold.set(key, list);
   }
-  for (const list of byHousehold.values()) units.push(makeUnit(list));
+  for (const list of byHousehold.values()) {
+    const ids = new Set(list.map((g) => g.id));
+    const splitUp = list.some((g) => [...(apart.get(g.id) ?? [])].some((other) => ids.has(other)));
+    if (splitUp) for (const g of list) units.push(makeUnit([g]));
+    else units.push(makeUnit(list));
+  }
 
   units.sort(
     (a, b) =>
@@ -123,6 +154,7 @@ export function planSeating(guests: SeatGuest[], tables: SeatTable[]): SeatPlan 
     let bestScore = -1;
     for (const t of open) {
       if ((free.get(t.id) ?? 0) < unit.size) continue;
+      if (clashes(t.id, unit)) continue;
       const s = score(t.id, unit);
       if (s > bestScore) {
         best = t;
@@ -132,6 +164,9 @@ export function planSeating(guests: SeatGuest[], tables: SeatTable[]): SeatPlan 
     if (!best) return false;
     free.set(best.id, (free.get(best.id) ?? 0) - unit.size);
     assigned.set(best.id, [...(assigned.get(best.id) ?? []), ...unit.guests.map((g) => g.id)]);
+    const ids = atTable.get(best.id) ?? new Set<string>();
+    for (const g of unit.guests) ids.add(g.id);
+    atTable.set(best.id, ids);
     sitting.set(best.id, [
       ...(sitting.get(best.id) ?? []),
       ...unit.guests.map((g) => ({ side: g.side, type: g.guest_type })),

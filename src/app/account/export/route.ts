@@ -12,6 +12,7 @@ const WEDDING_TABLES = [
   "guests",
   "guest_event_invites",
   "guest_notes",
+  "guest_keep_apart",
   "rsvp_submissions",
   "budget_line_items",
   "budget_custom_items",

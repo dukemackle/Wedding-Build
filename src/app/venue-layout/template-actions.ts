@@ -7,6 +7,7 @@ import { phaseIdFromForm } from "@/lib/layout-phase-access";
 import { LAYOUT_TEMPLATES, buildTemplate, type LayoutTemplateId } from "@/lib/layout-templates";
 import { CEREMONY_TEMPLATES, buildCeremony, type CeremonyTemplateId } from "@/lib/ceremony-templates";
 import { planSeating, type SeatGuest, type SeatTable } from "@/lib/auto-seat";
+import { loadKeepApart, pairIds } from "@/lib/keep-apart";
 import { frameForPlan, roomPlan } from "@/lib/venue-plans";
 import type { VenueRoom } from "@/lib/supabase/types";
 
@@ -109,7 +110,7 @@ export async function seatTheRest(
   const { supabase, wedding, noWedding } = await requireEditableWedding();
   if (!wedding) return { error: noWedding };
 
-  const [{ data: guests }, { data: tables }] = await Promise.all([
+  const [{ data: guests }, { data: tables }, apart] = await Promise.all([
     supabase
       .from("guests")
       .select("id, name, household, side, guest_type, plus_one, table_id")
@@ -129,9 +130,10 @@ export async function seatTheRest(
     )
       .order("created_at", { ascending: true })
       .returns<SeatTable[]>(),
+    loadKeepApart(supabase, wedding.id),
   ]);
 
-  const plan = planSeating(guests ?? [], tables ?? []);
+  const plan = planSeating(guests ?? [], tables ?? [], pairIds(apart));
   const seatedIds: string[] = [];
   for (const { tableId, guestIds } of plan.assignments) {
     const { error } = await supabase

@@ -1,3 +1,4 @@
+import { loadKeepApart } from "@/lib/keep-apart";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -60,6 +61,7 @@ export default async function VenueLayoutPage({
     { data: rooms },
     { data: declinedSeated },
     { data: phases },
+    keepApart,
   ] = await Promise.all([
     supabase
       .from("seating_tables")
@@ -105,6 +107,7 @@ export default async function VenueLayoutPage({
       .select("*")
       .eq("wedding_id", wedding.id)
       .returns<LayoutPhase[]>(),
+    loadKeepApart(supabase, wedding.id),
   ]);
 
   return (
@@ -120,6 +123,7 @@ export default async function VenueLayoutPage({
           rooms={rooms ?? []}
           phases={phases ?? []}
           declinedSeated={declinedSeated ?? []}
+          keepApart={keepApart}
           roomStyle={wedding.layout_room_style ?? "blank"}
           initialRoomId={initialRoomId ?? null}
           sides={{
