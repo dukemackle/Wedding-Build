@@ -88,6 +88,16 @@ Grand Forks Country Club	794 County Road 6	Grand Forks	North Dakota			Country Cl
 Peaceful Prairie Ponderosa	5965 85th Ave NW	Stanley	North Dakota			Barn & Farm	Indoor & Outdoor				A rustic retreat built around a 100-year-old barn beside a pond near Stanley.	prairieponderosaranch@gmail.com	701-651-9308	https://peacefulprairieponderosa.com
 `,
   },
+  {
+    name: "North Dakota: Fargo, Minot, Devils Lake area",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Spirit Lake Casino & Resort	7889 ND Route 57	Saint Michael	North Dakota			Hotel & Resort	Indoor	500	3500	Package	Tribal casino resort near Devils Lake with a divisible Grand Ballroom, two smaller ballrooms, an auditorium and a steakhouse for receptions.		(701) 766-4747	https://spiritlakecasino.com/resort/meetings-events/
+Taube Museum of Art	2 N Main St	Minot	North Dakota			Museum, Gallery & Rooftop	Indoor	150	375	Rental	Art museum in a historic downtown Minot building whose galleries can be rented whole for receptions, rehearsal dinners and showers.			https://taubemuseum.org/museum-rental.html
+North Dakota State Fair Center	2005 Burdick Expy E	Minot	North Dakota			Ballroom	Indoor				Very large fairgrounds exhibition hall of over 240,000 square feet that lists wedding receptions among the events it hosts.	info@ndstatefair.com	701-857-7620	https://ndstatefair.com/facility-rentals/state-fair-center/
+Coteau des Prairies Lodge	9953 141st Ave SE	Havana	North Dakota			Mountain & Lodge	Indoor & Outdoor		6000	Rental	A 13-bedroom log-and-steel lodge built from native North Dakota pine on the Coteau des Prairies ridge, rented whole for a two-night weekend with pasture and prairie views.	olivia@cdplodge.com	701-680-1175	https://cdplodge.com/your-getaway/weddings/
+Hotel Donaldson	101 N Broadway	Fargo	North Dakota			Hotel & Resort	Indoor	78			Downtown Fargo hotel with private event rooms including a fireplace lounge, a rooftop space and a boardroom.	info@hoteldonaldson.com	701-478-1000	https://www.hoteldonaldson.com/events-spaces
+The Four & Four	404 4th Ave N	Fargo	North Dakota			Ballroom	Indoor				Second-floor event space in downtown Fargo, above its sister restaurant Sidestreet Grille & Pub, that hosts weddings and other events.	info@thefourandfour.com	701-831-8992	https://www.thefourandfour.com/`,
+  },
 ];
 
 export default batches;
