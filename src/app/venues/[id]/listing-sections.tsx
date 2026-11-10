@@ -5,7 +5,7 @@ import { DesignHereButton, type DesignContext } from "./design-here";
 import { ConfirmedMark } from "@/components/confirmed-badge";
 import { confirmedByOwner } from "@/lib/public-listings";
 import { SERVICE_LEVEL_HINTS, SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedding-options";
-import { TrackedContactLink } from "@/components/tracked-contact-link";
+import { SectionHeading } from "@/components/listing-parts";
 
 /**
  * The parts of a venue listing that only exist once a venue has filled in its
@@ -13,7 +13,7 @@ import { TrackedContactLink } from "@/components/tracked-contact-link";
  * hasn't supplied it, so an imported listing looks exactly as it did.
  */
 
-const card = "mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm";
+const card = "scroll-mt-24 rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-8";
 
 /**
  * What's provided, capacity, vendor policy: the facts couples shortlist on.
@@ -130,8 +130,8 @@ export function VenueSpaces({
   if (spaces.length === 0) return null;
   const planBySpace = new Map(plans.map((p) => [p.space_id, p]));
   return (
-    <div className={card}>
-      <h2 className="font-display text-xl font-semibold text-forest">Event spaces</h2>
+    <section id="spaces" className={card}>
+      <SectionHeading eyebrow="The spaces" title="Event spaces" />
       {plans.length > 0 && (
         <p className="mt-1 text-sm text-ink/60">
           Floor plans at real size. Set out your tables and dance floor in the room itself.
@@ -178,7 +178,7 @@ export function VenueSpaces({
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -190,20 +190,10 @@ export function VenueGoodToKnow({ venue }: { venue: Venue }) {
     ["Wheelchair accessible", yesNo(venue.wheelchair_accessible)],
     ["Pets allowed", yesNo(venue.pets_allowed)],
   ].filter((r): r is [string, string] => Boolean(r[1]));
-  const links = [
-    ["Website", venue.website],
-    ["Instagram", venue.instagram_url],
-    ["Facebook", venue.facebook_url],
-    ["Pinterest", venue.pinterest_url],
-    ["TikTok", venue.tiktok_url],
-    ["YouTube", venue.youtube_url],
-    ["Reviews", venue.reviews_url],
-  ].filter((l): l is [string, string] => Boolean(l[1]));
-
-  if (rows.length === 0 && links.length === 0) return null;
+  if (rows.length === 0) return null;
   return (
-    <div className={card}>
-      <h2 className="font-display text-xl font-semibold text-forest">Good to know</h2>
+    <section className={card}>
+      <SectionHeading eyebrow="The venue" title="Practical details" />
       {rows.length > 0 && (
         <dl className="mt-3 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
           {rows.map(([label, value]) => (
@@ -214,22 +204,19 @@ export function VenueGoodToKnow({ venue }: { venue: Venue }) {
           ))}
         </dl>
       )}
-      {links.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {links.map(([label, href]) => (
-            <TrackedContactLink
-              key={label}
-              listingType="venue"
-              listingId={venue.id}
-              kind={label === "Website" ? "website" : "social"}
-              href={href}
-              className="rounded-full border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
-            >
-              {label} ↗
-            </TrackedContactLink>
-          ))}
-        </div>
-      )}
-    </div>
+    </section>
   );
+}
+
+/** The venue's website and social profiles, shown as buttons under its name. */
+export function venueLinks(venue: Venue): [string, string][] {
+  return [
+    ["Website", venue.website],
+    ["Instagram", venue.instagram_url],
+    ["Facebook", venue.facebook_url],
+    ["Pinterest", venue.pinterest_url],
+    ["TikTok", venue.tiktok_url],
+    ["YouTube", venue.youtube_url],
+    ["Reviews", venue.reviews_url],
+  ].filter((l): l is [string, string] => Boolean(l[1]));
 }

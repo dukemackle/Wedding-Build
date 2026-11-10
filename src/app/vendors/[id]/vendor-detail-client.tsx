@@ -7,7 +7,7 @@ import type { SignupIntent } from "@/lib/signup-intent";
 import type { Vendor } from "@/lib/supabase/types";
 import { announceSaved } from "@/lib/saved-sync";
 import { InquiryForm } from "../inquiry-form";
-import { TrackedContactLink, telHref } from "@/components/tracked-contact-link";
+import { PhoneButton } from "@/components/listing-parts";
 
 export function VendorDetailClient({
   vendor,
@@ -46,16 +46,8 @@ export function VendorDetailClient({
       {/* Email stays behind "Request a quote" so every inquiry is counted;
           the phone is a tracked tap-to-call. */}
       {vendor.contact_phone && !showInquiry && (
-        <div className="mt-4 border-t border-hairline pt-4 text-sm text-ink/80">
-          <TrackedContactLink
-            listingType="vendor"
-            listingId={vendor.id}
-            kind="phone"
-            href={telHref(vendor.contact_phone)}
-            className="hover:underline"
-          >
-            {vendor.contact_phone}
-          </TrackedContactLink>
+        <div className="mt-3">
+          <PhoneButton listingType="vendor" listingId={vendor.id} phone={vendor.contact_phone} />
         </div>
       )}
 

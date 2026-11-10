@@ -11,7 +11,7 @@ import type {
   Wedding,
 } from "@/lib/supabase/types";
 import { ALCOHOL_POLICIES, SERVICE_LEVELS, venueTypeImage } from "@/lib/wedding-options";
-import { ChevronDownIcon } from "@/components/icons";
+import { ArrowUpRightIcon, ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { ListingDesktopActions, ListingPhoneBar } from "@/components/listing-actions";
 import { ShortlistButton } from "../venue-card-shared";
@@ -32,8 +32,19 @@ import {
   isUnclaimedListing,
 } from "@/lib/public-listings";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
-import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
+import { VenueGoodToKnow, venueLinks, VenueKeyFacts, VenueSpaces } from "./listing-sections";
 import { BookingFactsCard } from "@/components/booking-facts-card";
+import {
+  ContactPanel,
+  IncludedChecklist,
+  ListingLinks,
+  ListingSectionNav,
+  SectionHeading,
+  listItems,
+  listingCard as card,
+} from "@/components/listing-parts";
+import { ListingProse } from "@/components/listing-prose";
+import { businessFactRows } from "@/lib/business-facts";
 import { nearestListings } from "@/lib/listing-seo";
 import { venueAreaComparison, type AreaComparison } from "@/lib/area-comparison";
 import { AreaComparisonCard } from "@/components/area-comparison";
@@ -144,8 +155,6 @@ function photosOf(venue: Venue): string[] {
   return [venueTypeImage(venue.venue_type)];
 }
 
-const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
-
 export function VenueListing({ data }: { data: VenueListingData }) {
   const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, plans = [], preferredVendors, similarVenues, comparison, preview, then } = data;
 
@@ -156,8 +165,27 @@ export function VenueListing({ data }: { data: VenueListingData }) {
   // Rows from before 0097 have none of these, so default them.
   const price = priceHeadline({ price_from: venue.price_from, price_basis: venue.price_basis ?? null });
   const priceOptions = venue.price_basis === "ask" ? [] : (venue.price_options ?? []);
-  const includedItems = venue.included_items ?? [];
+  // A pasted bullet list in the free text joins the checklist rather than showing its "•"s.
+  const includedText = listItems(venue.included);
+  const includedItems = [...(venue.included_items ?? []), ...(includedText ?? [])];
+  const includedProse = includedText ? null : venue.included;
   const hasIncluded = includedItems.length > 0 || Boolean(venue.included);
+  const links = venueLinks(venue);
+  const hasPolicies =
+    businessFactRows(venue).length > 0 ||
+    Boolean(venue.cancellation_policy || venue.music_until || venue.alcohol_policy || venue.rain_plan);
+  const sections = (
+    [
+      ["about", "About", Boolean(venue.about || hasIncluded || venue.amenities.length > 0)],
+      ["included", "What's included", hasIncluded],
+      ["policies", "Policies", hasPolicies],
+      ["spaces", "Spaces", spaces.length > 0],
+      ["compare", "Compare", Boolean(comparison && !preview)],
+      ["faq", "FAQ", faqs.length > 0],
+    ] as [string, string, boolean][]
+  )
+    .filter(([, , has]) => has)
+    .map(([id, label]): [string, string] => [id, label]);
 
   const photos = photosOf(venue);
   const isShortlisted = Boolean(shortlistEntry);
@@ -212,6 +240,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             ))}
           {isUnclaimedListing(venue) && <UnclaimedNote name={venue.name} />}
           {venue.description && <p className="mt-4 text-ink/80">{venue.description}</p>}
+          <ListingLinks listingType="venue" listingId={venue.id} links={links} className="mt-5" />
           <VenueKeyFacts venue={venue} />
           <a
             href={directionsHref(venue)}
@@ -225,80 +254,80 @@ export function VenueListing({ data }: { data: VenueListingData }) {
 
         <aside id="listing-contact" className="scroll-mt-16 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="lg:sticky lg:top-16">
-            {(price || venue.service_level) && (
-              <div className="mb-3 rounded-lg border border-hairline bg-card px-5 py-4 shadow-sm">
-                {price && (
-                  <p className="font-display text-2xl font-semibold text-forest">
-                    {price}
-                    {confirmedByOwner(venue, "price_from") && <ConfirmedMark />}
-                  </p>
-                )}
-                <p className="text-sm text-ink/60">
-                  {[venue.price_note, venue.service_level && SERVICE_LEVELS[venue.service_level]]
-                    .filter(Boolean)
-                    .join(" · ")}
-                </p>
-                {priceOptions.length > 0 && (
-                  <dl className="mt-3 border-t border-hairline pt-2 text-sm">
-                    {priceOptions.map((o) => (
-                      <div key={o.label} className="flex justify-between gap-4 py-1">
-                        <dt className="text-ink/70">{o.label}</dt>
-                        <dd className="font-mono-numbers text-ink">{priceOptionAmount(o, venue.price_basis)}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                )}
-                {price && (
-                  <p className="mt-2 text-xs text-ink/50">
-                    {[priceCheckedNote(venue), "Prices change. Confirm with the venue before you book."].filter(Boolean).join(" ")}
-                  </p>
-                )}
-              </div>
-            )}
-            {!signedIn ? (
-              <SignupPrompt noun="venue" name={venue.name} next={venueHref(venue)} website={venue.website} listingId={venue.id} />
-            ) : wedding ? (
-              <VenueDetailClient
-                venue={venue}
-                isShortlisted={Boolean(shortlistEntry)}
-                isBooked={wedding.venue_id === venue.id}
-                shortlistEntry={shortlistEntry}
-                then={then}
-              />
-            ) : (
-              <SetupFirst name={venue.name} href={venueHref(venue)} then={then} noun="venues" />
-            )}
+            <ContactPanel
+              replyTime={signedIn ? venue.reply_time : null}
+              price={
+                (price || venue.service_level) && (
+                  <>
+                    {price && (
+                      <p className="font-display text-3xl font-semibold text-forest">
+                        {price}
+                        {confirmedByOwner(venue, "price_from") && <ConfirmedMark />}
+                      </p>
+                    )}
+                    <p className="mt-1 text-sm text-ink/60">
+                      {[venue.price_note, venue.service_level && SERVICE_LEVELS[venue.service_level]]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </p>
+                    {priceOptions.length > 0 && (
+                      <dl className="mt-3 border-t border-hairline pt-2 text-sm">
+                        {priceOptions.map((o) => (
+                          <div key={o.label} className="flex justify-between gap-4 py-1">
+                            <dt className="text-ink/70">{o.label}</dt>
+                            <dd className="font-mono-numbers text-ink">{priceOptionAmount(o, venue.price_basis)}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                    {price && (
+                      <p className="mt-2 text-xs text-ink/50">
+                        {[priceCheckedNote(venue), "Prices change. Confirm with the venue before you book."].filter(Boolean).join(" ")}
+                      </p>
+                    )}
+                  </>
+                )
+              }
+            >
+              {!signedIn ? (
+                <SignupPrompt noun="venue" name={venue.name} next={venueHref(venue)} />
+              ) : wedding ? (
+                <VenueDetailClient
+                  venue={venue}
+                  isShortlisted={Boolean(shortlistEntry)}
+                  isBooked={wedding.venue_id === venue.id}
+                  shortlistEntry={shortlistEntry}
+                  then={then}
+                />
+              ) : (
+                <SetupFirst name={venue.name} href={venueHref(venue)} then={then} noun="venues" />
+              )}
+            </ContactPanel>
           </div>
         </aside>
 
         <div className="flex min-w-0 flex-col gap-6 lg:col-start-1 lg:row-start-2">
+          <ListingSectionNav sections={sections} />
           {(venue.about || hasIncluded || venue.amenities.length > 0) && (
-            <div className={card}>
+            <section id="about" className={card}>
               {venue.about && (
                 <>
-                  <h2 className="font-display text-xl font-semibold text-forest">About this venue</h2>
-                  <p className="mt-2 whitespace-pre-line text-ink/80">{venue.about}</p>
+                  <SectionHeading eyebrow="Overview" title="About this venue" />
+                  <ListingProse text={venue.about} open={preview} />
                 </>
               )}
               {hasIncluded && (
-                <div className={venue.about ? "mt-6 border-t border-hairline pt-6" : ""}>
-                  <h2 className="font-display text-xl font-semibold text-forest">What&apos;s included</h2>
-                  {includedItems.length > 0 && (
-                    <ul className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1.5 text-sm text-ink sm:grid-cols-2">
-                      {includedItems.map((item) => (
-                        <li key={item} className="flex items-center gap-2">
-                          <span aria-hidden className="text-forest">✓</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+                <div id="included" className={`scroll-mt-24 ${venue.about ? "mt-8 border-t border-hairline pt-8" : ""}`}>
+                  <SectionHeading eyebrow="The package" title="What's included" />
+                  {includedItems.length > 0 && <IncludedChecklist items={includedItems} />}
+                  {includedProse && (
+                    <p className="mt-4 max-w-prose whitespace-pre-line leading-relaxed text-ink/75">{includedProse}</p>
                   )}
-                  {venue.included && <p className="mt-2 whitespace-pre-line text-ink/80">{venue.included}</p>}
                 </div>
               )}
               {venue.amenities.length > 0 && (
-                <div className={venue.about || hasIncluded ? "mt-6 border-t border-hairline pt-6" : ""}>
-                  <h2 className="font-display text-xl font-semibold text-forest">Amenities</h2>
+                <div className={venue.about || hasIncluded ? "mt-8 border-t border-hairline pt-8" : ""}>
+                  <SectionHeading eyebrow="Extras" title="Amenities" />
                   <div className="mt-3 flex flex-wrap gap-2">
                     {venue.amenities.map((amenity) => (
                       <span
@@ -311,14 +340,14 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                   </div>
                 </div>
               )}
-            </div>
+            </section>
           )}
 
           {venue.good_to_know && (
-            <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-forest">Good to know</h2>
-              <p className="mt-2 whitespace-pre-line text-ink/80">{venue.good_to_know}</p>
-            </div>
+            <section className={card}>
+              <SectionHeading eyebrow="Details" title="Good to know" />
+              <ListingProse text={venue.good_to_know} open={preview} />
+            </section>
           )}
 
           <BookingFactsCard
@@ -338,20 +367,22 @@ export function VenueListing({ data }: { data: VenueListingData }) {
 
           {requiredVendors.length > 0 && (
             <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-forest">Required vendors</h2>
-              <p className="mt-1 text-sm text-ink/60">
-                For these, {venue.name} asks couples to book from its list. Check prices with them early.
-              </p>
+              <SectionHeading
+                eyebrow="Vendor rules"
+                title="Required vendors"
+                sub={`For these, ${venue.name} asks couples to book from its list. Check prices with them early.`}
+              />
               <VendorsByCategory vendors={requiredVendors} />
             </div>
           )}
 
           {recommendedVendors.length > 0 && (
             <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-forest">Preferred vendors</h2>
-              <p className="mt-1 text-sm text-ink/60">
-                Vendors {venue.name} recommends and who know their way around the property.
-              </p>
+              <SectionHeading
+                eyebrow="Their team"
+                title="Preferred vendors"
+                sub={`Vendors ${venue.name} recommends and who know their way around the property.`}
+              />
               <VendorsByCategory vendors={recommendedVendors} />
             </div>
           )}
@@ -361,8 +392,8 @@ export function VenueListing({ data }: { data: VenueListingData }) {
           {comparison && !preview && <AreaComparisonCard data={comparison} kind="venue" />}
 
           {faqs.length > 0 && (
-            <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-forest">Frequently asked questions</h2>
+            <section id="faq" className={card}>
+              <SectionHeading eyebrow="Questions" title="Frequently asked questions" />
               <div className="mt-2">
                 {faqs.map((faq) => (
                   <details key={faq.id} open={preview} className="group border-b border-hairline py-3 last:border-b-0">
@@ -374,7 +405,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                   </details>
                 ))}
               </div>
-            </div>
+            </section>
           )}
 
           {venue.latitude != null && venue.longitude != null && (
@@ -387,7 +418,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
 
           {similarVenues.length > 0 && !preview && (
             <div>
-              <h2 className="font-display text-xl font-semibold text-forest">More venues nearby</h2>
+              <SectionHeading eyebrow="Keep looking" title="More venues nearby" />
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {similarVenues.map((v) => (
                   <Link
@@ -438,7 +469,7 @@ function VendorsByCategory({ vendors }: { vendors: VenuePreferredVendor[] }) {
                   </Link>
                 ) : v.website ? (
                   <a href={v.website} target="_blank" rel="noopener noreferrer nofollow" className="text-ink hover:text-brass">
-                    {v.name} <span className="text-ink/40">↗</span>
+                    {v.name} <ArrowUpRightIcon className="inline h-3 w-3 text-ink/40" />
                   </a>
                 ) : (
                   <span className="text-ink">{v.name}</span>

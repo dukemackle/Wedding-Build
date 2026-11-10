@@ -7,7 +7,7 @@ import { toggleShortlist, updateShortlistNotes } from "../actions";
 import { BookedVenueButton } from "../venue-card-shared";
 import { announceSaved, useSavedSync } from "@/lib/saved-sync";
 import { InquiryForm } from "../inquiry-form";
-import { TrackedContactLink, telHref } from "@/components/tracked-contact-link";
+import { PhoneButton } from "@/components/listing-parts";
 import { useFinishIntent } from "@/components/signup-sheet";
 import type { SignupIntent } from "@/lib/signup-intent";
 
@@ -117,33 +117,7 @@ export function VenueDetailClient({
         <ShortlistNotesField venueId={venue.id} notes={shortlistEntry?.notes ?? null} />
       )}
 
-      {(venue.contact_phone || venue.website) && (
-        <div className="mt-4 flex flex-col gap-1 border-t border-hairline pt-4 text-sm text-ink/80">
-          {venue.contact_phone && (
-            <TrackedContactLink
-              listingType="venue"
-              listingId={venue.id}
-              kind="phone"
-              href={telHref(venue.contact_phone)}
-              className="hover:underline"
-            >
-              {venue.contact_phone}
-            </TrackedContactLink>
-          )}
-          {venue.website && (
-            <TrackedContactLink
-              listingType="venue"
-              listingId={venue.id}
-              kind="website"
-              href={venue.website}
-              className="text-brass hover:underline"
-            >
-              {venue.website}
-            </TrackedContactLink>
-          )}
-        </div>
-      )}
-
+      {/* The website is a button in the listing's header now. */}
       {!showInquiry ? (
         <button
           type="button"
@@ -154,6 +128,12 @@ export function VenueDetailClient({
         </button>
       ) : (
         <InquiryForm venue={venue} onDone={() => setShowInquiry(false)} />
+      )}
+
+      {venue.contact_phone && !showInquiry && (
+        <div className="mt-3">
+          <PhoneButton listingType="venue" listingId={venue.id} phone={venue.contact_phone} />
+        </div>
       )}
     </div>
   );
