@@ -197,6 +197,10 @@ export function SiteEditor({
   // "Preview", which hides the tools to see the site as guests will.
   const [phoneSheet, setPhoneSheet] = useState<Tab | "more" | null>(null);
   const [previewing, setPreviewing] = useState(false);
+  // Desktop and tablet "Preview": the site over the whole screen, as guests
+  // see it, with an Exit button. (Browser full screen on an iframe doesn't
+  // work on iPad or iPhone, and gave no visible way out.)
+  const [fullPreview, setFullPreview] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   // Changes brought back from this device after a save that didn't land.
@@ -321,16 +325,6 @@ export function SiteEditor({
     if (openSection) frameRef.current?.contentWindow?.postMessage({ type: SHOW_SECTION_MESSAGE, section: openSection }, window.location.origin);
   });
   useEffect(() => sendMode(editingOn), [editingOn, sendMode]);
-
-  // Full screen shows the site as guests get it: editing off until Esc.
-  const onFullscreenChange = useEffectEvent(() => {
-    sendMode(document.fullscreenElement === frameRef.current ? false : editingOn);
-  });
-  useEffect(() => {
-    const listener = () => onFullscreenChange();
-    document.addEventListener("fullscreenchange", listener);
-    return () => document.removeEventListener("fullscreenchange", listener);
-  }, []);
 
   const sendDesign = useCallback((next: SiteDesign) => {
     frameRef.current?.contentWindow?.postMessage(
@@ -642,8 +636,7 @@ export function SiteEditor({
             ? "Changes not published yet"
             : "";
   const previewAddress = `${addressStatus ? `${addressStatus} · ` : ""}${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${samplesNote ? ` · ${samplesNote}` : ""}`;
-  const openHref = showsLive ? `${origin}/w/${publicSlug}` : `/guests/site/preview?design=${designId}&view=1`;
-  const openLabel = showsLive ? "Open live site" : "Open preview";
+  const liveHref = `${origin}/w/${publicSlug}`;
 
   // What the publish button does now. Published and on: it unpublishes
   // (turns the site off, after a confirm). Published but off: it turns it on.
@@ -1054,9 +1047,11 @@ export function SiteEditor({
                         >
                           Replay motion
                         </button>
-                        <a href={openHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
-                          {openLabel}
-                        </a>
+                        {showsLive && (
+                          <a href={liveHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
+                            Open live site
+                          </a>
+                        )}
                       </div>
                     ) : (
                       <div className="-mx-4 -mt-5">{panelBody}</div>
@@ -1208,14 +1203,24 @@ export function SiteEditor({
                     {status}
                   </span>
                 )}
-                <a
-                  href={openHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="shrink-0 whitespace-nowrap text-sm font-medium text-forest hover:underline"
+                {showsLive && (
+                  <a
+                    href={liveHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="shrink-0 whitespace-nowrap text-sm font-medium text-forest hover:underline"
+                  >
+                    Live site <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setFullPreview(true)}
+                  className="flex h-9 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#14203d]/20 px-3.5 text-sm font-semibold text-[#14203d] hover:bg-[#14203d]/5"
                 >
-                  {openLabel} <span aria-hidden="true">↗</span>
-                </a>
+                  <EyeIcon />
+                  Preview
+                </button>
               </>
             )}
             {publishButton}
@@ -1230,10 +1235,12 @@ export function SiteEditor({
           address={previewAddress}
           bottomInset={0}
           onReplay={() => post(REPLAY_MESSAGE)}
+          onFullPreview={() => setFullPreview(true)}
         />
       </section>
 
     </div>
+    {fullPreview && <FullPreview designId={designId} design={design} onExit={() => setFullPreview(false)} />}
     </>
   );
 }
@@ -1511,6 +1518,7 @@ function PreviewStage({
   address,
   bottomInset,
   onReplay,
+  onFullPreview,
 }: {
   device: Device;
   /** On a phone showing the phone view: the preview is simply the screen. */
@@ -1521,6 +1529,8 @@ function PreviewStage({
   bottomInset: number;
   /** Desktop editor: replays the site's motion, from the preview's own controls. */
   onReplay?: () => void;
+  /** Desktop editor: shows the site over the whole screen, as guests see it. */
+  onFullPreview?: () => void;
 }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
@@ -1706,9 +1716,9 @@ function PreviewStage({
             </span>
             <button
               type="button"
-              onClick={() => frameRef.current?.requestFullscreen().catch(() => {})}
-              aria-label="Full screen"
-              title="Full screen (Esc to exit)"
+              onClick={onFullPreview}
+              aria-label="Preview full screen"
+              title="Preview full screen"
               className="flex h-7 w-7 items-center justify-center rounded-md text-ink/60 hover:bg-ink/5 hover:text-ink"
             >
               <FullscreenIcon />
@@ -1723,9 +1733,9 @@ function PreviewStage({
           <ReplayButton onClick={onReplay} />
           <button
             type="button"
-            onClick={() => frameRef.current?.requestFullscreen().catch(() => {})}
-            aria-label="Full screen"
-            title="Full screen (Esc to exit)"
+            onClick={onFullPreview}
+            aria-label="Preview full screen"
+            title="Preview full screen"
             className="flex h-8 w-8 items-center justify-center rounded-md text-ink/60 hover:bg-ink/5 hover:text-ink"
           >
             <FullscreenIcon />
@@ -1750,6 +1760,77 @@ function ReplayButton({ onClick }: { onClick: () => void }) {
         <path d="M4 4v4h4" />
       </svg>
     </button>
+  );
+}
+
+/**
+ * The site over the whole screen, as guests will see it, with a clear Exit
+ * button (and Esc). Its own iframe, so the editor's preview keeps its place.
+ */
+function FullPreview({ designId, design, onExit }: { designId: string; design: SiteDesign; onExit: () => void }) {
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const exitRef = useRef<HTMLButtonElement>(null);
+  const designRef = useRef(design);
+  useEffect(() => {
+    designRef.current = design;
+  }, [design]);
+  const exit = useEffectEvent(onExit);
+
+  useEffect(() => {
+    exitRef.current?.focus();
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    // The draft as it stands, even if its last save hasn't landed yet.
+    function onMessage(event: MessageEvent) {
+      if (event.origin !== window.location.origin) return;
+      if (event.source !== frameRef.current?.contentWindow) return;
+      if (event.data?.type === READY_MESSAGE) {
+        frameRef.current?.contentWindow?.postMessage({ type: DESIGN_MESSAGE, design: designRef.current }, window.location.origin);
+      }
+    }
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") exit();
+    }
+    window.addEventListener("message", onMessage);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener("message", onMessage);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  return (
+    <div role="dialog" aria-modal="true" aria-label="Preview as guests see it" className="fixed inset-0 z-[80] bg-white">
+      <iframe
+        ref={frameRef}
+        src={`/guests/site/preview?design=${designId}&samples=1&view=1`}
+        title="Your guest site, as guests see it"
+        className="block h-full w-full border-0"
+      />
+      <div className="pointer-events-none fixed inset-x-0 bottom-[max(1.25rem,env(safe-area-inset-bottom))] flex justify-center">
+        <button
+          ref={exitRef}
+          type="button"
+          onClick={onExit}
+          className="pointer-events-auto flex h-12 items-center gap-2 rounded-full bg-[#14203d] pl-4 pr-5 text-[15px] font-semibold text-white shadow-[0_8px_24px_rgba(20,32,61,0.35)] ring-1 ring-white/20 hover:bg-[#1d2c52]"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+          Exit preview
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EyeIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
   );
 }
 
