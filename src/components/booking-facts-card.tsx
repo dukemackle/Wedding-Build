@@ -45,16 +45,18 @@ export function BookingFactsCard({
         sub="In their own words. Confirm anything that matters in your contract."
       />
       {rows.length > 0 && (
-        <dl className="mt-4 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+        <dl className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-3">
           {rows.map(([label, value]) => {
             const Icon = ROW_ICONS[label];
             return (
-              <div key={label} className="flex items-center justify-between gap-4 border-b border-hairline py-3 text-sm">
-                <dt className="flex shrink-0 items-center gap-2 text-ink/60">
-                  {Icon && <Icon className="h-4 w-4 text-brass" />}
-                  {label}
-                </dt>
-                <dd className="text-right font-medium text-ink">{value}</dd>
+              <div key={label} className="flex flex-col-reverse justify-end rounded-lg bg-parchment p-4">
+                <dt className="mt-0.5 text-xs text-ink/60">{label}</dt>
+                <dd className="font-semibold leading-snug text-forest">{value}</dd>
+                {Icon && (
+                  <dd aria-hidden className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-brass/20 text-forest">
+                    <Icon className="h-4 w-4" />
+                  </dd>
+                )}
               </div>
             );
           })}

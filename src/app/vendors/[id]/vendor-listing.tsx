@@ -3,7 +3,9 @@ import { BookingFactsCard } from "@/components/booking-facts-card";
 import {
   ContactPanel,
   IncludedChecklist,
-  ListingLinks,
+  KeyStats,
+  REPLY_SHORT,
+  SocialLinks,
   ListingSectionNav,
   SectionHeading,
   listItems,
@@ -122,6 +124,14 @@ export function VendorListing({ data }: { data: VendorListingData }) {
     ["Pinterest", vendor.pinterest_url],
   ].filter((l): l is [string, string] => Boolean(l[1]));
   const included = listItems(vendor.included);
+  const years = vendor.founded_year ? new Date().getFullYear() - vendor.founded_year : 0;
+  const stats = [
+    years > 0 && { value: String(years), label: years === 1 ? "year in business" : "years in business" },
+    vendor.weddings_per_year && { value: `~${vendor.weddings_per_year}`, label: "weddings a year" },
+    vendor.booking_lead_months != null &&
+      vendor.booking_lead_months > 0 && { value: `${vendor.booking_lead_months} mo`, label: "booked ahead" },
+    vendor.reply_time && { value: REPLY_SHORT[vendor.reply_time], label: "to reply" },
+  ].filter((s): s is { value: string; label: string } => Boolean(s));
   const hasPolicies = businessFactRows(vendor).length > 0 || Boolean(vendor.cancellation_policy);
   const sections = (
     [
@@ -195,13 +205,17 @@ export function VendorListing({ data }: { data: VendorListingData }) {
             )
           )}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}
-          <ListingLinks listingType="vendor" listingId={vendor.id} links={links} className="mt-5" />
+          <KeyStats stats={stats} />
+          <SocialLinks listingType="vendor" listingId={vendor.id} links={links} className="mt-5" />
         </div>
 
         <aside id="listing-contact" className="scroll-mt-16 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="lg:sticky lg:top-16">
             <ContactPanel
-              replyTime={signedIn ? vendor.reply_time : null}
+              listingType="vendor"
+              listingId={vendor.id}
+              website={vendor.website}
+              phone={signedIn ? vendor.contact_phone : null}
               price={
                 vendor.price_from != null && (
                   <>

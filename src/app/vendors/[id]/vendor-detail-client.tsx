@@ -7,7 +7,7 @@ import type { SignupIntent } from "@/lib/signup-intent";
 import type { Vendor } from "@/lib/supabase/types";
 import { announceSaved } from "@/lib/saved-sync";
 import { InquiryForm } from "../inquiry-form";
-import { PhoneButton } from "@/components/listing-parts";
+import { requestSubtext } from "@/components/listing-parts";
 
 export function VendorDetailClient({
   vendor,
@@ -37,18 +37,11 @@ export function VendorDetailClient({
         <button
           type="button"
           onClick={() => setShowInquiry(true)}
-          className="w-full rounded-md bg-forest px-4 py-2.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+          className="w-full rounded-md bg-forest px-4 py-3 text-parchment transition-colors hover:bg-forest/90"
         >
-          Request a quote
+          <span className="block text-base font-semibold">Request a quote</span>
+          <span className="block text-xs text-parchment/75">{requestSubtext(vendor.reply_time)}</span>
         </button>
-      )}
-
-      {/* Email stays behind "Request a quote" so every inquiry is counted;
-          the phone is a tracked tap-to-call. */}
-      {vendor.contact_phone && !showInquiry && (
-        <div className="mt-3">
-          <PhoneButton listingType="vendor" listingId={vendor.id} phone={vendor.contact_phone} />
-        </div>
       )}
 
       {showInquiry && <InquiryForm vendor={vendor} onDone={() => setShowInquiry(false)} />}

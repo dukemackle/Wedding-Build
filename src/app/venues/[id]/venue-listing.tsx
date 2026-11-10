@@ -37,7 +37,7 @@ import { BookingFactsCard } from "@/components/booking-facts-card";
 import {
   ContactPanel,
   IncludedChecklist,
-  ListingLinks,
+  SocialLinks,
   ListingSectionNav,
   SectionHeading,
   listItems,
@@ -240,22 +240,21 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             ))}
           {isUnclaimedListing(venue) && <UnclaimedNote name={venue.name} />}
           {venue.description && <p className="mt-4 text-ink/80">{venue.description}</p>}
-          <ListingLinks listingType="venue" listingId={venue.id} links={links} className="mt-5" />
           <VenueKeyFacts venue={venue} />
-          <a
-            href={directionsHref(venue)}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-4 inline-block text-sm text-brass hover:underline"
-          >
-            Get directions &rarr;
-          </a>
+          <SocialLinks listingType="venue" listingId={venue.id} links={links} className="mt-5" />
         </div>
 
         <aside id="listing-contact" className="scroll-mt-16 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="lg:sticky lg:top-16">
             <ContactPanel
-              replyTime={signedIn ? venue.reply_time : null}
+              listingType="venue"
+              listingId={venue.id}
+              website={venue.website}
+              phone={signedIn ? venue.contact_phone : null}
+              directions={{
+                href: directionsHref(venue),
+                address: [venue.address, venue.city, venue.state].filter(Boolean).join(", ") || null,
+              }}
               price={
                 (price || venue.service_level) && (
                   <>
