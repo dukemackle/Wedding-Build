@@ -5,6 +5,7 @@ import type { CardDoc } from "@/lib/save-the-date/types";
 import { createClient } from "@/lib/supabase/server";
 import type { SaveTheDateRow, Venue, Wedding } from "@/lib/supabase/types";
 import { canEditWedding } from "@/lib/wedding-access";
+import { suiteForCard } from "@/lib/suites";
 
 /** At most this many of the couple's photos are offered in the Photo panel. */
 const MAX_LIBRARY = 24;
@@ -45,6 +46,25 @@ export async function loadCards() {
     return doc ? [{ id: r.id, name: r.name, chosen: r.chosen, updatedAt: r.updated_at, imageVersion: r.image_version, doc }] : [];
   });
   return { supabase, user, wedding, cards, canEdit } as const;
+}
+
+/**
+ * The save the date the other pieces of their suite match: the one they
+ * marked as theirs, else the latest they touched. Null when they haven't
+ * made one, or it isn't part of a suite (src/lib/suites.ts).
+ */
+export async function suiteCard(supabase: Db, weddingId: string): Promise<{ id: string; doc: CardDoc } | null> {
+  const { data: rows } = await supabase
+    .from("save_the_dates")
+    .select("id, doc, chosen")
+    .eq("wedding_id", weddingId)
+    .order("chosen", { ascending: false })
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .returns<Pick<SaveTheDateRow, "id" | "doc" | "chosen">[]>();
+  const row = rows?.[0];
+  const doc = row ? parseCardDoc(row.doc) : null;
+  return row && doc && suiteForCard(doc.template) ? { id: row.id, doc } : null;
 }
 
 /** The couple's photos, offered in the studio's Photo panel. */
