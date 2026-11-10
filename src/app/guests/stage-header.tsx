@@ -347,9 +347,9 @@ function ReplyStage({
                 <>
                   {" "}
                   {withEmail === waiting ? "All" : withEmail} of them have an email address, so you can
-                  nudge them from{" "}
-                  <a href="#invitations" className="font-medium text-[#9a6b00] hover:underline">
-                    Invitations &amp; RSVPs
+                  nudge them with{" "}
+                  <a href="#nudge" className="font-medium text-[#9a6b00] hover:underline">
+                    Nudge who hasn&rsquo;t replied
                   </a>
                   .
                 </>

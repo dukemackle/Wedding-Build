@@ -19,6 +19,7 @@ import {
   type SheetTab,
 } from "@/lib/google-sheets";
 import { confirmSheetWrite, linkSheet, unlinkSheet } from "@/lib/sheet-link-actions";
+import { timeAgo } from "@/lib/time-ago";
 import { DrivePickerButton, type PickedDoc } from "@/components/drive-picker";
 
 export type SyncActionResult = SheetSyncResult;
@@ -31,17 +32,6 @@ const STAGE_LABEL: Record<Stage, string> = {
   applying: "Updating the site…",
   writing: "Writing to your sheet…",
 };
-
-function timeAgo(iso: string) {
-  const seconds = Math.max(0, (Date.now() - Date.parse(iso)) / 1000);
-  if (seconds < 60) return "just now";
-  const minutes = Math.round(seconds / 60);
-  if (minutes < 60) return `${minutes} min ago`;
-  const hours = Math.round(minutes / 60);
-  if (hours < 24) return `${hours} hr${hours === 1 ? "" : "s"} ago`;
-  const days = Math.round(hours / 24);
-  return `${days} day${days === 1 ? "" : "s"} ago`;
-}
 
 function plural(count: number, one: string, many = `${one}s`) {
   return `${count} ${count === 1 ? one : many}`;
