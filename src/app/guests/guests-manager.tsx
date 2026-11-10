@@ -39,7 +39,6 @@ import {
 import { draftThankYouNote, saveThankYouNote } from "./thank-you-actions";
 import { SpreadsheetLink } from "@/components/spreadsheet-link";
 import { GuestImportFileTab } from "./guest-import-panel";
-import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
 import { mealChoices } from "@/lib/meal-options";
 import { personalRsvpPath } from "@/lib/invite-codes";
@@ -48,7 +47,8 @@ import { PlusIcon } from "@/components/page-header";
 import { CheckIcon, MailIcon, PhoneIcon } from "@/components/icons";
 import { isUnsorted, looksUnfinished } from "@/lib/guest-tidy";
 import { QuickSort, type SortPick } from "./quick-sort";
-import { TidyIcons, TidyList, useTidyHidden, type TidyItem } from "./tidy-list";
+import { useTidyHidden } from "./tidy-hidden";
+import { ADD_GUEST_EVENT } from "./guest-actions-panel";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 
@@ -1606,6 +1606,7 @@ export function GuestsManager({
   const [sort, setSort] = useState<GuestSort>("name");
   const [quickSortOpen, setQuickSortOpen] = useState(false);
   const [unfinishedOnly, setUnfinishedOnly] = useState(false);
+  const [unsortedOnly, setUnsortedOnly] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   // What this session has set but the server hasn't sent back yet. A sorting
   // pass is a click a second; waiting for a round trip before the dot changes
@@ -1705,7 +1706,6 @@ export function GuestsManager({
   const duplicateCount = guestList.filter(isDuplicate).length;
   const missingAddressCount = guestList.filter((g) => !g.address_line1).length;
 
-  const unassignedSideCount = guestList.filter((g) => !g.side).length;
   // People, not rows: a plus-one is a seat on that side too. Declined guests
   // drop out so the split matches who's actually coming.
   const sideHeadcounts: Record<GuestSide | "none", number> = { a: 0, b: 0, both: 0, none: 0 };
@@ -1733,20 +1733,6 @@ export function GuestsManager({
 
   const thankedCount = guests.filter((g) => g.thanked).length;
 
-  const confirmedGuests = guests.filter((g) => g.status === "confirmed");
-  const mealCounts = new Map<string, number>();
-  for (const guest of confirmedGuests) {
-    const key = guest.meal || "Not selected";
-    mealCounts.set(key, (mealCounts.get(key) ?? 0) + 1);
-    // A +1 has their own meal (0165); one not chosen yet still counts, so
-    // the tally adds up to the headcount the caterer gets.
-    if (guest.plus_one) {
-      const plusOneKey = guest.plus_one_meal || "Not selected";
-      mealCounts.set(plusOneKey, (mealCounts.get(plusOneKey) ?? 0) + 1);
-    }
-  }
-  const mealBreakdown = Array.from(mealCounts.entries()).sort((a, b) => b[1] - a[1]);
-
   const activeFilterCount = [filter, priorityFilter, sideFilter, typeFilter].filter(
     (f) => f !== "all",
   ).length;
@@ -1761,6 +1747,7 @@ export function GuestsManager({
       (!missingAddressOnly || !g.address_line1) &&
       (!duplicatesOnly || isDuplicate(g)) &&
       (!unfinishedOnly || looksUnfinished(g.name)) &&
+      (!unsortedOnly || isUnsorted(g)) &&
       g.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
@@ -1791,72 +1778,7 @@ export function GuestsManager({
   // has arrived is a number with nothing to say yet.
   const showThanked = thankedCount > 0 || guests.some((g) => g.gift_description);
 
-  const quickChipClass = (active: boolean) =>
-    `rounded-full border px-3 py-1 text-xs transition-colors ${
-      active
-        ? "border-forest bg-forest text-parchment"
-        : "border-hairline bg-parchment text-ink/80 hover:border-forest"
-    }`;
-
   const groups = groupGuests(filteredGuests, sort, theme);
-
-  /** A tidy-card button narrows the list to the guests it's about. */
-  function showOnly(apply: () => void) {
-    setFilter("all");
-    setPriorityFilter("all");
-    setSideFilter("all");
-    setTypeFilter("all");
-    setMissingAddressOnly(false);
-    setDuplicatesOnly(false);
-    setUnfinishedOnly(false);
-    setSearch("");
-    apply();
-    listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  const duplicateNames = [...new Set(guestList.filter(isDuplicate).map((g) => g.name.trim()))];
-  const quoted = (names: string[], max: number) =>
-    names
-      .slice(0, max)
-      .map((n) => `\u201c${n}\u201d`)
-      .join(", ") + (names.length > max ? ` and ${names.length - max} more` : "");
-  const tidyItems: TidyItem[] = [
-    {
-      key: "unsorted",
-      count: unsortedCount,
-      title: `${unsortedCount} ${unsortedCount === 1 ? "guest has" : "guests have"} no side or group`,
-      detail: "One at a time, with number keys or big buttons. Wren guesses from households and shared last names.",
-      action: { kind: "button", label: "Start quick sort", onClick: () => setQuickSortOpen(true), primary: true },
-      icon: TidyIcons.sort,
-    },
-    {
-      key: "duplicates",
-      count: duplicateCount,
-      title: `${duplicateCount} possible duplicates`,
-      detail: `${quoted(duplicateNames, 2)} ${duplicateNames.length === 1 ? "appears" : "appear"} more than once. Keep the best entry and remove the rest.`,
-      action: { kind: "button", label: "Review them", onClick: () => showOnly(() => setDuplicatesOnly(true)) },
-      icon: TidyIcons.duplicate,
-    },
-    {
-      key: "address",
-      count: missingAddressCount,
-      title: `${missingAddressCount} missing an address`,
-      detail: "Send one link; guests fill in their own and you approve each one.",
-      action: { kind: "link", label: "Get the link", href: "#invitations" },
-      icon: TidyIcons.address,
-    },
-    {
-      key: "names",
-      count: unfinishedGuests.length,
-      title: `${unfinishedGuests.length} ${unfinishedGuests.length === 1 ? "name looks" : "names look"} unfinished`,
-      detail: `${quoted(unfinishedGuests.map((g) => g.name.trim()), 3)}. Give them a full name before invitations go out.`,
-      action: { kind: "button", label: "Fix names", onClick: () => showOnly(() => setUnfinishedOnly(true)) },
-      icon: TidyIcons.name,
-    },
-  ];
-  const tidyTotal = unsortedCount + duplicateCount + missingAddressCount + unfinishedGuests.length;
-  const { hidden: tidyHidden, hide: hideTidy } = useTidyHidden(tidyTotal);
-  const tidyShowing = canEdit && !tidyHidden && tidyTotal > 0;
 
   const pillClass = (active: boolean) =>
     `rounded-full border px-3 py-1 text-sm transition-colors ${
@@ -1865,12 +1787,91 @@ export function GuestsManager({
         : "border-hairline bg-parchment text-ink hover:border-forest"
     }`;
 
+  /** An attention chip narrows the list to the guests it's about; again clears it. */
+  function showOnly(key: AttentionKey) {
+    const wasOn = attentionOn === key;
+    setFilter("all");
+    setPriorityFilter("all");
+    setSideFilter("all");
+    setTypeFilter("all");
+    setMissingAddressOnly(false);
+    setDuplicatesOnly(false);
+    setUnfinishedOnly(false);
+    setUnsortedOnly(false);
+    setSearch("");
+    if (wasOn) return;
+    if (key === "unsorted") setUnsortedOnly(true);
+    if (key === "address") setMissingAddressOnly(true);
+    if (key === "noreply") setFilter("pending");
+    if (key === "names") setUnfinishedOnly(true);
+    if (key === "duplicates") setDuplicatesOnly(true);
+  }
+
+  const attentionOn: AttentionKey | null = unsortedOnly
+    ? "unsorted"
+    : missingAddressOnly
+      ? "address"
+      : unfinishedOnly
+        ? "names"
+        : duplicatesOnly
+          ? "duplicates"
+          : filter === "pending"
+            ? "noreply"
+            : null;
+
+  const attention: { key: AttentionKey; count: number; label: string; hint: string; warn?: boolean }[] = [
+    {
+      key: "unsorted",
+      count: unsortedCount,
+      label: "no side or group",
+      hint: "Sides and groups feed your seating chart and budget.",
+    },
+    {
+      key: "address",
+      count: missingAddressCount,
+      label: "missing an address",
+      hint: "Collect addresses (beside the list) sends one link for guests to fill in.",
+    },
+    { key: "noreply", count: counts.pending, label: "no reply yet", hint: "Guests you haven't heard back from." },
+    {
+      key: "names",
+      count: unfinishedGuests.length,
+      label: unfinishedGuests.length === 1 ? "unfinished name" : "unfinished names",
+      hint: "Give them a full name before invitations go out.",
+    },
+    {
+      key: "duplicates",
+      count: duplicateCount,
+      label: "possible duplicates",
+      hint: "The same name more than once. Keep the best entry and remove the rest.",
+      warn: true,
+    },
+  ];
+  const attentionOpen = attention.filter((a) => a.count > 0);
+  const tidyTotal = unsortedCount + duplicateCount + missingAddressCount + unfinishedGuests.length;
+  const { hidden: tidyHidden, hide: hideTidy } = useTidyHidden(tidyTotal);
+  // Viewers see the chips (they're filters) but not quick sort or Hide.
+  const attentionShowing = attentionOpen.length > 0 && !(canEdit && tidyHidden);
+  // Gold is the one action that matters most; while there's sorting to do
+  // that's quick sort, so Add guest goes navy.
+  const quickSortGold = canEdit && attentionShowing && unsortedCount > 0;
+
+  // The phone's bottom bar has the Add guest button; it lands here.
+  useEffect(() => {
+    const open = () => {
+      setShowAddForm(true);
+      setShowImportForm(false);
+      listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    window.addEventListener(ADD_GUEST_EVENT, open);
+    return () => window.removeEventListener(ADD_GUEST_EVENT, open);
+  }, []);
+
   return (
     <MealsContext.Provider value={mealChoices(mealOptions)}>
     <KeepApartContext.Provider value={canEdit ? { pairs: keepApart, guests } : null}>
       <SiteSlugContext.Provider value={publicSlug}>
     <div className="flex w-full min-w-0 flex-col gap-6">
-    {tidyShowing && <TidyList items={tidyItems} onHide={hideTidy} />}
     {quickSortOpen && (
       <QuickSort
         guests={guestList}
@@ -1881,218 +1882,198 @@ export function GuestsManager({
     )}
     <div
       ref={listRef}
-      className="flex w-full min-w-0 scroll-mt-4 flex-col rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6"
+      className="flex w-full min-w-0 scroll-mt-4 flex-col rounded-lg border border-hairline bg-card p-3 shadow-sm sm:p-5"
     >
-      {/* The headline numbers live in the stage header above the page;
-          thank-yous are the one count that only matters here. */}
-      {showThanked && (
-        <p className="border-b border-hairline pb-3 text-xs text-ink/60">
-          <span className="font-mono-numbers text-forest">{thankedCount}</span>/{guests.length} thanked
-        </p>
-      )}
-
-      <div className="flex flex-wrap items-center justify-between gap-2 py-3">
-        <SideColorKey
-          theme={theme}
-          current={theme.colors}
-          headcounts={sideHeadcounts}
-          onPicked={(colors) => setPickedColors(colors)}
-        />
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => {
-              setShowAddForm((v) => !v);
-              setShowImportForm(false);
-            }}
-            // Gold is the one action that matters most; while there's
-            // tidying to do that's quick sort, so Add guest goes navy.
-            className={
-              showAddForm
-                ? "btn-secondary"
-                : tidyShowing
-                  ? "inline-flex min-h-11 items-center gap-2 rounded-full bg-forest px-5 font-semibold text-parchment transition-colors hover:bg-forest/90"
-                  : "btn-primary"
-            }
-          >
-            {showAddForm ? "Close" : <><PlusIcon /> Add guest</>}
-          </button>
-          <button
-            onClick={() => {
-              setShowImportForm((v) => !v);
-              setShowAddForm(false);
-            }}
-            className="btn-secondary"
-          >
-            {showImportForm ? "Close" : "Import"}
-          </button>
-          {guests.length > 0 && (
-            <details className="relative">
-              <summary className="btn-secondary cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                Export <span aria-hidden="true">&#9662;</span>
-              </summary>
-              <div className="absolute right-0 z-20 mt-2 flex w-44 flex-col rounded-lg border border-hairline bg-card p-1 shadow-lg">
-                <button
-                  type="button"
-                  onClick={() => downloadGuestsXlsx(guests)}
-                  className="rounded-md px-3 py-2 text-left text-sm text-forest hover:bg-parchment"
-                >
-                  Excel (.xlsx)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => downloadGuestsCsv(guests)}
-                  className="rounded-md px-3 py-2 text-left text-sm text-forest hover:bg-parchment"
-                >
-                  CSV
-                </button>
-              </div>
-            </details>
+      {/* What needs doing, as filters: one row where the Tidy card and the
+          "Show" chips used to say the same things twice. */}
+      {attentionShowing && (
+        <div className="-mx-3 flex items-center gap-2 overflow-x-auto border-b border-hairline px-3 pb-3 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+          <span className="hidden shrink-0 text-xs font-semibold text-forest sm:inline">Needs attention</span>
+          {quickSortGold && (
+            <button
+              type="button"
+              onClick={() => setQuickSortOpen(true)}
+              title="One guest at a time, with number keys or big buttons. Wren guesses from households and shared last names."
+              className="order-first shrink-0 whitespace-nowrap rounded-full bg-[#FFD301] px-4 py-1.5 text-[13px] font-semibold text-forest transition-colors hover:bg-[#FFF12F] sm:order-last sm:ml-auto"
+            >
+              Sort them one by one
+            </button>
+          )}
+          {attentionOpen.map((a) => {
+            const on = attentionOn === a.key;
+            return (
+              <button
+                key={a.key}
+                type="button"
+                aria-pressed={on}
+                title={a.hint}
+                onClick={() => showOnly(a.key)}
+                className={`shrink-0 whitespace-nowrap rounded-full border px-3 py-1 text-[13px] transition-colors ${
+                  on
+                    ? a.warn
+                      ? "border-red-800 bg-red-800 text-white"
+                      : "border-forest bg-forest text-parchment"
+                    : a.warn
+                      ? "border-red-200 bg-red-50 text-red-800 hover:border-red-800"
+                      : "border-hairline bg-parchment text-ink hover:border-forest"
+                }`}
+              >
+                <span className="mr-1 font-mono-numbers">{a.count}</span>
+                {a.label}
+              </button>
+            );
+          })}
+          {canEdit && (
+            <button
+              type="button"
+              onClick={hideTidy}
+              className={`hidden shrink-0 px-1 text-xs text-ink/45 hover:text-forest sm:inline ${quickSortGold ? "sm:order-last" : "sm:ml-auto"}`}
+            >
+              Hide
+            </button>
           )}
         </div>
-      </div>
-
-      {spreadsheetUrl && !showImportForm && (
-        <div className="mb-3 flex justify-end">
-          <SpreadsheetLink url={spreadsheetUrl} />
-        </div>
       )}
 
-      {showAddForm && <AddGuestForm theme={theme} onDone={() => setShowAddForm(false)} />}
-      {showImportForm && <ImportGuestsForm onDone={() => setShowImportForm(false)} />}
-
-      {confirmedGuests.length > 0 && (
-        <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-hairline bg-parchment px-3 py-2 text-xs text-ink/70">
-          <span className="uppercase tracking-[0.15em] text-ink/40">Meals</span>
-          {mealBreakdown.map(([meal, count]) => (
-            <span key={meal}>
-              <span className="font-mono-numbers text-forest">{count}</span>{" "}
-              {meal === "Not selected" ? <span className="text-ink/50">Not selected</span> : meal}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+      <div className="relative flex items-center gap-2 py-3">
         <div className="min-w-0 flex-1">
-          <SearchBox value={search} onChange={setSearch} placeholder="Search guests by name..." />
+          <SearchBox value={search} onChange={setSearch} placeholder="Search guests by name..." className="min-h-11 max-w-none" />
         </div>
-        <label className="flex shrink-0 items-center gap-2 text-xs text-ink/60">
-          Sort
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as GuestSort)}
-            className="rounded-md border border-hairline bg-parchment px-2 py-1.5 text-sm text-ink outline-none focus:border-forest"
-          >
-            {(Object.keys(GUEST_SORT_LABELS) as GuestSort[]).map((option) => (
-              <option key={option} value={option}>
-                {GUEST_SORT_LABELS[option]}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      <div className="mt-2 flex flex-wrap items-center gap-2">
-        <span className="font-mono-numbers text-[11px] uppercase tracking-[0.15em] text-ink/40">
-          Show
-        </span>
-        <button
-          type="button"
-          onClick={() => setFilter((f) => (f === "pending" ? "all" : "pending"))}
-          className={quickChipClass(filter === "pending")}
+        <ToolbarMenu
+          label="Filter & sort"
+          icon={
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 4h12M4.5 8h7M7 12h2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          }
+          badge={activeFilterCount + (sort !== "name" ? 1 : 0)}
+          wide
         >
-          No reply ({counts.pending})
-        </button>
-        <button
-          type="button"
-          onClick={() => setMissingAddressOnly((v) => !v)}
-          className={quickChipClass(missingAddressOnly)}
-        >
-          Missing address ({missingAddressCount})
-        </button>
-        <button
-          type="button"
-          onClick={() => setSideFilter((f) => (f === "none" ? "all" : "none"))}
-          className={quickChipClass(sideFilter === "none")}
-        >
-          No side ({unassignedSideCount})
-        </button>
-        {duplicateCount > 0 && (
-          <button
-            type="button"
-            onClick={() => setDuplicatesOnly((v) => !v)}
-            className={`${quickChipClass(duplicatesOnly)} ${duplicatesOnly ? "" : "border-red-200 text-red-700"}`}
-          >
-            Possible duplicates ({duplicateCount})
-          </button>
-        )}
-        {unfinishedGuests.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setUnfinishedOnly((v) => !v)}
-            className={quickChipClass(unfinishedOnly)}
-          >
-            Unfinished names ({unfinishedGuests.length})
-          </button>
-        )}
-      </div>
-
-      <div className="mt-2">
-        <FilterDisclosure activeCount={activeFilterCount}>
-          <div className="flex flex-wrap gap-2">
+          <FilterGroup title="Side">
             {(["all", ...GUEST_SIDES, "none"] as const).map((side) => (
-              <button
-                key={side}
-                onClick={() => setSideFilter(side)}
-                className={pillClass(sideFilter === side)}
-              >
+              <button key={side} type="button" onClick={() => setSideFilter(side)} className={pillClass(sideFilter === side)}>
                 {side === "all" ? "All sides" : side === "none" ? "No side set" : theme.labels[side]}
               </button>
             ))}
-          </div>
-
-          <div className="flex flex-wrap gap-2">
+          </FilterGroup>
+          <FilterGroup title="Group">
             {(["all", ...GUEST_TYPES, "none"] as const).map((type) => (
-              <button
-                key={type}
-                onClick={() => setTypeFilter(type)}
-                className={pillClass(typeFilter === type)}
-              >
-                {type === "all"
-                  ? "Family & friends"
-                  : type === "none"
-                    ? "Not sorted yet"
-                    : GUEST_TYPE_LABELS[type]}
+              <button key={type} type="button" onClick={() => setTypeFilter(type)} className={pillClass(typeFilter === type)}>
+                {type === "all" ? "Family & friends" : type === "none" ? "Not sorted yet" : GUEST_TYPE_LABELS[type]}
               </button>
             ))}
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {(["all", ...PRIORITIES] as const).map((priority) => (
-              <button
-                key={priority}
-                onClick={() => setPriorityFilter(priority)}
-                className={pillClass(priorityFilter === priority)}
-              >
-                {priority === "all" ? "All priorities" : PRIORITY_LABELS[priority]} (
-                {priorityCounts[priority]})
-              </button>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-2">
+          </FilterGroup>
+          <FilterGroup title="RSVP">
             {(["all", ...STATUSES] as const).map((status) => (
-              <button
-                key={status}
-                onClick={() => setFilter(status)}
-                className={pillClass(filter === status)}
-              >
+              <button key={status} type="button" onClick={() => setFilter(status)} className={pillClass(filter === status)}>
                 {status === "all" ? "All" : STATUS_LABELS[status]} ({counts[status]})
               </button>
             ))}
+          </FilterGroup>
+          <FilterGroup title="Priority">
+            {(["all", ...PRIORITIES] as const).map((priority) => (
+              <button key={priority} type="button" onClick={() => setPriorityFilter(priority)} className={pillClass(priorityFilter === priority)}>
+                {priority === "all" ? "All priorities" : PRIORITY_LABELS[priority]} ({priorityCounts[priority]})
+              </button>
+            ))}
+          </FilterGroup>
+          <FilterGroup title="Only show">
+            <button type="button" onClick={() => setMissingAddressOnly((v) => !v)} className={pillClass(missingAddressOnly)}>
+              Missing address ({missingAddressCount})
+            </button>
+            <button type="button" onClick={() => setUnsortedOnly((v) => !v)} className={pillClass(unsortedOnly)}>
+              No side or group ({unsortedCount})
+            </button>
+            <button type="button" onClick={() => setDuplicatesOnly((v) => !v)} className={pillClass(duplicatesOnly)}>
+              Possible duplicates ({duplicateCount})
+            </button>
+            <button type="button" onClick={() => setUnfinishedOnly((v) => !v)} className={pillClass(unfinishedOnly)}>
+              Unfinished names ({unfinishedGuests.length})
+            </button>
+          </FilterGroup>
+          <label className="flex flex-col gap-1.5">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/45">Sort</span>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as GuestSort)}
+              className="min-h-10 rounded-md border border-hairline bg-parchment px-2 text-sm text-ink outline-none focus:border-forest"
+            >
+              {(Object.keys(GUEST_SORT_LABELS) as GuestSort[]).map((option) => (
+                <option key={option} value={option}>
+                  {GUEST_SORT_LABELS[option]}
+                </option>
+              ))}
+            </select>
+          </label>
+        </ToolbarMenu>
+        <ToolbarMenu label="More" chevron>
+          <div className="flex flex-col">
+            <MenuItem
+              onClick={() => {
+                setShowImportForm((v) => !v);
+                setShowAddForm(false);
+              }}
+            >
+              {showImportForm ? "Close import" : "Import from a spreadsheet"}
+            </MenuItem>
+            {guests.length > 0 && (
+              <>
+                <MenuItem onClick={() => downloadGuestsXlsx(guests)}>Export to Excel (.xlsx)</MenuItem>
+                <MenuItem onClick={() => downloadGuestsCsv(guests)}>Export to CSV</MenuItem>
+              </>
+            )}
+            {spreadsheetUrl && (
+              <div className="px-3 py-2">
+                <SpreadsheetLink url={spreadsheetUrl} />
+              </div>
+            )}
           </div>
-        </FilterDisclosure>
+          <div className="mt-1 border-t border-hairline px-3 pb-1 pt-3">
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/45">Side colours</p>
+            <SideColorKey
+              theme={theme}
+              current={theme.colors}
+              headcounts={sideHeadcounts}
+              onPicked={(colors) => setPickedColors(colors)}
+            />
+          </div>
+          {showThanked && (
+            <p className="mt-2 border-t border-hairline px-3 pt-2 text-xs text-ink/60">
+              <span className="font-mono-numbers text-forest">{thankedCount}</span> of {guests.length} thanked
+            </p>
+          )}
+        </ToolbarMenu>
+        {/* Phones use the bottom bar's Add guest. A wrapper hides this one:
+            btn-primary sets its own display, which beats max-sm:hidden. */}
+        <span className="shrink-0 max-sm:hidden">
+        <button
+          type="button"
+          onClick={() => {
+            setShowAddForm((v) => !v);
+            setShowImportForm(false);
+          }}
+          className={`${
+            showAddForm
+              ? "btn-secondary"
+              : quickSortGold
+                ? "inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-forest px-5 font-semibold text-parchment transition-colors hover:bg-forest/90"
+                : "btn-primary shrink-0"
+          }`}
+        >
+          {showAddForm ? "Close" : <><PlusIcon /> Add guest</>}
+        </button>
+        </span>
       </div>
+
+      {showAddForm && (
+        <>
+          <button type="button" onClick={() => setShowAddForm(false)} className="mb-2 self-end text-xs text-ink/55 hover:text-forest sm:hidden">
+            Close
+          </button>
+          <AddGuestForm theme={theme} onDone={() => setShowAddForm(false)} />
+        </>
+      )}
+      {showImportForm && <ImportGuestsForm onDone={() => setShowImportForm(false)} />}
 
       {filteredGuests.length === 0 ? (
         guests.length === 0 ? (
@@ -2216,5 +2197,91 @@ export function GuestsManager({
       </SiteSlugContext.Provider>
     </KeepApartContext.Provider>
     </MealsContext.Provider>
+  );
+}
+
+type AttentionKey = "unsorted" | "address" | "noreply" | "names" | "duplicates";
+
+/**
+ * A toolbar button that opens a panel under it: every filter and the sort,
+ * or the list's odds and ends (import, export, side colours). Closes on a
+ * click outside or Escape.
+ */
+function ToolbarMenu({
+  label,
+  icon,
+  badge = 0,
+  chevron = false,
+  wide = false,
+  children,
+}: {
+  label: string;
+  icon?: ReactNode;
+  badge?: number;
+  chevron?: boolean;
+  wide?: boolean;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="shrink-0 sm:relative">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-label={label}
+        onClick={() => setOpen((v) => !v)}
+        className={`inline-flex min-h-11 items-center gap-1.5 rounded-md border px-3 text-sm font-medium transition-colors ${
+          open ? "border-forest bg-parchment text-forest" : "border-hairline bg-card text-forest hover:border-forest"
+        }`}
+      >
+        {icon}
+        <span className={icon ? "max-sm:hidden" : ""}>{label}</span>
+        {badge > 0 && (
+          <span className="rounded-full bg-[#2243B6] px-1.5 font-mono-numbers text-[11px] leading-[17px] text-white">{badge}</span>
+        )}
+        {chevron && <span aria-hidden="true" className="text-[10px]">&#9662;</span>}
+      </button>
+      {open && (
+        <div
+          className={`absolute left-0 right-0 top-full z-30 mt-1 rounded-lg border border-hairline bg-card p-2 shadow-lg sm:left-auto sm:right-0 ${
+            wide ? "flex flex-col gap-4 p-4 sm:w-[30rem]" : "sm:w-72"
+          }`}
+        >
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/45">{title}</span>
+      <div className="flex flex-wrap gap-1.5">{children}</div>
+    </div>
+  );
+}
+
+function MenuItem({ onClick, children }: { onClick: () => void; children: ReactNode }) {
+  return (
+    <button type="button" onClick={onClick} className="rounded-md px-3 py-2 text-left text-sm text-forest hover:bg-parchment">
+      {children}
+    </button>
   );
 }

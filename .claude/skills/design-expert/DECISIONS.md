@@ -11,6 +11,18 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-10:** Guests page layout "A: one list, everything else one click
+  away", approved from a clickable mockup
+  (https://claude.ai/artifact/1LuMZ4kQaweut9Q9NhT3VX). Sheet sync, per-event
+  headcounts and meals fold into one status line in the header; the Tidy card
+  and the "Show" chips merge into one "Needs attention" chip row (quick sort
+  gold at its end); the toolbar is Search · Filter & sort · More · Add guest;
+  Invitations and "From your guests" are two tabs of one sticky side panel
+  whose rows open one at a time. Phone: list first, a bottom bar (Add guest,
+  Invites) opens the panel as a bottom sheet. Rejected alternatives: page-wide
+  tabs (loses list + RSVPs side by side) and a stage-dependent page (things
+  move around). Same day: the stage header's "What it means" folds to one
+  tappable line on phones (desktop unchanged).
 - **2026-11-10:** Templates become **matching suites** (direction A): about
   eight named suites, each a save the date, an invitation and a guest site
   sharing colourways, fonts and art, plus "Match my save the date" on the
