@@ -58,6 +58,8 @@ import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type
 import { STALE_DESIGN } from "@/lib/site-designs";
 import { siteDesignSchema } from "@/lib/site-design-schema";
 import { BirdCheer } from "@/components/bird-cheer";
+import { AnimatedWrenBird } from "@/components/animated-wren-bird";
+import { useAssistant } from "@/components/assistant-context";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
 import { DESIGNS_LIST_HREF, keepView, readView, rememberDesign } from "./resume";
 import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type SectionInfo } from "./editor-tabs";
@@ -1484,6 +1486,23 @@ function ColorRow({
   );
 }
 
+/** Wren, docked in the preview's zoom bar so the floating bird stays off the controls. */
+function WrenDockButton() {
+  const { open, setOpen } = useAssistant();
+  return (
+    <button
+      type="button"
+      onClick={() => setOpen(!open)}
+      aria-label="Ask Wren, your wedding assistant"
+      title="Ask Wren"
+      className="flex h-7 items-center gap-1.5 rounded-full border border-wren/60 bg-card pl-1.5 pr-2.5 text-xs font-semibold text-ink hover:bg-wren-soft"
+    >
+      <AnimatedWrenBird className="h-4 w-4" />
+      Ask Wren
+    </button>
+  );
+}
+
 function PreviewStage({
   device,
   fill,
@@ -1694,6 +1713,8 @@ function PreviewStage({
             >
               <FullscreenIcon />
             </button>
+            <span className="h-4 w-px bg-hairline" aria-hidden="true" />
+            <WrenDockButton />
           </div>
         )}
       </div>
