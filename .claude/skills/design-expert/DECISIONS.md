@@ -21,7 +21,8 @@ They're summarised here only by reference; CLAUDE.md is the source.
   whose rows open one at a time. Phone: list first, a bottom bar (Add guest,
   Invites) opens the panel as a bottom sheet. Rejected alternatives: page-wide
   tabs (loses list + RSVPs side by side) and a stage-dependent page (things
-  move around).
+  move around). Same day: the stage header's "What it means" folds to one
+  tappable line on phones (desktop unchanged).
 - **2026-11-09:** "Compared with the <area>" card on venue and vendor
   listings, approved from 375/1440 screenshots: count of the same style or
   category in the metro (else state), capacity and starting price against

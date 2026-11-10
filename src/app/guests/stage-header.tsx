@@ -148,12 +148,29 @@ export function StageHeader({
   );
 }
 
+/**
+ * Desktop: a column beside the numbers. Phone: folded to one tappable line,
+ * so the guest list isn't a screen below the header (owner, 2026-11-10).
+ * Rendered twice rather than forcing a <details> open on desktop; the
+ * hidden copy is display:none, so it's out of the accessibility tree.
+ */
 function Aside({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-3 border-t border-hairline pt-4 lg:w-80 lg:shrink-0 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-      <p className="text-[11px] uppercase tracking-[0.1em] text-ink/55">What it means</p>
-      {children}
-    </div>
+    <>
+      <details className="group border-t border-hairline pt-3 lg:hidden">
+        <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between text-[11px] uppercase tracking-[0.1em] text-ink/55 [&::-webkit-details-marker]:hidden">
+          What it means
+          <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4 transition-transform group-open:rotate-180">
+            <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </summary>
+        <div className="flex flex-col gap-3 pb-1 pt-2">{children}</div>
+      </details>
+      <div className="hidden flex-col gap-3 lg:flex lg:w-80 lg:shrink-0 lg:border-l lg:border-hairline lg:pl-8">
+        <p className="text-[11px] uppercase tracking-[0.1em] text-ink/55">What it means</p>
+        {children}
+      </div>
+    </>
   );
 }
 

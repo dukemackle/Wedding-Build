@@ -2043,13 +2043,16 @@ export function GuestsManager({
             </p>
           )}
         </ToolbarMenu>
+        {/* Phones use the bottom bar's Add guest. A wrapper hides this one:
+            btn-primary sets its own display, which beats max-sm:hidden. */}
+        <span className="shrink-0 max-sm:hidden">
         <button
           type="button"
           onClick={() => {
             setShowAddForm((v) => !v);
             setShowImportForm(false);
           }}
-          className={`max-sm:hidden ${
+          className={`${
             showAddForm
               ? "btn-secondary"
               : quickSortGold
@@ -2059,6 +2062,7 @@ export function GuestsManager({
         >
           {showAddForm ? "Close" : <><PlusIcon /> Add guest</>}
         </button>
+        </span>
       </div>
 
       {showAddForm && (
