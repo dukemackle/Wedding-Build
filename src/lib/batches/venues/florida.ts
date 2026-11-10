@@ -1225,6 +1225,19 @@ Saylor's on St. Johns	726 St Johns Ave	Palatka	Florida			Ballroom					Multi-spac
 Stone Creek Golf Club	9676 SW 62nd Loop	Ocala	Florida			Country Club & Golf					Terry-Doss designed golf course with a clubhouse that hosts weddings and banquets with an on-site coordinator.		352-854-1272	https://www.stonecreekgolfocala.com/wedding-and-banquets-at-stone-creek
 Ocala Golf Club	3130 E Silver Springs Blvd	Ocala	Florida			Country Club & Golf					Historic golf course with a renovated banquet hall overlooking the fairways, hosting weddings and banquets.		352-401-6917	https://www.ocalagolfclub.com/banquets/`,
   },
+  {
+    name: "Miami depth 13: Coral Gables, Redland, Kendall, Homestead and the Keys",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Lovely Barn	13981 SW 232nd St	Miami	Florida			Barn & Farm	Indoor & Outdoor	170			Rustic barn venue in the Redland farm area south of Miami taking ceremonies and receptions from 65 to 170 guests.	info@lovelybarn.com	(305) 834-5169	https://www.lovelybarn.com/
+The Biltmore Hotel Coral Gables	1200 Anastasia Ave	Coral Gables	Florida			Hotel & Resort	Indoor & Outdoor				Historic Coral Gables hotel whose wedding page lists a back lawn, courtyard, terrace, golf fountain and several ballrooms.		(305) 445-1926	https://www.biltmorehotel.com/weddings
+The Barn 305	15200 SW 272nd St	Homestead	Florida			Barn & Farm	Indoor & Outdoor	400	14700	Package	Ten-acre estate with a rustic barn, waterfalls, gardens and resident horses and carriage, sold as all-inclusive wedding packages.	info@thebarn305.com	(305) 326-3450	https://www.thebarn305.com/
+The Brick Room	18900 SW 106th Ave Suite 207	Cutler Bay	Florida			Industrial Loft & Warehouse	Indoor				Industrial-style event space in Cutler Bay hosting small ceremonies through full receptions, with optional catering, planning and decor.	events@thebrickroommiami.com	(305) 563-3163	https://thebrickroommiami.com/
+Event Center Miami	10549 SW 109th Ct	Miami	Florida			Ballroom	Indoor	100	1199	Package	Climate-controlled Kendall showroom of 1,700 square feet for intimate weddings, seating 60 or holding 100 standing.	contact@eventcentermiami.com	(305) 481-9460	https://eventcentermiami.com/
+Miami Elks Venue	10301 SW 72nd St	Miami	Florida			Ballroom	Indoor & Outdoor	200	500	Rental	Lodge with a ballroom, banquet suites and an outdoor patio and pool deck, seating around 200 for weddings.		(305) 270-8283	https://www.miamielksvenue.com/
+Ring a Bell Celebrations		Miami	Florida			Barn & Farm	Indoor & Outdoor	200			Private tropical waterfront farm with a tiki hut, lawns, an enclosed indoor hall and overnight suites for the wedding party.		(786) 673-9595	https://www.ringabellcelebrations.com/
+Gold Coast Railroad Museum	12450 SW 152nd St	Miami	Florida			Museum, Gallery & Rooftop	Indoor & Outdoor				Rail museum with historic train cars that takes evening wedding bookings, priced case by case.	events@gcrm.org	(305) 253-0063	https://goldcoastrailroadmuseum.org/evening-rentals
+Snooks Bayside	99470 Overseas Hwy	Key Largo	Florida			Restaurant & Brewery	Indoor & Outdoor	250			Bayside restaurant and tiki bar hosting weddings and rehearsal dinners, with a beach lawn, tiki areas and full-buyout options.	snooks@snooks.com	(305) 453-5004	https://snooks.com/weddings-and-parties/`,
+  },
 ];
 
 export default batches;
