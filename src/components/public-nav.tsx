@@ -106,9 +106,10 @@ export function SignupPrompt({
         name={name}
         intent="ask"
         next={next}
-        className="mt-4 block w-full rounded-md bg-forest px-4 py-2.5 text-center text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+        className="mt-4 block w-full rounded-md bg-forest px-4 py-3 text-center text-parchment transition-colors hover:bg-forest/90"
       >
-        {noun === "venue" ? "Request info — sign up free" : "Request a quote — sign up free"}
+        <span className="block text-base font-semibold">{noun === "venue" ? "Request info" : "Request a quote"}</span>
+        <span className="block text-xs text-parchment/75">Free account · sign up to send it</span>
       </SignupSheetButton>
       <SignupSheetButton
         name={name}

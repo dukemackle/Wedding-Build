@@ -614,3 +614,79 @@ export function GiftIcon(props: IconProps) {
     </IconBase>
   );
 }
+
+/** A small arrow out of the page, for links that open another site (was a ↗ character, which iOS draws as an emoji). */
+export function ArrowUpRightIcon(props: IconProps) {
+  return (
+    <IconBase strokeWidth={2} {...props}>
+      <path d="M7 17 17 7" />
+      <path d="M8.5 7H17v8.5" />
+    </IconBase>
+  );
+}
+
+/* Simple line glyphs for a listing's social links, drawn to match the set. */
+
+export function InstagramIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none" />
+    </IconBase>
+  );
+}
+
+export function FacebookIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M14.5 8H16V4.5h-2.2c-2.6 0-4 1.6-4 4.2V11H7.5v3.4h2.3v6.1h3.6v-6.1h2.4l.4-3.4h-2.8V9.1c0-.7.4-1.1 1.1-1.1Z" />
+    </IconBase>
+  );
+}
+
+export function PinterestIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M11 9.5c.5-1.6 3.6-1.9 4.3.2.6 1.9-.6 4.3-2.4 4.3-1 0-1.6-.7-1.4-1.6" />
+      <path d="m11.6 11-2 9" />
+    </IconBase>
+  );
+}
+
+export function TikTokIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M13.5 3.5v11a3.5 3.5 0 1 1-3.5-3.5" />
+      <path d="M13.5 3.5c.4 2.6 2.2 4.3 4.5 4.5" />
+    </IconBase>
+  );
+}
+
+export function YouTubeIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+      <path d="m10.5 9.5 4 2.5-4 2.5Z" fill="currentColor" />
+    </IconBase>
+  );
+}
+
+export function StarIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="m12 3.5 2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8Z" />
+    </IconBase>
+  );
+}
+
+/** A clock face, for "usually replies" and other timings. */
+export function ClockIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </IconBase>
+  );
+}

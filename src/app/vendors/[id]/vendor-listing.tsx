@@ -1,6 +1,19 @@
 import Link from "next/link";
 import { BookingFactsCard } from "@/components/booking-facts-card";
-import { TrackedContactLink } from "@/components/tracked-contact-link";
+import {
+  ContactPanel,
+  IncludedChecklist,
+  KeyStats,
+  REPLY_SHORT,
+  SocialLinks,
+  ListingSectionNav,
+  SectionHeading,
+  listItems,
+  listingCard as card,
+} from "@/components/listing-parts";
+import { ListingProse } from "@/components/listing-prose";
+import { ESTIMATE_GUESTS } from "@/lib/area-comparison";
+import { businessFactRows } from "@/lib/business-facts";
 import { ReportListing } from "@/components/report-listing";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Vendor, VendorFaq, Wedding } from "@/lib/supabase/types";
@@ -100,8 +113,6 @@ export async function loadVendorListing(
   };
 }
 
-const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
-
 export function VendorListing({ data }: { data: VendorListingData }) {
   const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors, comparison, preview, then } = data;
   // Cover first, no repeats.
@@ -112,6 +123,36 @@ export function VendorListing({ data }: { data: VendorListingData }) {
     ["Facebook", vendor.facebook_url],
     ["Pinterest", vendor.pinterest_url],
   ].filter((l): l is [string, string] => Boolean(l[1]));
+  const included = listItems(vendor.included);
+  const years = vendor.founded_year ? new Date().getFullYear() - vendor.founded_year : 0;
+  const stats = [
+    years > 0 && { value: String(years), label: years === 1 ? "year in business" : "years in business" },
+    vendor.weddings_per_year && { value: `~${vendor.weddings_per_year}`, label: "weddings a year" },
+    vendor.booking_lead_months != null &&
+      vendor.booking_lead_months > 0 && { value: `${vendor.booking_lead_months} mo`, label: "booked ahead" },
+    vendor.reply_time && { value: REPLY_SHORT[vendor.reply_time], label: "to reply" },
+  ].filter((s): s is { value: string; label: string } => Boolean(s));
+  const hasPolicies = businessFactRows(vendor).length > 0 || Boolean(vendor.cancellation_policy);
+  const sections = (
+    [
+      ["about", "About", Boolean(vendor.about || vendor.included || vendor.amenities.length > 0)],
+      ["included", "What's included", Boolean(vendor.included)],
+      ["policies", "Policies", hasPolicies],
+      ["compare", "Compare", Boolean(comparison && !preview)],
+      ["faq", "FAQ", faqs.length > 0],
+    ] as [string, string, boolean][]
+  )
+    .filter(([, , has]) => has)
+    .map(([id, label]): [string, string] => [id, label]);
+  // "From $165 per guest" is about $16,500 for the estimator's 100 guests.
+  const ownEstimate =
+    vendor.price_from == null
+      ? null
+      : vendor.price_unit === "guest"
+        ? { total: vendor.price_from * ESTIMATE_GUESTS, how: `At $${vendor.price_from.toLocaleString()} a guest` }
+        : vendor.price_unit === "event"
+          ? { total: vendor.price_from, how: "From its starting price" }
+          : null;
 
   const heart = (glass: boolean) =>
     !signedIn ? (
@@ -164,68 +205,68 @@ export function VendorListing({ data }: { data: VendorListingData }) {
             )
           )}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}
-          {links.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {links.map(([label, href]) => (
-                <TrackedContactLink
-                  key={label}
-                  listingType="vendor"
-                  listingId={vendor.id}
-                  kind={label === "Website" ? "website" : "social"}
-                  href={href}
-                  className="rounded-full border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
-                >
-                  {label} ↗
-                </TrackedContactLink>
-              ))}
-            </div>
-          )}
+          <KeyStats stats={stats} />
+          <SocialLinks listingType="vendor" listingId={vendor.id} links={links} className="mt-5" />
         </div>
 
         <aside id="listing-contact" className="scroll-mt-16 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="lg:sticky lg:top-16">
-            {vendor.price_from != null && (
-              <div className="mb-3 rounded-lg border border-hairline bg-card px-5 py-4 shadow-sm">
-                <p className="font-display text-2xl font-semibold text-forest">
-                  From ${vendor.price_from.toLocaleString()}
-                  {vendor.price_unit && (
-                    <span className="ml-1 font-body text-base font-normal text-ink/60">
-                      {VENDOR_PRICE_UNITS[vendor.price_unit]}
-                    </span>
-                  )}
-                </p>
-                {vendor.price_note && <p className="text-sm text-ink/60">{vendor.price_note}</p>}
-                <p className="mt-2 text-xs text-ink/50">Prices change. Confirm with the vendor before you book.</p>
-              </div>
-            )}
-            {!signedIn ? (
-              <SignupPrompt noun="vendor" name={vendor.name} next={vendorHref(vendor)} />
-            ) : wedding ? (
-              <VendorDetailClient vendor={vendor} isFavorited={isFavorited} then={then} />
-            ) : (
-              <SetupFirst name={vendor.name} href={vendorHref(vendor)} then={then} noun="vendors" />
-            )}
+            <ContactPanel
+              listingType="vendor"
+              listingId={vendor.id}
+              website={vendor.website}
+              phone={signedIn ? vendor.contact_phone : null}
+              price={
+                vendor.price_from != null && (
+                  <>
+                    <p className="font-display text-3xl font-semibold text-forest">
+                      From ${vendor.price_from.toLocaleString()}
+                      {vendor.price_unit && (
+                        <span className="ml-1.5 font-body text-base font-normal text-ink/60">
+                          {VENDOR_PRICE_UNITS[vendor.price_unit]}
+                        </span>
+                      )}
+                    </p>
+                    {vendor.price_note && <p className="mt-1 text-sm text-ink/60">{vendor.price_note}</p>}
+                    <p className="mt-2 text-xs text-ink/50">Prices change. Confirm with the vendor before you book.</p>
+                  </>
+                )
+              }
+            >
+              {!signedIn ? (
+                <SignupPrompt noun="vendor" name={vendor.name} next={vendorHref(vendor)} />
+              ) : wedding ? (
+                <VendorDetailClient vendor={vendor} isFavorited={isFavorited} then={then} />
+              ) : (
+                <SetupFirst name={vendor.name} href={vendorHref(vendor)} then={then} noun="vendors" />
+              )}
+            </ContactPanel>
           </div>
         </aside>
 
         <div className="flex min-w-0 flex-col gap-6 lg:col-start-1 lg:row-start-2">
+          <ListingSectionNav sections={sections} />
           {(vendor.about || vendor.included || vendor.amenities.length > 0) && (
-            <div className={card}>
+            <section id="about" className={card}>
               {vendor.about && (
                 <>
-                  <h2 className="font-display text-xl font-semibold text-forest">About this vendor</h2>
-                  <p className="mt-2 whitespace-pre-line text-ink/80">{vendor.about}</p>
+                  <SectionHeading eyebrow="Overview" title="About this vendor" />
+                  <ListingProse text={vendor.about} open={preview} />
                 </>
               )}
               {vendor.included && (
-                <div className={vendor.about ? "mt-6 border-t border-hairline pt-6" : ""}>
-                  <h2 className="font-display text-xl font-semibold text-forest">What&apos;s included</h2>
-                  <p className="mt-2 whitespace-pre-line text-ink/80">{vendor.included}</p>
+                <div id="included" className={`scroll-mt-24 ${vendor.about ? "mt-8 border-t border-hairline pt-8" : ""}`}>
+                  <SectionHeading eyebrow="The package" title="What's included" />
+                  {included ? (
+                    <IncludedChecklist items={included} />
+                  ) : (
+                    <p className="mt-4 max-w-prose whitespace-pre-line leading-relaxed text-ink/75">{vendor.included}</p>
+                  )}
                 </div>
               )}
               {vendor.amenities.length > 0 && (
-                <div className={vendor.about || vendor.included ? "mt-6 border-t border-hairline pt-6" : ""}>
-                  <h2 className="font-display text-xl font-semibold text-forest">Services &amp; extras</h2>
+                <div className={vendor.about || vendor.included ? "mt-8 border-t border-hairline pt-8" : ""}>
+                  <SectionHeading eyebrow="Extras" title="Services & extras" />
                   <div className="mt-3 flex flex-wrap gap-2">
                     {vendor.amenities.map((amenity) => (
                       <span
@@ -238,23 +279,23 @@ export function VendorListing({ data }: { data: VendorListingData }) {
                   </div>
                 </div>
               )}
-            </div>
+            </section>
           )}
 
           {vendor.good_to_know && (
-            <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-forest">Good to know</h2>
-              <p className="mt-2 whitespace-pre-line text-ink/80">{vendor.good_to_know}</p>
-            </div>
+            <section className={card}>
+              <SectionHeading eyebrow="Details" title="Good to know" />
+              <ListingProse text={vendor.good_to_know} open={preview} />
+            </section>
           )}
 
           <BookingFactsCard facts={vendor} />
 
-          {comparison && !preview && <AreaComparisonCard data={comparison} kind="vendor" />}
+          {comparison && !preview && <AreaComparisonCard data={comparison} kind="vendor" ownEstimate={ownEstimate} />}
 
           {faqs.length > 0 && (
-            <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-forest">Frequently asked questions</h2>
+            <section id="faq" className={card}>
+              <SectionHeading eyebrow="Questions" title="Frequently asked questions" />
               <div className="mt-2">
                 {faqs.map((faq) => (
                   <details key={faq.id} open={preview} className="group border-b border-hairline py-3 last:border-b-0">
@@ -266,14 +307,12 @@ export function VendorListing({ data }: { data: VendorListingData }) {
                   </details>
                 ))}
               </div>
-            </div>
+            </section>
           )}
 
           {similarVendors.length > 0 && !preview && (
             <div>
-              <h2 className="font-display text-xl font-semibold text-forest">
-                More {vendor.category?.toLowerCase() ?? "vendors"} nearby
-              </h2>
+              <SectionHeading eyebrow="Keep looking" title={`More ${vendor.category?.toLowerCase() ?? "vendors"} nearby`} />
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {similarVendors.map((v) => (
                   <Link

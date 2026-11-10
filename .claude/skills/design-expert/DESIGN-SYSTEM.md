@@ -106,7 +106,8 @@ layout switch in new code.
 | Loading | `PageSkeleton` + `loading.tsx` (11 routes) | Good |
 | Error page | none (`error.tsx`, `not-found.tsx` missing) | **Gap** |
 | Inline error | `border-red-300 bg-red-50 text-red-800` | Move to tokens |
-| Icons | `icons.tsx` | Add here, no icon packs |
+| Icons | `icons.tsx` | Add here, no icon packs; never a ↗ character (iOS draws it as an emoji), use `ArrowUpRightIcon` |
+| Venue / vendor listing parts | `listing-parts.tsx`: `SectionHeading` (gold eyebrow + serif title), `ListingSectionNav` (desktop jump links), `KeyStats` (large-number strip under the name), `SocialLinks` (round icon buttons), `IncludedChecklist`, `ContactPanel` (price + action box + website / phone / directions rows); `listing-prose.tsx` (lead-in sentence, ~65ch measure, "Read more") | Both listing pages; change both together |
 
 **Direction:** when a PR next touches several buttons, extract
 `src/components/button.tsx` (variants primary / secondary / quiet / danger,

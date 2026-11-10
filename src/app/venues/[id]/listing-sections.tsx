@@ -4,8 +4,8 @@ import { metresToFeet, planAreaSqFt, planCorners, planSizeLabel } from "@/lib/ve
 import { DesignHereButton, type DesignContext } from "./design-here";
 import { ConfirmedMark } from "@/components/confirmed-badge";
 import { confirmedByOwner } from "@/lib/public-listings";
-import { SERVICE_LEVEL_HINTS, SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedding-options";
-import { TrackedContactLink } from "@/components/tracked-contact-link";
+import { SERVICE_LEVELS } from "@/lib/wedding-options";
+import { KeyStats, REPLY_SHORT, SectionHeading, type KeyStat } from "@/components/listing-parts";
 
 /**
  * The parts of a venue listing that only exist once a venue has filled in its
@@ -13,54 +13,48 @@ import { TrackedContactLink } from "@/components/tracked-contact-link";
  * hasn't supplied it, so an imported listing looks exactly as it did.
  */
 
-const card = "mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm";
+const card = "scroll-mt-24 rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-8";
+
+/** The strip's short wording for the outside-vendor rule (the full one is on the claim form). */
+const VENDOR_POLICY_SHORT = {
+  any: "Any vendors",
+  preferred: "Outside OK",
+  required: "Their list only",
+} as const;
 
 /**
- * What's provided, capacity, vendor policy: the facts couples shortlist on.
- * Price isn't here -- it leads the action box beside it, and saying it twice
- * in one glance reads as a mistake.
+ * Capacity, what's provided, vendor policy and how quickly they reply, large
+ * under the name: the facts couples shortlist on. Price isn't here -- it
+ * leads the contact card beside it, and saying it twice in one glance reads
+ * as a mistake.
  */
 export function VenueKeyFacts({ venue }: { venue: Venue }) {
-  type Fact = { label: string; value: string; note: string | null; confirmed: boolean };
-  const facts: (Fact | false | null | 0 | undefined)[] = [
-    venue.service_level && {
-      label: "What's provided",
-      value: SERVICE_LEVELS[venue.service_level],
-      note: SERVICE_LEVEL_HINTS[venue.service_level],
-      confirmed: confirmedByOwner(venue, "service_level"),
+  const years = venue.founded_year ? new Date().getFullYear() - venue.founded_year : 0;
+  const stats: (KeyStat | false | null | 0 | undefined)[] = [
+    venue.capacity && {
+      value: venue.capacity.toLocaleString(),
+      label: "seated guests",
+      mark: confirmedByOwner(venue, "capacity") ? <ConfirmedMark /> : null,
     },
-    (venue.capacity || venue.capacity_standing) && {
-      label: "Guests",
-      value: [venue.capacity && `${venue.capacity} seated`, venue.capacity_standing && `${venue.capacity_standing} standing`]
-        .filter(Boolean)
-        .join(" · "),
-      note: null,
-      confirmed: confirmedByOwner(venue, "capacity", "capacity_standing"),
+    venue.capacity_standing && {
+      value: venue.capacity_standing.toLocaleString(),
+      label: "standing",
+      mark: confirmedByOwner(venue, "capacity_standing") ? <ConfirmedMark /> : null,
+    },
+    venue.service_level && {
+      value: SERVICE_LEVELS[venue.service_level],
+      label: "what's provided",
+      mark: confirmedByOwner(venue, "service_level") ? <ConfirmedMark /> : null,
     },
     venue.vendor_policy && {
-      label: "Outside vendors",
-      value: VENDOR_POLICIES[venue.vendor_policy],
-      note: null,
-      confirmed: confirmedByOwner(venue, "vendor_policy"),
+      value: VENDOR_POLICY_SHORT[venue.vendor_policy],
+      label: "outside vendors",
+      mark: confirmedByOwner(venue, "vendor_policy") ? <ConfirmedMark /> : null,
     },
+    years > 0 && { value: String(years), label: years === 1 ? "year hosting" : "years hosting" },
+    venue.reply_time && { value: REPLY_SHORT[venue.reply_time], label: "to reply" },
   ];
-  const shown = facts.filter((f): f is Fact => Boolean(f));
-
-  if (shown.length === 0) return null;
-  return (
-    <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-hairline pt-5 sm:grid-cols-3">
-      {shown.map((f) => (
-        <div key={f.label}>
-          <dt className="text-xs uppercase tracking-wide text-ink/50">{f.label}</dt>
-          <dd className="mt-0.5 font-medium text-ink">
-            {f.value}
-            {f.confirmed && <ConfirmedMark />}
-          </dd>
-          {f.note && <dd className="mt-0.5 text-xs text-ink/55">{f.note}</dd>}
-        </div>
-      ))}
-    </dl>
-  );
+  return <KeyStats stats={stats.filter((s): s is KeyStat => Boolean(s))} />;
 }
 
 /** A space's floor plan, drawn to scale and labelled in feet. */
@@ -130,8 +124,8 @@ export function VenueSpaces({
   if (spaces.length === 0) return null;
   const planBySpace = new Map(plans.map((p) => [p.space_id, p]));
   return (
-    <div className={card}>
-      <h2 className="font-display text-xl font-semibold text-forest">Event spaces</h2>
+    <section id="spaces" className={card}>
+      <SectionHeading eyebrow="The spaces" title="Event spaces" />
       {plans.length > 0 && (
         <p className="mt-1 text-sm text-ink/60">
           Floor plans at real size. Set out your tables and dance floor in the room itself.
@@ -178,7 +172,7 @@ export function VenueSpaces({
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -190,20 +184,10 @@ export function VenueGoodToKnow({ venue }: { venue: Venue }) {
     ["Wheelchair accessible", yesNo(venue.wheelchair_accessible)],
     ["Pets allowed", yesNo(venue.pets_allowed)],
   ].filter((r): r is [string, string] => Boolean(r[1]));
-  const links = [
-    ["Website", venue.website],
-    ["Instagram", venue.instagram_url],
-    ["Facebook", venue.facebook_url],
-    ["Pinterest", venue.pinterest_url],
-    ["TikTok", venue.tiktok_url],
-    ["YouTube", venue.youtube_url],
-    ["Reviews", venue.reviews_url],
-  ].filter((l): l is [string, string] => Boolean(l[1]));
-
-  if (rows.length === 0 && links.length === 0) return null;
+  if (rows.length === 0) return null;
   return (
-    <div className={card}>
-      <h2 className="font-display text-xl font-semibold text-forest">Good to know</h2>
+    <section className={card}>
+      <SectionHeading eyebrow="The venue" title="Practical details" />
       {rows.length > 0 && (
         <dl className="mt-3 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
           {rows.map(([label, value]) => (
@@ -214,22 +198,19 @@ export function VenueGoodToKnow({ venue }: { venue: Venue }) {
           ))}
         </dl>
       )}
-      {links.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {links.map(([label, href]) => (
-            <TrackedContactLink
-              key={label}
-              listingType="venue"
-              listingId={venue.id}
-              kind={label === "Website" ? "website" : "social"}
-              href={href}
-              className="rounded-full border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
-            >
-              {label} ↗
-            </TrackedContactLink>
-          ))}
-        </div>
-      )}
-    </div>
+    </section>
   );
+}
+
+/** The venue's website and social profiles, shown as buttons under its name. */
+export function venueLinks(venue: Venue): [string, string][] {
+  return [
+    ["Website", venue.website],
+    ["Instagram", venue.instagram_url],
+    ["Facebook", venue.facebook_url],
+    ["Pinterest", venue.pinterest_url],
+    ["TikTok", venue.tiktok_url],
+    ["YouTube", venue.youtube_url],
+    ["Reviews", venue.reviews_url],
+  ].filter((l): l is [string, string] => Boolean(l[1]));
 }

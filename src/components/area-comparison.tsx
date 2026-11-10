@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ESTIMATE_GUESTS, type AreaComparison } from "@/lib/area-comparison";
+import { SectionHeading, listingCard } from "@/components/listing-parts";
 
 /**
  * "Compared with the Austin area" on a venue or vendor listing. Built from
@@ -10,12 +11,12 @@ import { ESTIMATE_GUESTS, type AreaComparison } from "@/lib/area-comparison";
 const money = (n: number) => `$${Math.round(n).toLocaleString()}`;
 
 /** A percentile track: the area's spread, its middle, and where this one sits. */
-function Spread({ at, low, high }: { at: number; low: string; high: string }) {
+function Spread({ at, low, high, mid = "middle" }: { at: number; low: string; high: string; mid?: string }) {
   const pos = Math.min(Math.max(at, 3), 97);
   return (
     <div className="mt-3" aria-hidden>
       <div className="relative h-1.5 rounded-full bg-hairline">
-        <span className="absolute left-1/2 top-1/2 h-3 w-px -translate-y-1/2 bg-ink/30" />
+        {mid && <span className="absolute left-1/2 top-1/2 h-3 w-px -translate-y-1/2 bg-ink/30" />}
         <span
           className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-brass shadow-sm"
           style={{ left: `${pos}%` }}
@@ -23,7 +24,7 @@ function Spread({ at, low, high }: { at: number; low: string; high: string }) {
       </div>
       <div className="mt-1.5 flex justify-between text-[11px] text-ink/45">
         <span>{low}</span>
-        <span>middle</span>
+        <span>{mid}</span>
         <span>{high}</span>
       </div>
     </div>
@@ -40,20 +41,30 @@ function Tile({ label, value, children }: { label: string; value: string; childr
   );
 }
 
-export function AreaComparisonCard({ data, kind }: { data: AreaComparison; kind: "venue" | "vendor" }) {
+export function AreaComparisonCard({
+  data,
+  kind,
+  ownEstimate,
+}: {
+  data: AreaComparison;
+  kind: "venue" | "vendor";
+  /** This listing's own price for ESTIMATE_GUESTS guests, when its pricing allows one, with how it was worked out. */
+  ownEstimate?: { total: number; how: string } | null;
+}) {
   const { area, href, peers, peerNoun, capacity, price, estimate } = data;
   const inArea = area.endsWith("area") ? `the ${area}` : area;
   const tiles = [capacity, price, estimate].filter(Boolean).length;
 
   return (
-    <section className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      <h2 className="font-display text-xl font-semibold text-forest">Compared with {inArea}</h2>
-      <p className="mt-1 text-sm text-ink/65">
-        One of {peers.toLocaleString()} {peerNoun} listed in {inArea}.
-      </p>
+    <section id="compare" className={listingCard}>
+      <SectionHeading
+        eyebrow="How it compares"
+        title={`Compared with ${inArea}`}
+        sub={`One of ${peers.toLocaleString()} ${peerNoun} listed in ${inArea}.`}
+      />
 
       {tiles > 0 && (
-        <div className={`mt-5 grid grid-cols-1 gap-3 md:grid-cols-2 ${tiles > 2 ? "xl:grid-cols-3" : ""}`}>
+        <div className={`mt-5 grid grid-cols-1 gap-3 ${tiles > 1 ? "md:grid-cols-2" : ""} ${tiles > 2 ? "xl:grid-cols-3" : ""}`}>
           {capacity && (
             <Tile label="Guests" value={`Up to ${capacity.value.toLocaleString()}`}>
               {capacity.largerThan >= 50
@@ -75,9 +86,23 @@ export function AreaComparisonCard({ data, kind }: { data: AreaComparison; kind:
           {estimate && (
             <Tile label={`${estimate.label} budget`} value={`${money(estimate.low)}–${money(estimate.high)}`}>
               Our estimate for {ESTIMATE_GUESTS} guests in {estimate.state}, simple to luxury.{" "}
+              {ownEstimate && (
+                <>
+                  {ownEstimate.how}, this one comes to about{" "}
+                  <span className="font-semibold text-forest">{money(ownEstimate.total)}</span>.{" "}
+                </>
+              )}
               <Link href="/estimate" className="text-brass hover:underline">
                 Estimate yours
               </Link>
+              {ownEstimate && (
+                <Spread
+                  at={((ownEstimate.total - estimate.low) / Math.max(estimate.high - estimate.low, 1)) * 100}
+                  low={`${money(estimate.low)} simple`}
+                  mid=""
+                  high={`${money(estimate.high)} luxury`}
+                />
+              )}
             </Tile>
           )}
         </div>

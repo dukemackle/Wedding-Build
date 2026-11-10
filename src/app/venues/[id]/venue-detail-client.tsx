@@ -7,7 +7,7 @@ import { toggleShortlist, updateShortlistNotes } from "../actions";
 import { BookedVenueButton } from "../venue-card-shared";
 import { announceSaved, useSavedSync } from "@/lib/saved-sync";
 import { InquiryForm } from "../inquiry-form";
-import { TrackedContactLink, telHref } from "@/components/tracked-contact-link";
+import { requestSubtext } from "@/components/listing-parts";
 import { useFinishIntent } from "@/components/signup-sheet";
 import type { SignupIntent } from "@/lib/signup-intent";
 
@@ -117,44 +117,20 @@ export function VenueDetailClient({
         <ShortlistNotesField venueId={venue.id} notes={shortlistEntry?.notes ?? null} />
       )}
 
-      {(venue.contact_phone || venue.website) && (
-        <div className="mt-4 flex flex-col gap-1 border-t border-hairline pt-4 text-sm text-ink/80">
-          {venue.contact_phone && (
-            <TrackedContactLink
-              listingType="venue"
-              listingId={venue.id}
-              kind="phone"
-              href={telHref(venue.contact_phone)}
-              className="hover:underline"
-            >
-              {venue.contact_phone}
-            </TrackedContactLink>
-          )}
-          {venue.website && (
-            <TrackedContactLink
-              listingType="venue"
-              listingId={venue.id}
-              kind="website"
-              href={venue.website}
-              className="text-brass hover:underline"
-            >
-              {venue.website}
-            </TrackedContactLink>
-          )}
-        </div>
-      )}
-
+      {/* Website, phone and directions are rows under this box (ContactPanel). */}
       {!showInquiry ? (
         <button
           type="button"
           onClick={() => setShowInquiry(true)}
-          className="mt-4 w-full rounded-md bg-forest px-4 py-2.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+          className="mt-4 w-full rounded-md bg-forest px-4 py-3 text-parchment transition-colors hover:bg-forest/90"
         >
-          Request info
+          <span className="block text-base font-semibold">Request info</span>
+          <span className="block text-xs text-parchment/75">{requestSubtext(venue.reply_time)}</span>
         </button>
       ) : (
         <InquiryForm venue={venue} onDone={() => setShowInquiry(false)} />
       )}
+
     </div>
   );
 }

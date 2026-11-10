@@ -1,4 +1,18 @@
+import type { ComponentType, SVGProps } from "react";
 import { businessFactRows, type BusinessFacts } from "@/lib/business-facts";
+import { BarIcon, BudgetIcon, CalculatorIcon, CalendarIcon, ClockIcon, MusicIcon, RingsIcon, StarIcon } from "@/components/icons";
+import { SectionHeading, listingCard } from "@/components/listing-parts";
+
+const ROW_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
+  "In business since": StarIcon,
+  "Weddings a year": RingsIcon,
+  "Couples usually book": CalendarIcon,
+  "Usually replies": ClockIcon,
+  "To book": BudgetIcon,
+  "Balance due": CalculatorIcon,
+  "Music until": MusicIcon,
+  Alcohol: BarIcon,
+};
 
 /**
  * "Booking and policies" on a venue or vendor listing: the answers couples
@@ -24,25 +38,36 @@ export function BookingFactsCard({
   );
   if (rows.length === 0 && notes.length === 0) return null;
   return (
-    <div className={`rounded-lg border border-hairline bg-card p-6 shadow-sm ${className}`}>
-      <h2 className="font-display text-xl font-semibold text-forest">Booking and policies</h2>
-      <p className="mt-1 text-sm text-ink/60">In their own words. Confirm anything that matters in your contract.</p>
+    <section id="policies" className={`${listingCard} ${className}`}>
+      <SectionHeading
+        eyebrow="Before you book"
+        title="Booking and policies"
+        sub="In their own words. Confirm anything that matters in your contract."
+      />
       {rows.length > 0 && (
-        <dl className="mt-3 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
-          {rows.map(([label, value]) => (
-            <div key={label} className="flex justify-between gap-4 border-b border-hairline py-2 text-sm">
-              <dt className="shrink-0 text-ink/60">{label}</dt>
-              <dd className="text-right text-ink">{value}</dd>
-            </div>
-          ))}
+        <dl className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-3">
+          {rows.map(([label, value]) => {
+            const Icon = ROW_ICONS[label];
+            return (
+              <div key={label} className="flex flex-col-reverse justify-end rounded-lg bg-parchment p-4">
+                <dt className="mt-0.5 text-xs text-ink/60">{label}</dt>
+                <dd className="font-semibold leading-snug text-forest">{value}</dd>
+                {Icon && (
+                  <dd aria-hidden className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-brass/20 text-forest">
+                    <Icon className="h-4 w-4" />
+                  </dd>
+                )}
+              </div>
+            );
+          })}
         </dl>
       )}
       {notes.map(([label, text]) => (
-        <div key={label} className="mt-4 text-sm">
-          <p className="text-ink/60">{label}</p>
-          <p className="mt-1 whitespace-pre-line text-ink/80">{text}</p>
+        <div key={label} className="mt-5 rounded-lg border-l-4 border-brass bg-parchment px-4 py-3 text-sm">
+          <p className="font-semibold text-forest">{label}</p>
+          <p className="mt-1 whitespace-pre-line leading-relaxed text-ink/80">{text}</p>
         </div>
       ))}
-    </div>
+    </section>
   );
 }
