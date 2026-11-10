@@ -1,8 +1,12 @@
 "use client";
 
 import { useMemo } from "react";
-import { FALLING, artById, type SiteDesign } from "@/lib/site-design";
+import { FALLING, artById, fontById, fontsHrefFor, type SiteDesign } from "@/lib/site-design";
 import { TEMPLATES, applyTemplate, hasExtras, templateById, withExtras, type SiteTemplate } from "@/lib/site-templates";
+import { CardSvg } from "@/components/save-the-date/card-svg";
+import { templateById as cardTemplateById } from "@/lib/save-the-date/templates";
+import type { CardDoc } from "@/lib/save-the-date/types";
+import { siteMatches, siteMatchingCard, suiteForCard } from "@/lib/suites";
 import { PanelLabel } from "./editor-tabs";
 import { SitePageThumb } from "./site-page-thumb";
 
@@ -14,14 +18,18 @@ import { SitePageThumb } from "./site-page-thumb";
 export function TemplatesTab({
   design,
   onChange,
+  matchCard,
 }: {
   design: SiteDesign;
   onChange: (patch: Partial<SiteDesign>) => void;
+  /** Their save the date, when it belongs to a suite. */
+  matchCard?: CardDoc | null;
 }) {
   const picked = templateById(design.template);
   return (
     <>
       <div className="flex flex-col gap-3">
+        {matchCard && <MatchCard card={matchCard} design={design} onChange={onChange} />}
         <PanelLabel>Templates</PanelLabel>
         <div className="grid grid-cols-2 gap-3">
           {TEMPLATES.map((t) => (
@@ -41,6 +49,54 @@ export function TemplatesTab({
         {picked && hasExtras(picked) && <Extras template={picked} design={design} onChange={onChange} />}
       </div>
     </>
+  );
+}
+
+/**
+ * "Match your save the date" (suites, 2026-11-10): one tap puts the site on
+ * its suite's template in the card's colourway, fonts and decorations.
+ */
+function MatchCard({
+  card,
+  design,
+  onChange,
+}: {
+  card: CardDoc;
+  design: SiteDesign;
+  onChange: (patch: Partial<SiteDesign>) => void;
+}) {
+  const suite = suiteForCard(card.template);
+  const look = useMemo(() => siteMatchingCard(design, card), [design, card]);
+  if (!suite || !look) return null;
+  const matched = siteMatches(design, card);
+  const t = cardTemplateById(card.template);
+  const pair = t.pairings.find((p) => p.id === card.fonts) ?? t.pairings[0];
+  const fonts = fontsHrefFor([pair.display, pair.script, pair.sans].map((id) => fontById(id)?.css ?? ""));
+  return (
+    <div className="flex items-center gap-3 rounded-xl border border-hairline bg-parchment p-3">
+      <link rel="stylesheet" href={fonts} precedence="default" />
+      <span className="w-12 shrink-0 overflow-hidden rounded-[5px] shadow-sm ring-1 ring-ink/10">
+        <CardSvg doc={card} className="block w-full" title="Your save the date" />
+      </span>
+      <span className="min-w-0 flex-1 text-[13px] leading-snug text-ink/70">
+        <span className="block font-medium text-ink">{matched ? "Matches your save the date" : "Match your save the date"}</span>
+        {matched ? `The ${suite.name} suite, in your card's colours and lettering.` : `The ${suite.name} site in your card's colours and lettering.`}
+      </span>
+      {matched ? (
+        <svg aria-hidden viewBox="0 0 20 20" className="h-5 w-5 shrink-0 text-[#2243B6]">
+          <circle cx="10" cy="10" r="9" fill="currentColor" />
+          <path d="M6 10.4l2.6 2.6L14 7.6" stroke="#fff" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ) : (
+        <button
+          type="button"
+          onClick={() => onChange(look)}
+          className="h-9 shrink-0 rounded-lg bg-[#14203d] px-3.5 text-[13px] font-semibold text-white transition-colors hover:bg-[#2243B6]"
+        >
+          Match
+        </button>
+      )}
+    </div>
   );
 }
 

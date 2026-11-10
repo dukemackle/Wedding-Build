@@ -6,6 +6,7 @@ import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import { STALE_CARD, cardDocSchema, parseCardDoc } from "@/lib/save-the-date/schema";
 import { MAX_INVITATIONS, templateById } from "@/lib/save-the-date/templates";
 import { requireEditableWedding } from "@/lib/wedding-access";
+import { invitationIdFor, lookFromCard } from "@/lib/suites";
 import { logError } from "@/lib/error-log";
 import { trackEvent } from "@/lib/events";
 import { personalInvitationPath } from "@/lib/invite-codes";
@@ -70,6 +71,38 @@ export async function createInvitation(template: string): Promise<{ error?: stri
   const { data, error } = await supabase
     .from("invitations")
     .insert({ wedding_id: wedding.id, doc, name: templateById(doc.template).name, chosen: !list.some((r) => r.chosen) })
+    .select("id")
+    .single<{ id: string }>();
+  if (error) return { error: error.message };
+  revalidatePath(LIST);
+  redirect(`${LIST}/edit/${data.id}`);
+}
+
+/**
+ * The invitation that matches one of their save-the-dates: the same suite's
+ * design in the card's colourway and fonts, with the card's names, date and
+ * place over their wedding details. Then into the studio.
+ */
+export async function createMatchingInvitation(cardId: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const [{ data: card }, { count }] = await Promise.all([
+    supabase.from("save_the_dates").select("doc").eq("id", cardId).eq("wedding_id", wedding.id).maybeSingle<{ doc: unknown }>(),
+    supabase.from("invitations").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
+  ]);
+  const from = card ? parseCardDoc(card.doc) : null;
+  const template = from ? invitationIdFor(from) : null;
+  if (!from || !template) return { error: "That save the date has no matching invitation." };
+  if ((count ?? 0) >= MAX_INVITATIONS) return { error: `You can keep ${MAX_INVITATIONS} designs. Delete one to start another.` };
+
+  const words = await invitationContent(supabase, wedding);
+  const content = { ...words, date: from.content.date ?? words.date, nameA: from.content.nameA || words.nameA, nameB: from.content.nameB || words.nameB, place: from.content.place || words.place };
+  const doc = { ...newInvitation(template, content), ...lookFromCard(from) };
+
+  const { data, error } = await supabase
+    .from("invitations")
+    .insert({ wedding_id: wedding.id, doc, name: templateById(doc.template).name, chosen: !count })
     .select("id")
     .single<{ id: string }>();
   if (error) return { error: error.message };

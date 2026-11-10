@@ -5,6 +5,13 @@ The studio is at Guests › Save the date (`/guests/save-the-date`); it needs mi
 `0155_save_the_dates.sql`. `/save-the-date/prototype` (404 in production) keeps the sample
 couple and the QA sheets. Sending is not built yet.
 
+## Suites (2026-11-10)
+
+Eight designs are suites (`src/lib/suites.ts`): the save the date, its invitation and a guest-site
+template, matched by colourway and font-pairing ids. Invitations and the site editor's Design tab offer
+"Match your save the date". Golden Hour's invitation has its own light paper and sun (`OWN` in
+`invitations.ts`), since its card is a full-bleed photo.
+
 ## What exists and is reused
 
 - **Fonts:** `FONTS` / `fontsHrefFor` in `src/lib/site-design.ts` (60 Google faces, loaded as a

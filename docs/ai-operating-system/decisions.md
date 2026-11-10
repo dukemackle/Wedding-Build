@@ -20,6 +20,13 @@ rules, batch self-merge, 50-state coverage, page widths) and
 ## Pending owner decisions
 - None open.
 
+## 2026-11-10 — Stationery and guest-site templates: in-house first
+- Decided: Raise the guest-site, save-the-date and invitation templates to the level of the best competitors, in-house (Claude and the design-expert skill) first, starting with matching suites.
+- Why: No cost before launch; the templates are what couples see first.
+- Alternatives: Premium font licences, a commissioned illustrator, a hired stationery designer for a launch collection (owner interested in all three later); ready-made templates from marketplaces (licence and uniqueness risk); an artist marketplace (parked, needs billing).
+- Revisit: Once the in-house suites ship, decide on fonts, illustrator and designer.
+- Outcome:
+
 ## 2026-11-03 — Restaurant booking for rehearsal dinners and welcome parties: parked
 - Decided: parked for now, not ruled out. Stay out of restaurant booking and restaurant-specific features
   (reservations, private-dining listings, restaurant search from the
