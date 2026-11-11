@@ -73,7 +73,9 @@ const art = (l: Omit<ArtLayer, "kind">): ArtLayer => ({ kind: "art", ...l });
  */
 const LAID_OUT: Record<string, Layer[]> = {
   "highland-lake": [
-    art({ id: "scene", label: "Alpine lake", art: "highlandInv", x: 0, y: 0, w: 1000 }),
+    // The painting sits lower than on the save the date, under the longer wording.
+    art({ id: "scene", label: "Alpine lake", art: "highlandInv", x: 0, y: 110, w: 1000 }),
+    art({ id: "sprig", label: "Olive sprig", art: "highlandSprig", x: 400, y: 50, w: 200 }),
     art({ id: "deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.6 }),
     text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", y: 146, size: 23, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 640 }),
     text({ id: "nameA", label: "First name", bind: "nameA", y: 262, size: 128, font: "script", color: "ink", maxWidth: 560 }),

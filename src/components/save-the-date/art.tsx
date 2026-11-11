@@ -957,9 +957,10 @@ export const ART: Record<string, ArtDef> = {
     },
   },
   // ---- Batch A suites ----
-  highlandStd: batchA("Alpine lake", "highland-std", 1000, 1400),
-  highlandInv: batchA("Alpine lake (invitation)", "highland-inv", 1000, 1400),
+  highlandStd: batchA("Alpine lake", "highland-std", 1024, 1434),
+  highlandInv: batchA("Alpine lake (invitation)", "highland-inv", 1024, 1434),
   highlandSprig: batchA("Olive sprig", "highland-sprig", 330, 80),
+  highlandPeaks: batchA("Mountain motif", "highland-peaks", 230, 70),
   highlandForest: batchA("Pines and rocks", "highland-forest", 162, 170),
   heirloomStd: batchA("Peony corners", "heirloom-std", 1000, 1400),
   heirloomInv: batchA("Peony corners (invitation)", "heirloom-inv", 1000, 1400),
