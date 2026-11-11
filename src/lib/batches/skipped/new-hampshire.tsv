@@ -1,11 +1,9 @@
 Kind	Name	Category	City	State	Reason	Link	Date
-Venue	Sunset Hill House		Sugar Hill	New Hampshire	Site back up	https://www.sunsethillhouse.com/	2026-10-06
 Venue	The Hancock Inn		Hancock	New Hampshire	Site blocks automated visits, unconfirmed	https://www.hancockinn.com/	2026-10-06
 Venue	Fitzwilliam Inn		Fitzwilliam	New Hampshire	Site dead	https://www.fitzwilliaminn.com/	2026-10-06
-Venue	Whitney's Inn		Jackson	New Hampshire	Site back up	https://www.whitneysinn.com/	2026-10-06
-Venue	The Wolfeboro Inn		Wolfeboro	New Hampshire	Site back up	https://www.wolfeboroinn.com/	2026-10-06
+Venue	Whitney's Inn		Jackson	New Hampshire	Site blocks automated visits, unconfirmed	https://www.whitneysinn.com/	2026-10-06
 Venue	Omni Mount Washington Resort		Bretton Woods	New Hampshire	Site blocks automated visits, unconfirmed	https://www.omnihotels.com/hotels/bretton-woods-mount-washington/weddings	2026-10-06
-Venue	Pats Peak		Henniker	New Hampshire	Site back up	https://www.patspeak.com/weddings	2026-10-06
+Venue	Pats Peak		Henniker	New Hampshire	Site blocks automated visits, unconfirmed	https://www.patspeak.com/weddings	2026-10-06
 Venue	Executive Court Banquet Facility		Manchester	New Hampshire	Site dead	https://www.executivecourt.com/	2026-10-06
 Venue	Strawbery Banke Museum		Portsmouth	New Hampshire	Closed	https://www.strawberybanke.org/private-events	2026-10-06
 Vendor	Chalifour's Flowers	Florals	Manchester	New Hampshire	Site blocks automated visits, unconfirmed	https://www.chalifours.com/weddings-and-events	2026-10-06
@@ -74,7 +72,6 @@ Venue	Horse & Hound		Franconia	New Hampshire	No wedding page	https://www.horsean
 Venue	Jefferson Inn		Jefferson	New Hampshire	No wedding page	https://www.jeffersoninn.com/	2026-10-29
 Venue	Thayers Inn		Littleton	New Hampshire	No wedding page	https://thayersinn.com/	2026-10-29
 Venue	Eastern Slope Inn		North Conway	New Hampshire	No wedding page	https://easternslopeinn.com/	2026-10-29
-Venue	Mountain Club on Loon		Lincoln	New Hampshire	Site back up	https://www.loonmtn.com/	2026-10-29
 Venue	Tilton Mansion		Tilton	New Hampshire	No website	https://www.lakesregion.org/the-current/wedding-venues-for-every-couple-lakes-region/	2026-10-29
 Venue	Langdon House & Gardens		Portsmouth	New Hampshire	No wedding page	https://langdonhouse.com	2026-10-29
 Venue	The Exeter Inn		Exeter	New Hampshire	No wedding page	https://www.theexeterinn.com	2026-10-29
@@ -130,7 +127,7 @@ Venue	Portsmouth Country Club		Greenland	New Hampshire	No wedding page	https://w
 Venue	Bellows Walpole Inn		Walpole	New Hampshire	No wedding page	https://www.bellowswalpoleinn.com/events	2026-10-31
 Venue	Harris Center for Conservation Education		Hancock	New Hampshire	No wedding page	https://harriscenter.org	2026-10-31
 Venue	The Barn at Union Lake Orchard		Barrington	New Hampshire	Social only	https://www.facebook.com/p/The-Barn-at-Union-Lake-Orchard-100090045675358/	2026-10-31
-Venue	Martingale Wharf Restaurant		Portsmouth	New Hampshire	Site back up	http://www.martingalewharf.com/	2026-10-31
+Venue	Martingale Wharf Restaurant		Portsmouth	New Hampshire	Site dead	http://www.martingalewharf.com/	2026-10-31
 Venue	The Grand View Estate		Jaffrey	New Hampshire	Site blocks automated visits, unconfirmed	https://thegrandviewestate.com/	2026-10-31
 Venue	The Shattuck Golf Club		Jaffrey	New Hampshire	Site dead	http://shattuckweddings.com/	2026-10-31
 Venue	Rockingham Ballroom		Newmarket	New Hampshire	No wedding page	https://www.rockinballroom.club/	2026-10-31
@@ -249,3 +246,34 @@ Vendor	Hector's Fine Food and Spirits Catering	Catering	Laconia	New Hampshire	No
 Vendor	DJ JoeyO	Music	Whitefield	New Hampshire	Site unreadable	https://sites.google.com/view/djjoeyo/weddings	2026-11-11
 Vendor	HinkleyPhoto	Photography	Plymouth	New Hampshire	Site blocks automated visits, unconfirmed	https://www.hinkleyphoto.com/	2026-11-11
 Vendor	Lori D Entertainment	Music	Exeter	New Hampshire	Site never names its town	https://www.djlorid.com	2026-11-11
+Venue	Squam Lakes Natural Science Center		Holderness	New Hampshire	Site blocks automated visits, unconfirmed	https://nhnature.org/visit/garden_weddings.php	2026-11-11
+Venue	Gunstock Inn & Resort		Gilford	New Hampshire	Site dead	https://www.gunstockinn.com/	2026-11-11
+Venue	The Centennial Hotel		Concord	New Hampshire	Site blocks automated visits, unconfirmed	https://www.thecentennialhotel.com/	2026-11-11
+Venue	Arts Alley		Concord	New Hampshire	No website	https://www.theknot.com/marketplace/arts-alley-concord-nh-2096746	2026-11-11
+Venue	The Hotel Concord		Concord	New Hampshire	Site dead	https://www.hotelconcord.com/	2026-11-11
+Venue	Heaton House		Alton Bay	New Hampshire	No website	https://www.theknot.com/marketplace/heaton-house-alton-nh-2065391	2026-11-11
+Venue	Lake Winnipesaukee Golf Club		New Durham	New Hampshire	No wedding page	https://www.lwgcnh.com/outings-private-events/	2026-11-11
+Venue	Prescott Farm Environmental Education Center		Laconia	New Hampshire	No wedding page	https://www.prescottfarm.org/	2026-11-11
+Venue	Pitman's Freight Room		Laconia	New Hampshire	Closed		2026-11-11
+Venue	Lovett's Inn		Franconia	New Hampshire	Inactive	https://www.lovettsinn.com/weddings-events	2026-11-11
+Venue	The Inn at Thorn Hill		Jackson	New Hampshire	Site blocks automated visits, unconfirmed	https://www.innatthornhill.com/	2026-11-11
+Venue	Ogontz		Lyman	New Hampshire	Site dead	https://www.campogontz.com/weddings	2026-11-11
+Venue	One Love Brewery		Lincoln	New Hampshire	Site dead	https://onelovebrewery.com/	2026-11-11
+Venue	Grand Summit Hotel at Attitash		Bartlett	New Hampshire	No wedding page	https://www.attitash.com/	2026-11-11
+Venue	Cannon Mountain		Franconia	New Hampshire	No wedding page	https://www.cannonmt.com/	2026-11-11
+Venue	Snowy Owl Inn		Waterville Valley	New Hampshire	No wedding page	https://www.snowyowlinn.com/	2026-11-11
+Venue	Philbrook Farm Inn		Shelburne	New Hampshire	No wedding page	https://philbrookfarminn.com/	2026-11-11
+Venue	100 Acre Wood		Intervale	New Hampshire	No website	https://www.zola.com/wedding-vendors/wedding-venues/100-acre-wood	2026-11-11
+Venue	Cisco Brewers Portsmouth		Portsmouth	New Hampshire	Closed	https://www.ciscobrewers.com	2026-11-11
+Venue	One Hundred Club		Portsmouth	New Hampshire	No wedding page	https://onehundredclub.com/portsmouth-one-hundred-club-private-events-page	2026-11-11
+Venue	The Stone Church Music Club		Newmarket	New Hampshire	No street address on site	https://stonechurchrocks.com/private-events	2026-11-11
+Venue	Tuscan Kitchen Salem		Salem	New Hampshire	No wedding page	https://www.tuscankitchen.com/salem-nh-private-events/	2026-11-11
+Venue	Galley Hatch		Hampton	New Hampshire	No wedding page	https://www.galleyhatch.com/private-dining	2026-11-11
+Venue	1790 House		Newfields	New Hampshire	No website	https://zola.com/wedding-vendors/wedding-venues/1790-house	2026-11-11
+Venue	Fields of Chestnut Hill		Amherst	New Hampshire	Site dead	https://www.theknot.com/marketplace/fields-of-chestnut-hill-amherst-nh-2050052	2026-11-11
+Venue	The Gardens at Queen City Center		Manchester	New Hampshire	No website	https://www.zola.com/wedding-vendors/wedding-venues/the-gardens-at-queen-city-center	2026-11-11
+Venue	Aviation Museum of New Hampshire		Londonderry	New Hampshire	Site dead	https://www.zola.com/wedding-vendors/wedding-venues/aviation-museum-of-new-hampshire	2026-11-11
+Venue	Wallis Sands Place		Rye	New Hampshire	No website		2026-11-11
+Venue	Windham Country Club		Windham	New Hampshire	No wedding page	https://windhamcc.com	2026-11-11
+Venue	Wentworth-Coolidge Mansion		Portsmouth	New Hampshire	No wedding page	https://wentworthcoolidge.org	2026-11-11
+Venue	Applecrest Farm		Hampton Falls	New Hampshire	No wedding page	https://www.applecrest.com	2026-11-11
