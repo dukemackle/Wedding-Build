@@ -626,10 +626,6 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
     >
       <SiteScene where="surround" />
       <div className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : READING_WIDTH}`}>
-        {scene === "alpine-lake" && (
-          // eslint-disable-next-line @next/next/no-img-element -- a fixed decorative sprig, not a photo
-          <img src="/site-art/batch-a/highland-sprig.webp" alt="" aria-hidden="true" width={330} height={80} className="mb-5 h-auto w-[110px] sm:w-[140px]" />
-        )}
         <SiteText slot="hero.kicker" as="p" className={`text-[11px] text-ink sm:text-[13px] ${caps}`}>
           {design.occasion.kind === "renewal" ? "We're renewing our vows" : "Together with their families"}
         </SiteText>

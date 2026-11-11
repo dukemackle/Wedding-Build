@@ -808,8 +808,6 @@ export const TEMPLATES: Template[] = [
     ],
     layers: [
       { kind: "art", id: "scene", label: "Alpine lake", art: "highlandStd", x: 0, y: 0, w: 1000 },
-      { kind: "art", id: "sprig", label: "Olive sprig", art: "highlandSprig", x: 345, y: 52, w: 310 },
-      { kind: "art", id: "peaks", label: "Mountain motif", art: "highlandPeaks", x: 410, y: 128, w: 180 },
       { kind: "art", id: "deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.6 },
       { kind: "text", id: "headline", label: "Headline", bind: "headline", text: "Save the date", x: 500, y: 262, size: 66, font: "display", color: "ink", upper: true, tracking: 0.16, anchor: "middle", maxWidth: 820 },
       { kind: "art", id: "rule", label: "Rule", art: "rule", x: 405, y: 310, w: 190, color: "accent" },

@@ -43,7 +43,6 @@ const KEEP: Record<string, (string | [string, Partial<ArtLayer>])[]> = {
  */
 const BACK_ART: Record<string, ArtLayer[]> = {
   "highland-lake": [
-    { kind: "art", id: "back-sprig", label: "Sprig", art: "highlandSprig", x: 380, y: 150, w: 240 },
     { kind: "art", id: "back-pines", label: "Pines", art: "highlandForest", x: 40, y: 1186, w: 180 },
     { kind: "art", id: "back-pines2", label: "Pines", art: "highlandForest", x: 780, y: 1186, w: 180, flip: true },
     { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.6 },

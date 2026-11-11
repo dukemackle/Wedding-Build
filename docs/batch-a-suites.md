@@ -43,8 +43,8 @@ peaks, pines) from them. Seven files:
 
 | # | File | ChatGPT size | Attach | Becomes |
 |---|---|---|---|---|
-| 1 | highland-std.png | 1024x1536 tall | 01 | Save the date art; sprig, peaks, pines cut from it |
-| 2 | highland-inv.png | 1024x1536 tall | 02 | Invitation art |
+| 1 | highland-std.png | 1024x1536 tall | 01 | **Done 2026-11-11**: one painting for both Highland cards (the invitation sets it 110 units lower) |
+| 2 | ~~highland-inv.png~~ | | | Not needed: file 1 serves both cards. Owner dropped the sprig and peaks at the top (2026-11-11) |
 | 3 | highland-panorama.png | 1536x1024 wide | 03 | Site band under the names |
 | 4 | heirloom-std.png | 1024x1536 tall | 04 | Save the date art; sprig cut from it |
 | 5 | heirloom-inv.png | 1024x1536 tall | 05 | Invitation art; site corners cut from it |
