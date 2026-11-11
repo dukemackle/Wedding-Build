@@ -197,6 +197,22 @@ export const TEMPLATES: SiteTemplate[] = [
     art: { id: "wild-roses", placement: "corners" },
     pageStyle: "storybook",
   },
+  // Suites wave 2 (docs/suites-wave-2.md): a painted sky down the whole page
+  // and the moor under the names, matching the Highland card.
+  {
+    id: "highland",
+    name: "Highland",
+    blurb: "A painted sky down the page, a moor of golden grass under your names",
+    theme: "garden",
+    palette: "moorland",
+    colourways: ["heather", "first-frost"],
+    fonts: "cj",
+    hero: "invitation",
+    ornament: "none",
+    scene: "moors",
+    pageStyle: "invitation",
+    background: { texture: "sky" },
+  },
 ];
 
 export function templateById(id: string | null | undefined) {

@@ -19,6 +19,7 @@ import {
   wildflowers,
   type Rnd,
 } from "@/lib/scene-shapes";
+import { Moorland } from "@/lib/highland-art";
 
 /**
  * The drawn setting at the top of the guest site (Background tab › Scene): a
@@ -42,13 +43,13 @@ const sun = (day: string) => `var(--scene-sun, ${day})`;
 const tint2 = (pct: number) =>
   `color-mix(in srgb, var(--site-accent-2, var(--site-accent)) ${pct}%, var(--color-parchment))`;
 
-export function SiteScene({ where }: { where: "band" | "strip" | "surround" }) {
+export function SiteScene({ where }: { where: "band" | "strip" | "surround" | "foot" }) {
   const design = useSiteDesign();
   const id = useId().replace(/:/g, "");
   const scene = resolveDesign(design).scene;
   if (sceneById(scene).place !== where) return null;
 
-  if (where === "band") {
+  if (where === "band" || where === "foot") {
     return (
       <svg
         aria-hidden="true"
@@ -90,7 +91,7 @@ export function SceneArtwork() {
     );
   }
 
-  const land = place === "band" && BANDS[scene] ? scene : "ridges";
+  const land = (place === "band" || place === "foot") && BANDS[scene] ? scene : "ridges";
   return (
     <div aria-hidden="true" className="absolute inset-0 overflow-hidden" style={{ background: sky }}>
       {/* Ridges draw a sun of their own. */}
@@ -274,6 +275,26 @@ function forest(id: string, snowy: boolean) {
 type Draw = Partial<Record<SceneId, (id: string) => ReactNode>>;
 
 const BANDS: Draw = {
+  // Highland (suites wave 2): the same moor as the card, in the site's colours.
+  moors: (id: string) => (
+    <Moorland
+      id={id}
+      w={1200}
+      h={260}
+      colours={{
+        far: `color-mix(in srgb, #8f9ba3 30%, ${tint2(22)})`,
+        hill: "color-mix(in srgb, var(--site-accent-2, var(--site-accent)) 55%, var(--color-ink))",
+        slope: `color-mix(in srgb, #9a7f5c 40%, ${tint2(55)})`,
+        near: "color-mix(in srgb, #a8843f 50%, var(--site-accent-2, var(--site-accent)))",
+        grass: [
+          "color-mix(in srgb, #d8b874 85%, var(--site-accent-2, var(--site-accent)))",
+          "color-mix(in srgb, #a98b4c 70%, var(--site-accent-2, var(--site-accent)))",
+          "color-mix(in srgb, var(--site-accent-2, var(--site-accent)) 40%, var(--color-ink))",
+          "#9a5a35",
+        ],
+      }}
+    />
+  ),
   mountains: (id: string) => {
     const rnd = seeded(3);
     const foot = wave(198, 7, 150);
@@ -942,7 +963,7 @@ export function SceneThumb({ scene, time = "day" }: { scene: SceneId; time?: Sce
           <span className="relative block h-5 w-36 rounded-full" style={{ background: "var(--color-ink)" }} />
           <span className="relative block h-3 w-20 rounded-full opacity-50" style={{ background: "var(--color-ink)" }} />
         </span>
-        {place === "band" && (
+        {(place === "band" || place === "foot") && (
           <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="block h-[55%] w-full shrink-0">
             {lit(time, id, scene, BANDS[scene]?.(id))}
           </svg>

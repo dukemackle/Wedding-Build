@@ -684,7 +684,8 @@ export const WORD_ORNAMENTS: readonly OrnamentId[] = ["bismillah", "xi"];
  * suits any accent (src/components/site-scene.tsx). "band" scenes sit along
  * the bottom of the top of the page, "strip" ones along its top, and
  * "surround" ones frame the names (so they show only where there's no photo
- * behind them).
+ * behind them). "foot" ones are a band along the very bottom of the page,
+ * under the last tabs and the footer line.
  */
 export const SCENES = [
   { id: "none", label: "None", place: "none" },
@@ -703,6 +704,8 @@ export const SCENES = [
   { id: "skyline", label: "City skyline", place: "band" },
   { id: "frontier", label: "Mesas", place: "band" },
   { id: "sunset", label: "Desert sun", place: "band" },
+  // Along the very bottom of the page, under the footer.
+  { id: "moors", label: "Highland moor", place: "foot" },
   // Strips, across the top.
   { id: "lights", label: "String lights", place: "strip" },
   { id: "shoreline", label: "Shoreline", place: "strip" },
@@ -986,6 +989,10 @@ export const PALETTES = [
   { id: "ivory-black", name: "Ivory & ink", family: "neutral", bg: "#fbf9f4", ink: "#111111", heading: "#111111", accent: "#111111" },
   { id: "linen", name: "Linen", family: "neutral", bg: "#f2eee6", ink: "#2e2a24", heading: "#4a4237", accent: "#6b5f4c" },
   { id: "ivory", name: "Ivory", family: "neutral", bg: "#faf7f0", ink: "#2a2723", heading: "#2a2723", accent: "#6f6249" },
+  // Highland (suites wave 2): the card's three colourways, under its painted sky.
+  { id: "moorland", name: "Moorland", family: "brown", bg: "#ece5d7", ink: "#3b2f33", heading: "#5a434a", accent: "#5e4249" },
+  { id: "heather", name: "Heather", family: "purple", bg: "#ebe5e6", ink: "#2f2836", heading: "#4f3f5c", accent: "#5f4b6b" },
+  { id: "first-frost", name: "First frost", family: "blue", bg: "#e9edef", ink: "#25313b", heading: "#3d4d5a", accent: "#45586a" },
   // Dark
   { id: "midnight-navy", name: "Midnight navy", family: "blue", bg: "#14203d", ink: "#f3ead8", heading: "#f3ead8", accent: "#e0b65a" },
   { id: "royal", name: "Royal", family: "blue", bg: "#1c2a6b", ink: "#fff7d6", heading: "#fff7d6", accent: "#ffd301" },
@@ -1289,6 +1296,7 @@ export const BG_TEXTURES = [
   { id: "ombre", label: "Ombré" },
   { id: "golden", label: "Golden hour" },
   { id: "velvet", label: "Velvet" },
+  { id: "sky", label: "Painted sky" },
 ] as const;
 
 /**
@@ -1657,6 +1665,17 @@ export function backgroundLayers(background: SiteDesign["background"]): { image:
       `linear-gradient(160deg, ${tint(10, "--color-ink")}, transparent 30%, ${tint(6, "--color-ink")} 55%, transparent 75%, ${tint(12, "--color-ink")})`,
       "100% 100%",
     ]);
+  if (background.texture === "sky")
+    // Highland: warm at the top, cool lower down, with a few soft clouds of wash.
+    layers.push(
+      [`radial-gradient(ellipse 55% 18% at 20% 12%, rgb(255 255 255 / 0.35), transparent 70%)`, "100% 100%"],
+      [`radial-gradient(ellipse 45% 14% at 80% 34%, rgb(255 255 255 / 0.25), transparent 70%)`, "100% 100%"],
+      [
+        `linear-gradient(180deg, color-mix(in srgb, #f3dcb2 40%, var(--color-parchment)), var(--color-parchment) 40%, color-mix(in srgb, #aab6bd 35%, var(--color-parchment)))`,
+        "100% 100%",
+      ],
+      [PAPER, "160px 160px"],
+    );
   if (!layers.length) return { image: "none", size: "auto" };
   return { image: layers.map(([i]) => i).join(", "), size: layers.map(([, s]) => s).join(", ") };
 }

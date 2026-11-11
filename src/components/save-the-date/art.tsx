@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import type { Palette } from "@/lib/save-the-date/types";
+import { mix } from "@/lib/site-design";
+import { MoorSky, Moorland } from "@/lib/highland-art";
 
 /**
  * Decorations a card template can place. Two kinds:
@@ -830,6 +832,42 @@ export const ART: Record<string, ArtDef> = {
         </g>
       );
     },
+  },
+  // Highland (suites wave 2): a painted sky over the whole card and a moor
+  // along the bottom, coloured from the palette (accent = the land).
+  moorSky: {
+    kind: "vector",
+    label: "Painted sky",
+    aspect: 1.4,
+    draw: (w, pal) => (
+      <MoorSky
+        id={`moorsky-${pal.id}`}
+        w={w}
+        h={w * 1.4}
+        top={mix(pal.paper, "#f3dcb2", 0.45)}
+        mid={pal.paper}
+        bottom={mix(pal.paper, "#aab6bd", 0.42)}
+      />
+    ),
+  },
+  moorland: {
+    kind: "vector",
+    label: "Moorland",
+    aspect: 0.56,
+    draw: (w, pal) => (
+      <Moorland
+        id={`moor-${pal.id}`}
+        w={w}
+        h={w * 0.56}
+        colours={{
+          far: mix(mix(pal.paper, "#8f9ba3", 0.35), pal.accent, 0.25),
+          hill: mix(pal.accent, pal.ink, 0.45),
+          slope: mix(mix(pal.accent, "#9a7f5c", 0.45), pal.paper, 0.25),
+          near: mix(pal.accent, "#a8843f", 0.5),
+          grass: [mix("#d8b874", pal.accent, 0.15), mix("#a98b4c", pal.accent, 0.3), mix(pal.accent, pal.ink, 0.6), "#9a5a35"],
+        }}
+      />
+    ),
   },
   flourish: {
     kind: "vector",

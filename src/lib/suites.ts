@@ -47,6 +47,13 @@ export const SUITES: Suite[] = [
   },
   { id: "deco-gala", name: "Deco Gala", card: "decogala", site: "deco-gala" },
   { id: "wildflower", name: "Wildflower", card: "wildflower", site: "wildflower" },
+  {
+    id: "highland",
+    name: "Highland",
+    card: "highland",
+    site: "highland",
+    siteColourways: { moorland: "moorland", heather: "heather", frost: "first-frost" },
+  },
 ];
 
 /** The suite a save-the-date or invitation design belongs to, if any. */

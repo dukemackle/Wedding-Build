@@ -491,7 +491,7 @@ export function SceneSection({ design, onChange }: { design: SiteDesign; onChang
         {tile(null, own, own === "none" ? "Theme's own" : `Theme's own (${sceneById(own).label})`)}
         {tile("none", "none", "None")}
       </div>
-      {sceneById(design.scene ?? own).place === "band" && (
+      {["band", "foot"].includes(sceneById(design.scene ?? own).place) && (
         <div className="flex flex-col gap-2">
           <p className="text-[13px] font-medium text-ink">
             Time of day <span className="font-normal text-ink/50">· The sky and light over your landscape</span>
