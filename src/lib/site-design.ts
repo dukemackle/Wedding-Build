@@ -718,6 +718,7 @@ export const SCENES = [
   { id: "western-tiles", label: "Western tiles", place: "strip" },
   { id: "ocean-tiles", label: "Ocean tiles", place: "strip" },
   // Around the names.
+  { id: "gilded", label: "Gold flowers", place: "surround" },
   { id: "drape", label: "Draped fabric", place: "surround" },
   { id: "western-pattern", label: "Western icons", place: "surround" },
   { id: "ocean-pattern", label: "Sea life", place: "surround" },
@@ -993,7 +994,12 @@ export const PALETTES = [
   { id: "moorland", name: "Moorland", family: "brown", bg: "#ece5d7", ink: "#3b2f33", heading: "#5a434a", accent: "#5e4249" },
   { id: "heather", name: "Heather", family: "purple", bg: "#ebe5e6", ink: "#2f2836", heading: "#4f3f5c", accent: "#5f4b6b" },
   { id: "first-frost", name: "First frost", family: "blue", bg: "#e9edef", ink: "#25313b", heading: "#3d4d5a", accent: "#45586a" },
+  // Gilded (suites wave 2): gold line flowers on cream, blue ink on cream (gold on emerald is under Dark).
+  { id: "gilded-cream", name: "Gold on cream", family: "gold", bg: "#f8f2e4", ink: "#3a3226", heading: "#4a3d27", accent: "#8f6f30" },
+  { id: "gilded-ink", name: "Blue ink", family: "blue", bg: "#f7f3e8", ink: "#1f2a4d", heading: "#24357a", accent: "#2a3f8f" },
   // Dark
+  // Gilded's dark colourway.
+  { id: "gilded-emerald", name: "Gold on emerald", family: "green", bg: "#123a2e", ink: "#f3ead2", heading: "#f3ead2", accent: "#d8b765" },
   { id: "midnight-navy", name: "Midnight navy", family: "blue", bg: "#14203d", ink: "#f3ead8", heading: "#f3ead8", accent: "#e0b65a" },
   { id: "royal", name: "Royal", family: "blue", bg: "#1c2a6b", ink: "#fff7d6", heading: "#fff7d6", accent: "#ffd301" },
   { id: "slate", name: "Slate", family: "blue", bg: "#2a333d", ink: "#eef1f4", heading: "#eef1f4", accent: "#a9c1e0" },

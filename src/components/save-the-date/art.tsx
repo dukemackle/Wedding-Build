@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import type { Palette } from "@/lib/save-the-date/types";
-import { mix } from "@/lib/site-design";
+import { contrast, mix } from "@/lib/site-design";
 import { MoorSky, Moorland } from "@/lib/highland-art";
+import { GildedSpray } from "@/lib/gilded-art";
 
 /**
  * Decorations a card template can place. Two kinds:
@@ -867,6 +868,45 @@ export const ART: Record<string, ArtDef> = {
           grass: [mix("#d8b874", pal.accent, 0.15), mix("#a98b4c", pal.accent, 0.3), mix(pal.accent, pal.ink, 0.6), "#9a5a35"],
         }}
       />
+    ),
+  },
+  // Gilded (suites wave 2): line-drawn flowers running off the left edge, a
+  // panel over their right-hand ends and a fine double frame round it. Petals
+  // hide what's behind them with the paper, or with black inside a foil mask
+  // (card-svg sets --art-knock there).
+  gildedFlowers: {
+    kind: "vector",
+    label: "Line flowers",
+    aspect: 1.4,
+    draw: (w, pal) => (
+      <g transform={`scale(${w / 1000})`}>
+        <GildedSpray knock={`var(--art-knock, ${pal.paper})`} />
+      </g>
+    ),
+  },
+  gildedPanel: {
+    kind: "vector",
+    label: "Panel",
+    aspect: 1.4,
+    draw: (w, pal) => (
+      <rect
+        x={w * 0.42}
+        y={w * 0.15}
+        width={w * 0.52}
+        height={w * 1.1}
+        fill={contrast(pal.paper, "#000000") > 9 ? mix(pal.paper, "#ffffff", 0.6) : mix(pal.paper, "#000000", 0.18)}
+      />
+    ),
+  },
+  gildedFrame: {
+    kind: "vector",
+    label: "Gold frame",
+    aspect: 1.4,
+    draw: (w) => (
+      <g fill="none" stroke="currentColor">
+        <rect x={w * 0.42} y={w * 0.15} width={w * 0.52} height={w * 1.1} strokeWidth={w * 0.0028} />
+        <rect x={w * 0.432} y={w * 0.162} width={w * 0.496} height={w * 1.076} strokeWidth={w * 0.0012} />
+      </g>
     ),
   },
   flourish: {

@@ -20,6 +20,7 @@ import {
   type Rnd,
 } from "@/lib/scene-shapes";
 import { Moorland } from "@/lib/highland-art";
+import { BlossomBranch, GildedSpray } from "@/lib/gilded-art";
 
 /**
  * The drawn setting at the top of the guest site (Background tab › Scene): a
@@ -824,6 +825,35 @@ const STRIPS: Draw = {
 };
 
 const SURROUNDS: Draw = {
+  // Gilded (suites wave 2): the card's line-drawn flowers, running off the
+  // left edge of the top of the page, in the accent, with a blossom branch
+  // off the right on a wide screen to balance them. A phone has no room
+  // beside the names, so the branch runs in over the top instead.
+  gilded: () => {
+    const knock = "var(--color-parchment)";
+    const svg = "pointer-events-none absolute text-[var(--site-accent)]";
+    return (
+      <>
+        <svg
+          viewBox="-20 0 490 1400"
+          className={`${svg} -left-6 top-1/2 hidden h-[min(118%,1100px)] w-auto -translate-y-1/2 sm:block`}
+          aria-hidden="true"
+        >
+          <GildedSpray knock={knock} sw={2.2} />
+        </svg>
+        <svg viewBox="-30 -40 500 320" className={`${svg} -left-3 -top-3 w-[88%] sm:hidden`} aria-hidden="true">
+          <g fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+            <BlossomBranch knock={knock} sw={2.4} />
+          </g>
+        </svg>
+        <svg viewBox="-30 -40 500 320" className={`${svg} -right-4 bottom-8 hidden w-[300px] -scale-100 lg:block`} aria-hidden="true">
+          <g fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+            <BlossomBranch knock={knock} sw={2.2} />
+          </g>
+        </svg>
+      </>
+    );
+  },
   // A wavy, scalloped border: rows of half-rings along each edge.
   scallop: () => {
     const ring = (at: string) =>

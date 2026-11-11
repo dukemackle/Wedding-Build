@@ -213,6 +213,21 @@ export const TEMPLATES: SiteTemplate[] = [
     pageStyle: "invitation",
     background: { texture: "sky" },
   },
+  // Line-drawn flowers off the left edge of the top, the invitation framed
+  // beside them, and a small magnolia over each section, matching the Gilded card.
+  {
+    id: "gilded",
+    name: "Gilded",
+    blurb: "Fine gold line flowers off the edge, a framed invitation, a magnolia over each section",
+    theme: "garden",
+    palette: "gilded-cream",
+    colourways: ["gilded-emerald", "gilded-ink"],
+    fonts: "cj",
+    hero: "invitation",
+    ornament: "none",
+    scene: "gilded",
+    pageStyle: "invitation",
+  },
 ];
 
 export function templateById(id: string | null | undefined) {

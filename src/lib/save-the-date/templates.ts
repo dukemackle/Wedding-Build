@@ -755,6 +755,36 @@ export const TEMPLATES: Template[] = [
       { kind: "text", id: "note", label: "Closing line", bind: "note", x: 500, y: 830, size: 24, font: "display", italic: true, color: "muted", anchor: "middle", maxWidth: 600 },
     ],
   },
+  {
+    id: "gilded",
+    name: "Gilded",
+    family: "Romantic florals",
+    mood: "Fine gold line-drawn magnolias, orchids and blossom running off the edge, your names in a framed panel.",
+    usesPhoto: false,
+    grain: 0.03,
+    palettes: [
+      { id: "cream", label: "Gold on cream", paper: "#f8f2e4", ink: "#3a3226", accent: "#a8863f", muted: "#6d665b", onPhoto: "#ffffff", metal: ["#d9bb72", "#a8863f", "#6f5520"] },
+      { id: "emerald", label: "Gold on emerald", paper: "#123a2e", ink: "#f3ead2", accent: "#d8b765", muted: "#b4c7bb", onPhoto: "#ffffff", metal: ["#f6e2a2", "#d3b05f", "#977527"] },
+      { id: "ink", label: "Blue ink", paper: "#f7f3e8", ink: "#1f2a4d", accent: "#2a3f8f", muted: "#5b6787", onPhoto: "#ffffff" },
+    ],
+    pairings: [
+      { id: "magnolia", label: "Magnolia", display: "cormorant", script: "pinyon", sans: "jost" },
+      { id: "orchid", label: "Orchid", display: "ebgaramond", script: "parisienne", sans: "marcellus" },
+      { id: "engraved", label: "Engraved", display: "baskerville", script: "saintdelafield", sans: "cinzel" },
+    ],
+    layers: [
+      { kind: "art", id: "flowers", label: "Line flowers", art: "gildedFlowers", x: 0, y: 0, w: 1000 },
+      { kind: "art", id: "panel", label: "Panel", art: "gildedPanel", x: 0, y: 0, w: 1000, color: "ink" },
+      { kind: "art", id: "frame", label: "Gold frame", art: "gildedFrame", x: 0, y: 0, w: 1000 },
+      { kind: "text", id: "headline", label: "Headline", bind: "headline", text: "Save the date", x: 485, y: 340, size: 19, font: "sans", color: "muted", upper: true, tracking: 0.4, anchor: "start", maxWidth: 410 },
+      { kind: "text", id: "nameA", label: "First name", bind: "nameA", x: 480, y: 530, size: 118, font: "script", color: "ink", anchor: "start", maxWidth: 420 },
+      { kind: "text", id: "amp", label: "And", bind: "custom", text: "and", x: 560, y: 620, size: 32, font: "display", italic: true, color: "muted", anchor: "start", maxWidth: 200 },
+      { kind: "text", id: "nameB", label: "Second name", bind: "nameB", x: 480, y: 750, size: 118, font: "script", color: "ink", anchor: "start", maxWidth: 420 },
+      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 485, y: 915, size: 32, font: "display", color: "ink", upper: true, tracking: 0.18, anchor: "start", maxWidth: 410 },
+      { kind: "text", id: "place", label: "Place", bind: "place", x: 485, y: 975, size: 18, lineHeight: 1.55, wrap: 30, font: "sans", color: "muted", upper: true, tracking: 0.24, anchor: "start", maxWidth: 410 },
+      { kind: "text", id: "note", label: "Closing line", bind: "note", x: 485, y: 1170, size: 26, font: "display", italic: true, color: "muted", anchor: "start", maxWidth: 410 },
+    ],
+  },
 ];
 
 /** The families, in the library's order, for the filter chips. */

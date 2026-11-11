@@ -54,6 +54,13 @@ export const SUITES: Suite[] = [
     site: "highland",
     siteColourways: { moorland: "moorland", heather: "heather", frost: "first-frost" },
   },
+  {
+    id: "gilded",
+    name: "Gilded",
+    card: "gilded",
+    site: "gilded",
+    siteColourways: { cream: "gilded-cream", emerald: "gilded-emerald", ink: "gilded-ink" },
+  },
 ];
 
 /** The suite a save-the-date or invitation design belongs to, if any. */
