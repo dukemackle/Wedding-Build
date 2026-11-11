@@ -7,7 +7,8 @@ import { SiteReveal } from "@/components/site-motion";
 import { SiteSection } from "@/components/site-section";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { CANVAS_WIDTH, READING_WIDTH, STANDARD_WIDTH, WIDE_WIDTH } from "@/lib/layout";
-import { artSuite, SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design";
+import { artSuite, resolveDesign, SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design";
+import { GildedSprig } from "@/lib/gilded-art";
 
 /**
  * The guest site's sections, in the couple's order.
@@ -163,13 +164,22 @@ function sectionName(id: SectionKey) {
  * the point of this look is that it reads top to bottom like a card.
  */
 function Invitation({ shown, sections }: { shown: Shown; sections: Partial<Record<SectionKey, ReactNode>> }) {
-  const suite = artSuite(useSiteDesign().art.id);
+  const design = useSiteDesign();
+  const suite = artSuite(design.art.id);
+  // Gilded's scene puts a small line-drawn magnolia over every section, the first included.
+  const sprig = resolveDesign(design).scene === "gilded";
   return (
     <div className={`site-invitation mx-auto flex w-full ${STANDARD_WIDTH} flex-col px-4 pb-20 sm:px-6`}>
       {shown.map((x, i) => (
         <Fragment key={x.id}>
           {/* A set's painted divider every third break, the plain rule between: flowers at every break would be too much. */}
-          {i > 0 && suite && i % 3 === 1 ? (
+          {sprig ? (
+            <div className={`flex justify-center text-[var(--site-accent)] ${i > 0 ? "pb-4 pt-12 sm:pt-16" : "pb-4 pt-2"}`} aria-hidden="true">
+              <svg viewBox="14 36 176 82" className="h-auto w-[120px] sm:w-[150px]">
+                <GildedSprig knock="var(--color-parchment)" sw={1.5} />
+              </svg>
+            </div>
+          ) : i > 0 && suite && i % 3 === 1 ? (
             <div className="flex justify-center py-12 sm:py-16" aria-hidden="true">
               <Image src={suite.divider.src} alt="" width={suite.divider.w} height={suite.divider.h} loading="lazy" className="h-auto w-[220px] sm:w-[280px]" />
             </div>

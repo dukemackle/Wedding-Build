@@ -2,7 +2,7 @@
 
 import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import QRCode from "qrcode";
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
 import { BACK_QR, backQrUrl, backTemplate } from "@/lib/save-the-date/back";
 import { hasNumericDate, layerText, wrapText } from "@/lib/save-the-date/format";
@@ -354,7 +354,10 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
         return (
           <g transform={turn || undefined} opacity={layer.opacity}>
             <mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width={ARTBOARD.w} height={ARTBOARD.h}>
-              <g color="#fff">{drawn}</g>
+              {/* Art that hides what's behind it with the paper hides it with black here. */}
+              <g color="#fff" style={{ "--art-knock": "#000" } as CSSProperties}>
+                {drawn}
+              </g>
             </mask>
             <rect width={ARTBOARD.w} height={ARTBOARD.h} fill={`url(#foil-${uid})`} mask={`url(#${id})`} />
           </g>

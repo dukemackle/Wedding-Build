@@ -602,8 +602,10 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // Invitation: a paper card with the names and date worded like the printed
   // invitation, under an arched photo when there is one.
   if (hero === "invitation") {
+    // Gilded's flowers run in over the top on a phone, so the card starts lower there.
+    const gilded = resolveDesign(design).scene === "gilded";
     return (
-      <header className={`relative overflow-hidden px-4 py-12 sm:px-8 lg:py-20 ${suite ? "pb-24 sm:pb-32 lg:pb-36" : ""}`}>
+      <header className={`relative overflow-hidden px-4 py-12 sm:px-8 lg:py-20 ${suite ? "pb-24 sm:pb-32 lg:pb-36" : ""} ${gilded ? "max-sm:pt-36" : ""}`}>
         {suite ? <SuiteCorner suite={suite} className={photo ? "max-sm:hidden" : ""} /> : <SiteArt art={art} />}
         <SiteScene where="surround" />
         <div

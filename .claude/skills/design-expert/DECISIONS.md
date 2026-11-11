@@ -23,6 +23,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
   tabs (loses list + RSVPs side by side) and a stage-dependent page (things
   move around). Same day: the stage header's "What it means" folds to one
   tappable line on phones (desktop unchanged).
+- **2026-11-11:** Gilded preview OK'd: original line-drawn magnolia, orchid
+  and blossom branch running off the left edge (`src/lib/gilded-art.tsx`,
+  shared by card and site). Card: left-aligned names in a framed panel, in
+  gold foil on cream, gold foil on emerald and blue ink on cream. Site:
+  invitation hero with the flowers off the left edge (a blossom branch over
+  the top on phones), a small magnolia above every section.
 - **2026-11-10:** Suites wave 2 approved as proposed in `docs/suites-wave-2.md`
   (Highland, Gilded, Wildflower upgrade, Signature, Desert Arch, Silhouette,
   Eucalyptus; Conservatory folds into Heirloom, beach into Tide). Highland
