@@ -43,13 +43,13 @@ const sun = (day: string) => `var(--scene-sun, ${day})`;
 const tint2 = (pct: number) =>
   `color-mix(in srgb, var(--site-accent-2, var(--site-accent)) ${pct}%, var(--color-parchment))`;
 
-export function SiteScene({ where }: { where: "band" | "strip" | "surround" }) {
+export function SiteScene({ where }: { where: "band" | "strip" | "surround" | "foot" }) {
   const design = useSiteDesign();
   const id = useId().replace(/:/g, "");
   const scene = resolveDesign(design).scene;
   if (sceneById(scene).place !== where) return null;
 
-  if (where === "band") {
+  if (where === "band" || where === "foot") {
     return (
       <svg
         aria-hidden="true"
@@ -91,7 +91,7 @@ export function SceneArtwork() {
     );
   }
 
-  const land = place === "band" && BANDS[scene] ? scene : "ridges";
+  const land = (place === "band" || place === "foot") && BANDS[scene] ? scene : "ridges";
   return (
     <div aria-hidden="true" className="absolute inset-0 overflow-hidden" style={{ background: sky }}>
       {/* Ridges draw a sun of their own. */}
@@ -963,7 +963,7 @@ export function SceneThumb({ scene, time = "day" }: { scene: SceneId; time?: Sce
           <span className="relative block h-5 w-36 rounded-full" style={{ background: "var(--color-ink)" }} />
           <span className="relative block h-3 w-20 rounded-full opacity-50" style={{ background: "var(--color-ink)" }} />
         </span>
-        {place === "band" && (
+        {(place === "band" || place === "foot") && (
           <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="block h-[55%] w-full shrink-0">
             {lit(time, id, scene, BANDS[scene]?.(id))}
           </svg>

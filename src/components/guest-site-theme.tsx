@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SiteScene } from "@/components/site-scene";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ALL_FONTS_HREF,
@@ -176,6 +177,10 @@ export function GuestSiteTheme({
             Privacy
           </Link>
         </footer>
+        {/* A "foot" scene (Highland's moor) closes the page, under the tabs and the footer line. */}
+        <DesignContext.Provider value={design}>
+          <SiteScene where="foot" />
+        </DesignContext.Provider>
       </div>
     </>
   );

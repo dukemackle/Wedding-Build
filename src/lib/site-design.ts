@@ -684,7 +684,8 @@ export const WORD_ORNAMENTS: readonly OrnamentId[] = ["bismillah", "xi"];
  * suits any accent (src/components/site-scene.tsx). "band" scenes sit along
  * the bottom of the top of the page, "strip" ones along its top, and
  * "surround" ones frame the names (so they show only where there's no photo
- * behind them).
+ * behind them). "foot" ones are a band along the very bottom of the page,
+ * under the last tabs and the footer line.
  */
 export const SCENES = [
   { id: "none", label: "None", place: "none" },
@@ -703,7 +704,8 @@ export const SCENES = [
   { id: "skyline", label: "City skyline", place: "band" },
   { id: "frontier", label: "Mesas", place: "band" },
   { id: "sunset", label: "Desert sun", place: "band" },
-  { id: "moors", label: "Highland moor", place: "band" },
+  // Along the very bottom of the page, under the footer.
+  { id: "moors", label: "Highland moor", place: "foot" },
   // Strips, across the top.
   { id: "lights", label: "String lights", place: "strip" },
   { id: "shoreline", label: "Shoreline", place: "strip" },
