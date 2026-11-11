@@ -437,6 +437,56 @@ Simply Finn	Videography		Milwaukee	Wisconsin	Wisconsin and beyond	Husband-and-wi
 Betcher Photo	Videography		Milwaukee	Wisconsin	Milwaukee, Chicago and Madison	Milwaukee wedding photographer offering hybrid photo and video coverage or full videography.		414-522-1552	https://www.betcherphoto.com/videography	https://www.instagram.com/betcher_photo/		
 Sweet Something's Pastries	Cake		Kenosha	Wisconsin		Kenosha custom bake shop making wedding cakes and pastries, also sold at local farmers' markets.	rmmattefs@hotmail.com	262-960-1524	https://www.sweetsomethingspastries.com/			`,
   },
+  {
+    name: "Madison: Planning, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sunlit Promises	Planning		Madison	Wisconsin	Madison area	Madison-area planning studio offering full-service wedding planning, event design and month-of coordination with venue and vendor liaison.			https://www.sunlitpromises.com/		5500	package
+Baked Lab	Cake	2044 Atwood Avenue	Madison	Wisconsin		Scratch bakery on Atwood Avenue making clean, modern buttercream wedding cakes, with cupcakes, macarons and dessert tables to match.	hello@thebakedlab.com		https://www.thebakedlab.com/weddings		6	per person`,
+  },
+  {
+    name: "Door County: Hair & Makeup, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Clipper's Mate Salon	Hair & Makeup	7 S Madison Avenue	Sturgeon Bay	Wisconsin	Door County	Family-run Sturgeon Bay salon offering bridal hair, traditional and airbrush makeup and trials, in the salon or travelling to the venue.			https://www.clippersmate.com/bridal/	https://www.instagram.com/clippersmatesalon920/		
+Northern Lights Wedding Films	Videography		Green Bay	Wisconsin	Green Bay, Door County, Appleton, Oshkosh and across Wisconsin	Green Bay videographer making cinematic wedding films with drone footage, filming couples across Door County and the rest of Wisconsin.	hello@greenbayweddingfilms.com		https://greenbayweddingfilms.com/	https://www.instagram.com/northernlightsweddingfilms/	2650	package`,
+  },
+  {
+    name: "Lake Geneva: Florals, Catering, Hair & Makeup, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Great White Farm	Florals		Burlington	Wisconsin	Southeastern Wisconsin	Burlington flower farm growing its own seasonal blooms for loose, romantic wedding bouquets, arches and centrepieces, taking one wedding a weekend.	greatwhitefarm@yahoo.com	(262) 758-7482	https://www.greatwhitefarm.com/weddings.html	https://www.instagram.com/greatwhitefarm/	3000	package
+gia bella flowers	Florals	133 E Chestnut St	Burlington	Wisconsin	Lake Geneva, Burlington and Twin Lakes venues	Burlington florist with a Chestnut Street shop designing custom wedding flowers for venues around Lake Geneva, Burlington and Twin Lakes.	giabellaflowers@att.net	(262) 763-4522	https://www.giabellaflowers.com/weddings			
+Stowell's Catering Service, Inc.	Catering	W1127 Spring Prairie Road	Burlington	Wisconsin	Burlington and surrounding communities	Family-run Burlington caterer since 1971 serving buffet-style wedding dinners at halls, barns and fairground venues across Walworth and Racine counties.	brenda@stowellscatering.com	262-763-8316	https://www.stowellscatering.com/	https://www.instagram.com/stowells.catering/		
+Rooted Hair Co.	Hair & Makeup	256 E. Chestnut St. Ste B	Burlington	Wisconsin	Burlington; on-site travel quoted	Burlington salon whose stylists offer bridal hair and airbrush makeup for wedding parties, in the studio or on site for a quoted travel fee.	rooted.hair.co.wi@gmail.com	608-345-4704	https://www.rootedhaircowi.com/bridal-services	https://www.instagram.com/rootedhaircowi/	125	per person
+Blackbird Bakery	Cake	256 E. Chestnut St. Suite A	Burlington	Wisconsin		Freehand scratch bakery in downtown Burlington designing custom wedding cakes and dessert displays, with delivery, table set-up and stand hire.		262-661-4029	https://blackbirdbakeryburlington.com/weddings/	https://www.instagram.com/blackbirdbakeryburlington/		`,
+  },
+  {
+    name: "Wisconsin Dells: Photography, Florals, Music, Catering, Hair & Makeup, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Jevon Photo	Photography		Portage	Wisconsin	Portage, Baraboo, Wisconsin Dells, Madison	Portage photographer covering weddings, couples and engagements with a relaxed, guided style across Baraboo and the Dells.			https://www.jevonphoto.com/	https://www.instagram.com/jevonphoto/		
+4 Seasons Floral and Gifts	Florals	235 E State St	Mauston	Wisconsin	Mauston, Lyndon Station, Elroy, New Lisbon, Camp Douglas, Hustler, Necedah	Owner-run Mauston flower shop, open since 2017, arranging wedding flowers alongside everyday and sympathy work for Juneau County.		(608) 847-7677	https://4seasonsfloralmauston.com/weddings-events.html			
+Prairie Flowers & Gifts	Florals	126 N Lexington Street	Spring Green	Wisconsin	Spring Green, Plain, Dodgeville, Lone Rock, Sauk Prairie, Arena, Mazomanie	Spring Green florist and gift shop making bridal bouquets, party flowers, ceremony and reception pieces for River Valley weddings.	springgreenprairieflowers@gmail.com	(608) 588-9999	https://www.prairie-flowers.com/wedding-flowers			
+Pro Mobile DJs	Music		Baraboo	Wisconsin		Baraboo DJ team offering wedding reception music, MC work and photo booth hire, with experience at Dells-area venues.	info@thepromobiledjs.com	608-469-9547	https://www.thepromobiledjs.com/	https://www.instagram.com/promobiledjs/		
+Wisconsin River Meats	Catering	N5340 County Road HH	Mauston	Wisconsin		Mauston meat market catering weddings with its own smoked meats, from pickup trays to full-service buffets with staff.		608-847-7413	https://www.wisconsinrivermeats.com/pages/catering-information	https://www.instagram.com/wisconsinrivermeats/		
+Prem Meats & Catering	Catering	E5028 US-14	Spring Green	Wisconsin	Spring Green and Prairie du Sac	Long-running Sauk County butcher and caterer serving buffet wedding dinners with scratch-made sides, priced by guest count.	premmeats@gmail.com	(608) 588-2164	https://www.premmeats.com/catering/			
+Wood BBQ Catering	Catering		Sauk City	Wisconsin	Southern Wisconsin	Family-run Sauk City barbecue caterer specialising in smoked-meat wedding buffets for groups of 25 up to 1,500 guests.	cody@woodbbqcatering.com	608-370-7366	https://www.woodbbqcatering.com/catering-menu2	https://www.instagram.com/wood_bbq_catering/		
+Fur Fin & Feather	Catering	3602 County Rd B	Wisconsin Dells	Wisconsin		Wisconsin Dells bar and grill that caters smoked barbecue, ribs and burgers for weddings, graduations and other parties.	6furfinfeather@gmail.com	(608) 253-2828	https://www.furfinandfeatherco.com/			
+Broadway Diner	Catering	304 Broadway Street	Baraboo	Wisconsin		Owner-run Baraboo diner offering full-service catering for weddings and rehearsal dinners, with menus built around each event.	broadwaydinereats@gmail.com	(608) 356-3287	https://broadwaydinereats.com/catering-full-service			
+Lords & Ladies Salon	Hair & Makeup	421 Wisconsin Dells Pkwy	Wisconsin Dells	Wisconsin		Aveda salon in the Dells hosting bridal parties for morning-of wedding hair styling, with snacks and drinks in the salon.	info@lordsnladiesinthedells.com	608-253-5151	https://lordsnladiesinthedells.com/services/bridak/		65	per person
+Beauty Aide Studio	Hair & Makeup	717 South Blvd, Suite 8	Baraboo	Wisconsin		Baraboo beauty studio offering bridal makeup, trials and a longer luxury bridal service, plus brow and lash treatments.		608-561-8402	https://beautyaidestudio.com/	https://www.instagram.com/beautyaidestudio/		
+Jore Hair Collective	Hair & Makeup	837 Water St	Sauk City	Wisconsin	Sauk City, Prairie du Sac and surrounding areas	Sauk City salon with stylists who handle bridal hair and makeup, quoting custom packages for each wedding party.	jorehair@gmail.com	(608) 844-1950	https://www.jorehaircollective.com/bridal	https://www.instagram.com/jorehaircollective/		
+The Knock Shoppe's Country Cakes	Cake	W4743 10th Road	Westfield	Wisconsin	Delivery up to 200 miles	Westfield cake studio designing tiered wedding cakes, often on its own illuminated stands, with a showroom of display cakes.	info@theknockshoppe.com		https://countrycakescatering.com/	https://www.instagram.com/knockshoppe/		
+Viking Village Foods	Cake	150 Viking Dr.	Reedsburg	Wisconsin		Reedsburg grocer whose in-store bakery makes scratch wedding cakes, with design consultations and tastings by appointment.		(608) 524-6108	https://vikingvillagefoods.com/departments/bakery/wedding-cakes/	https://www.instagram.com/vikingvillagefoods/		`,
+  },
+  {
+    name: "La Crosse: Florals, Music, Catering, Hair & Makeup, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Pennycress Studio	Florals	S2620A Sebion Lane	Viroqua	Wisconsin	Driftless region and La Crosse	Viroqua flower farm and studio designing seasonal wedding florals from home-grown blooms for Driftless and La Crosse celebrations.	info@pennycressstudio.com		https://www.pennycressstudio.com/weddings	https://www.instagram.com/pennycress_studio/		
+Flowers by Guenthers	Florals	310 Sand Lake Rd	Onalaska	Wisconsin	Onalaska, La Crosse, Holmen, West Salem	Onalaska flower shop with a wedding and events service, offering consultations and bridal flowers across the La Crosse area.		608-783-2140	https://www.flowersbyguenthers.com/	https://www.instagram.com/fbgfloral/		
+Rustic Memories	Music		Sparta	Wisconsin	La Crosse, Onalaska, Holmen, West Salem, Sparta	Sparta wedding venue team that also provides DJ entertainment and a photo booth for receptions around La Crosse, Onalaska and Holmen.	RusticMemoriesWI@gmail.com	608-738-5874	https://rusticmemorieswi.com/dj-photo-booth			
+Bennett O'Riley's	Catering	4329 Mormon Coulee Rd	La Crosse	Wisconsin	Greater La Crosse area	South La Crosse pub and grill that caters weddings and private parties with relaxed, family-style menus drawn from its kitchen.		(608) 502-7501	https://www.bennettorileys.com/catering-home			
+Metropolitan Salon & Spa	Hair & Makeup	600 N. 3rd St., Suite 103	La Crosse	Wisconsin	Up to 45 miles from La Crosse	Downtown La Crosse salon and spa with bridal hair, airbrush makeup and trial packages, in the salon or on location within 45 miles.			https://metropolitanspa.com/services/bridal/	https://www.instagram.com/metropolitanspa/	56	per person
+Heavenly Crossroads Salon & Spa	Hair & Makeup	208 South Holmen Drive Suite 102	Holmen	Wisconsin	Holmen and La Crosse	Holmen and La Crosse salon whose stylists do bridal updos, airbrush makeup and wedding party hair, booked months ahead of the day.	heavenlycrossroadssalonspa16@gmail.com	(608) 793-5572	https://heavenlycrossroadssalonspa.com/weddings/		20	per person
+Boxcar Wedding Films	Videography		La Crosse	Wisconsin		La Crosse-based filmmaker creating candid, story-led wedding films, available alone or alongside the studio's photography coverage.	boxcarphotoben@gmail.com		https://boxcarphotography.com/la-crosse-wedding-videographer/	https://www.instagram.com/boxcarphotography/		`,
+  },
 ];
 
 export default batches;
