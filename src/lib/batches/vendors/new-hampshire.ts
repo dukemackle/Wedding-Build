@@ -306,6 +306,42 @@ The Production House	Videography	484 Marlboro Street	Keene	New Hampshire		Keene 
 Masterpiece Video Productions	Videography	33 Hardy Rd	Londonderry	New Hampshire		Wedding videographer operating since 1985 from Londonderry and Nashua, with single or multi-camera coverage and HD Blu-ray editing.		603-505-4534	https://www.masterpiecevideoproductions.com/	
 Concord Food Co-op Café Catering	Catering	24 South Main Street	Concord	New Hampshire		Concord café catering that takes on larger events including weddings, with a deposit to hold the date and weekday order handling.	cafe@concordfoodcoop.coop	603-225-6840	https://concordfoodcoop.coop/catering/	https://www.instagram.com/concordfoodcoop/`,
   },
+  {
+    name: "Lakes Region: photography, catering, cake, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Caitlin Page Photography	Photography		Wolfeboro	New Hampshire	New England	Lakes Region photographer documenting weddings with a calm, natural approach, from intimate lakeside days to larger celebrations across New England.	caitlin@caitlinpagephotography.com		https://caitlinpagephotography.com/	https://www.instagram.com/caitlinpagephotography/		
+Annie's Cafe & Catering	Catering	138 Gilford Ave.	Laconia	New Hampshire	Lakes Region	Laconia café and caterer running full-service wedding catering and à la carte menus for Lakes Region celebrations of every size since 2009.	anniescateringandevents@yahoo.com	(603) 524-6400	https://anniescafeandcatering.com/catering/	https://www.instagram.com/anniescafecatering/		
+Magic Foods Group	Catering		Moultonborough	New Hampshire		Restaurant group behind several Lakes Region dining rooms, catering wedding receptions and rehearsal events with menus drawn from its own kitchens.			https://magicfoodsrestaurantgroup.com/cater			
+Lake Libations	Catering		Meredith	New Hampshire	Lakes Region and all of New Hampshire	Mobile bar and bartending team from Meredith serving craft cocktails at Lakes Region weddings, with packages sized from small gatherings to large parties.			https://lakelibationsnh.com/	https://www.instagram.com/lakelibations/	650	package
+Wicked Good Bakery	Cake		Plymouth	New Hampshire		Plymouth farmhouse bakery making custom wedding cakes, cupcakes, whoopie pies and dessert-table treats, priced individually for each celebration.	2wickedgoodbakers@gmail.com	603.219.6628	https://wickedgoodbakerynh1.com/			
+Vertical Entertainment	Music		Gilford	New Hampshire	Plymouth, Concord, Manchester, Wolfeboro, Portsmouth, Meredith	Gilford DJ service covering weddings and parties from Plymouth to Wolfeboro and Meredith, with music and MC work tailored to each couple.		978-733-8721	https://sites.google.com/view/vertical-entertainment/rentals/dj-services			`,
+  },
+  {
+    name: "Concord: planning, music, cake, photography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Events by Lorraine	Planning		Allenstown	New Hampshire		Allenstown planner and licensed officiant offering full, partial and day-of wedding coordination, plus ceremonies, for modest budgets.	info.eventsbylorraine@gmail.com	603-716-1088	https://eventsbylorraine.wixsite.com/events-by-lorraine		450	package
+Louisa Co. Events	Planning		Pembroke	New Hampshire	New Hampshire, Boston, Cape Cod, Vermont and Maine	Planner offering full planning and design, partial planning and day-of coordination, with a feel for historic, garden and mountain venues.			https://www.louisacoevents.com/	https://www.instagram.com/louisacoevents/		
+Blue Ribbon Entertainment Services	Music		Pittsfield	New Hampshire		Wedding DJ and emcee whose packages bundle dance lighting, wireless mics and vendor coordination, with uplighting and slideshow add-ons.		603-275-7678	https://www.blueribbonentertainment.com/weddings	https://www.instagram.com/blue_ribbon_entertainment/	1450	package
+The Sweet Spot	Cake	353 Riverdale Road	Weare	New Hampshire		Weare bakery and café baking wedding cakes from scratch, with fillings and icings made in-house and help choosing designs and flavours.		603-529-6667	https://thesweetspotnh.com/wedding-cakes/			
+The Cakery by Susie Q	Cake		Deerfield	New Hampshire		Appointment-only cake studio making tiered statement cakes for weddings, with a set menu of flavours, frostings and fillings to choose from.		603.557.2319	https://www.susieqscakery.com/	https://www.instagram.com/thecakery_by_susie/	155	package
+Cranberry Barn Flower Shop	Florals	232 Park Ave	Hopkinton	New Hampshire		Hopkinton flower shop offering full wedding packages, from bouquets and buttonholes to ceremony garlands, centrepieces and cake-table flowers.		(603) 746-3963	https://www.cranberrybarnflowers.com/wedding-flowers			
+Hinesight Imagery	Photography		Bow	New Hampshire	Concord, Bow, Pembroke, Hooksett and greater New England	Bow-based wedding and portrait photographer known for creative flash work, covering Concord, Pembroke, Hooksett and wider New England.	info@hinesightimagery.com	(603) 998-2755	https://www.hinesightimagery.com/	https://www.instagram.com/hinesight_imagery/		
+Erika Follansbee Photography	Photography		Goffstown	New Hampshire	New Hampshire, Maine, Vermont and Massachusetts	Photographer specialising in weddings at outdoor venues, with two-photographer full-day coverage and hourly options for smaller weddings.			https://erikafollansbee.com/	https://www.instagram.com/erikafollansbee/	450	per hour`,
+  },
+  {
+    name: "White Mountains: cake, florals, hair & makeup, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Delectables by Danette	Cake	64 Kearsarge Rd	North Conway	New Hampshire		North Conway artisan bakery designing elegant custom wedding cakes, with tastings and direct coordination with your venue and florist.			https://www.delectablesbydanette.com/wedding-cakes/	https://www.instagram.com/delectablesbydanette/		
+DG Flower Studio	Florals		North Conway	New Hampshire	North Conway, Conway, Jackson & surrounding towns	North Conway flower studio offering full-service and à la carte wedding florals, now booking select dates for Mount Washington Valley couples.	info@dgflowerstudio.com	603-730-5268	https://www.dgflowerstudio.com/weddings	https://www.instagram.com/dgflowerstudio/		
+Fresh Salon & Day Spa	Hair & Makeup	24 Beacon Street 1D	Littleton	New Hampshire		Riverside salon and day spa in Littleton offering wedding and event styling, plus nails, facials and lash treatments for the bridal party.		603.259.3400	https://freshsalonanddayspa.com	https://www.instagram.com/freshsalonanddayspa/		`,
+  },
+  {
+    name: "Portsmouth: planning, music, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lindsey M. Events	Planning		Exeter	New Hampshire	New Hampshire & Greater Boston	Seacoast-based planner offering full planning, event management and wedding-day coordination, with a bespoke design proposal for each couple.	lindsey@lindseymevents.com		https://lindseymevents.com	https://www.instagram.com/lindseymevents/		
+Ceres Bakery	Cake	51 Penhallow Street	Portsmouth	New Hampshire		Portsmouth scratch bakery since 1980 making stacked cutting cakes, cupcakes, cookies and bars for weddings rather than tiered cakes.	ceresbakeryportsmouth@gmail.com	(603) 436-6518	https://ceresbakery.com/sweets/weddings-events-faq/			
+Roll Films LLC	Videography		Rochester	New Hampshire	New Hampshire Seacoast, Upper Valley, Maine and Massachusetts	Rochester-based videographer filming documentary-style wedding highlight videos, with drone work also offered, across the Seacoast and beyond.	rollfilmsllc@gmail.com	(603) 306-4503	https://www.rollfilmsnh.com/weddings	https://www.instagram.com/rollfilmsweddings/		`,
+  },
 ];
 
 export default batches;
