@@ -880,6 +880,68 @@ Petite Sweets N Treats	Cake		Columbus	Georgia		Appointment-only Columbus bakery 
 Island Day Spa	Hair & Makeup	60 Cinema Ln #140	St. Simons Island	Georgia		Spa and hair salon on St. Simons Island offering bridal hair, bridesmaid updos and wedding-day makeup for the bridal party.	hello@theislanddayspa.com	(912) 638-7799	https://www.theislanddayspa.com/		75	per person
 `,
   },
+  {
+    name: "Columbus: cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Wedding Cakes by Heather	Cake	8797 Hamilton Rd.	Pine Mountain	Georgia		Pine Mountain baker making custom wedding cakes and celebration desserts, with each design shaped around the couple's own ideas.	heatherwyche@bellsouth.net	(706) 616-7848	https://www.weddingcakesbyheather.com/			
+Kerrative Media	Videography		Columbus	Georgia	Columbus, GA and worldwide	Columbus photo and video team filming weddings in a modern, cinematic style that follows moments as they unfold rather than staging them.			https://kerrativemedia.com/	https://www.instagram.com/kerrativemedia/		
+`,
+  },
+  {
+    name: "Georgia: LaGrange: videography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Legacy Multimedia	Videography		LaGrange	Georgia		LaGrange videography team making romantic, story-led wedding films, with drone footage and the full ceremony video in every package.	legacymultimediaga@gmail.com		https://legacymultimediaga.com/	https://www.instagram.com/legacymultimedia_ga/	3600	package
+Wildflower MJ	Florals	408 South Lewis Street	LaGrange	Georgia		LaGrange floral and botanical design studio handling weddings from boutonnieres and bouquets to tablescapes and large floral arches.		(706) 416-7695	https://wildflowermj.com/wedding-florist/	https://www.instagram.com/wildflower_mj/		
+Sweet Pea's Floral Designs	Florals	609 Greenville St.	LaGrange	Georgia		LaGrange flower shop offering wedding bouquets, wedding party flowers, and ceremony and reception arrangements alongside everyday orders.	sweetpeasfloraldesigns@yahoo.com	(706) 882-5800	https://www.sweetpeasflorist.net/	https://www.instagram.com/sweetpeasfloraldesigns13/		
+`,
+  },
+  {
+    name: "Golden Isles: photography, florals, catering, hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Darkroom Photography	Photography	3600 Frederica Road #5	St. Simons Island	Georgia	St. Simons Island	Family-run St. Simons studio of four photographers covering weddings and portraits, printing albums and canvases in its own on-site lab.	info@darkroomssi.com	(912) 638-7077	https://www.darkroomssi.com/			
+Kings Bay Flowers	Florals	1616 Boone Street Suite A	Kingsland	Georgia	Kingsland	Long-established Kingsland flower shop making wedding bouquets, wedding-party flowers and ceremony and reception arrangements for Camden County couples.	kingsbayflowers@tds.net	(912) 729-1998	https://www.kingsbayflowers.net/wedding-flowers			
+The Flower Basket	Florals	2440 Parkwood Drive	Brunswick	Georgia	Glynn County	Family-owned Brunswick shop florist run by Hollie and Bill Edgy, designing every order in-house and delivering wedding flowers across Glynn County.		(912) 265-5990	https://brunswickflowerbasket.net/	https://www.instagram.com/the_flower_basket_brunswick/		
+Creative Catering and Design	Catering	414 Bedell Avenue	Woodbine	Georgia		Woodbine deli and caterer cooking Southern home-style menus since 1999, catering weddings at outside venues and running two event rooms of its own.	creativecateringdesigns@gmail.com	(912) 673-8485	https://www.creativecateringanddesign.com/	https://www.instagram.com/creativecateringanddesign/		
+Primp & Spa-rty	Hair & Makeup		Jekyll Island	Georgia	Jekyll Island, St. Simons Island, Savannah	On-location hair, makeup and spa team for wedding mornings and bachelorette weekends, with beauty bars inside Jekyll Island and St. Simons resorts.	primpsparty@gmail.com	(912) 771-6529	https://www.primpandsparty.com/	https://www.instagram.com/primpandsparty/		
+`,
+  },
+  {
+    name: "Augusta: cake, music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Bottom Line Bakery	Cake	4534 Washington Rd, Suite 3	Evans	Georgia	Evans and Augusta	Evans bakery and café making custom wedding cakes, macarons and pastries, with a tasting box couples can order to start planning their cake.	blcakeorder@gmail.com		https://www.bottomlinebakery.com/	https://www.instagram.com/bottomlinebakery/		
+DJ Matt Ames	Music		Augusta	Georgia	GA, SC, NC, TN, FL, AL	Augusta-area wedding DJ and MC with 15 years of event work and a background in radio production, travelling across the Southeast.			https://djmattames.bloom.io/	https://www.instagram.com/djmattames/		
+Aurora Adeleigh	Videography		Augusta	Georgia	Augusta and worldwide	Augusta photo and film team pairing cinematic wedding films and drone footage with 35mm film photography in combined collections.	auroraadeleigh@gmail.com	(706) 875-9674	https://www.auroraadeleigh.com/	https://www.instagram.com/auroraadeleigh/	6500	package
+`,
+  },
+  {
+    name: "Macon: catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Perfect Pear	Catering	924 Carroll Street	Perry	Georgia		Downtown Perry café and caterer building custom wedding menus around catering stations and passed hors d'oeuvres, tailored to each couple.	megan@perfectpearperry.com	(478) 224-7372	https://www.perfectpearperry.com/catering	https://www.instagram.com/perfect_pear_perry/		
+Anderson's	Catering		Kathleen	Georgia	Middle Georgia	Family caterer and bakery with nearly 30 years of wedding work, covering cocktail hour, dinner, cake and late-night sweets for up to 1,000 guests.		478-442-2828	https://www.andersonsbakery.org/services-4-1		45	per person
+Treats With Lenise	Cake	53 N Lee Street, Suite C	Forsyth	Georgia		Forsyth pop-up bakery run by a trained pastry chef with two decades' experience, making custom wedding cakes with Latin and French influences.	info@treatswithlenise.com		https://www.treatswithlenisebakery.com/wedding-cake-orders	https://www.instagram.com/treatswithlenise/		
+`,
+  },
+  {
+    name: "Savannah: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Cha Bella	Catering	102 E Broad St	Savannah	Georgia		Farm-to-table Savannah restaurant whose catering arm cooks everything in-house on the day from local ingredients, at its own space or your venue.	chabellacatering@gmail.com	912-790-7888	https://www.cha-bella.com/	https://www.instagram.com/chabellacatering/		
+Sweetest Temptation Catering	Catering		Savannah	Georgia	Greater Savannah and surrounding counties	Locally owned Savannah caterer offering buffet, plated or family-style wedding meals, plus Southern dessert bars such as peach cobbler and banana pudding.	sweetesttemptation34@sweetesttemp.biz	912-744-7447	https://sweetesttemp.biz/	https://www.instagram.com/sweetesttemptation34/		
+`,
+  },
+  {
+    name: "North Georgia Mountains: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Leah Kay Catering	Catering	1810 South Chestatee, Suite 207	Dahlonega	Georgia	North Georgia	Dahlonega chef-led caterer serving reinvented Southern comfort food for mountain weddings, with bartending, linens and event management on offer.	leah@leahkaycatering.com	(762) 699-8050	https://www.leahkaycatering.com/			
+`,
+  },
+  {
+    name: "Atlanta: cake, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sweet Peach Confections	Cake		Johns Creek	Georgia		Atlanta-area cake studio making buttercream and fondant wedding cakes, sculpted groom's cakes and dessert bars, with six-flavour tasting boxes.	info@sweetpeachconfections.com	678-467-3969	https://sweetpeachconfections.com/weddings/	https://www.instagram.com/sweetpeachconfections/	6	per person
+Confection Perfection	Cake		Marietta	Georgia		Marietta cake studio offering wedding, elopement and groom's cakes and sculpted designs, with consultations available on evenings and weekends.		470-654-3361	https://confectionperfectioncakes.com/collections/wedding	https://www.instagram.com/confectionperfectioncakes/		
+Chelsea Floral Designs	Florals	3065 McCall Drive, Unit 12	Atlanta	Georgia	Atlanta and surrounding areas	Atlanta florist with a dedicated weddings and events studio that also dresses hotels and restaurants and rents event décor through a sister company.		(678) 528-2987	https://www.chelseafloraldesigns.net/	https://www.instagram.com/chelseafloraldesigns/		
+`,
+  },
 ];
 
 export default batches;
