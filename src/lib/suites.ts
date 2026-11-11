@@ -1,4 +1,4 @@
-import { BODY_FONTS, FONTS, PALETTES, contrast, mix, paletteColors, type SiteDesign } from "./site-design";
+import { BODY_FONTS, FONTS, PALETTES, SCENES, contrast, mix, paletteColors, type SceneId, type SiteDesign } from "./site-design";
 import { applyTemplate, templateById as siteTemplateById, withExtras } from "./site-templates";
 import { INVITATION_PREFIX } from "./save-the-date/invitations";
 import { CUSTOM_PALETTE, INVITATIONS, cardPalette, templateById as cardTemplateById } from "./save-the-date/templates";
@@ -46,7 +46,13 @@ export const SUITES: Suite[] = [
     siteColourways: { noir: "ivory-black", sunwashed: "champagne", gilt: "black-tie" },
   },
   { id: "deco-gala", name: "Deco Gala", card: "decogala", site: "deco-gala" },
-  { id: "wildflower", name: "Wildflower", card: "wildflower", site: "wildflower" },
+  {
+    id: "wildflower",
+    name: "Wildflower",
+    card: "wildflower",
+    site: "wildflower",
+    siteColourways: { picnic: "wf-picnic", cobalt: "wf-cobalt", lemon: "wf-lemon", cornflower: "wf-cornflower", butter: "wf-butter", blush: "wf-blush" },
+  },
   {
     id: "highland",
     name: "Highland",
@@ -114,6 +120,10 @@ export function siteMatchingCard(design: SiteDesign, doc: CardDoc): SiteDesign |
     const p = cardPalette(doc);
     next = { ...next, colors: { bg: p.paper, ink: p.ink, heading: p.ink }, accent: readableAccent(p.accent, p.paper, p.ink) };
   }
+
+  // Wildflower: the site wears the card's arrangement too (a scene of each).
+  const scene = `wildflower-${doc.arrangement}`;
+  if (suite.id === "wildflower" && SCENES.some((x) => x.id === scene)) next = { ...next, scene: scene as SceneId };
 
   const t = cardTemplateById(doc.template);
   const pair = t.pairings.find((x) => x.id === doc.fonts) ?? t.pairings[0];

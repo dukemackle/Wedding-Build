@@ -1,5 +1,5 @@
 import { mix } from "@/lib/site-design";
-import type { CardContent, CardDoc, Palette, Template } from "./types";
+import type { CardContent, CardDoc, Layer, Palette, Template } from "./types";
 import { INVITATION_SOURCES, INVITATION_WORDING, invitationFrom } from "./invitations";
 
 /**
@@ -454,15 +454,20 @@ export const TEMPLATES: Template[] = [
   },
   {
     id: "wildflower",
-    name: "Wildflower Bow",
+    name: "Wildflower",
     family: "Whimsical garden",
-    mood: "Meadow flowers scattered round the edge, tied up with a ribbon.",
+    mood: "Poppies, cornflowers, cosmos, lavender and daisies as a wreath, garland or all-over print, soft and faded or bright and bold.",
     usesPhoto: false,
     grain: 0.04,
+    // Suites wave 2: one set of stems in two moods (wildflower-art.tsx). The
+    // first three ids are the old Wildflower Bow's, so saved cards keep theirs.
     palettes: [
-      { id: "cornflower", label: "Cornflower", paper: "#fdf8ef", ink: "#39405a", accent: "#7d9bd6", muted: "#6f6a78", onPhoto: "#ffffff" },
-      { id: "butter", label: "Butter", paper: "#fdf9ee", ink: "#5a4630", accent: "#e8c45c", muted: "#7c6b58", onPhoto: "#ffffff" },
-      { id: "blush", label: "Blush", paper: "#fdf5f1", ink: "#5a3440", accent: "#e8a1ad", muted: "#86686e", onPhoto: "#ffffff" },
+      { id: "picnic", label: "Bright white", paper: "#ffffff", ink: "#1d2440", accent: "#d32f1c", muted: "#4f556b", onPhoto: "#ffffff", flora: "bright" },
+      { id: "cobalt", label: "Bright cobalt", paper: "#1f3a9e", ink: "#fff9e8", accent: "#ffd301", muted: "#c9d3f5", onPhoto: "#ffffff", flora: "bright" },
+      { id: "lemon", label: "Bright lemon", paper: "#fff36b", ink: "#14203d", accent: "#2243b6", muted: "#4d4a2c", onPhoto: "#ffffff", flora: "bright" },
+      { id: "cornflower", label: "Soft cornflower", paper: "#fbf6ec", ink: "#39405a", accent: "#5d74a6", muted: "#6f6a78", onPhoto: "#ffffff", flora: "soft" },
+      { id: "butter", label: "Soft butter", paper: "#fbf4e0", ink: "#5a4630", accent: "#a17a28", muted: "#7c6b58", onPhoto: "#ffffff", flora: "soft" },
+      { id: "blush", label: "Soft blush", paper: "#fbf0eb", ink: "#5a3440", accent: "#ab5a6a", muted: "#86686e", onPhoto: "#ffffff", flora: "soft" },
     ],
     pairings: [
       { id: "meadow", label: "Meadow", display: "fraunces", script: "sacramento", sans: "karla" },
@@ -470,19 +475,24 @@ export const TEMPLATES: Template[] = [
       { id: "posy", label: "Posy", display: "ebgaramond", script: "greatvibes", sans: "montserrat" },
     ],
     layers: [
-      { kind: "art", id: "iris", label: "Iris", art: "iris", x: -30, y: 90, w: 210, rotate: -14 },
-      { kind: "art", id: "poppy", label: "Poppy", art: "poppy", x: 790, y: 90, w: 240, rotate: 14 },
-      { kind: "art", id: "anemone", label: "Anemone", art: "anemone", x: -50, y: 1000, w: 230, rotate: 18 },
-      { kind: "art", id: "mallow", label: "Mallow", art: "mallow", x: 770, y: 980, w: 260, rotate: -14, flip: true },
-      { kind: "art", id: "lily", label: "Lily of the valley", art: "lilyValley", x: 120, y: 1110, w: 200, rotate: 4 },
-      { kind: "art", id: "sweetpea", label: "Sweet pea", art: "sweetPea", x: 620, y: 1120, w: 250, rotate: -6 },
-      { kind: "art", id: "bow", label: "Ribbon bow", art: "bow", x: 330, y: 40, w: 340, color: "accent" },
-      { kind: "text", id: "headline", label: "Headline", bind: "headline", text: "Save the date", x: 500, y: 430, size: 84, font: "script", color: "ink", anchor: "middle", maxWidth: 620 },
-      { kind: "text", id: "names", label: "Names", bind: "names", wrap: 14, valign: "middle", lineHeight: 1.05, x: 500, y: 600, size: 92, font: "display", italic: true, color: "ink", anchor: "middle", maxWidth: 640 },
-      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 745, size: 24, font: "sans", color: "ink", upper: true, tracking: 0.3, anchor: "middle", maxWidth: 600 },
-      { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 810, size: 34, lineHeight: 1.25, wrap: 28, font: "display", italic: true, color: "muted", anchor: "middle", maxWidth: 600 },
-      { kind: "text", id: "note", label: "Closing line", bind: "note", x: 500, y: 1060, size: 14, font: "sans", color: "muted", upper: true, tracking: 0.3, anchor: "middle", maxWidth: 520 },
+      { kind: "art", id: "flowers", label: "Wildflowers", art: "wfWreath", x: 0, y: 0, w: 1000 },
+      { kind: "text", id: "headline", label: "Headline", bind: "headline", text: "Save the date", x: 500, y: 580, size: 76, font: "script", color: "accent", anchor: "middle", maxWidth: 540 },
+      { kind: "text", id: "names", label: "Names", bind: "names", wrap: 14, valign: "middle", lineHeight: 1.05, x: 500, y: 740, size: 86, font: "display", italic: true, color: "ink", anchor: "middle", maxWidth: 580 },
+      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 890, size: 24, font: "sans", color: "ink", upper: true, tracking: 0.3, anchor: "middle", maxWidth: 540 },
+      { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 952, size: 32, lineHeight: 1.25, wrap: 26, font: "display", italic: true, color: "muted", anchor: "middle", maxWidth: 540 },
+      { kind: "text", id: "note", label: "Closing line", bind: "note", x: 500, y: 1070, size: 15, font: "sans", color: "muted", upper: true, tracking: 0.3, anchor: "middle", maxWidth: 480 },
     ],
+    arrangements: {
+      layer: "flowers",
+      options: [
+        { id: "wreath", label: "Wreath", art: "wfWreath" },
+        { id: "arcs", label: "Side arcs", art: "wfArcs" },
+        { id: "corner", label: "Corners", art: "wfCorner" },
+        { id: "garland", label: "Top garland", art: "wfGarland" },
+        { id: "scatter", label: "Scatter", art: "wfScatter" },
+        { id: "pattern", label: "All-over", art: "wfPattern" },
+      ],
+    },
   },
   {
     id: "laurelarch",
@@ -875,4 +885,12 @@ export function newCard(templateId: string, content = SAMPLE_CONTENT, photo: Car
     photo: photo ?? (sample ? (t.samplePhoto ?? null) : null),
     overrides: {},
   };
+}
+
+/** A card's layers with its chosen arrangement's artwork (Template.arrangements). */
+export function arrangedLayers(t: Template, layers: Layer[], doc: Pick<CardDoc, "arrangement">): Layer[] {
+  const a = t.arrangements;
+  const pick = a?.options.find((o) => o.id === doc.arrangement);
+  if (!a || !pick) return layers;
+  return layers.map((l) => (l.kind === "art" && l.id === a.layer ? { ...l, art: pick.art } : l));
 }

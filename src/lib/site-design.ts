@@ -719,6 +719,12 @@ export const SCENES = [
   { id: "ocean-tiles", label: "Ocean tiles", place: "strip" },
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
+  { id: "wildflower-wreath", label: "Wildflower wreath", place: "surround" },
+  { id: "wildflower-arcs", label: "Wildflower arcs", place: "surround" },
+  { id: "wildflower-corner", label: "Wildflower corners", place: "surround" },
+  { id: "wildflower-garland", label: "Wildflower garland", place: "surround" },
+  { id: "wildflower-scatter", label: "Wildflower scatter", place: "surround" },
+  { id: "wildflower-pattern", label: "Wildflower print", place: "surround" },
   { id: "drape", label: "Draped fabric", place: "surround" },
   { id: "western-pattern", label: "Western icons", place: "surround" },
   { id: "ocean-pattern", label: "Sea life", place: "surround" },
@@ -997,9 +1003,17 @@ export const PALETTES = [
   // Gilded (suites wave 2): gold line flowers on cream, blue ink on cream (gold on emerald is under Dark).
   { id: "gilded-cream", name: "Gold on cream", family: "gold", bg: "#f8f2e4", ink: "#3a3226", heading: "#4a3d27", accent: "#8f6f30" },
   { id: "gilded-ink", name: "Blue ink", family: "blue", bg: "#f7f3e8", ink: "#1f2a4d", heading: "#24357a", accent: "#2a3f8f" },
+  // Wildflower (suites wave 2): bright on white or lemon, soft on three papers
+  // (bright on cobalt is under Dark). The stems' mood follows (site-scene.tsx).
+  { id: "wf-picnic", name: "Bright white", family: "neutral", bg: "#ffffff", ink: "#1d2440", heading: "#1d2440", accent: "#c42a17" },
+  { id: "wf-lemon", name: "Bright lemon", family: "gold", bg: "#fff36b", ink: "#14203d", heading: "#14203d", accent: "#2243b6" },
+  { id: "wf-cornflower", name: "Soft cornflower", family: "blue", bg: "#fbf6ec", ink: "#2f3550", heading: "#3d4f7c", accent: "#4f659a" },
+  { id: "wf-butter", name: "Soft butter", family: "gold", bg: "#fbf4e0", ink: "#4a3a26", heading: "#6b5226", accent: "#7d5e1d" },
+  { id: "wf-blush", name: "Soft blush", family: "pink", bg: "#fbf0eb", ink: "#4a2b35", heading: "#7d4352", accent: "#924e5d" },
   // Dark
   // Gilded's dark colourway.
   { id: "gilded-emerald", name: "Gold on emerald", family: "green", bg: "#123a2e", ink: "#f3ead2", heading: "#f3ead2", accent: "#d8b765" },
+  { id: "wf-cobalt", name: "Bright cobalt", family: "blue", bg: "#1f3a9e", ink: "#fff9e8", heading: "#fff9e8", accent: "#ffd301" },
   { id: "midnight-navy", name: "Midnight navy", family: "blue", bg: "#14203d", ink: "#f3ead8", heading: "#f3ead8", accent: "#e0b65a" },
   { id: "royal", name: "Royal", family: "blue", bg: "#1c2a6b", ink: "#fff7d6", heading: "#fff7d6", accent: "#ffd301" },
   { id: "slate", name: "Slate", family: "blue", bg: "#2a333d", ink: "#eef1f4", heading: "#eef1f4", accent: "#a9c1e0" },

@@ -187,15 +187,17 @@ export const TEMPLATES: SiteTemplate[] = [
   {
     id: "wildflower",
     name: "Wildflower",
-    blurb: "Meadow flowers round an arched photo, the day as a storybook",
+    // Suites wave 2: the card's drawn stems in a wreath round the invitation
+    // (Background › Scene has the other arrangements), a posy over each section.
+    blurb: "Poppies, cornflowers and daisies wreathed round your invitation, bright or soft",
     theme: "botanical",
-    palette: "dusty-blue",
-    colourways: ["blush", "marigold"],
+    palette: "wf-picnic",
+    colourways: ["wf-cobalt", "wf-cornflower"],
     fonts: "fw",
-    hero: "framed",
+    hero: "invitation",
     ornament: "none",
-    art: { id: "wild-roses", placement: "corners" },
-    pageStyle: "storybook",
+    scene: "wildflower-wreath",
+    pageStyle: "invitation",
   },
   // Suites wave 2 (docs/suites-wave-2.md): a painted sky down the whole page
   // and the moor under the names, matching the Highland card.

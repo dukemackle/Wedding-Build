@@ -6,7 +6,7 @@ import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSP
 import { fontById } from "@/lib/site-design";
 import { BACK_QR, backQrUrl, backTemplate } from "@/lib/save-the-date/back";
 import { hasNumericDate, layerText, wrapText } from "@/lib/save-the-date/format";
-import { cardPalette, templateById } from "@/lib/save-the-date/templates";
+import { arrangedLayers, cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { ARTBOARD, type CardDoc, type ColorRole, type Layer, type LayerOverride, type Palette, type TextLayer } from "@/lib/save-the-date/types";
 import { ART } from "./art";
 
@@ -123,7 +123,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doc, fontsTick, side, site]);
 
-  const layers = doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers;
+  const layers = arrangedLayers(t, doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers, doc);
 
   // Dragging, in artboard units.
   const [drag, setDrag] = useState<{ id: string; x0: number; y0: number; dx: number; dy: number } | null>(null);
