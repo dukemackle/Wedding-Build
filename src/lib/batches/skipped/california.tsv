@@ -41,7 +41,6 @@ Vendor	San Diego Floral Design	Florals	San Diego	California	Site dead	https://sa
 Vendor	Rebecca y Las Otras	Photography	Los Angeles	California	Inactive	https://rebeccaylasotras.com/	2026-10-09
 Vendor	Fantasy Frostings	Cake	South Pasadena	California	Inactive	https://fantasyfrostings.com/	2026-10-09
 Vendor	Jimmy Shin Films	Videography	Los Angeles	California	Inactive	https://jimmyshinfilms.com/	2026-10-09
-Vendor	Lin & Jirsa Cinema	Videography	Los Angeles	California	Site back up	https://www.linandjirsa.com/	2026-10-09
 Vendor	Savannahs Savory Sweets	Cake	Sacramento	California	No website		2026-10-09
 Vendor	Hanna's Bakery	Cake	Folsom	California	No website		2026-10-09
 Vendor	Bellissimo Catering	Catering	Elk Grove	California	No website		2026-10-09
@@ -284,7 +283,6 @@ Vendor	Carly Saber Events	Planning	Sonoma	California	Inactive	https://carlysaber
 Vendor	Silver Charm Events	Planning	Los Angeles	California	Inactive	https://www.silvercharmevents.com/	2026-10-19
 Vendor	Cristal Stephani Makeup Artist	Hair & Makeup	Santa Cruz	California	Inactive	https://www.cristalstephani.com/	2026-10-19
 Vendor	BridesByRoupak	Hair & Makeup	San Diego	California	Inactive	https://bridesbyroupak.com/	2026-10-19
-Vendor	Jack Special Cebu Lechon	Catering	Long Beach	California	Site back up	https://jackcebulechon.com/	2026-10-19
 Vendor	Kameron Marie Photography	Photography	Santa Barbara	California	Site back up	https://loverly.com/vendors/kameron-marie-photography-7	2026-10-19
 Vendor	Sol Focus Studios	Photography	Santa Barbara	California	No website	https://weddingwire.com/biz/sol-focus-studios/1c98bacddfb9c2bc.html	2026-10-19
 Vendor	The Beatfreakz Events	Music	Paso Robles	California	No website	https://weddingwire.com/biz/the-beatfreakz-events/7ff7f90c13b9a773.html	2026-10-19
@@ -1398,9 +1396,9 @@ Vendor	Rock Me Up Bridal	Hair & Makeup	Pasadena	California	Inactive	https://rock
 Vendor	Tuxedo Junction & Suit Warehouse	Bridal & Formalwear	Burbank	California	Franchise	https://tuxedojunctionla.com/	2026-10-31
 Vendor	Sugar Paper	Stationery & Invitations	Santa Monica	California	Franchise	https://www.sugarpaper.com	2026-10-31
 Vendor	Wedded Details	Planning	Los Angeles	California	Franchise	https://www.weddedetails.com	2026-10-31
-Vendor	Bella Rosa Gardens	Florals	Altadena	California	Site back up	https://bellarosagardens.com	2026-10-31
+Vendor	Bella Rosa Gardens	Florals	Altadena	California	Site dead	https://bellarosagardens.com	2026-10-31
 Vendor	Sippin Oasis	Bar	Gardena	California	Site dead	https://sippinoasis.com	2026-10-31
-Vendor	Taquito Y Mas	Catering	North Hills	California	Site back up	https://taquitoymas.com	2026-10-31
+Vendor	Taquito Y Mas	Catering	North Hills	California	Site dead	https://taquitoymas.com	2026-10-31
 Vendor	Archive Rentals	Rentals	Los Angeles	California	Site blocks automated visits, unconfirmed	https://archiverentals.com	2026-10-31
 Vendor	Found Rentals	Rentals	Los Angeles	California	Site blocks automated visits, unconfirmed	https://foundrentals.com	2026-10-31
 Vendor	Jason Sulkin Music	Music	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.jasonsulkinmusic.com/	2026-10-31
@@ -1412,7 +1410,7 @@ Vendor	Cynthia Angelina	Hair & Makeup	Los Angeles	California	No wedding page	htt
 Vendor	Coté and Camera	Photography	Altadena	California	Social only	https://coteandcamera.com	2026-10-31
 Vendor	JPR Weddings	Officiant	Los Angeles	California	Site blocks automated visits, unconfirmed	https://jprweddings.com/	2026-10-31
 Vendor	Leo Perez Media	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://leoperezmedia.com/	2026-10-31
-Vendor	Lin & Jirsa	Photography	Los Angeles	California	Site back up	https://www.linandjirsa.com/	2026-10-31
+Vendor	Lin & Jirsa	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.linandjirsa.com/	2026-10-31
 Vendor	Francis Cinema	Photography	Pasadena	California	Site blocks automated visits, unconfirmed	https://www.franciscinema.com/	2026-10-31
 Vendor	D. Smith Images	Photography	Pasadena	California	Site dead	https://dsmithimages.com/pasadena-wedding-photographer/	2026-10-31
 Vendor	I Do Drive Thru USA	Officiant	Los Angeles	California	Franchise	https://www.idodrivethru.us/los-angeles	2026-10-31
@@ -1434,7 +1432,7 @@ Vendor	Corazon Photography	Photography	Los Angeles	California	Site blocks automa
 Vendor	Primo Prints	Photo Booth	Long Beach	California	Site blocks automated visits, unconfirmed	https://www.primoprints.photos/	2026-10-31
 Vendor	HILO Productions	Music	Torrance	California	Site dead	https://www.hiloproductions.com	2026-10-31
 Vendor	Mike Yoon Photo	Photography	Torrance	California	Site blocks automated visits, unconfirmed	https://www.mikeyoonphoto.com/	2026-10-31
-Vendor	Stems Floral Design	Florals	Palos Verdes Estates	California	Site back up	http://stemsbykate.com/	2026-10-31
+Vendor	Stems Floral Design	Florals	Palos Verdes Estates	California	Inactive	http://stemsbykate.com/	2026-10-31
 Vendor	Rolling Hills Flower Mart	Florals	Redondo Beach	California	Site dead	https://rollinghillsflowermart.com/	2026-10-31
 Vendor	Cotton Love Studios	Videography	Pasadena	California	Inactive	http://www.cottonlovestudios.com/	2026-10-31
 Vendor	Mitsuko Floral	Florals	Torrance	California	No website	https://www.yelp.com/biz/mitsuko-floral-torrance	2026-10-31
@@ -1972,3 +1970,49 @@ Venue	West Shore Cafe		Homewood	California	Inactive	https://www.westshorecafe.co
 Venue	Crooked Vine & Stony Ridge Winery		Livermore	California	Closed	https://www.herecomestheguide.com/northern-california/wedding-venues/crooked-vine-and-stony-ridge-winery	2026-11-11
 Venue	Arden Hills		Sacramento	California	Site dead	https://www.ardenhills.net	2026-11-11
 Venue	Capo Creek Ranch		Healdsburg	California	Not on Google, site blocks us	https://capocreekranch.com/private-events/	2026-11-11
+Vendor	Presshaus LA	Stationery & Invitations	Los Angeles	California	Inactive	https://presshaus.la/	2026-11-11
+Vendor	Seniman Calligraphy	Stationery & Invitations	Los Angeles	California	Inactive	https://www.senimancalligraphy.com/	2026-11-11
+Vendor	Bride Boutique	Bridal & Formalwear	Los Angeles	California	Site dead	https://brideboutiquela.com/	2026-11-11
+Vendor	Joanna August	Bridal & Formalwear	Los Angeles	California	Closed	https://www.joannaaugust.com/	2026-11-11
+Vendor	Hotcakes Bakes	Cake	Los Angeles	California	Site dead	https://www.hotcakesbakes.com/	2026-11-11
+Vendor	Busy Baking	Cake	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.busybaking.com/	2026-11-11
+Vendor	Mariachi Teocuitatlan	Music	South Gate	California	Inactive	https://mariachiteocuitatlan.com/	2026-11-11
+Vendor	DJ Drewzapp	Music	Los Angeles	California	Site never names its town	https://drewzapp.com/	2026-11-11
+Vendor	Elite Custom Cakes	Cake	Los Angeles	California	No website	https://app.wanderlog.com/place/details/1520950	2026-11-11
+Vendor	Lilou Cakes	Cake	Los Angeles	California	No website	https://www.theknot.com/marketplace/lilou-cakes-los-angeles-ca-2083673	2026-11-11
+Vendor	Danielle Baum Beauty	Hair & Makeup	Los Angeles	California	No website	https://www.theknot.com/marketplace/danielle-baum-beauty-los-angeles-ca-2037350	2026-11-11
+Vendor	Sip & Serve LA	Bar	Los Angeles	California	No website	https://www.theknot.com/marketplace/sip-and-serve-la-los-angeles-ca-2102081	2026-11-11
+Vendor	SoCal Sipz	Bar	Los Angeles	California	No website	https://www.theknot.com/marketplace/socal-sipz-los-angeles-ca-2087526	2026-11-11
+Vendor	Underwood Letterpress	Stationery & Invitations	Los Angeles	California	No website	https://www.theknot.com/marketplace/underwood-letterpress-los-angeles-ca-608782	2026-11-11
+Vendor	J. Francis Florals	Florals	Los Angeles	California	No website	https://thebash.com/florist/j-francis-florals	2026-11-11
+Vendor	Debbie Bridal	Bridal & Formalwear	Los Angeles	California	No website	https://www.poyst.com/business/debbie-bridal	2026-11-11
+Vendor	Flower Me Wild LA	Florals	Los Angeles	California	Social only	https://www.weddingwire.com/biz/flower-me-wild-la-los-angeles/4a9fcb88f42f91db.html	2026-11-11
+Vendor	House of Marey	Photography	Los Angeles	California	Social only	https://www.instagram.com/houseofmarey/	2026-11-11
+Vendor	Dance Syndicate Entertainment	Music	Temple City	California	Site never names its town	https://dancesyndicate.com/	2026-11-11
+Vendor	Akiko's Floral Design	Florals	Rancho Palos Verdes	California	Inactive	https://www.akikosfloraldesign.com/	2026-11-11
+Vendor	Studio MM&B	Hair & Makeup	Los Angeles	California	Inactive	https://www.studiommb.com/	2026-11-11
+Vendor	Mary's Cake Design	Cake	Whittier	California	Site never names its town	https://www.maryscakedesign.com/	2026-11-11
+Vendor	Long Beach Flowers	Florals	Long Beach	California	No wedding page	https://longbeachflowers.online/	2026-11-11
+Vendor	Romance Etc.	Florals	Long Beach	California	No wedding page	https://www.romance-etc.com/	2026-11-11
+Vendor	Flwr Farm	Florals	Long Beach	California	No wedding page	https://www.flwrfarm.com/	2026-11-11
+Vendor	Mr. & Mrs. Creamery	Desserts	Los Angeles	California	Inactive	https://mmcreamery.com/	2026-11-11
+Vendor	I Like Pie Bakeshop	Desserts	Claremont	California	Closed	https://ilikepiebakeshop.com/	2026-11-11
+Vendor	Badtenderz	Bar	Santa Clarita	California	Site never names its town	https://www.badtenderz.com/	2026-11-11
+Vendor	JUCY Bartending	Bar	Valencia	California	Site never names its town	https://www.jucybartending.com/	2026-11-11
+Vendor	Regalino Events	Photo Booth	Burbank	California	Site never names its town	https://www.regalinoevents.com/	2026-11-11
+Vendor	Exit 9C Inc	Videography	Westlake Village	California	No wedding page	https://exit9c.com/	2026-11-11
+Vendor	M Entertainment Group	Music	Santa Clarita	California	No wedding page	https://www.mentertainmentgroup.com/	2026-11-11
+Vendor	Classy Chassis Rentals	Transportation	Tarzana	California	Inactive	https://classychassisrentals.com/	2026-11-11
+Vendor	Mazer Productions	Videography	Calabasas	California	No wedding page	https://www.mazerproductions.com/	2026-11-11
+Vendor	Harp By Karina	Music	Los Angeles	California	Inactive	https://www.harpbykarina.com/	2026-11-11
+Vendor	Shiraz Party Rental	Rentals	Glendale	California	Inactive	https://www.shirazpartyrental.com/	2026-11-11
+Vendor	Cool Bites Catering	Catering	Los Angeles	California	Inactive	https://www.coolbitescatering.com/	2026-11-11
+Vendor	WorldBeat DJ	Music	Glendale	California	Inactive	https://worldbeatdj.com/	2026-11-11
+Vendor	Maya Myers Photography	Photography	Los Angeles	California	Inactive	https://mayamyers.com/	2026-11-11
+Vendor	Hamlet Productions	Photography	Glendale	California	Inactive	https://hamletproductions.com/	2026-11-11
+Vendor	White Story Productions	Videography	Glendale	California	No website	https://www.weddingwire.com/biz/white-story-productions/fc8730876438b0bc.html	2026-11-11
+Vendor	CaliCreative Photography	Photography	Lancaster	California	No website	https://weddingwire.com/biz/calicreative-photography-lancaster/7d859eb4d4c860dc.html	2026-11-11
+Vendor	Dashing Events	Music	Encino	California	No website	https://www.weddingwire.com/biz/dashing-events-encino/d9bc5c18550ccae8.html	2026-11-11
+Vendor	Miggy's Rewind Radio	Music	Palmdale	California	Site blocks automated visits, unconfirmed	https://www.miggysrewindradio.com/	2026-11-11
+Vendor	DJ Hye FX	Music	Glendale	California	Site never names its town	https://www.hyefx.com/	2026-11-11
+Vendor	Ladybugs Catering & Events	Catering	Glendale	California	Site never names its town	https://ladybugscateringandevents.com/	2026-11-11
