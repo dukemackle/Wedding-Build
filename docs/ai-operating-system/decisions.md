@@ -354,3 +354,15 @@ rules, batch self-merge, 50-state coverage, page widths) and
   weeks of registration for a feature no one uses yet.
 - Revisit: when couples ask for texts. Then add funds, register the brand and
   campaign (Account Notifications), set the three TWILIO_* secrets.
+
+## 2026-11-11: Batch A suites wait for final, print-ready art
+
+- Decision (owner): the four Batch A suites (Highland Lake, Heirloom Peony,
+  Wildflower Meadow, Modern Black-Tie) don't go to a PR on the interim art
+  cut from the mockups. Final text-free watercolours first, so the suites
+  are print-ready at launch.
+- Built and pushed on `claude/modest-turing-7ws8qs`; the seven files and
+  their ChatGPT prompts are in `docs/batch-a-suites.md`.
+- Why: most couples print save the dates; the interim art prints soft.
+- Revisit: when the seven PNGs arrive (Claude upscales, cuts the small
+  pieces, re-previews, then opens the PR).

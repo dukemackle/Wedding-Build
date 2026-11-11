@@ -34,26 +34,71 @@ It's the approved painting, but:
 3. **Site pieces** (Highland panorama, Wildflower meadow) are upscaled 1.5-2x on a 1440px screen.
 4. Modern Black-Tie needs no art (vector only). Its site uses the couple's photo in black and white.
 
-## Missing-assets manifest (for print-ready fidelity)
+## Final art: decided, in progress
 
-Ask for each as a **transparent PNG, no text, no paper texture, no deckle edge**, at the size given
-(5x7 at 300dpi plus 1/8" bleed = 1575x2175; card art below is at that scale).
+Owner decision 2026-11-11: final art before the PR (print-ready at launch). ChatGPT images top out
+at 1024x1536, below 300dpi for 5x7, so the plan is: generate text-free originals at ChatGPT's
+largest size, then Claude upscales them 1.5-2x and cuts the small pieces (corners, columns, sprigs,
+peaks, pines) from them. Seven files:
 
-| File | Size (px) | Placement | Notes |
-|---|---|---|---|
-| highland-std.png | 1575x2175 | Save the date, full card | Sprig + small peaks top-centre; lake, pines, wildflowers from ~50% down. Nothing between 14% and 48% height. |
-| highland-inv.png | 1575x2175 | Invitation, full card | Sprig top-centre; small peaks at ~39%; scene from ~58% down, clouds at the sides only. |
-| highland-panorama.png | 3000x1050 | Site, under the names | Wide alpine lake, sky fading to transparent at the top. |
-| highland-sprig.png, highland-peaks.png, highland-forest.png | 800 wide | Ornaments, card backs | Separate small elements. |
-| heirloom-std.png, heirloom-inv.png | 1575x2175 | Cards, full | Peony clusters top-left and bottom-right, central 60% clear. |
-| heirloom-corner-top.png, heirloom-corner-bottom.png | 1400 wide | Site corners, card backs | Each cluster on its own. |
-| heirloom-sprig.png | 300 wide | Divider ornament | Small gold leaf sprig. |
-| wildflower-frame.png | 1575x2175 | Cards, full | Drawn at 5x7 (the mockup card was narrower). Side columns, meadow + peaks along the bottom, clear centre. |
-| wildflower-left.png, wildflower-right.png | 600x2400 | Site sides | Columns with soft inner edges. |
-| wildflower-meadow.png | 3000x1100 | Site, under the names | Meadow and far peaks, fading to transparent at the top. |
+| # | File | ChatGPT size | Attach | Becomes |
+|---|---|---|---|---|
+| 1 | highland-std.png | 1024x1536 tall | 01 | Save the date art; sprig, peaks, pines cut from it |
+| 2 | highland-inv.png | 1024x1536 tall | 02 | Invitation art |
+| 3 | highland-panorama.png | 1536x1024 wide | 03 | Site band under the names |
+| 4 | heirloom-std.png | 1024x1536 tall | 04 | Save the date art; sprig cut from it |
+| 5 | heirloom-inv.png | 1024x1536 tall | 05 | Invitation art; site corners cut from it |
+| 6 | wildflower-frame.png | 1024x1536 tall | 07 | Both cards; site columns cut from it |
+| 7 | wildflower-meadow.png | 1536x1024 wide | 07 | Site band under the names |
 
-Drop the finals into `public/site-art/batch-a/` (WebP with alpha, same names) and update the
-`batchA(...)` sizes in `art.tsx`; nothing else changes.
+### How
+
+- One ChatGPT chat per suite (Highland: files 1-3, Heirloom: 4-5, Wildflower: 6-7). Attach the
+  approved reference named in the table, then paste the piece's prompt and the Rules block.
+- After the first image in a chat, start each prompt with "Same artist, same style, same palette
+  as the previous image."
+- Compare each result with the approved mockup before keeping it: ChatGPT repaints rather than
+  copies, so peonies or peaks can drift. Regenerate until it's the same painting in spirit.
+- Download as PNG with the name above and send them to Claude.
+
+### Prompts
+
+1. **highland-std.png**: Repaint the artwork from the attached save the date as a single
+   illustration with no text. Same watercolour alpine lake, snowy peaks, tall pines on the left,
+   lupines, daisies and paintbrush flowers and rocks in the foreground, filling the bottom 52% of
+   the canvas edge to edge. At the top centre, the same small olive sprig with a tiny ink mountain
+   motif under it. Everything between them stays empty. Tall 1024x1536.
+2. **highland-inv.png**: Repaint the artwork from the attached invitation with no text. The same
+   lake, peaks and wildflower foreground filling the bottom 42% edge to edge, soft clouds only at
+   the far left and right just above it. A small olive sprig at the top centre and a tiny ink
+   mountain motif at 38% down, centred. Everything else empty. Tall 1024x1536.
+3. **highland-panorama.png**: Repaint the landscape from the attached website as a wide panorama
+   with no text: snowy peaks across the full width, pines on both sides, the lake in the middle,
+   wildflowers and rocks along the bottom edge. The sky is faint and fades to fully transparent at
+   the top. Wide 1536x1024, scene in the lower two thirds.
+4. **heirloom-std.png**: Repaint the flowers from the attached save the date with no text. The
+   same burgundy peony, blush garden rose, mauve hellebore, berries and sage leaves as one cluster
+   running off the top-left corner with a trailing stem of buds down the left edge; a second
+   cluster (cream peony, blush rose, burgundy peony, berries) running off the bottom-right corner
+   with a leafy spray reaching left. The centre 60% stays empty. Tall 1024x1536.
+5. **heirloom-inv.png**: Repaint the flowers from the attached invitation with no text: the
+   top-left cluster with cream hydrangea and the stem down the left edge, the bottom-right cluster
+   with the spray climbing the right edge. The centre stays empty. Tall 1024x1536.
+6. **wildflower-frame.png**: Repaint the flower frame from the attached invitation with no text,
+   as a 5x7 card: orange poppies, blue delphiniums, yellow daisies, pink cosmos and small white
+   daisies climbing both side edges, a light garland across the top corners, and a meadow with
+   distant snowy peaks across the bottom 25%. The centre column (middle 55% of the width) stays
+   empty from top to the meadow. Tall 1024x1536.
+7. **wildflower-meadow.png**: Same artist and flowers as the previous image: a wide meadow
+   panorama with distant snowy peaks and pines, a big orange poppy cluster on the left and blue
+   delphiniums and yellow daisies on the right, fading to fully transparent at the top. Wide
+   1536x1024.
+
+### Rules block (paste after every prompt)
+
+> Soft, detailed hand-painted watercolour, as in the reference. Transparent background (PNG with
+> alpha): no paper colour, no paper texture, no deckled edge, no border, no shadow. Absolutely no
+> text, letters, numbers, lines or rules anywhere. Leave the empty areas fully transparent.
 
 ## Known gaps
 
