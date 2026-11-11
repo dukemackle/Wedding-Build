@@ -627,6 +627,7 @@ export const HERO_LAYOUTS = [
   { id: "cover", label: "Photo cover", help: "Your photo across the whole screen, your names over its lower corner" },
   { id: "initials", label: "Initials", help: "Your initials huge, your names and details beside them, a wide photo under" },
   { id: "stamp", label: "Stamped", help: "Your photo in a white border with a round stamp of the year and place" },
+  { id: "signature", label: "Signature", help: "Type only: your names large, small spaced capitals, the date set in three boxes" },
 ] as const;
 
 /** The layouts that show the banner photo. */
@@ -997,6 +998,14 @@ export const PALETTES = [
   // Gilded (suites wave 2): gold line flowers on cream, blue ink on cream (gold on emerald is under Dark).
   { id: "gilded-cream", name: "Gold on cream", family: "gold", bg: "#f8f2e4", ink: "#3a3226", heading: "#4a3d27", accent: "#8f6f30" },
   { id: "gilded-ink", name: "Blue ink", family: "blue", bg: "#f7f3e8", ink: "#1f2a4d", heading: "#24357a", accent: "#2a3f8f" },
+  // Signature (suites wave 2): type only, matching the Calligraphy card's three papers.
+  { id: "signature-cotton", name: "Cotton & ink", family: "neutral", bg: "#fdfbf6", ink: "#1e2433", heading: "#1e2433", accent: "#3a4466" },
+  { id: "signature-sepia", name: "Sepia", family: "brown", bg: "#f8f1e4", ink: "#3b281c", heading: "#4a3324", accent: "#7a5a38" },
+  { id: "signature-gold", name: "Ink & gold", family: "gold", bg: "#fffdf8", ink: "#22201c", heading: "#22201c", accent: "#8a6d2f" },
+  // Whitespace (suites wave 2): the Whitespace card's three quiet papers.
+  { id: "whitespace-paper", name: "Paper", family: "neutral", bg: "#fafaf7", ink: "#1f1f1f", heading: "#1f1f1f", accent: "#85704f" },
+  { id: "whitespace-fog", name: "Fog", family: "blue", bg: "#eceeed", ink: "#263038", heading: "#263038", accent: "#52687a" },
+  { id: "whitespace-blush", name: "Blush", family: "pink", bg: "#f6ede9", ink: "#4a3632", heading: "#4a3632", accent: "#93625a" },
   // Dark
   // Gilded's dark colourway.
   { id: "gilded-emerald", name: "Gold on emerald", family: "green", bg: "#123a2e", ink: "#f3ead2", heading: "#f3ead2", accent: "#d8b765" },

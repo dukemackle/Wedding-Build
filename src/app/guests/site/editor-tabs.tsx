@@ -688,6 +688,18 @@ function HeroThumb({
           <span className="absolute inset-x-2 bottom-2 h-[22px]" style={{ background: photo }} />
         </>
       )}
+      {layout === "signature" && (
+        <span className="flex h-full flex-col items-center justify-center">
+          <span className="font-serif text-[15px] italic leading-none" style={{ color: ink }}>A</span>
+          <span className="my-0.5 block h-[2px] w-3 rounded-full opacity-50" style={{ background: ink }} />
+          <span className="font-serif text-[15px] italic leading-none" style={{ color: ink }}>B</span>
+          <span className="mt-1.5 flex border-y" style={{ borderColor: accent }}>
+            {[0, 1, 2].map((i) => (
+              <span key={i} className={`block h-2 w-3 ${i === 1 ? "border-x" : ""}`} style={{ borderColor: accent }} />
+            ))}
+          </span>
+        </span>
+      )}
       {layout === "stamp" && (
         <span className="absolute inset-0 flex items-center gap-2 px-2">
           <span className="relative block h-[44px] w-[46%] border-[3px] border-white shadow-sm" style={{ background: photo }}>

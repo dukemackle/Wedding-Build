@@ -909,6 +909,9 @@ export const ART: Record<string, ArtDef> = {
       </g>
     ),
   },
+  // A pen swash (owner, 2026-11-11: the old wavy line with a loop looked
+  // cheap): two strokes swelling from a small lozenge and tapering to a
+  // hairline at each end, as a broad nib draws them.
   flourish: {
     kind: "vector",
     label: "Flourish",
@@ -916,10 +919,13 @@ export const ART: Record<string, ArtDef> = {
     draw: (w) => {
       const h = w * 0.16;
       const c = w / 2;
+      const m = h * 0.5;
+      const half = `M${c - 14} ${m - 0.8}C${c - w * 0.16} ${m - 2.6} ${w * 0.2} ${m + 6} ${w * 0.05} ${m - 2.5}C${w * 0.2} ${m + 8.5} ${c - w * 0.16} ${m + 2.8} ${c - 14} ${m + 0.8}Z`;
       return (
-        <g fill="none" stroke="currentColor" strokeLinecap="round">
-          <path d={`M10 ${h * 0.6}C${w * 0.2} ${h * 0.1} ${w * 0.32} ${h * 0.95} ${c} ${h * 0.5}C${w * 0.68} ${h * 0.05} ${w * 0.8} ${h * 0.9} ${w - 10} ${h * 0.4}`} strokeWidth={1.8} />
-          <path d={`M${c - 16} ${h * 0.5}C${c - 6} ${h * 0.1} ${c + 6} ${h * 0.1} ${c + 16} ${h * 0.5}C${c + 6} ${h * 0.9} ${c - 6} ${h * 0.9} ${c - 16} ${h * 0.5}Z`} strokeWidth={1.2} />
+        <g fill="currentColor">
+          <path d={half} />
+          <path d={half} transform={`translate(${w} 0) scale(-1 1)`} />
+          <path d={`M${c} ${m - 5}L${c + 5} ${m}L${c} ${m + 5}L${c - 5} ${m}Z`} />
         </g>
       );
     },
