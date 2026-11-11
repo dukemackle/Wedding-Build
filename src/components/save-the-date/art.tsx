@@ -38,18 +38,6 @@ const batchA = (label: string, file: string, w: number, h: number): ImageArt => 
   src: `/site-art/batch-a/${file}.webp`,
 });
 
-/** Two fine rules with a small painted ornament between them. */
-function ornamentRule(w: number, src: string, iw: number, ih: number, gap: number) {
-  const c = w / 2;
-  const y = ih / 2;
-  return (
-    <g>
-      <line x1={0} x2={c - gap} y1={y} y2={y} stroke="currentColor" strokeWidth={1.6} />
-      <line x1={c + gap} x2={w} y1={y} y2={y} stroke="currentColor" strokeWidth={1.6} />
-      <image href={src} x={c - iw / 2} y={0} width={iw} height={ih} />
-    </g>
-  );
-}
 
 /** A four-point sparkle centred on (x, y). */
 function sparkle(x: number, y: number, r: number, key: string | number) {
@@ -958,9 +946,7 @@ export const ART: Record<string, ArtDef> = {
   },
   // ---- Batch A suites ----
   highlandStd: batchA("Alpine lake", "highland-std", 1024, 1434),
-  highlandInv: batchA("Alpine lake (invitation)", "highland-inv", 1024, 1434),
-  highlandSprig: batchA("Olive sprig", "highland-sprig", 330, 80),
-  highlandPeaks: batchA("Mountain motif", "highland-peaks", 230, 70),
+  highlandInv: batchA("Alpine lake", "highland-std", 1024, 1434),
   highlandForest: batchA("Pines and rocks", "highland-forest", 162, 170),
   heirloomStd: batchA("Peony corners", "heirloom-std", 1000, 1400),
   heirloomInv: batchA("Peony corners (invitation)", "heirloom-inv", 1000, 1400),
@@ -969,18 +955,6 @@ export const ART: Record<string, ArtDef> = {
   wildflowerFrame: batchA("Wildflower meadow", "wildflower-card", 1000, 1400),
   wildflowerLeft: batchA("Wildflowers (left)", "wildflower-left", 300, 1400),
   wildflowerRight: batchA("Wildflowers (right)", "wildflower-right", 300, 1400),
-  sprigRule: {
-    kind: "vector",
-    label: "Rule with a sprig",
-    aspect: 0.11,
-    draw: (w) => ornamentRule(w, "/site-art/batch-a/heirloom-sprig.webp", w * 0.17, w * 0.11, w * 0.15),
-  },
-  peakRule: {
-    kind: "vector",
-    label: "Rule with peaks",
-    aspect: 0.1,
-    draw: (w) => ornamentRule(w, "/site-art/batch-a/highland-peaks.webp", w * 0.33, w * 0.1, w * 0.24),
-  },
   /** Black-tie: a heavier outer rule and a fine inner one, like an engraved card's border. */
   doubleFrame: {
     kind: "vector",

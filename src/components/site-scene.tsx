@@ -835,17 +835,18 @@ const BATCH_A = "/site-art/batch-a";
 const painted = "pointer-events-none select-none";
 
 const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
-  // The alpine lake right under the names, full width, as on the card. A
-  // phone shows its middle at a usable height rather than a sliver.
+  // The card's own painting right under the names: full width on a phone,
+  // centred on a wide screen with its sides fading into the page (it's a
+  // tall card painting, so stretching it edge to edge would crop the peaks).
   "alpine-lake": (
     // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
     <img
       src={`${BATCH_A}/highland-panorama.webp`}
       alt=""
       aria-hidden="true"
-      width={968}
-      height={345}
-      className={`${painted} site-scene block h-[clamp(200px,34vw,520px)] w-full object-cover object-bottom`}
+      width={1024}
+      height={834}
+      className={`${painted} site-scene mx-auto block h-auto w-full max-w-[1100px]`}
     />
   ),
 };

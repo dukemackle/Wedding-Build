@@ -15,7 +15,7 @@ import { SiteArt, SuiteCorner } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
 import { SiteSection } from "@/components/site-section";
-import { CANVAS_WIDTH, READING_WIDTH } from "@/lib/layout";
+import { CANVAS_WIDTH, READING_WIDTH, STANDARD_WIDTH } from "@/lib/layout";
 import { creditLinks, isLibraryPhoto, parseCredit } from "@/lib/photo-credit";
 
 function formatDate(dateStr: string) {
@@ -584,17 +584,11 @@ function SignatureHero({ wedding }: { wedding: PublicWedding }) {
   );
 }
 
-/** The small painted ornament each Batch A scene sets between the hero's rules. */
-const STATIONERY_ORNAMENT: Partial<Record<string, { src: string; w: number; h: number }>> = {
-  "alpine-lake": { src: "/site-art/batch-a/highland-peaks.webp", w: 230, h: 70 },
-  peonies: { src: "/site-art/batch-a/heirloom-sprig.webp", w: 95, h: 62 },
-};
-
 /**
  * Stationery (Batch A suites, docs/batch-a-suites.md): the top of the page
  * set like the couple's printed invitation, on its paper: who's hosting in
- * small capitals, the names large, the invitation line in italics, a ruled
- * ornament, then the date and place. The suite's painting is the scene: a
+ * small capitals, the names large, the invitation line in italics, one fine
+ * rule (no ornament: owner, 2026-11-11), then the date and place. The suite's painting is the scene: a
  * lake along the bottom, peonies at two corners, or wildflowers down both
  * sides. Script names stay on one line on a computer and break between the
  * names on a phone.
@@ -608,9 +602,8 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
   const second = wedding.partner_b_name ?? "";
   const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
   const date = wedding.wedding_date ? formatDate(wedding.wedding_date).replace(/^\w+, /, "") : null;
-  const ornament = STATIONERY_ORNAMENT[scene];
   const caps = "uppercase tracking-[0.28em]";
-  const rule = "h-px flex-1 bg-[color-mix(in_srgb,var(--site-accent)_45%,transparent)]";
+  const rule = "h-px bg-[color-mix(in_srgb,var(--site-accent)_45%,transparent)]";
   const longest = Math.max(4, first.length, second.length);
   // Script names: big, sized so the longer name fits a phone; capitals smaller and spaced.
   const size = script
@@ -625,7 +618,7 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
       }`}
     >
       <SiteScene where="surround" />
-      <div className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : READING_WIDTH}`}>
+      <div className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : STANDARD_WIDTH}`}>
         <SiteText slot="hero.kicker" as="p" className={`text-[11px] text-ink sm:text-[13px] ${caps}`}>
           {design.occasion.kind === "renewal" ? "We're renewing our vows" : "Together with their families"}
         </SiteText>
@@ -656,16 +649,7 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
           )}
         </SiteText>
         <p className="mt-4 font-display text-lg italic tracking-[0.06em] text-ink sm:text-xl">invite you to celebrate their wedding</p>
-        <div className="mt-6 flex w-full max-w-[22rem] items-center gap-4" aria-hidden="true">
-          <span className={rule} />
-          {ornament ? (
-            // eslint-disable-next-line @next/next/no-img-element -- a fixed decorative ornament
-            <img src={ornament.src} alt="" width={ornament.w} height={ornament.h} className="h-6 w-auto sm:h-7" />
-          ) : (
-            <span className="h-1.5 w-1.5 rotate-45 bg-[var(--site-accent)]" />
-          )}
-          <span className={rule} />
-        </div>
+        <span className={`mt-6 block w-24 sm:w-32 ${rule}`} aria-hidden="true" />
         {date && <p className={`mt-6 font-display text-xl text-forest sm:text-2xl ${caps}`}>{date}</p>}
         {(wedding.venue_name || place) && (
           <p className={`mt-3 text-[11px] leading-relaxed text-ink sm:text-xs ${caps}`}>
