@@ -23,6 +23,15 @@ They're summarised here only by reference; CLAUDE.md is the source.
   tabs (loses list + RSVPs side by side) and a stage-dependent page (things
   move around). Same day: the stage header's "What it means" folds to one
   tappable line on phones (desktop unchanged).
+- **2026-11-11:** Signature preview OK'd as two suites on one type-only
+  "Signature" hero (no artwork): Signature = Calligraphy card + a site with
+  the names large in its script over a faint ampersand, small spaced
+  capitals, the date in three ruled boxes, invitation page style;
+  Whitespace = Whitespace card + the same hero quiet (serif names, short
+  rule, stacked date, Minimal page style). Two suites because the cards are
+  opposite moods and a card belongs to one suite. No new card. Owner
+  disliked the Calligraphy card's wavy line-and-loop flourish; it became a
+  tapered pen swash with a small lozenge.
 - **2026-11-11:** Gilded preview OK'd: original line-drawn magnolia, orchid
   and blossom branch running off the left edge (`src/lib/gilded-art.tsx`,
   shared by card and site). Card: left-aligned names in a framed panel, in
