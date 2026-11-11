@@ -14,10 +14,14 @@ import { contrast, mix } from "@/lib/site-design";
  * - "soft": faded colours with a fine ink outline, like an old seed packet;
  * - "bright": flat saturated colour, no outline, details in a darker shade.
  *
+ * - "painted": the same arrangements laid out with real painted stems, cut
+ *   from public-domain botanical watercolours (public/site-art/wildflower,
+ *   sources in docs/site-art-sources.md). These keep their own colours.
+ *
  * A stem stands on (0, 0) and grows up to about y = -290.
  */
 
-export type Mood = "soft" | "bright";
+export type Mood = "soft" | "bright" | "painted";
 export type StemKind = "poppy" | "cornflower" | "cosmos" | "lavender" | "daisy";
 export type Arrangement = "wreath" | "arcs" | "corner" | "garland" | "scatter" | "pattern";
 
@@ -48,6 +52,8 @@ export type Flora = {
   line: string | null;
   /** A hairline round white petals when they would vanish into the paper. */
   edge: string | null;
+  /** Lay out the painted stems instead of the drawn ones. */
+  painted?: boolean;
 };
 
 const BRIGHT = {
@@ -75,9 +81,10 @@ const SOFT = {
 /** A mood's colours on this paper, with this ink. */
 export function flora(mood: Mood, paper: string, ink: string): Flora {
   const base = mood === "bright" ? BRIGHT : SOFT;
+  const painted = mood === "painted";
   const toPaper = (p: Pair, t: number): Pair => [mix(p[0], paper, t), mix(p[1], paper, t)];
   const c: Flora = {
-    ...(mood === "soft"
+    ...(mood !== "bright"
       ? {
           poppy: toPaper(base.poppy, 0.12),
           corn: toPaper(base.corn, 0.12),
@@ -91,6 +98,7 @@ export function flora(mood: Mood, paper: string, ink: string): Flora {
       : base),
     line: mood === "soft" ? mix(ink, paper, 0.42) : null,
     edge: null,
+    painted,
   };
   // Cornflowers on a blue card, leaves on a green one: lift them off the paper.
   if (contrast(c.corn[0], paper) < 2) c.corn = ["#5ab8ff", "#2f86d8"];
@@ -504,7 +512,43 @@ export function arrange(kind: Arrangement, box: Box, seed = 7): Place[] {
   return scatter(box, seed);
 }
 
-function Placed({ p, c }: { p: Place; c: Flora }) {
+/**
+ * The painted stems (public/site-art/wildflower): 17th-century watercolours
+ * from Elias Verhulst's flower album (Rijksmuseum, public domain), standing
+ * on the middle of their foot like the drawn ones. `h` is how tall each is
+ * drawn at scale 1, in the drawn stems' units, so a sprig and a single
+ * flower sit together naturally.
+ */
+type Painting = { src: string; w: number; h: number; tall: number };
+const PAINT = (file: string, w: number, h: number, tall: number): Painting => ({ src: `/site-art/wildflower/${file}.webp`, w, h, tall });
+const PAINTED: Record<StemKind | "grass", Painting[]> = {
+  poppy: [PAINT("wf-rose-poppy", 764, 900, 330), PAINT("wf-oxeye", 513, 900, 320)],
+  cornflower: [PAINT("wf-knapweed", 396, 732, 300), PAINT("wf-cornflower", 247, 298, 170)],
+  cosmos: [PAINT("wf-water-crowfoot", 837, 849, 230), PAINT("wf-rose-poppy", 764, 900, 300)],
+  lavender: [PAINT("wf-grape-hyacinth", 157, 900, 320), PAINT("wf-scilla", 174, 237, 120)],
+  daisy: [PAINT("wf-oxeye", 513, 900, 300), PAINT("wf-knapweed", 396, 732, 280)],
+  grass: [PAINT("wf-buttercup", 681, 900, 300)],
+};
+
+function PaintedStem({ kind, i, s }: { kind: StemKind | "grass"; i: number; s: number }) {
+  const list = PAINTED[kind];
+  const p = list[i % list.length];
+  const h = p.tall * s;
+  const w = (h * p.w) / p.h;
+  return <image href={p.src} x={f(-w / 2)} y={f(-h)} width={f(w)} height={f(h)} preserveAspectRatio="none" />;
+}
+
+function Placed({ p, c, i = 0 }: { p: Place; c: Flora; i?: number }) {
+  if (c.painted) {
+    // Painted stems carry their own scale and keep their leaves the right way round; heads-only places use a smaller whole sprig.
+    // Paintings are bushier than the drawn stems, so they stand a little smaller.
+    const s = Math.min(1.3, (p.head ? p.s * 0.55 : p.s) * 0.8);
+    return (
+      <g transform={`translate(${f(p.x)} ${f(p.y + (p.head ? 60 * s : 0))}) rotate(${f(p.rot)})${p.flip ? " scale(-1 1)" : ""}`}>
+        <PaintedStem kind={p.kind} i={i} s={s} />
+      </g>
+    );
+  }
   const t = `translate(${f(p.x)} ${f(p.y)}) rotate(${f(p.rot)}) scale(${p.flip ? -f(p.s) : f(p.s)} ${f(p.s)})`;
   if (p.kind === "grass") return <g transform={t}><Grass c={c} /></g>;
   const H = HEADS[p.kind];
@@ -517,7 +561,7 @@ export function Wildflowers({ arrangement, box, c, seed }: { arrangement: Exclud
   return (
     <g>
       {places.map((p, i) => (
-        <Placed key={i} p={p} c={c} />
+        <Placed key={i} p={p} c={c} i={i} />
       ))}
     </g>
   );
@@ -537,7 +581,7 @@ export function PatternTile({ c }: { c: Flora }) {
   return (
     <g>
       {items.map((p, i) => (
-        <Placed key={i} p={p} c={c} />
+        <Placed key={i} p={p} c={c} i={i} />
       ))}
     </g>
   );

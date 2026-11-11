@@ -24,11 +24,15 @@ const wild = (label: string, arrangement: Exclude<Arrangement, "pattern">): Vect
   kind: "vector",
   label,
   aspect: 1.4,
-  draw: (w, pal) => (
-    <g transform={`scale(${w / 1000})`}>
-      <Wildflowers arrangement={arrangement} box={{ w: 1000, h: 1400, clear: { x: 170, y: 380, w: 660, h: 720 } }} c={flora(pal.flora ?? "bright", pal.paper, pal.ink)} />
-    </g>
-  ),
+  draw: (w, pal) => {
+    // Painted sprigs are wider than the drawn stems: their wreath sits a little further out.
+    const pad = pal.flora === "painted" && arrangement === "wreath" ? 45 : 0;
+    return (
+      <g transform={`scale(${w / 1000}) translate(${-pad} ${-pad})`}>
+        <Wildflowers arrangement={arrangement} box={{ w: 1000 + pad * 2, h: 1400 + pad * 2, clear: { x: 170 + pad, y: 380 + pad, w: 660, h: 720 } }} c={flora(pal.flora ?? "bright", pal.paper, pal.ink)} />
+      </g>
+    );
+  },
 });
 
 const img = (label: string, file: string, width: number): ImageArt => ({

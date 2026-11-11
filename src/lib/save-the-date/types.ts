@@ -19,7 +19,7 @@ export type Palette = Record<ColorRole, string> & {
   /** Light, mid, dark: the accent painted as foil instead of flat ink. */
   metal?: [string, string, string];
   /** Wildflower's two moods from the same stems (wildflower-art.tsx). */
-  flora?: "soft" | "bright";
+  flora?: "soft" | "bright" | "painted";
 };
 
 /** Font roles, filled from a template's pairings with ids from FONTS in site-design. */

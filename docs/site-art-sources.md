@@ -47,3 +47,18 @@ listed here is what remains.
 | Files | Source | Licence | Notes |
 |---|---|---|---|
 | `heirloom/arch.webp`, `corner.webp`, `ledge.webp`, `divider.webp` | AI-generated (ChatGPT), owner-commissioned, 2026-10-29, from the prompts in `docs/site-art-prompts.md` | Owner's under OpenAI's terms (US copyright unlikely for AI output, so others could copy it) | The "Heirloom garden" set (`ART_SUITES` in `src/lib/site-design.ts`). Converted from the transparent PNGs to WebP with alpha; the arch's trailing ends are cut at 1360px and faded; the others trimmed to their painted area. PNG originals are kept by the owner, not in the repo. |
+
+### Wildflower, painted (`public/site-art/wildflower/`)
+
+Cut from pages of Elias Verhulst's flower album (Delft, c. 1600; Rijksmuseum, Public Domain Mark), the same album as `poppy.webp`, for the Wildflower card's "Painted" colourways (`src/lib/wildflower-art.tsx`).
+
+| File | Source | Licence | Artist / date |
+| --- | --- | --- | --- |
+| wildflower/wf-oxeye.webp | https://id.rijksmuseum.nl/200693723 | Public Domain Mark | Elias Verhulst / c. 1600 (album p. 21, ox-eye) |
+| wildflower/wf-rose-poppy.webp | https://id.rijksmuseum.nl/200692035 | Public Domain Mark | Elias Verhulst / c. 1600 (album p. 10, wild rose, dog's-tooth violet, field poppy) |
+| wildflower/wf-cornflower.webp | https://id.rijksmuseum.nl/200693632 | Public Domain Mark | Elias Verhulst / c. 1600 (album p. 103, cornflower) |
+| wildflower/wf-knapweed.webp | https://id.rijksmuseum.nl/200692162 | Public Domain Mark | Elias Verhulst / c. 1600 (album p. 44, purple cornflower) |
+| wildflower/wf-grape-hyacinth.webp | https://id.rijksmuseum.nl/200692162 | Public Domain Mark | Elias Verhulst / c. 1600 (album p. 44, tassel hyacinth) |
+| wildflower/wf-scilla.webp | https://id.rijksmuseum.nl/200692162 | Public Domain Mark | Elias Verhulst / c. 1600 (album p. 44, blue star) |
+| wildflower/wf-buttercup.webp | https://id.rijksmuseum.nl/200692150 | Public Domain Mark | Elias Verhulst / c. 1600 (album p. 38, buttercup) |
+| wildflower/wf-water-crowfoot.webp | https://id.rijksmuseum.nl/200693608 | Public Domain Mark | Elias Verhulst / c. 1600 (album p. 101, white buttercup) |

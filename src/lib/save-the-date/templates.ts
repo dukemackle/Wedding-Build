@@ -468,6 +468,10 @@ export const TEMPLATES: Template[] = [
       { id: "cornflower", label: "Soft cornflower", paper: "#fbf6ec", ink: "#39405a", accent: "#5d74a6", muted: "#6f6a78", onPhoto: "#ffffff", flora: "soft" },
       { id: "butter", label: "Soft butter", paper: "#fbf4e0", ink: "#5a4630", accent: "#a17a28", muted: "#7c6b58", onPhoto: "#ffffff", flora: "soft" },
       { id: "blush", label: "Soft blush", paper: "#fbf0eb", ink: "#5a3440", accent: "#ab5a6a", muted: "#86686e", onPhoto: "#ffffff", flora: "soft" },
+      // Painted: real 17th-century watercolour stems (wildflower-art.tsx), on light papers they suit.
+      { id: "painted-ivory", label: "Painted ivory", paper: "#f8f4ea", ink: "#3a3328", accent: "#8a5a44", muted: "#6e665a", onPhoto: "#ffffff", flora: "painted" },
+      { id: "painted-blush", label: "Painted blush", paper: "#f6ebe4", ink: "#4a2f2c", accent: "#9a5048", muted: "#7a625c", onPhoto: "#ffffff", flora: "painted" },
+      { id: "painted-sage", label: "Painted sage", paper: "#e7e9dc", ink: "#2f3a2c", accent: "#5d6b45", muted: "#5f6656", onPhoto: "#ffffff", flora: "painted" },
     ],
     pairings: [
       { id: "meadow", label: "Meadow", display: "fraunces", script: "sacramento", sans: "karla" },
@@ -477,7 +481,7 @@ export const TEMPLATES: Template[] = [
     layers: [
       { kind: "art", id: "flowers", label: "Wildflowers", art: "wfWreath", x: 0, y: 0, w: 1000 },
       { kind: "text", id: "headline", label: "Headline", bind: "headline", text: "Save the date", x: 500, y: 580, size: 76, font: "script", color: "accent", anchor: "middle", maxWidth: 540 },
-      { kind: "text", id: "names", label: "Names", bind: "names", wrap: 14, valign: "middle", lineHeight: 1.05, x: 500, y: 740, size: 86, font: "display", italic: true, color: "ink", anchor: "middle", maxWidth: 580 },
+      { kind: "text", id: "names", label: "Names", bind: "names", wrap: 14, valign: "middle", lineHeight: 1.05, x: 500, y: 740, size: 86, font: "display", italic: true, color: "ink", anchor: "middle", maxWidth: 520 },
       { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 890, size: 24, font: "sans", color: "ink", upper: true, tracking: 0.3, anchor: "middle", maxWidth: 540 },
       { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 952, size: 32, lineHeight: 1.25, wrap: 26, font: "display", italic: true, color: "muted", anchor: "middle", maxWidth: 540 },
       { kind: "text", id: "note", label: "Closing line", bind: "note", x: 500, y: 1070, size: 15, font: "sans", color: "muted", upper: true, tracking: 0.3, anchor: "middle", maxWidth: 480 },
