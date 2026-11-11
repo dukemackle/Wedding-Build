@@ -3,6 +3,7 @@ import type { Palette } from "@/lib/save-the-date/types";
 import { contrast, mix } from "@/lib/site-design";
 import { MoorSky, Moorland } from "@/lib/highland-art";
 import { GildedSpray } from "@/lib/gilded-art";
+import { Wildflowers, WildPattern, flora, type Arrangement } from "@/lib/wildflower-art";
 
 /**
  * Decorations a card template can place. Two kinds:
@@ -17,6 +18,18 @@ import { GildedSpray } from "@/lib/gilded-art";
 type VectorArt = { kind: "vector"; label: string; aspect: number; draw: (w: number, palette: Palette) => ReactNode };
 type ImageArt = { kind: "image"; label: string; aspect: number; src: string };
 export type ArtDef = VectorArt | ImageArt;
+
+/** A Wildflower arrangement filling the card, the middle left for the words. */
+const wild = (label: string, arrangement: Exclude<Arrangement, "pattern">): VectorArt => ({
+  kind: "vector",
+  label,
+  aspect: 1.4,
+  draw: (w, pal) => (
+    <g transform={`scale(${w / 1000})`}>
+      <Wildflowers arrangement={arrangement} box={{ w: 1000, h: 1400, clear: { x: 170, y: 380, w: 660, h: 720 } }} c={flora(pal.flora ?? "bright", pal.paper, pal.ink)} />
+    </g>
+  ),
+});
 
 const img = (label: string, file: string, width: number): ImageArt => ({
   kind: "image",
@@ -908,6 +921,33 @@ export const ART: Record<string, ArtDef> = {
         <rect x={w * 0.432} y={w * 0.162} width={w * 0.496} height={w * 1.076} strokeWidth={w * 0.0012} />
       </g>
     ),
+  },
+  // Wildflower (suites wave 2): the same stems in six arrangements, in the
+  // palette's mood (soft or bright). Each is the whole card, drawn round the
+  // middle the words sit in.
+  wfWreath: wild("Wreath", "wreath"),
+  wfArcs: wild("Side arcs", "arcs"),
+  wfCorner: wild("Corners", "corner"),
+  wfGarland: wild("Top garland", "garland"),
+  wfScatter: wild("Scatter", "scatter"),
+  wfPattern: {
+    kind: "vector",
+    label: "All-over",
+    aspect: 1.4,
+    draw: (w, pal) => {
+      const id = `wfp-${pal.id}-${pal.paper.slice(1)}-${pal.ink.slice(1)}`;
+      return (
+        <g transform={`scale(${w / 1000})`}>
+          <defs>
+            <WildPattern id={id} c={flora(pal.flora ?? "bright", pal.paper, pal.ink)} scale={1.2} />
+          </defs>
+          <rect width={1000} height={1400} fill={`url(#${id})`} />
+          {/* An arched panel of plain paper for the words. */}
+          <path d="M150 1150V560A350 350 0 0 1 850 560V1150Z" fill={pal.paper} />
+          <path d="M172 1128V560A328 328 0 0 1 828 560V1128Z" fill="none" stroke={pal.accent} strokeWidth={2} opacity={0.7} />
+        </g>
+      );
+    },
   },
   flourish: {
     kind: "vector",

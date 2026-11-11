@@ -23,6 +23,16 @@ They're summarised here only by reference; CLAUDE.md is the source.
   tabs (loses list + RSVPs side by side) and a stage-dependent page (things
   move around). Same day: the stage header's "What it means" folds to one
   tappable line on phones (desktop unchanged).
+- **2026-11-11:** Wildflower upgrade OK'd "for now": original vector poppy,
+  cornflower, cosmos, lavender and daisy (`src/lib/wildflower-art.tsx`,
+  shared by card and site) in two moods, bright bold (white, cobalt, lemon;
+  the default) and soft vintage (cornflower, butter, blush), and six
+  arrangements the couple picks on the card (wreath, side arcs, corners,
+  top garland, scatter, all-over print behind an arched panel). Site:
+  invitation hero with a wreath (the other five in Scene), a garland above
+  and below on phones, a posy over each section. Owner's verdict: good, not
+  amazing; the stems should look more like a professional artist painted
+  them, and wants more designs later (DESIGN-OPPORTUNITIES row 30).
 - **2026-11-11:** Gilded preview OK'd: original line-drawn magnolia, orchid
   and blossom branch running off the left edge (`src/lib/gilded-art.tsx`,
   shared by card and site). Card: left-aligned names in a framed panel, in

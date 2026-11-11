@@ -92,6 +92,8 @@ export function invitationFrom(t: Template): Template {
     usesPhoto: false,
     samplePhoto: undefined,
     noPhotoLayers: undefined,
+    // The invitation's wording fills the card, so it keeps one arrangement (back.ts KEEP).
+    arrangements: undefined,
     layers: invitationLayers(t),
   };
 }

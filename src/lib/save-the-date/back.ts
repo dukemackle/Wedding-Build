@@ -29,7 +29,7 @@ const KEEP: Record<string, (string | [string, Partial<ArtLayer>])[]> = {
   engraved: ["frame", ["crest", { x: 430, y: 92, w: 140 }]],
   postcard: ["border", "stamp"],
   decogala: ["frame"],
-  wildflower: ["bow", "lily", "sweetpea"],
+  wildflower: [["flowers", { art: "wfCorner" }]],
   laurelarch: ["arch"],
   pressed: [["sprig", { x: 400, y: 64, w: 200 }]],
   gardenparty: ["gingham", ["card", { x: 100, y: 160, w: 800 }]],

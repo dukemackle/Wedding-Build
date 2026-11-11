@@ -7,8 +7,9 @@ import { SiteReveal } from "@/components/site-motion";
 import { SiteSection } from "@/components/site-section";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { CANVAS_WIDTH, READING_WIDTH, STANDARD_WIDTH, WIDE_WIDTH } from "@/lib/layout";
-import { artSuite, resolveDesign, SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design";
+import { activePalette, artSuite, resolveDesign, SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design";
 import { GildedSprig } from "@/lib/gilded-art";
+import { SOFT_SITE_PALETTES, WildPosy, flora } from "@/lib/wildflower-art";
 
 /**
  * The guest site's sections, in the couple's order.
@@ -168,6 +169,11 @@ function Invitation({ shown, sections }: { shown: Shown; sections: Partial<Recor
   const suite = artSuite(design.art.id);
   // Gilded's scene puts a small line-drawn magnolia over every section, the first included.
   const sprig = resolveDesign(design).scene === "gilded";
+  // Wildflower's scenes put a small posy over each section, a different three stems each time.
+  const r = resolveDesign(design);
+  const wild = r.scene.startsWith("wildflower-")
+    ? flora(SOFT_SITE_PALETTES.has(activePalette(design)?.id ?? "") ? "soft" : "bright", r.theme.bg, r.theme.ink)
+    : null;
   return (
     <div className={`site-invitation mx-auto flex w-full ${STANDARD_WIDTH} flex-col px-4 pb-20 sm:px-6`}>
       {shown.map((x, i) => (
@@ -177,6 +183,12 @@ function Invitation({ shown, sections }: { shown: Shown; sections: Partial<Recor
             <div className={`flex justify-center text-[var(--site-accent)] ${i > 0 ? "pb-4 pt-12 sm:pt-16" : "pb-4 pt-2"}`} aria-hidden="true">
               <svg viewBox="14 36 176 82" className="h-auto w-[120px] sm:w-[150px]">
                 <GildedSprig knock="var(--color-parchment)" sw={1.5} />
+              </svg>
+            </div>
+          ) : wild ? (
+            <div className={`flex justify-center ${i > 0 ? "pb-2 pt-10 sm:pt-14" : "pb-2 pt-2"}`} aria-hidden="true">
+              <svg viewBox="-190 -235 380 240" className="h-auto w-[150px] sm:w-[180px]">
+                <WildPosy c={wild} i={i} />
               </svg>
             </div>
           ) : i > 0 && suite && i % 3 === 1 ? (

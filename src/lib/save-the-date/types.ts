@@ -18,6 +18,8 @@ export type Palette = Record<ColorRole, string> & {
   label: string;
   /** Light, mid, dark: the accent painted as foil instead of flat ink. */
   metal?: [string, string, string];
+  /** Wildflower's two moods from the same stems (wildflower-art.tsx). */
+  flora?: "soft" | "bright";
 };
 
 /** Font roles, filled from a template's pairings with ids from FONTS in site-design. */
@@ -99,6 +101,8 @@ export type CardDoc = {
   photo: Photo | null;
   overrides: Record<string, LayerOverride>;
   back?: CardBack;
+  /** For designs that offer arrangements (Template.arrangements): which one. */
+  arrangement?: string;
 };
 
 type Base = { id: string; label: string; rotate?: number };
@@ -209,4 +213,9 @@ export type Template = {
   layers: Layer[];
   /** Layers drawn when there's no photo (photo templates still look designed). */
   noPhotoLayers?: Layer[];
+  /**
+   * Ways to arrange the design's artwork (Wildflower): each swaps the art
+   * drawn by the layer `layer`. The first is the default.
+   */
+  arrangements?: { layer: string; options: { id: string; label: string; art: string }[] };
 };

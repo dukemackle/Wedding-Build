@@ -11,7 +11,8 @@ import { Reveal } from "./reveal";
 import { FONTS, contrast, fontById } from "@/lib/site-design";
 import { FONTS_HREF } from "@/lib/save-the-date/fonts";
 import { cardPdf, cardPng, saveBlob } from "@/lib/save-the-date/export";
-import { CUSTOM_PALETTE, INVITATIONS, SHORT, TEMPLATES, cardPalette, keepColours, newCard, templateById } from "@/lib/save-the-date/templates";
+import { CUSTOM_PALETTE, INVITATIONS, SHORT, TEMPLATES, arrangedLayers, cardPalette, keepColours, newCard, templateById } from "@/lib/save-the-date/templates";
+import { ART } from "./art";
 import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import type { CardColours, CardContent, CardDoc, LayerOverride, Photo } from "@/lib/save-the-date/types";
 
@@ -146,10 +147,11 @@ const ICON_PATHS: Record<string, string> = {
   layers: "M12 4l8 4-8 4-8-4 8-4zM4 12l8 4 8-4M4 16l8 4 8-4",
   download: "M12 4v11M7 10l5 5 5-5M5 20h14",
   back: "M9 3h10v14H9zM5 7v12a2 2 0 002 2h9M12 8h4M12 11h4",
+  arrangement: "M12 21V12M12 12a3 3 0 110-6 3 3 0 010 6zM12 6V3M15 9h3M6 9h3M12 17c-2-2-5-2-6-1M12 15c2-2 5-2 6-1",
 };
 const ICON_FOR: Record<string, string> = {
   templates: "designs", designs: "designs", "your details": "details", details: "details",
-  style: "colours", colours: "colours", lettering: "lettering", photo: "photo", layers: "layers", download: "download", "back of the card": "back",
+  style: "colours", colours: "colours", lettering: "lettering", photo: "photo", layers: "layers", download: "download", "back of the card": "back", arrangement: "arrangement",
 };
 function ToolIcon({ name, className = "h-5 w-5" }: { name: string; className?: string }) {
   const d = ICON_PATHS[ICON_FOR[name.toLowerCase()] ?? name];
@@ -165,7 +167,7 @@ function ToolIcon({ name, className = "h-5 w-5" }: { name: string; className?: s
 
 type Panel = "templates" | "details" | "style" | "photo" | "layers" | "download";
 /** The desktop settings sections, which fold. */
-type FoldId = "designs" | "details" | "back" | "colours" | "lettering" | "photo" | "layers";
+type FoldId = "designs" | "details" | "back" | "arrangement" | "colours" | "lettering" | "photo" | "layers";
 const FOLDS: FoldId[] = ["details", "back", "colours", "lettering", "photo", "layers"];
 
 function TemplatePicker({ doc, choose, row }: { doc: CardDoc; choose: (id: string) => void; row?: boolean }) {
@@ -506,10 +508,49 @@ function LetteringPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<Card
   );
 }
 
-/** The phone's Style sheet: colours and lettering together. */
+/**
+ * Designs that arrange their artwork more than one way (Wildflower): a small
+ * picture of each arrangement in the card's own colours.
+ */
+function ArrangementPicker({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDoc>, key?: string) => void }) {
+  const t = templateById(doc.template);
+  const a = t.arrangements;
+  if (!a) return null;
+  const palette = cardPalette(doc);
+  const current = a.options.find((o) => o.id === doc.arrangement) ?? a.options[0];
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      {a.options.map((o) => {
+        const art = ART[o.art];
+        const active = o.id === current.id;
+        return (
+          <button
+            key={o.id}
+            type="button"
+            onClick={() => patch({ arrangement: o.id })}
+            aria-pressed={active}
+            className={`rounded-lg border p-1.5 text-center transition ${active ? "border-[#2243B6] bg-[#2243B6]/[0.04]" : "border-hairline hover:border-ink/25"}`}
+          >
+            <svg viewBox="0 0 1000 1400" className="mx-auto block w-full rounded-[3px] ring-1 ring-ink/10" style={{ background: palette.paper }} aria-hidden="true">
+              {art?.kind === "vector" && art.draw(1000, palette)}
+            </svg>
+            <span className={`mt-1 block text-[11px] ${active ? "font-medium text-[#2243B6]" : "text-ink/70"}`}>{o.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** The phone's Style sheet: arrangement, colours and lettering together. */
 function StylePanel({ doc, patch }: { doc: CardDoc; patch: (p: Partial<CardDoc>, key?: string) => void }) {
   return (
     <>
+      {templateById(doc.template).arrangements && (
+        <Section title="Arrangement">
+          <ArrangementPicker doc={doc} patch={patch} />
+        </Section>
+      )}
       <Section title="Colours">
         <ColoursPicker doc={doc} patch={patch} />
       </Section>
@@ -658,7 +699,7 @@ function LayersPanel({
   return (
     <div className="space-y-5">
       <ul className="divide-y divide-hairline overflow-hidden rounded-xl border border-hairline bg-white">
-        {[...t.layers].reverse().map((l) => {
+        {[...arrangedLayers(t, t.layers, doc)].reverse().map((l) => {
           const hidden = doc.overrides[l.id]?.hidden;
           return (
             <li key={l.id} className={`flex items-center ${l.id === selected ? "bg-[#2243B6]/[0.05]" : ""}`}>
@@ -892,7 +933,7 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
     setEditing(false);
     if (id) setPanel(null);
   };
-  const shownLayers = doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers;
+  const shownLayers = arrangedLayers(t, doc.photo || !t.noPhotoLayers ? t.layers : t.noPhotoLayers, doc);
   const picked = shownLayers.find((l) => l.id === selected && !doc.overrides[l.id]?.hidden) ?? null;
   const centre = () => {
     if (!picked || !svg.current) return;
@@ -1200,6 +1241,16 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           >
             <BackPanel doc={doc} site={site} patch={patch} show={showBack} rsvpOpensOn={rsvpOpensOn} />
           </Fold>
+          {t.arrangements && (
+            <Fold
+              title="Arrangement"
+              summary={(t.arrangements.options.find((o) => o.id === doc.arrangement) ?? t.arrangements.options[0]).label}
+              open={shownFold === "arrangement"}
+              onToggle={() => openFold("arrangement")}
+            >
+              <ArrangementPicker doc={doc} patch={patch} />
+            </Fold>
+          )}
           <Fold title="Colours" summary={<PaletteSummary doc={doc} />} open={shownFold === "colours"} onToggle={() => openFold("colours")}>
             <ColoursPicker doc={doc} patch={patch} />
           </Fold>

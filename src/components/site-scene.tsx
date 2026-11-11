@@ -2,7 +2,7 @@
 
 import { useId, type CSSProperties, type ReactNode } from "react";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { resolveDesign, sceneById, type SceneId, type SceneTimeId } from "@/lib/site-design";
+import { activePalette, resolveDesign, sceneById, type SceneId, type SceneTimeId } from "@/lib/site-design";
 import { ICONS, ICON_SETS } from "@/lib/scene-icons";
 import {
   butte,
@@ -21,6 +21,7 @@ import {
 } from "@/lib/scene-shapes";
 import { Moorland } from "@/lib/highland-art";
 import { BlossomBranch, GildedSpray } from "@/lib/gilded-art";
+import { SOFT_SITE_PALETTES, WildPattern, Wildflowers, flora, type Arrangement } from "@/lib/wildflower-art";
 
 /**
  * The drawn setting at the top of the guest site (Background tab › Scene): a
@@ -824,6 +825,91 @@ const STRIPS: Draw = {
   ),
 };
 
+/**
+ * Wildflower (suites wave 2): the card's stems round the top of the page, in
+ * the page's own paper and the mood its palette asks for. A wide screen and a
+ * phone are arranged separately: on a phone the names fill the width, so
+ * wreaths and side arcs become a garland over the top and another under.
+ */
+function WildSurround({ arrangement }: { arrangement: Arrangement }) {
+  const design = useSiteDesign();
+  const id = useId().replace(/:/g, "");
+  const r = resolveDesign(design);
+  const mood = SOFT_SITE_PALETTES.has(activePalette(design)?.id ?? "") ? "soft" : "bright";
+  const c = flora(mood, r.theme.bg, r.theme.ink);
+  const svg = "pointer-events-none absolute";
+  if (arrangement === "pattern") {
+    return (
+      <svg className={`${svg} inset-0 h-full w-full`} aria-hidden="true">
+        <defs>
+          <WildPattern id={`${id}wp`} c={c} scale={0.75} />
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id}wp)`} />
+      </svg>
+    );
+  }
+  // Phone: a garland over the names and, for the framing arrangements, one under them.
+  const phoneGarland = (flip: boolean) => (
+    <svg viewBox="0 0 760 330" className={`${svg} left-0 w-full sm:hidden ${flip ? "bottom-0 -scale-y-100" : "top-0"}`} aria-hidden="true">
+      <Wildflowers arrangement="garland" box={{ w: 760, h: 1300 }} c={c} seed={flip ? 11 : 7} />
+    </svg>
+  );
+  if (arrangement === "scatter") {
+    return (
+      <>
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" className={`${svg} inset-0 hidden h-full w-full sm:block`} aria-hidden="true">
+          <Wildflowers arrangement="scatter" box={{ w: 1440, h: 900, clear: { x: 400, y: 90, w: 640, h: 720 } }} c={c} />
+        </svg>
+        <svg viewBox="0 0 400 900" preserveAspectRatio="xMidYMid slice" className={`${svg} inset-0 h-full w-full sm:hidden`} aria-hidden="true">
+          <Wildflowers arrangement="scatter" box={{ w: 400, h: 900 }} c={c} />
+        </svg>
+      </>
+    );
+  }
+  if (arrangement === "corner") {
+    return (
+      <>
+        <svg viewBox="0 0 500 500" className={`${svg} left-0 top-0 w-[46vw] max-w-[440px]`} aria-hidden="true">
+          <Wildflowers arrangement="corner" box={{ w: 1000, h: 1000 }} c={c} />
+        </svg>
+        <svg viewBox="500 500 500 500" className={`${svg} bottom-0 right-0 w-[38vw] max-w-[360px]`} aria-hidden="true">
+          <Wildflowers arrangement="corner" box={{ w: 1000, h: 1000 }} c={c} />
+        </svg>
+      </>
+    );
+  }
+  if (arrangement === "garland") {
+    return (
+      <>
+        <svg viewBox="0 0 1440 420" className={`${svg} left-0 top-0 hidden w-full sm:block`} aria-hidden="true">
+          <Wildflowers arrangement="garland" box={{ w: 1440, h: 1500 }} c={c} />
+        </svg>
+        {phoneGarland(false)}
+      </>
+    );
+  }
+  return (
+    <>
+      {arrangement === "wreath" ? (
+        <svg viewBox="0 0 1600 1150" className={`${svg} inset-0 hidden h-full w-full sm:block`} aria-hidden="true">
+          <Wildflowers arrangement="wreath" box={{ w: 1600, h: 1150 }} c={c} />
+        </svg>
+      ) : (
+        <>
+          <svg viewBox="0 0 300 1000" preserveAspectRatio="xMinYMid meet" className={`${svg} inset-y-0 left-0 hidden h-full w-[22%] sm:block`} aria-hidden="true">
+            <Wildflowers arrangement="arcs" box={{ w: 600, h: 1000 }} c={c} />
+          </svg>
+          <svg viewBox="300 0 300 1000" preserveAspectRatio="xMaxYMid meet" className={`${svg} inset-y-0 right-0 hidden h-full w-[22%] sm:block`} aria-hidden="true">
+            <Wildflowers arrangement="arcs" box={{ w: 600, h: 1000 }} c={c} />
+          </svg>
+        </>
+      )}
+      {phoneGarland(false)}
+      {phoneGarland(true)}
+    </>
+  );
+}
+
 const SURROUNDS: Draw = {
   // Gilded (suites wave 2): the card's line-drawn flowers, running off the
   // left edge of the top of the page, in the accent, with a blossom branch
@@ -854,6 +940,12 @@ const SURROUNDS: Draw = {
       </>
     );
   },
+  "wildflower-wreath": () => <WildSurround arrangement="wreath" />,
+  "wildflower-arcs": () => <WildSurround arrangement="arcs" />,
+  "wildflower-corner": () => <WildSurround arrangement="corner" />,
+  "wildflower-garland": () => <WildSurround arrangement="garland" />,
+  "wildflower-scatter": () => <WildSurround arrangement="scatter" />,
+  "wildflower-pattern": () => <WildSurround arrangement="pattern" />,
   // A wavy, scalloped border: rows of half-rings along each edge.
   scallop: () => {
     const ring = (at: string) =>
