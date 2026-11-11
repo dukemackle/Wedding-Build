@@ -24,6 +24,8 @@ export type Suite = {
    * Without one, the site takes the card's paper, ink and accent as they are.
    */
   siteColourways?: Record<string, string>;
+  /** "script": the site's names take the card's script face, not its display serif (Signature). */
+  names?: "script";
 };
 
 export const SUITES: Suite[] = [
@@ -60,6 +62,23 @@ export const SUITES: Suite[] = [
     card: "gilded",
     site: "gilded",
     siteColourways: { cream: "gilded-cream", emerald: "gilded-emerald", ink: "gilded-ink" },
+  },
+  // Type only (suites wave 2): one site layout, two suites, because the two
+  // cards are opposite moods (formal script, quiet serif) and a card belongs to one suite.
+  {
+    id: "signature",
+    name: "Signature",
+    card: "calligraphy",
+    site: "signature",
+    names: "script",
+    siteColourways: { cotton: "signature-cotton", sepia: "signature-sepia", gilded: "signature-gold" },
+  },
+  {
+    id: "whitespace",
+    name: "Whitespace",
+    card: "whitespace",
+    site: "whitespace",
+    siteColourways: { paper: "whitespace-paper", fog: "whitespace-fog", blush: "whitespace-blush" },
   },
 ];
 
@@ -118,9 +137,11 @@ export function siteMatchingCard(design: SiteDesign, doc: CardDoc): SiteDesign |
   const t = cardTemplateById(doc.template);
   const pair = t.pairings.find((x) => x.id === doc.fonts) ?? t.pairings[0];
   const body = [pair.sans, pair.display].find(isBodyFont);
+  // A script face as the display font sets only the names; headings fall back to the body face.
+  const display = suite.names === "script" && isFont(pair.script) ? pair.script : pair.display;
   next = {
     ...next,
-    fontDisplay: isFont(pair.display) ? (pair.display as SiteDesign["fontDisplay"]) : null,
+    fontDisplay: isFont(display) ? (display as SiteDesign["fontDisplay"]) : null,
     ...(body ? { fontBody: body as SiteDesign["fontBody"] } : {}),
   };
   return next;

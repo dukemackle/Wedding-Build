@@ -228,6 +228,35 @@ export const TEMPLATES: SiteTemplate[] = [
     scene: "gilded",
     pageStyle: "invitation",
   },
+  // Type only, no artwork: the names large in a formal script over a faint
+  // ampersand, small spaced capitals, the date in three ruled boxes; matching
+  // the Calligraphy card (the Signature suite).
+  {
+    id: "signature",
+    name: "Signature",
+    blurb: "Type only: your names in a formal script, the date in three ruled boxes",
+    theme: "garden",
+    palette: "signature-cotton",
+    colourways: ["signature-sepia", "signature-gold"],
+    fonts: "pb",
+    hero: "signature",
+    ornament: "none",
+    pageStyle: "invitation",
+  },
+  // The same type-only top, quiet: the names in a serif, the date stacked
+  // small, each heading in a column beside its section; matching the Whitespace card.
+  {
+    id: "whitespace",
+    name: "Whitespace",
+    blurb: "Almost nothing: your names in a quiet serif, the date stacked, room to breathe",
+    theme: "garden",
+    palette: "whitespace-paper",
+    colourways: ["whitespace-fog", "whitespace-blush"],
+    fonts: "cj",
+    hero: "signature",
+    ornament: "none",
+    pageStyle: "ledger",
+  },
 ];
 
 export function templateById(id: string | null | undefined) {

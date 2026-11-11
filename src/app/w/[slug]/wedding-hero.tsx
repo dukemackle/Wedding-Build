@@ -15,7 +15,7 @@ import { SiteArt, SuiteCorner } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
 import { SiteSection } from "@/components/site-section";
-import { CANVAS_WIDTH } from "@/lib/layout";
+import { CANVAS_WIDTH, READING_WIDTH } from "@/lib/layout";
 import { creditLinks, isLibraryPhoto, parseCredit } from "@/lib/photo-credit";
 
 function formatDate(dateStr: string) {
@@ -485,6 +485,105 @@ function Slideshow({ photos }: { photos: string[] }) {
   );
 }
 
+/** "Saturday", "12", "September", "2027": the date in its parts, for the type-only layout. */
+function dateParts(date: string) {
+  const d = new Date(`${date}T00:00:00`);
+  return {
+    weekday: d.toLocaleDateString("en-US", { weekday: "long" }),
+    day: String(d.getDate()),
+    month: d.toLocaleDateString("en-US", { month: "long" }),
+    year: String(d.getFullYear()),
+  };
+}
+
+/**
+ * Signature (suites wave 2): type only, no picture. With a script face the
+ * names are set large, one over the other, over a faint ampersand whose
+ * strokes the letters cross, and the date sits in three ruled boxes. With a
+ * serif (Whitespace) it is the same page, quiet: the names smaller, a short
+ * rule, the date stacked. Small spaced capitals carry everything else. A
+ * fine margin frames it on a wide screen; a phone has no room for one.
+ */
+function SignatureHero({ wedding }: { wedding: PublicWedding }) {
+  const design = useSiteDesign();
+  const script = resolveDesign(design).scriptNames;
+  const { joiner } = design.names;
+  const first = wedding.partner_a_name ?? "";
+  const second = wedding.partner_b_name ?? "";
+  const parts = wedding.wedding_date ? dateParts(wedding.wedding_date) : null;
+  const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
+  const caps = "text-[11px] uppercase tracking-[0.32em] sm:text-xs";
+  const rule = "border-[color-mix(in_srgb,var(--site-accent)_45%,transparent)]";
+  // Sized so the longest name fits a phone's width, as the poster does.
+  const longest = Math.max(4, first.length, second.length);
+  const size = script
+    ? `min(clamp(5rem,13vw,9.5rem), calc((100vw - 2.5rem) / ${(longest * 0.4).toFixed(2)}))`
+    : `min(clamp(2.4rem,5.5vw,3.75rem), calc((100vw - 2.5rem) / ${(longest * 0.6).toFixed(2)}))`;
+  return (
+    <header className={`site-hero-plain relative overflow-hidden px-5 sm:px-8 ${script ? "pb-16 pt-16 lg:pb-24 lg:pt-24" : "pb-20 pt-24 lg:pb-28 lg:pt-32"}`}>
+      <span className={`pointer-events-none absolute inset-6 hidden border lg:block ${rule}`} aria-hidden="true" />
+      <SiteArt art={design.art} />
+      <SiteScene where="surround" />
+      <div className={`relative z-10 mx-auto flex w-full ${READING_WIDTH} flex-col items-center text-center`}>
+        <HeroKicker tone="dark" className="!tracking-[0.36em]" />
+        <SiteText
+          slot="hero.names"
+          as="h1"
+          className={`site-names relative isolate font-display text-forest [font-style:var(--site-name-style,normal)] ${
+            script ? "mt-10 leading-[1.05] sm:mt-12" : "mt-6 font-normal leading-[1.1]"
+          }`}
+          style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: size }}
+        >
+          {script && (
+            <span
+              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 select-none text-[2.6em] leading-none text-[var(--site-accent)] opacity-[0.12]"
+              aria-hidden="true"
+            >
+              &amp;
+            </span>
+          )}
+          <span className="block">{first}</span>
+          {/* With a script the faint ampersand behind is the joiner; the words keep it for screen readers. */}
+          {first && second &&
+            (script ? (
+              <span className="sr-only"> {joiner} </span>
+            ) : (
+              <span className="my-[0.2em] block text-[0.4em] italic leading-none text-ink/60">{joiner}</span>
+            ))}
+          <span className="block">{second}</span>
+        </SiteText>
+        {parts && script && (
+          // Three ruled boxes: the day of the week, the day large, the month; the year under them.
+          <div className={`mt-10 grid w-full max-w-[26rem] grid-cols-[1fr_auto_1fr] items-stretch border-y text-ink ${rule}`}>
+            <span className={`flex items-center justify-center py-3 ${caps}`}>{parts.weekday}</span>
+            <span className={`flex items-center border-x px-6 py-2 font-display text-[2.75rem] leading-none sm:px-8 sm:text-5xl ${rule}`}>{parts.day}</span>
+            <span className={`flex items-center justify-center py-3 ${caps}`}>{parts.month}</span>
+          </div>
+        )}
+        {parts && script && <p className={`mt-3 text-ink/70 ${caps}`}>{parts.year}</p>}
+        {parts && !script && (
+          <>
+            <span className="mt-8 block h-px w-10 bg-[var(--site-accent)]" aria-hidden="true" />
+            <p className="mt-7 flex flex-col items-center gap-2 text-ink">
+              <span className={caps}>{parts.month}</span>
+              <span className="font-display text-4xl leading-none">{parts.day}</span>
+              <span className={caps}>{parts.year}</span>
+            </p>
+          </>
+        )}
+        {(wedding.venue_name || place) && (
+          <p className={`mt-8 leading-relaxed text-ink/70 ${caps}`}>
+            {wedding.venue_name}
+            {wedding.venue_name && place && <br />}
+            {place}
+          </p>
+        )}
+        <HeroActions wedding={wedding} location={locationOf(wedding)} tone="dark" />
+      </div>
+    </header>
+  );
+}
+
 /**
  * The top of the guest site, in the couple's chosen layout (Style tab):
  * the photo across the top with a card over it, photo and names side by
@@ -513,6 +612,8 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
       </header>
     );
   }
+
+  if (hero === "signature") return <SignatureHero wedding={wedding} />;
 
   // No photo yet is the common first-run state, so it gets its own
   // deliberate treatment rather than an empty grey band. "Text only" is the
