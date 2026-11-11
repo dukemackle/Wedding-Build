@@ -37,6 +37,30 @@ const KEEP: Record<string, (string | [string, Partial<ArtLayer>])[]> = {
   calligraphy: ["deckle"],
 };
 
+/**
+ * Batch A suites: the back's own art, because each front's painting covers
+ * the card. A sprig or corner of the same watercolours, clear of the type.
+ */
+const BACK_ART: Record<string, ArtLayer[]> = {
+  "highland-lake": [
+    { kind: "art", id: "back-sprig", label: "Sprig", art: "highlandSprig", x: 380, y: 150, w: 240 },
+    { kind: "art", id: "back-pines", label: "Pines", art: "highlandForest", x: 40, y: 1186, w: 180 },
+    { kind: "art", id: "back-pines2", label: "Pines", art: "highlandForest", x: 780, y: 1186, w: 180, flip: true },
+    { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.6 },
+  ],
+  "heirloom-peony": [
+    { kind: "art", id: "back-top", label: "Peonies", art: "heirloomTop", x: 0, y: 0, w: 280 },
+    { kind: "art", id: "back-bottom", label: "Peonies (lower)", art: "heirloomBottom", x: 690, y: 1090, w: 310 },
+    { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.45 },
+  ],
+  "wildflower-meadow": [
+    { kind: "art", id: "back-left", label: "Wildflowers", art: "wildflowerLeft", x: -60, y: 0, w: 300 },
+    { kind: "art", id: "back-right", label: "Wildflowers", art: "wildflowerRight", x: 760, y: 0, w: 300 },
+    { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 },
+  ],
+  "black-tie": [{ kind: "art", id: "back-frame", label: "Double frame", art: "doubleFrame", x: 0, y: 0, w: 1000, color: "ink" }],
+};
+
 /** Designs whose top ornament takes the initials' place. */
 const NO_MONOGRAM = new Set(["decogala", "pressed"]);
 
@@ -71,7 +95,7 @@ export function backLayers(t: Template, doc: CardDoc, site: string | null): Laye
   // An invitation's back is its save-the-date design's: the same art, as an RSVP card.
   const id = t.source ?? t.id;
   const invitation = Boolean(t.source);
-  const carried = invitation ? t.layers.filter((l): l is ArtLayer => l.kind === "art" && l.id.startsWith("art-")).map((l) => ({ ...l, id: `back-${l.id}` })) : carriedArt(t, "back-");
+  const carried = BACK_ART[id] ?? (invitation ? t.layers.filter((l): l is ArtLayer => l.kind === "art" && l.id.startsWith("art-")).map((l) => ({ ...l, id: `back-${l.id}` })) : carriedArt(t, "back-"));
   const travel = doc.back?.travel.trim() ?? "";
   const panel = PANEL[id];
   const rsvp = invitation || Boolean(doc.back?.rsvp);

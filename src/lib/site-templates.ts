@@ -49,6 +49,8 @@ export type SiteTemplate = {
   rsvp?: SiteDesign["layouts"]["rsvp"];
   /** A small tag on its gallery card ("Start here"). */
   badge?: string;
+  /** The banner photo's filter this look is designed around (Modern Black-Tie: black and white). */
+  photoFilter?: SiteDesign["heroPhoto"]["filter"];
 };
 
 /**
@@ -257,6 +259,61 @@ export const TEMPLATES: SiteTemplate[] = [
     ornament: "none",
     pageStyle: "ledger",
   },
+  // Batch A suites (2026-11-11, docs/batch-a-suites.md): the guest sites of
+  // the four approved stationery suites. The invitation's type stack at the
+  // top of the page on its paper, with the card's own watercolours.
+  {
+    id: "highland-lake",
+    name: "Highland Lake",
+    blurb: "Your names in script over a watercolour alpine lake, as on the card",
+    theme: "garden",
+    palette: "highland-navy",
+    colourways: ["highland-evergreen", "highland-slate"],
+    fonts: "pe",
+    hero: "stationery",
+    ornament: "none",
+    scene: "alpine-lake",
+    pageStyle: "invitation",
+  },
+  {
+    id: "heirloom-peony",
+    name: "Heirloom Peony",
+    blurb: "Watercolour peonies at two corners, your names in a flowing script",
+    theme: "garden",
+    palette: "peony-burgundy",
+    colourways: ["peony-rosewood", "peony-ink"],
+    fonts: "pe",
+    hero: "stationery",
+    ornament: "none",
+    scene: "peonies",
+    pageStyle: "invitation",
+  },
+  {
+    id: "wildflower-meadow",
+    name: "Wildflower Meadow",
+    blurb: "Bright watercolour wildflowers down both sides, a meadow under your names",
+    theme: "garden",
+    palette: "meadow-navy",
+    colourways: ["meadow-forest", "meadow-poppy"],
+    fonts: "ee",
+    hero: "stationery",
+    ornament: "none",
+    scene: "painted-wildflowers",
+    pageStyle: "invitation",
+  },
+  {
+    id: "black-tie",
+    name: "Modern Black-Tie",
+    blurb: "Your photo in black and white, spaced capitals, fine rules, nothing else",
+    theme: "modern",
+    palette: "black-tie-ivory",
+    colourways: ["black-tie-gilt", "black-tie-noir"],
+    fonts: "ee",
+    hero: "formal",
+    ornament: "none",
+    pageStyle: "evening",
+    photoFilter: "mono",
+  },
 ];
 
 export function templateById(id: string | null | undefined) {
@@ -292,6 +349,7 @@ export function applyTemplate(design: SiteDesign, t: SiteTemplate): SiteDesign {
     pageStyle: t.pageStyle ?? "cards",
     layouts: { ...design.layouts, rsvp: t.rsvp ?? "card" },
     background: { ...NO_BACKGROUND, ...t.background },
+    ...(t.photoFilter ? { heroPhoto: { ...design.heroPhoto, filter: t.photoFilter } } : {}),
     motion: { ...MOTION_PRESETS[t.motion ?? "subtle"], falling: "none" },
     text,
   };

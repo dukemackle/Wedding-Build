@@ -607,6 +607,8 @@ export const FONT_PAIRINGS = [
   { id: "cb", label: "Cinzel Decorative · Bellefair", display: "cinzeldeco", body: "bellefair" },
   { id: "go", label: "Gloock · Outfit", display: "gloock", body: "outfit" },
   { id: "bz", label: "Bebas Neue · Zilla Slab", display: "bebas", body: "zilla" },
+  { id: "ee", label: "EB Garamond", display: "ebgaramond", body: "ebgaramond" },
+  { id: "pe", label: "Parisienne · EB Garamond", display: "parisienne", body: "ebgaramond" },
 ] as const satisfies readonly { id: string; label: string; display: FontId | null; body: FontId | null }[];
 
 export type FontPairingId = (typeof FONT_PAIRINGS)[number]["id"];
@@ -628,6 +630,8 @@ export const HERO_LAYOUTS = [
   { id: "initials", label: "Initials", help: "Your initials huge, your names and details beside them, a wide photo under" },
   { id: "stamp", label: "Stamped", help: "Your photo in a white border with a round stamp of the year and place" },
   { id: "signature", label: "Signature", help: "Type only: your names large, small spaced capitals, the date set in three boxes" },
+  { id: "stationery", label: "Stationery", help: "Your names and date set like your printed invitation, on paper, with its painting" },
+  { id: "formal", label: "Formal", help: "Your photo across the top, your names in spaced capitals over it, everything in black and white" },
 ] as const;
 
 /** The layouts that show the banner photo. */
@@ -643,6 +647,7 @@ export const PHOTO_HEROES: readonly HeroLayoutId[] = [
   "cover",
   "initials",
   "stamp",
+  "formal",
 ];
 
 /**
@@ -718,8 +723,12 @@ export const SCENES = [
   { id: "rope", label: "Rope", place: "strip" },
   { id: "western-tiles", label: "Western tiles", place: "strip" },
   { id: "ocean-tiles", label: "Ocean tiles", place: "strip" },
+  // Batch A suites: watercolours cut from the approved mockups (site-scene.tsx).
+  { id: "alpine-lake", label: "Painted alpine lake", place: "band" },
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
+  { id: "peonies", label: "Painted peonies", place: "surround" },
+  { id: "painted-wildflowers", label: "Painted wildflowers", place: "surround" },
   { id: "drape", label: "Draped fabric", place: "surround" },
   { id: "western-pattern", label: "Western icons", place: "surround" },
   { id: "ocean-pattern", label: "Sea life", place: "surround" },
@@ -1007,6 +1016,19 @@ export const PALETTES = [
   { id: "whitespace-fog", name: "Fog", family: "blue", bg: "#eceeed", ink: "#263038", heading: "#263038", accent: "#52687a" },
   { id: "whitespace-blush", name: "Blush", family: "pink", bg: "#f6ede9", ink: "#4a3632", heading: "#4a3632", accent: "#93625a" },
   // Dark
+  // Batch A suites (2026-11-11): each card colourway's site, on the cards' ivory paper.
+  { id: "highland-navy", name: "Lake navy", family: "blue", bg: "#f9f1e5", ink: "#1b2f4b", heading: "#1b2f4b", accent: "#1b2f4b" },
+  { id: "highland-evergreen", name: "Evergreen", family: "green", bg: "#f9f1e5", ink: "#23402f", heading: "#23402f", accent: "#23402f" },
+  { id: "highland-slate", name: "Slate", family: "blue", bg: "#f7f1e8", ink: "#3a4250", heading: "#3a4250", accent: "#3a4250" },
+  { id: "peony-burgundy", name: "Burgundy", family: "red", bg: "#f8efe4", ink: "#4b1d24", heading: "#6e1a28", accent: "#6e1a28" },
+  { id: "peony-rosewood", name: "Rosewood", family: "pink", bg: "#f9efe6", ink: "#4f2a30", heading: "#7d3c45", accent: "#7d3c45" },
+  { id: "peony-ink", name: "Ink & gold", family: "neutral", bg: "#f8f0e4", ink: "#2e2427", heading: "#2e2427", accent: "#7c6436" },
+  { id: "meadow-navy", name: "Meadow navy", family: "blue", bg: "#fbf3e6", ink: "#1b2e45", heading: "#1b2e45", accent: "#1b2e45" },
+  { id: "meadow-forest", name: "Meadow green", family: "green", bg: "#fbf3e6", ink: "#253f2e", heading: "#253f2e", accent: "#253f2e" },
+  { id: "meadow-poppy", name: "Poppy", family: "orange", bg: "#fbf3e6", ink: "#5c2a14", heading: "#7a3418", accent: "#7a3418" },
+  { id: "black-tie-ivory", name: "Ivory & black", family: "neutral", bg: "#f6f2e9", ink: "#171916", heading: "#171916", accent: "#171916" },
+  { id: "black-tie-gilt", name: "Black & gilt", family: "neutral", bg: "#efe9de", ink: "#171916", heading: "#171916", accent: "#6f5f3e" },
+  { id: "black-tie-noir", name: "Noir", family: "black", bg: "#141414", ink: "#f3efe6", heading: "#f3efe6", accent: "#f3efe6" },
   // Gilded's dark colourway.
   { id: "gilded-emerald", name: "Gold on emerald", family: "green", bg: "#123a2e", ink: "#f3ead2", heading: "#f3ead2", accent: "#d8b765" },
   { id: "midnight-navy", name: "Midnight navy", family: "blue", bg: "#14203d", ink: "#f3ead8", heading: "#f3ead8", accent: "#e0b65a" },

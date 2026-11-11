@@ -50,6 +50,7 @@ export function SiteScene({ where }: { where: "band" | "strip" | "surround" | "f
   const scene = resolveDesign(design).scene;
   if (sceneById(scene).place !== where) return null;
 
+  if ((where === "band" || where === "foot") && PAINTED_BANDS[scene]) return PAINTED_BANDS[scene];
   if (where === "band" || where === "foot") {
     return (
       <svg
@@ -824,7 +825,53 @@ const STRIPS: Draw = {
   ),
 };
 
+/**
+ * Batch A suites (docs/batch-a-suites.md): watercolour scenes cut from the
+ * owner's approved mockups, in /public/site-art/batch-a. Pictures rather
+ * than shapes, so they keep their own colours whatever the palette; the
+ * paper is keyed out, so they sit on the page's background.
+ */
+const BATCH_A = "/site-art/batch-a";
+const painted = "pointer-events-none select-none";
+
+const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
+  // The alpine lake right under the names, full width, as on the card. A
+  // phone shows its middle at a usable height rather than a sliver.
+  "alpine-lake": (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img
+      src={`${BATCH_A}/highland-panorama.webp`}
+      alt=""
+      aria-hidden="true"
+      width={968}
+      height={345}
+      className={`${painted} site-scene block h-[clamp(200px,34vw,520px)] w-full object-cover object-bottom`}
+    />
+  ),
+};
+
 const SURROUNDS: Draw = {
+  // Peonies at two corners, off the edges: the top left and the bottom right.
+  peonies: () => (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/heirloom-corner-top.webp`} alt="" width={560} height={800} className={`${painted} absolute -left-2 -top-2 h-auto w-[34vw] max-w-[440px] sm:w-[30vw]`} />
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/heirloom-corner-bottom.webp`} alt="" width={620} height={620} className={`${painted} absolute -bottom-2 -right-2 h-auto w-[36vw] max-w-[420px] sm:w-[28vw]`} />
+    </>
+  ),
+  // Wildflowers down both sides and a meadow with far peaks along the
+  // bottom. On a phone the columns are cropped to their inner edge.
+  "painted-wildflowers": () => (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/wildflower-left.webp`} alt="" width={300} height={880} className={`${painted} absolute left-0 top-0 h-[calc(100%-clamp(90px,14vw,200px))] w-[17vw] max-w-[230px] object-cover object-left-top [mask-image:linear-gradient(to_right,#000_55%,transparent)] sm:w-[19vw]`} />
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/wildflower-right.webp`} alt="" width={300} height={880} className={`${painted} absolute right-0 top-0 h-[calc(100%-clamp(90px,14vw,200px))] w-[17vw] max-w-[230px] object-cover object-right-top [mask-image:linear-gradient(to_left,#000_55%,transparent)] sm:w-[19vw]`} />
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/wildflower-meadow.webp`} alt="" width={1000} height={440} className={`${painted} absolute inset-x-0 bottom-0 h-[clamp(170px,30vw,440px)] w-full object-cover object-top`} />
+    </>
+  ),
   // Gilded (suites wave 2): the card's line-drawn flowers, running off the
   // left edge of the top of the page, in the accent, with a blossom branch
   // off the right on a wide screen to balance them. A phone has no room
@@ -993,7 +1040,8 @@ export function SceneThumb({ scene, time = "day" }: { scene: SceneId; time?: Sce
           <span className="relative block h-5 w-36 rounded-full" style={{ background: "var(--color-ink)" }} />
           <span className="relative block h-3 w-20 rounded-full opacity-50" style={{ background: "var(--color-ink)" }} />
         </span>
-        {(place === "band" || place === "foot") && (
+        {(place === "band" || place === "foot") && PAINTED_BANDS[scene] && <span className="block h-[55%] w-full shrink-0 [&>img]:h-full">{PAINTED_BANDS[scene]}</span>}
+        {(place === "band" || place === "foot") && !PAINTED_BANDS[scene] && (
           <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="block h-[55%] w-full shrink-0">
             {lit(time, id, scene, BANDS[scene]?.(id))}
           </svg>

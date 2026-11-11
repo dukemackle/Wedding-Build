@@ -80,6 +80,38 @@ export const SUITES: Suite[] = [
     site: "whitespace",
     siteColourways: { paper: "whitespace-paper", fog: "whitespace-fog", blush: "whitespace-blush" },
   },
+  // Batch A (2026-11-11, docs/batch-a-suites.md): the owner's approved
+  // reference suites, each a save the date, invitation and guest site.
+  {
+    id: "highland-lake",
+    name: "Highland Lake",
+    card: "highland-lake",
+    site: "highland-lake",
+    names: "script",
+    siteColourways: { navy: "highland-navy", evergreen: "highland-evergreen", slate: "highland-slate" },
+  },
+  {
+    id: "heirloom-peony",
+    name: "Heirloom Peony",
+    card: "heirloom-peony",
+    site: "heirloom-peony",
+    names: "script",
+    siteColourways: { burgundy: "peony-burgundy", rosewood: "peony-rosewood", ink: "peony-ink" },
+  },
+  {
+    id: "wildflower-meadow",
+    name: "Wildflower Meadow",
+    card: "wildflower-meadow",
+    site: "wildflower-meadow",
+    siteColourways: { navy: "meadow-navy", forest: "meadow-forest", poppy: "meadow-poppy" },
+  },
+  {
+    id: "black-tie",
+    name: "Modern Black-Tie",
+    card: "black-tie",
+    site: "black-tie",
+    siteColourways: { ivory: "black-tie-ivory", gilt: "black-tie-gilt", noir: "black-tie-noir" },
+  },
 ];
 
 /** The suite a save-the-date or invitation design belongs to, if any. */

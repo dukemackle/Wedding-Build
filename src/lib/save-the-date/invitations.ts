@@ -25,6 +25,11 @@ export const INVITATION_SOURCES = [
   // Added 2026-11-10 so every suite (src/lib/suites.ts) has an invitation.
   "goldenhour",
   "editorial",
+  // Batch A suites (2026-11-11), each with its own invitation layout below.
+  "highland-lake",
+  "heirloom-peony",
+  "wildflower-meadow",
+  "black-tie",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -58,8 +63,88 @@ const OWN: Record<string, { palettes: Palette[]; art: ArtLayer[] }> = {
 };
 
 const text = (l: Omit<TextLayer, "kind" | "anchor" | "x">): TextLayer => ({ kind: "text", anchor: "middle", x: 500, ...l });
+const art = (l: Omit<ArtLayer, "kind">): ArtLayer => ({ kind: "art", ...l });
+
+/**
+ * Batch A suites: invitations laid out from the owner's approved references
+ * (docs/batch-a-suites.md), not the generic stack, because each one's
+ * artwork leaves a different shape of room for the type. Art ids start with
+ * "art-" only where the RSVP back should not carry them (it has its own, back.ts).
+ */
+const LAID_OUT: Record<string, Layer[]> = {
+  "highland-lake": [
+    art({ id: "scene", label: "Alpine lake", art: "highlandInv", x: 0, y: 0, w: 1000 }),
+    art({ id: "deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.6 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", y: 146, size: 23, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 640 }),
+    text({ id: "nameA", label: "First name", bind: "nameA", y: 262, size: 128, font: "script", color: "ink", maxWidth: 560 }),
+    art({ id: "andL", label: "Rule", art: "rule", x: 345, y: 309, w: 95, color: "accent", opacity: 0.7 }),
+    text({ id: "and", label: "And", bind: "custom", text: "and", y: 322, size: 34, font: "display", italic: true, color: "ink", maxWidth: 120 }),
+    art({ id: "andR", label: "Rule", art: "rule", x: 560, y: 309, w: 95, color: "accent", opacity: 0.7 }),
+    text({ id: "nameB", label: "Second name", bind: "nameB", y: 416, size: 128, font: "script", color: "ink", maxWidth: 600 }),
+    text({ id: "request", label: "Request", bind: "request", y: 492, size: 29, font: "display", italic: true, color: "ink", tracking: 0.06, maxWidth: 760 }),
+    art({ id: "peaks", label: "Peaks", art: "peakRule", x: 320, y: 526, w: 360, color: "accent", opacity: 0.8 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "formalDay", y: 604, size: 33, font: "display", color: "ink", upper: true, tracking: 0.1, maxWidth: 800 }),
+    text({ id: "year", label: "Year", bind: "date", dateStyle: "yearWords", when: "numericDate", y: 640, size: 18, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 760 }),
+    text({ id: "time", label: "Time", bind: "time", y: 676, size: 24, font: "display", italic: true, color: "ink", maxWidth: 760 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 730, size: 34, font: "display", color: "ink", upper: true, tracking: 0.12, maxWidth: 720 }),
+    text({ id: "place", label: "Town", bind: "place", y: 766, size: 18, font: "sans", color: "ink", upper: true, tracking: 0.26, maxWidth: 640 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 812, size: 28, font: "display", italic: true, color: "ink", tracking: 0.04, maxWidth: 520 }),
+  ],
+  "heirloom-peony": [
+    art({ id: "flowers", label: "Peonies", art: "heirloomInv", x: 0, y: 0, w: 1000 }),
+    art({ id: "deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.45 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", y: 300, size: 25, font: "sans", weight: 600, color: "ink", upper: true, tracking: 0.08, maxWidth: 520 }),
+    text({ id: "nameA", label: "First name", bind: "nameA", y: 436, size: 140, font: "script", color: "ink", maxWidth: 520 }),
+    text({ id: "and", label: "And", bind: "custom", text: "and", y: 486, size: 46, font: "script", color: "ink", maxWidth: 140 }),
+    text({ id: "nameB", label: "Second name", bind: "nameB", y: 600, size: 140, font: "script", color: "ink", maxWidth: 560 }),
+    text({ id: "request", label: "Request", bind: "request", y: 680, size: 30, font: "display", italic: true, color: "ink", maxWidth: 640 }),
+    art({ id: "divider", label: "Divider", art: "sprigRule", x: 330, y: 714, w: 340, color: "accent" }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "formalDay", y: 806, size: 34, font: "display", weight: 600, color: "ink", upper: true, tracking: 0.06, maxWidth: 720 }),
+    text({ id: "year", label: "Year", bind: "date", dateStyle: "yearWords", when: "numericDate", y: 846, size: 19, font: "sans", weight: 600, color: "ink", upper: true, tracking: 0.08, maxWidth: 640 }),
+    text({ id: "time", label: "Time", bind: "time", y: 882, size: 24, font: "display", italic: true, color: "ink", maxWidth: 640 }),
+    art({ id: "divider2", label: "Divider", art: "sprigRule", x: 330, y: 902, w: 340, color: "accent" }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 986, size: 37, font: "display", weight: 600, color: "ink", upper: true, tracking: 0.06, maxWidth: 680 }),
+    text({ id: "place", label: "Town", bind: "place", y: 1024, size: 18, font: "sans", weight: 600, color: "ink", upper: true, tracking: 0.28, maxWidth: 560 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 1094, size: 50, font: "script", color: "ink", maxWidth: 520 }),
+  ],
+  "wildflower-meadow": [
+    art({ id: "flowers", label: "Wildflowers", art: "wildflowerFrame", x: 0, y: 0, w: 1000 }),
+    art({ id: "deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", y: 186, size: 26, wrap: 14, lineHeight: 1.6, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 440 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 440, y: 262, w: 120, color: "accent" }),
+    text({ id: "nameA", label: "First name", bind: "nameA", y: 356, size: 82, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.08, maxWidth: 600 }),
+    art({ id: "andL", label: "Rule", art: "rule", x: 300, y: 398, w: 140, color: "accent" }),
+    text({ id: "and", label: "And", bind: "custom", text: "and", y: 414, size: 46, font: "script", italic: true, color: "ink", maxWidth: 140 }),
+    art({ id: "andR", label: "Rule", art: "rule", x: 560, y: 398, w: 140, color: "accent" }),
+    text({ id: "nameB", label: "Second name", bind: "nameB", y: 524, size: 82, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.08, maxWidth: 620 }),
+    text({ id: "request", label: "Request", bind: "request", y: 590, size: 24, wrap: 30, lineHeight: 1.6, font: "sans", color: "ink", upper: true, tracking: 0.16, maxWidth: 540 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 712, size: 34, font: "display", color: "ink", upper: true, tracking: 0.1, maxWidth: 580 }),
+    text({ id: "time", label: "Time", bind: "time", y: 752, size: 20, font: "sans", color: "ink", upper: true, tracking: 0.14, maxWidth: 540 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 830, size: 34, font: "display", color: "ink", upper: true, tracking: 0.12, maxWidth: 560 }),
+    text({ id: "place", label: "Town", bind: "place", y: 876, size: 21, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 520 }),
+    art({ id: "rule2", label: "Rule", art: "rule", x: 440, y: 910, w: 120, color: "accent" }),
+    text({ id: "note", label: "Reception", bind: "note", y: 976, size: 36, font: "script", italic: true, color: "ink", maxWidth: 520 }),
+  ],
+  "black-tie": [
+    art({ id: "art-frame", label: "Double frame", art: "doubleFrame", x: 0, y: 0, w: 1000, color: "ink" }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", y: 140, size: 26, wrap: 14, lineHeight: 1.75, font: "sans", color: "ink", upper: true, tracking: 0.24, maxWidth: 640 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 440, y: 248, w: 120, color: "accent" }),
+    text({ id: "nameA", label: "First name", bind: "nameA", y: 382, size: 76, font: "display", color: "ink", upper: true, tracking: 0.12, maxWidth: 780 }),
+    text({ id: "and", label: "And", bind: "custom", text: "and", y: 468, size: 52, font: "script", italic: true, color: "accent", maxWidth: 160 }),
+    text({ id: "nameB", label: "Second name", bind: "nameB", y: 578, size: 76, font: "display", color: "ink", upper: true, tracking: 0.12, maxWidth: 780 }),
+    text({ id: "request", label: "Request", bind: "request", y: 684, size: 22, wrap: 36, lineHeight: 1.9, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 760 }),
+    art({ id: "rule2", label: "Rule", art: "rule", x: 440, y: 790, w: 120, color: "accent" }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 884, size: 36, font: "display", color: "ink", upper: true, tracking: 0.12, maxWidth: 780 }),
+    text({ id: "time", label: "Time", bind: "time", y: 936, size: 21, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 720 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 1044, size: 44, font: "display", color: "ink", upper: true, tracking: 0.14, maxWidth: 760 }),
+    text({ id: "place", label: "Town", bind: "place", y: 1104, size: 24, font: "sans", color: "ink", upper: true, tracking: 0.3, maxWidth: 700 }),
+    art({ id: "rule3", label: "Rule", art: "rule", x: 440, y: 1170, w: 120, color: "accent" }),
+    text({ id: "note", label: "Reception", bind: "note", y: 1258, size: 34, font: "display", italic: true, color: "ink", tracking: 0.04, maxWidth: 640 }),
+  ],
+};
 
 function invitationLayers(t: Template): Layer[] {
+  if (LAID_OUT[t.id]) return LAID_OUT[t.id];
   const art = OWN[t.id]?.art ?? carriedArt(t, "art-");
   const frame: ArtLayer[] = art.length ? art : [{ kind: "art", id: "art-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.45 }];
   // A design whose ornament sits at the top starts the type lower.
