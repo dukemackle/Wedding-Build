@@ -56,5 +56,6 @@ The painting copies the venue's photo, so the venue's consent is what lets us
 use it: if a venue withdraws (a later claim submission with the box unticked),
 remove every file in its rows within 30 days.
 
-| Files | Venue (slug) | Style | Source photo and credit | Consent date | Made |
-|---|---|---|---|---|---|
+The record is the `venue_art` table (0168), shown on admin → Venue art,
+which also flags withdrawn venues for deletion. Files are in the private
+`venue-art` storage bucket, not the repo.

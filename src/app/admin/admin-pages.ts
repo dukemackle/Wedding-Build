@@ -71,6 +71,7 @@ export function adminGroups(claims: PendingClaims): AdminGroup[] {
       tile: "bg-[#5AE4FF]/30 text-forest",
       links: [
         { href: "/admin/attire", label: "Attire", icon: "dress", keywords: "dresses suits rings catalog" },
+        { href: "/admin/venue-art", label: "Venue art", icon: "photo", keywords: "watercolour watercolor engraving painting guest site template chatgpt ceremony photo art styles" },
         { href: "/admin/cost-data", label: "Cost data", icon: "calc", keywords: "budget estimator prices regional csv" },
       ],
     },

@@ -984,6 +984,26 @@ export type GuestPost = {
   taken_local: string | null;
 };
 
+export type VenueArtStyle = "watercolour" | "engraving" | "pen-and-wash" | "gouache" | "papercut";
+
+/** A painting of a venue made from its own photo (0168). Admin-only. */
+export type VenueArt = {
+  id: string;
+  venue_id: string;
+  style: VenueArtStyle;
+  source_photo_url: string;
+  photo_credit: string | null;
+  consent_at: string | null;
+  /** Paths in the private `venue-art` bucket. */
+  wide_path: string | null;
+  tall_path: string | null;
+  status: "draft" | "approved";
+  approved_at: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 /** A photo, story or quote the couple added to their guest site. */
 /** One of a couple's guest-site designs (0111). parseSiteDesign the design. */
 export type SiteDesignRow = {
