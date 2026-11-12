@@ -4,6 +4,7 @@ import { COMPANY_POSTAL_ADDRESS } from "@/lib/company";
 
 export const metadata = {
   title: "Privacy Policy",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {
