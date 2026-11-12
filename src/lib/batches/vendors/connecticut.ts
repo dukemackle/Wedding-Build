@@ -460,6 +460,11 @@ Dagmar's Desserts	Cake	75 Main St.	Old Saybrook	Connecticut		Old Saybrook bakery
 Mezzo Grille	Catering	106 Court St	Middletown	Connecticut	Delivery throughout Connecticut	Downtown Middletown restaurant offering full-service wedding catering with setup, serving staff, clean-up and optional bar service.	events@mezzogrille.com	(860) 740-5419	https://www.mezzogrille.com/catering	https://www.instagram.com/mezzogrille/		
 DJ Crazy Chris	Music		Westbrook	Connecticut	Connecticut, Rhode Island and New England	Shoreline wedding DJ and MC with over 20 years of experience, known for personalised music and live mixing at receptions.			https://www.djcrazychris.com/	https://www.instagram.com/djcrazychris860/		`,
   },
+  {
+    name: "Litchfield Hills: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Cutie Pies	Cake	131 Main St, Suite 105A	Thomaston	Connecticut		Main Street bakery famed for hundreds of cupcake flavours that also makes custom cakes for weddings and bridal showers.		(860) 484-4838	https://cutiepiesct.com/	https://www.instagram.com/cutiepiesct/		`,
+  },
 ];
 
 export default batches;

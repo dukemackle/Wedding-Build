@@ -158,6 +158,20 @@ Sycamore Hill Venue	1558 Eldridge Rd	Fayetteville	Arkansas			Garden & Park	Outdo
 Tuscan Manor	3185 E Van Buren	Eureka Springs	Arkansas			Hotel & Resort	Indoor & Outdoor	30	365	Package	A luxury bed and breakfast in Eureka Springs hosting elopements and small weddings of up to 30 guests.		(479) 981-2323	https://thetuscanmanor.com/weddings/
 The Elms Barn	3540 US-62 E	Flippin	Arkansas			Barn & Farm	Indoor & Outdoor	300			A 4,600-square-foot barn hall with balcony on a 200-acre Ozark homestead between Flippin and Yellville, with bridal and groom suites.		(870) 321-5405	https://theelmsbarn.com/weddings/`,
   },
+  {
+    name: "Little Rock, Conway and River Valley venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Chenal Event Venue	21 Rahling Cir	Little Rock	Arkansas			Ballroom	Indoor & Outdoor				Multi-room event venue in west Little Rock with a main hall, a vaulted side room, a courtyard for ceremonies and a private getting-ready suite.		(501) 817-3156	https://chenaleventvenue.com
+Herschel Hall	114 South Broadview	Greenbrier	Arkansas			Ballroom	Indoor		3500	Package	Event hall north of Conway with a Great Room and a Hearth Room, published day rates and weekend wedding packages that include tables, lighting and a tech operator.	info@herschelhall.com	501-356-4600	https://www.herschelhall.com/packages
+Angelo's Garden	171 Brandon Drive	Mayflower	Arkansas			Ballroom	Indoor & Outdoor		8500	Rental	Wedding venue near Mayflower with an outdoor ceremony lawn facing Petit Jean and Pinnacle mountains and a 4,200 sq ft climate-controlled ballroom.		501-428-1391	https://www.angelosgarden.com/weddingpackages
+Peaceful Pointe	4 Ozark Mountain Rd.	Solgohachia	Arkansas			Mountain & Lodge	Indoor & Outdoor	200			Hilltop venue on Jenkins Mountain with an open-air ceremony site overlooking Petit Jean, a wedding hall for receptions and guest lodging.	info@peacefulpointe.com	501.645.3110	https://peacefulpointe.com/weddings/
+The Loft at Stone Oak	3411 Old Chismville Road	Greenwood	Arkansas			Barn & Farm	Indoor & Outdoor	280			Shiplap-and-brick event hall near Fort Smith under a centuries-old oak, with an outdoor chapel, covered patios and a bridal loft.	theloftatstoneoak@gmail.com	1-479-651-8300	https://www.theloftatstoneoak.com/theloft
+The Barn at Sleepy Hollow	1758 County Road 3348	Clarksville	Arkansas			Barn & Farm	Indoor & Outdoor		3200	Rental	Climate-controlled barn on 25 wooded acres near Clarksville with a pond, patios, bridal and groom's rooms, and cottages for weekend stays.			https://thebarnatsleepyhollow.com/pricing/
+Mulberry Mountain	4117 Mulberry Mountain Loop	Ozark	Arkansas			Mountain & Lodge	Indoor & Outdoor	250	3995	Package	Ozark Mountains retreat with an outdoor ceremony site and a 6,000 sq ft stone-fireplace reception hall, with cabins and lodges for guests.	info@mulberrymountain.com	479-667-1919	https://www.mulberrymountainlodge.com/weddings/
+King Opera House	427 S Main Street	Van Buren	Arkansas			Museum, Gallery & Rooftop	Indoor				Restored historic opera house on Van Buren's Main Street, run by Arts On Main and available to hire for weddings as well as performances.	lsloan@artsonmainvb.com	(479) 474-7767	https://kingoperahouse.com/rent-the-opera-house/
+Fort Smith Regional Art Museum	1601 Rogers Avenue	Fort Smith	Arkansas			Museum, Gallery & Rooftop	Indoor				Mid-century former bank turned art museum, where the galleries, terrazzo lobby and grand staircase can host wedding ceremonies and standing receptions.		479.784.2787	https://fsram.org/facility-rentals/
+`,
+  },
 ];
 
 export default batches;

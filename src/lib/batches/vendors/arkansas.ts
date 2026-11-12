@@ -309,6 +309,70 @@ The Mood Floral Co.	Florals	302 Ouachita Ave	Hot Springs	Arkansas	Hot Springs, G
 Dynasty Limousine	Transportation	1125 Jefferson St	Springdale	Arkansas	Northwest Arkansas	Springdale transport company running limousines, party buses and shuttles for brides, grooms, wedding parties and guests across NW Arkansas.			https://www.dynastylimonwa.com/wedding-service/			
 `,
   },
+  {
+    name: "Fort Smith: photography, videography, music, catering, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kristi Patillo Photography	Photography		Fort Smith	Arkansas		Fort Smith photographer offering elopement and full-day wedding collections, with engagement sessions and online galleries in larger packages.			https://www.kristipatillophotos.com/weddings/		1200	package
+Nikole Wells Photography	Photography		Alma	Arkansas	Within 100 miles of Alma	Alma-based wedding photographer covering the River Valley, with a second shooter and a bridal or engagement session included in each package.			https://www.nikolewellsphotography.com/wedding		1700	package
+Yellow Roads Photography	Photography		Van Buren	Arkansas		Van Buren wedding photographer with several published wedding collections, also photographing families and newborns across Arkansas.			https://yellowroadsphotography.com/wedding-information	https://www.instagram.com/yellowroads.photography/	2250	package
+NP Production	Videography		Fort Smith	Arkansas	Arkansas and across the U.S.	Fort Smith studio filming and photographing weddings since 2012, also offering an attended photo booth and destination wedding coverage.			https://npproduction.com/	https://www.instagram.com/npproduction2012/		
+DJ Ronnie	Music		Fort Smith	Arkansas	Fort Smith, River Valley and Northwest Arkansas	Fort Smith DJ covering the River Valley and Northwest Arkansas, with wedding packages that include ceremony sound, lighting and a 360 booth option.	book@djronnie479.com	(479) 420-3668	https://www.djronnie479.com/	https://www.instagram.com/djronnie479/	1300	package
+Sonido Super Gatos	Music		Fort Smith	Arkansas	Fort Smith and surrounding areas	Fort Smith sonido DJ bringing lighting, lasers, low fog, karaoke and an MC to bodas and quinceañeras across the River Valley.	jorgefrias26@yahoo.com	479-461-6062	https://sonidosupergatos.square.site/			
+Jerry Neel's Bar-B-Q, Catfish, & Catering	Catering	1823 Phoenix Ave	Fort Smith	Arkansas	Fort Smith area	Long-running Fort Smith barbecue and catfish kitchen that caters weddings, reunions and company events from its Phoenix Avenue restaurant.			https://jerryneelsbbq.com/page/catering			
+River Valley Custom Catering	Catering		Van Buren	Arkansas		Family-run Van Buren caterer building customised menus for weddings, corporate events and celebrations to suit each couple's budget.	rvccatering@gmail.com	(479) 561-1407	https://www.rivervalleycustomcatering.com/			
+Luxe Moment Co. LLC.	Photo Booth		Fort Smith	Arkansas	River Valley, plus travel	River Valley photo booth hire with classic and 360 video booths for weddings and private celebrations, travelling beyond the area on request.			https://www.luxemomentco.com/			
+`,
+  },
+  {
+    name: "Jonesboro: photography, videography, music, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lexi Donielle	Photography		Jonesboro	Arkansas	Arkansas and St. Louis	Jonesboro-based wedding photographer creating editorial, natural images across Arkansas and St. Louis, with travel for destination weddings.			https://lexidonielle.com/	https://www.instagram.com/lexidonielle/		
+Melanie Runsick Photography	Photography	516 Gee St Suite B	Jonesboro	Arkansas		Jonesboro portrait studio that also photographs a small number of weddings each year, delivering edited digital images through a custom app.	hello@melanierunsick.com	870-926-0995	https://melanierunsickphotography.com/weddings	https://www.instagram.com/melanierunsickphotography/	695	package
+Melissa Donner Photography	Photography	3287 Hwy 163	Jonesboro	Arkansas		Jonesboro studio photographer favouring small backyard weddings and elopements of around 40 guests, with a custom quote built for each couple.	melissadonnerphotography@live.com	870-897-5163	https://melissadonnerphotography.com/weddingsandevents	https://www.instagram.com/melissadonnerphotography/		
+Capturing The Moment Photography	Photography		Smithville	Arkansas		Lawrence County photographer covering engagements, bridals, rehearsals and weddings alongside senior, school and sports sessions.		870-844-0758	https://capturingthemoments.zenfolio.com/			
+Knight Productions	Videography	204 South Pruett St.	Paragould	Arkansas	Northeast Arkansas	Paragould production studio offering cinematic wedding films, wedding photography or a combined photo-and-video package across Northeast Arkansas.	nathanknightproductions@gmail.com	870-450-3218	https://knightproductions.info/wedding-photography	https://www.instagram.com/knightproductions_/		
+James Bickham Visuals	Videography		Jonesboro	Arkansas		Jonesboro photo and video team filming weddings across Arkansas and neighbouring states, with wedding photography also available.			https://www.jamesbickhamvisuals.com/copy-of-weddings	https://www.instagram.com/jamesbickham_/	2000	package
+Nelson Films and Photography	Videography		Jonesboro	Arkansas	Northeast Arkansas	Northeast Arkansas studio producing wedding films and photo albums, with past work at venues such as Stan Jones Mallard Lodge and The Silos.	contact@nelsonfilmsandphotography.com	870-219-8821	https://www.nelsonfilmsandphotography.com/recent-work			
+Suspence Entertainment	Music		Jonesboro	Arkansas	Within 65 miles of Jonesboro	Jonesboro DJ company providing wedding DJs, ceremony audio, uplighting, photo booths and audio guest books, with no travel fee within 65 miles.	suspenceentertainment@gmail.com	870-819-9648	https://www.suspenceentertainment.com/		2500	package
+Top Notch Entertainment	Music		Jonesboro	Arkansas	Northeast Arkansas	Northeast Arkansas wedding DJ and photo booth company offering ceremony-to-last-dance music, uplighting, 360 booths and glow parties.	info@topnotchparty.com	870-897-4468	https://www.topnotchparty.com/			
+Nite Stix Entertainment LLC	Music		Newport	Arkansas	Central and Northeast Arkansas	Newport DJ and MC service with ceremony and reception packages, dance-floor lighting, uplighting and an optional selfie station.	nitestixentertainment@gmail.com	870-664-0195	https://www.nitestixentertainment.com/	https://www.instagram.com/nitestixentertainment/	300	package
+Something Sweet	Cake	221 S. Pruett Street	Paragould	Arkansas		Downtown Paragould bakery and coffee shop decorating custom cakes since 2011, now making tiered wedding cakes with consultations.	info@paragouldsweets.com	870-565-5169	https://paragouldsweets.com/	https://www.instagram.com/870somethingsweet/		
+`,
+  },
+  {
+    name: "Hot Springs: photography, planning, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Jayden Story Photography	Photography		Hot Springs	Arkansas	Arkansas and beyond	A Hot Springs wedding and couples photographer whose collections include two shooters and an engagement session, with relaxed, unposed coverage.			https://jaydenstoryphoto.com/	https://www.instagram.com/jaydenstoryphoto/	1600	package
+Madison Hurley Photography	Photography		Hot Springs	Arkansas		A Hot Springs photographer best known for vintage-styled boudoir and artistic portraits, who also photographs weddings and offers in-house glam.	contact@madisonhurleyphotography.com	(501) 627-2723	https://www.madisonhurleyphotography.com/	https://www.instagram.com/madisonhurleyphotography/		
+Blissful Hot Springs	Planning		Hot Springs	Arkansas	Hot Springs, Malvern, Benton, Little Rock and Central Arkansas	Hot Springs officiants and day-of coordinators covering Malvern, Benton and Little Rock, with hourly planning help and wedding stationery too.	Blissfulhotsprings@gmail.com		https://blissfulsprings.square.site/	https://www.instagram.com/blissfulhotsprings/		
+The Arrangement	Florals	769 Park Avenue	Hot Springs	Arkansas		A Park Avenue florist in Hot Springs for over 20 years, with an Arkansas Master Designer on staff for wedding and event flowers.	tdbdlo8@gmail.com	(501) 321-2413	https://www.hotspringsflowershop.com/about_us.php			
+Country Garden Florist	Florals	208 South Main Street	Malvern	Arkansas		A Main Street florist in Malvern offering wedding packages from bridal and attendant bouquets to ceremony arches and centrepieces.	cgf208@att.net	(501) 337-0106	https://www.countrygardenfloristar.com/wedding-flowers			
+Malvern Florist & Gifts	Florals	133 S Main St	Malvern	Arkansas		A Malvern florist serving the area since 1967, offering wedding bouquets, party flowers and ceremony and reception arrangements.	malvernflorist67@gmail.com	(501) 332-5631	https://www.malvernflorist.net/wedding-flowers			
+`,
+  },
+  {
+    name: "Little Rock: planning, music, catering, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lacey Lou's	Florals		Little Rock	Arkansas	Central Arkansas and statewide	Lacey Boyle's Little Rock studio designs organic, garden-inspired wedding flowers, from airy bouquets to statement ceremony installations.			https://www.laceylous.com/			
+Brimley Hospitality Group	Catering		Little Rock	Arkansas	Central Arkansas and statewide	Chef Brandon Brimley's hospitality company, formerly To the Brim Catering, offers wedding catering, bartending and chef-led dining.	brimleyhospitality@gmail.com	(501) 523-8409	https://www.tothebrimcatering.com/	https://www.instagram.com/brimleyhospitality/		
+Arkansas Catering	Catering		Cabot	Arkansas	Central Arkansas	Chef Wayne Schilleci's Cabot-based team caters weddings and private gatherings across Central Arkansas, drawing on 23 years in the trade.	arkansascatering@gmail.com	(501) 902-9199	https://www.bestarkansascatering.com/	https://www.instagram.com/arkansas_catering/		
+The Ramsey & Company	Planning		Little Rock	Arkansas		An inclusive, LGBTQ+ friendly planning team founded by Kaitlyn Ramsey, offering full planning and coordination for weddings across Arkansas.			https://www.ramseyandcompany.com/	https://www.instagram.com/theramseyandcompany/		
+Kaitie Gill Weddings	Planning		Little Rock	Arkansas	Central Arkansas and beyond	A Central Arkansas planning firm, running since 2017, offering full planning, design and wedding-day management with a calm, organised approach.	hello@kaitiegillweddings.com	(501) 920-7627	https://kaitiegillweddings.com/	https://www.instagram.com/kaitiegillweddings/		
+Riverfest String Quartet	Music		Little Rock	Arkansas		A Little Rock string quartet playing preludes, ceremonies and cocktail hours since 2016, with a large library of pop arrangements.	wesley@riverfestquartet.com	(501) 401-9095	https://www.riverfestquartet.com/weddings/			
+Crown Entertainment	Music		Cabot	Arkansas	Arkansas	An Arkansas DJ and production company providing wedding hosts, lighting and audio, from ceremony sound through to a packed dance floor.	hello@crownentgroup.com	(501) 286-6177	https://crownentgroup.com/weddings/	https://www.instagram.com/crownentertainment/	1295	package
+`,
+  },
+  {
+    name: "Northwest Arkansas: videography, hair and makeup, cake, catering, bridal and formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Oakenwood Catering	Catering		Lowell	Arkansas	Northwest Arkansas	A Lowell catering kitchen with over 20 years of wedding experience, building bespoke menus, grazing boards and private chef dinners across NWA.		(479) 318-4729	https://www.oakenwoodnwa.com/	https://www.instagram.com/oakenwoodnwa/		
+Emi Beauty Co	Hair & Makeup		Fayetteville	Arkansas	Northwest Arkansas and beyond	A Fayetteville beauty studio offering bridal makeup and hairstyling packages, plus skincare, brow and lash treatments ahead of the big day.	hello@emibeautyco.com		https://emibeautyco.com/bridal-booking			
+Colossal Bakes	Cake		Eureka Springs	Arkansas		A Eureka Springs bakery whose wedding packages start with classic white tiered cakes, dressed with fresh fruit, flowers or a chocolate drip.	colossalbakes@gmail.com	(479) 253-5470	https://colossalbakes.com/product/wedding-cakes/			
+Haziel Photo & Films	Videography		Fayetteville	Arkansas	Northwest Arkansas, the rest of Arkansas and out of state	Husband-and-wife team Randy and Olga film and photograph Northwest Arkansas weddings and elopements, with film-only collections available.	randy@hazielphotoandfilms.com		https://hazielphotoandfilms.com/	https://www.instagram.com/hazielphotoandfilms/	3500	package
+Purdy Art Company	Videography		Eureka Springs	Arkansas	Eureka Springs and beyond	A Eureka Springs studio filming and photographing weddings at Thorncrown Chapel and other Ozark venues, with highlight films and ceremony edits.	purdyartcompany@gmail.com	(479) 244-5120	https://www.purdyartcompany.com/videography.html	https://www.instagram.com/purdyartcompany/		
+Something You Bridal	Bridal & Formalwear	5206 W Village Pkwy Suite 13	Rogers	Arkansas		A woman-owned Rogers bridal boutique with a personal stylist at each appointment, inclusive sizing and take-home-today gowns.		(479) 364-0112	https://somethingyoubridal.com/	https://www.instagram.com/somethingyoubridal/		
+`,
+  },
 ];
 
 export default batches;
