@@ -385,7 +385,7 @@ function LivePreview({ design }: { design: SiteDesign }) {
       {box.w > 0 && (
         <iframe
           ref={frameRef}
-          src="/guests/site/preview?look=1"
+          src={`/guests/site/preview?look=1&template=${design.template ?? ""}`}
           title="Template preview"
           className="absolute left-0 top-0 border-0"
           style={{

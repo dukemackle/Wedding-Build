@@ -6,13 +6,42 @@
  *
  * Hotlinked from images.unsplash.com under the Unsplash License (free to use,
  * no credit required). Chosen by eye on 2026-10-21; each id was checked to
- * load and to show a wedding. Replace one by its id, never by a search.
+ * load and to show a wedding (the per-template
+ * banners on 2026-11-12). Replace one by its id, never by a search.
  */
 const unsplash = (id: string, width: number) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${width}&q=75`;
 
 /** The couple centred in warm light, so it still reads at thumbnail size. */
 export const SAMPLE_HERO = unsplash("1591604466107-ec97de577aff", 2000);
+
+/**
+ * A different couple per template, matched to its mood, so the gallery
+ * doesn't show the same photo fourteen times (owner, 2026-11-12). Keyed by
+ * template id (site-templates.ts); a template missing here gets SAMPLE_HERO.
+ */
+const SAMPLE_HEROES: Record<string, string> = {
+  classic: "1591604466107-ec97de577aff",
+  heirloom: "1541250848049-b4f7141dca3f",
+  editorial: "1460978812857-470ed1c77af0",
+  riviera: "1511285560929-80b456fea0bc",
+  "night-swim": "1494774157365-9e04c6720e47",
+  "golden-hour": "1460364157752-926555421a7e",
+  monogram: "1550784718-990c6de52adf",
+  homestead: "1501901609772-df0848060b33",
+  "deco-gala": "1595407753234-0882f1e77954",
+  wildflower: "1546032996-6dfacbacbf3f",
+  highland: "1604017011826-d3b4c23f8914",
+  gilded: "1550005809-91ad75fb315f",
+  signature: "1606216794074-735e91aa2c92",
+  whitespace: "1621621667797-e06afc217fb0",
+};
+
+/** The sample banner for a template, or the default one. */
+export function sampleHero(template: string | null | undefined): string {
+  const id = template ? SAMPLE_HEROES[template] : undefined;
+  return id ? unsplash(id, 2000) : SAMPLE_HERO;
+}
 
 /** Couple, details, then the day, so the first (largest) is the couple. */
 export const SAMPLE_GALLERY = [
