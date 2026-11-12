@@ -1128,6 +1128,33 @@ export const TEMPLATES: Template[] = [
     ],
   },
   {
+    id: "meadow-vista",
+    name: "Meadow Vista",
+    family: "Landscape",
+    mood: "Golden rolling hills, oaks and a winding path through lupine and wildflowers in watercolour, your names in script on open paper.",
+    usesPhoto: false,
+    grain: 0.008,
+    palettes: [
+      { id: "olive", label: "Olive", paper: "#f9f3e6", ink: "#3f4a2a", accent: "#3f4a2a", muted: "#666e52", onPhoto: "#ffffff" },
+      { id: "lupine", label: "Lupine", paper: "#f9f3e6", ink: "#3f3a5e", accent: "#3f3a5e", muted: "#65607e", onPhoto: "#ffffff" },
+      { id: "earth", label: "Earth", paper: "#f9f3e6", ink: "#5b3f2a", accent: "#5b3f2a", muted: "#7c624d", onPhoto: "#ffffff" },
+    ],
+    pairings: [
+      { id: "vista", label: "Garamond & script", display: "ebgaramond", script: "parisienne", sans: "ebgaramond" },
+      { id: "copperplate", label: "Copperplate", display: "cormorant", script: "pinyon", sans: "cormorant" },
+      { id: "brush", label: "Soft brush", display: "marcellus", script: "allura", sans: "marcellus" },
+    ],
+    layers: [
+      { kind: "art", id: "scene", label: "Meadow vista", art: "meadowVistaStd", x: 0, y: 0, w: 1000 },
+      { kind: "text", id: "save", label: "Save", bind: "custom", text: "Save", x: 420, y: 250, size: 70, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, anchor: "end", maxWidth: 300 },
+      { kind: "text", id: "the", label: "the", bind: "custom", text: "the", x: 500, y: 250, size: 60, font: "script", color: "ink", anchor: "middle", maxWidth: 130 },
+      { kind: "text", id: "dateWord", label: "Date", bind: "custom", text: "Date", x: 580, y: 250, size: 70, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, anchor: "start", maxWidth: 300 },
+      { kind: "art", id: "rule", label: "Rule", art: "rule", x: 430, y: 318, w: 140, color: "ink", opacity: 0.6 },
+      { kind: "text", id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, x: 500, y: 452, size: 140, font: "script", color: "ink", anchor: "middle", maxWidth: 860 },
+      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 600, size: 44, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, anchor: "middle", maxWidth: 760 },
+      { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 664, size: 30, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, anchor: "middle", maxWidth: 760 },
+    ],
+  },  {
     id: "evergreen-ridge",
     name: "Evergreen",
     family: "Landscape",

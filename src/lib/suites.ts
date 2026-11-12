@@ -185,6 +185,14 @@ export const SUITES: Suite[] = [
     siteColourways: { forest: "ridge-forest", slate: "ridge-slate", dusk: "ridge-dusk" },
   },
   {
+    id: "meadow-vista",
+    name: "Meadow Vista",
+    card: "meadow-vista",
+    site: "meadow-vista",
+    names: "script",
+    siteColourways: { olive: "vista-olive", lupine: "vista-lupine", earth: "vista-earth" },
+  },
+  {
     id: "black-tie",
     name: "Modern Black-Tie",
     card: "black-tie",

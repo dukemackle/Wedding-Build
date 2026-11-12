@@ -48,6 +48,7 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Heirloom Peony | peony clusters top-left and bottom-right, centre clear | Waiting; interim art cut from the mockup in place |
 | Wildflower Meadow | flowers up both sides, meadow and peaks along the bottom, centre clear | Waiting; interim art in place |
 | Modern Black-Tie | none (type only) | Done |
+| Meadow Vista | golden hills, oaks, winding path, lupine; id `meadow-vista` | **Done** (owner's zip, 2026-11-12) |
 | Evergreen | pines, misty ridges, snowy peaks, sunset; id `evergreen-ridge` | **Done** (owner's zip in the new format, 2026-11-12) |
 | Palm Shore | palm beach at golden hour (cards, site foot); id `palm-shore` ("Shoreline" is an older photo save the date) | **Done** (owner's three-image set, 2026-11-12; two hibiscus painted out, owner) |
 | Regatta | lighthouse, granite, hydrangeas (cards), sailboat on the bay (invitation, site band) | **Done** (owner's zip, 2026-11-12) |
