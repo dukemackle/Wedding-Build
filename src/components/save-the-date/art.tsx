@@ -971,6 +971,8 @@ export const ART: Record<string, ArtDef> = {
   highlandStd: batchA("Alpine lake", "highland-std", 1024, 1434),
   highlandInv: batchA("Alpine lake", "highland-std", 1024, 1434),
   highlandForest: batchA("Pines and rocks", "highland-forest", 162, 170),
+  regattaStd: batchA("Lighthouse and hydrangeas", "rg-save-the-date", 1000, 610),
+  regattaInv: batchA("Sailboat on the bay", "rg-invitation", 1000, 610),
   rivieraStd: batchA("Riviera terrace", "fr-save-the-date", 1000, 670),
   rivieraInv: batchA("Riviera sea", "fr-invitation", 1000, 670),
   postmarkStd: batchA("Tuscan villa", "pm-std", 1000, 527),

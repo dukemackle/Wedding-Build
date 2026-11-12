@@ -48,6 +48,7 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Heirloom Peony | peony clusters top-left and bottom-right, centre clear | Waiting; interim art cut from the mockup in place |
 | Wildflower Meadow | flowers up both sides, meadow and peaks along the bottom, centre clear | Waiting; interim art in place |
 | Modern Black-Tie | none (type only) | Done |
+| Regatta | lighthouse, granite, hydrangeas (cards), sailboat on the bay (invitation, site band) | **Done** (owner's zip, 2026-11-12) |
 | French Riviera | terrace, villas, sea and bougainvillea (cards), open sea (invitation), arch terrace band (site) | **Done** (owner's zip, 2026-11-12) |
 | Postmark | Tuscan villa and cypresses (cards, site), vineyards (invitation); airmail edge | **Done** (owner's zip, 2026-11-12; olive leaves painted out, owner) |
 | Sonoran Desert | saguaros, sandstone mountain, sage and ocotillo; full-bleed sky | **Done** (owner's zip, 2026-11-12) |

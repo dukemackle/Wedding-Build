@@ -726,6 +726,7 @@ export const SCENES = [
   // Batch A suites: watercolours cut from the approved mockups (site-scene.tsx).
   { id: "alpine-lake", label: "Painted alpine lake", place: "band" },
   { id: "lake-terrace", label: "Painted lake terrace", place: "band" },
+  { id: "regatta-bay", label: "Painted sailing bay", place: "band" },
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
   { id: "peonies", label: "Painted peonies", place: "surround" },
@@ -1033,6 +1034,9 @@ export const PALETTES = [
   { id: "meadow-navy", name: "Meadow navy", family: "blue", bg: "#fbf3e6", ink: "#1b2e45", heading: "#1b2e45", accent: "#1b2e45" },
   { id: "meadow-forest", name: "Meadow green", family: "green", bg: "#fbf3e6", ink: "#253f2e", heading: "#253f2e", accent: "#253f2e" },
   { id: "meadow-poppy", name: "Poppy", family: "orange", bg: "#fbf3e6", ink: "#5c2a14", heading: "#7a3418", accent: "#7a3418" },
+  { id: "regatta-navy", name: "Harbour navy", family: "blue", bg: "#fbf6ec", ink: "#152943", heading: "#152943", accent: "#152943" },
+  { id: "regatta-ocean", name: "Ocean blue", family: "blue", bg: "#fbf6ec", ink: "#2d5d85", heading: "#2d5d85", accent: "#2d5d85" },
+  { id: "regatta-slate", name: "Slate", family: "neutral", bg: "#fbf6ec", ink: "#3a4250", heading: "#3a4250", accent: "#3a4250" },
   { id: "riviera-navy", name: "Riviera navy", family: "blue", bg: "#fbf6ec", ink: "#1d2b4f", heading: "#1d2b4f", accent: "#1d2b4f" },
   { id: "riviera-sea", name: "Sea blue", family: "blue", bg: "#fbf6ec", ink: "#1f4f74", heading: "#1f4f74", accent: "#1f4f74" },
   { id: "riviera-fuchsia", name: "Bougainvillea", family: "pink", bg: "#fbf6ec", ink: "#7d1f4c", heading: "#7d1f4c", accent: "#7d1f4c" },
