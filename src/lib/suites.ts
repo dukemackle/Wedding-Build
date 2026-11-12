@@ -209,6 +209,14 @@ export const SUITES: Suite[] = [
     siteColourways: { sunset: "hills-sunset", sage: "hills-sage", rose: "hills-rose" },
   },
   {
+    id: "plum-lattice",
+    name: "Plum Lattice",
+    card: "plum-lattice",
+    site: "plum-lattice",
+    names: "script",
+    siteColourways: { cinnabar: "pl-cinnabar", gold: "pl-gold", ink: "pl-ink" },
+  },
+  {
     id: "jharokha",
     name: "Jharokha",
     card: "jharokha",
