@@ -106,30 +106,28 @@ deepens to its sky (`PAINTED_SKY`, applied in guest-site-theme.tsx). Paintings a
 template (editor-tabs.tsx `SCENE_GROUPS`, "Paintings"). For a new suite: add the panorama with
 `foot(file, w, h, phoneX)` and its sky colour, and give the scene `place: "foot"`.
 
-## Prompt for new suites (2026-11-12)
+## What each new suite needs (owner's 40+ suite plan, 2026-11-12)
 
-What a new suite's zip needs, so it builds without guesswork. Paste into ChatGPT with the approved mockup:
+The first prompt (four images at fixed pixel sizes in one request) made things worse: ChatGPT
+can't hit exact sizes and merges requests into boards. One image per message works.
 
-```
-I need production artwork for a wedding stationery suite called [NAME], matching the attached
-mockup exactly (same watercolour style, colours, scene and mood). Make each file as a SEPARATE
-image, not a board or mockup, with NO text, letters, numbers, borders, stamps, logos or devices.
+Per suite, one zip named after it (e.g. `Shoreline.zip`):
 
-1. save-the-date-artwork.png, 1500x2100 portrait. Warm ivory paper (#FAF4E7) across the top
-   60%, completely empty for type. The scene painted across the bottom 40%, edge to edge,
-   its top edge softly fading into the paper. Nothing in the top corners.
-2. invitation-artwork.png, 1500x2100 portrait. Same paper and same scene (or a quieter view of
-   it), in the bottom 35% only; the top 65% empty paper.
-3. website-background.png, 1600x3200 portrait. The landscape fills only the bottom third,
-   edge to edge. The top two-thirds is soft open watercolour sky that grows paler and calmer
-   towards the top, almost plain paper at the top edge. No branches, flowers or birds in the
-   sky, nothing touching the top or side edges.
-4. website-panorama.png, 2400x1000 landscape. The same scene, wide, with clear sky in the top
-   third and nothing cut off at the top.
+1. From ChatGPT, one image per message, no text:
+   - `card.png`, tall portrait: "Paint the artwork for this design with no text at all, as one
+     image. Tall portrait. Watercolour on warm cream paper. Keep the top 60% plain empty paper and
+     paint the scene across the bottom 40%, edge to edge, fading softly into the paper at its top.
+     Nothing in the top corners."
+   - `website.png`, wide: "Now the same scene as one wide landscape image for a website. Same
+     style and colours, no text, no border. Clear sky in the top third, and nothing important cut
+     off at any edge."
+   - `sky.png` (optional), tall: "Now the same scene as one tall portrait image: the landscape in
+     the bottom third only, and soft, plain watercolour sky above it that fades to almost blank
+     paper at the top. No text."
+   - If it makes a board or adds lettering: "just the painting, one image, no text."
+2. A brief (from the design Claude): suite name; family; one-line mood; three ink colourways
+   (hex); paper hex; names style (script/capitals/italic); save-the-date wording order;
+   invitation wording order; website (sky behind the page, or painting at the bottom only);
+   anything to avoid.
 
-Keep every important element (trees, buildings, boats, flowers) whole and inside the image,
-not cut by the edges. Same light and time of day in all four. Export as PNG at full size.
-```
-
-Never acceptable: images under 1000px wide, cropped presentation boards, or text-free art cut
-from a mockup board (it is too small and doesn't match). Ask for a resend.
+Never usable: images under ~1000px wide, crops of a presentation board.
