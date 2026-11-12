@@ -968,7 +968,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "jharokha": foot("jk-panorama", 2000, 833, "52%", sky("jharokha")),
   "plum-lattice": foot("pl-panorama", 1942, 809, "15%", sky("plum-lattice")),
   "adire": foot("ad-panorama", 2000, 833, "50%", sky("adire")),
-  "capiz": foot("cz-panorama", 1942, 809, "85%", sky("capiz")),
+  "capiz": foot("cz-panorama", 2000, 833, "85%", sky("capiz")),
   "golden-hills": foot("gl-foot", 1600, 1200, "35%", sky("golden-hills")),
   "deco-fan": foot("df-panorama", 2000, 833, "50%", sky("deco-fan")),
   "starlit-terrace": foot("st-panorama", 2000, 833, "12%", sky("starlit-terrace")),
