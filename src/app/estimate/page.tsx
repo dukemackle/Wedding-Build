@@ -3,6 +3,13 @@ import { createClient } from "@/lib/supabase/server";
 import type { RegionalCostData } from "@/lib/supabase/types";
 import { Estimator } from "./estimator";
 
+export const metadata = {
+  title: "Wedding cost estimator",
+  description:
+    "Estimate what your wedding will cost where you live: venue, catering, photography and more, from regional prices.",
+  alternates: { canonical: "/estimate" },
+};
+
 export default async function EstimatePage() {
   const supabase = await createClient();
   const { data: regionalData } = await supabase

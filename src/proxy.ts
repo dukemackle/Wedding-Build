@@ -65,6 +65,16 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
+  // One host for search engines: www serves the same pages, so without this
+  // Google sees every page twice ("Duplicate without user-selected canonical").
+  if (hostname === "www.youdoido.com") {
+    const url = request.nextUrl.clone();
+    url.protocol = "https:";
+    url.hostname = "youdoido.com";
+    url.port = "";
+    return NextResponse.redirect(url, 301);
+  }
+
   if (PUBLIC_HOSTS.includes(hostname) && pathname.startsWith("/admin")) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";

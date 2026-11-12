@@ -4,6 +4,7 @@ import { COMPANY_POSTAL_ADDRESS } from "@/lib/company";
 
 export const metadata = {
   title: "Terms of Service",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {
