@@ -47,3 +47,14 @@ listed here is what remains.
 | Files | Source | Licence | Notes |
 |---|---|---|---|
 | `heirloom/arch.webp`, `corner.webp`, `ledge.webp`, `divider.webp` | AI-generated (ChatGPT), owner-commissioned, 2026-10-29, from the prompts in `docs/site-art-prompts.md` | Owner's under OpenAI's terms (US copyright unlikely for AI output, so others could copy it) | The "Heirloom garden" set (`ART_SUITES` in `src/lib/site-design.ts`). Converted from the transparent PNGs to WebP with alpha; the arch's trailing ends are cut at 1360px and faded; the others trimmed to their painted area. PNG originals are kept by the owner, not in the repo. |
+
+## Venue art
+
+Paintings made from a venue's own photo (prompts: "Venue art" in
+`docs/site-art-prompts.md`). Only from venues with `photo_marketing_ok` true.
+The painting copies the venue's photo, so the venue's consent is what lets us
+use it: if a venue withdraws (a later claim submission with the box unticked),
+remove every file in its rows within 30 days.
+
+| Files | Venue (slug) | Style | Source photo and credit | Consent date | Made |
+|---|---|---|---|---|---|
