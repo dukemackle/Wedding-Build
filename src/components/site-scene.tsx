@@ -835,6 +835,19 @@ const BATCH_A = "/site-art/batch-a";
 const painted = "pointer-events-none select-none";
 
 const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
+  // French Riviera: bougainvillea fills the painting's sky, so the terrace
+  // runs edge to edge under the names rather than behind them.
+  "riviera-terrace": (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img
+      src={`${BATCH_A}/fr-panorama.webp`}
+      alt=""
+      aria-hidden="true"
+      width={1568}
+      height={808}
+      className={`${painted} site-scene block h-[clamp(240px,32vw,500px)] w-full object-cover object-[60%_70%]`}
+    />
+  ),
   // Garden Arch: the lake terrace is busy all over, so it runs edge to edge
   // under the names rather than behind them.
   "lake-terrace": (

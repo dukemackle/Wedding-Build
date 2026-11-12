@@ -153,6 +153,14 @@ export const SUITES: Suite[] = [
     siteColourways: { airmail: "postmark-airmail", terracotta: "postmark-terracotta", ink: "postmark-ink" },
   },
   {
+    id: "french-riviera",
+    name: "French Riviera",
+    card: "french-riviera",
+    site: "french-riviera",
+    names: "script",
+    siteColourways: { navy: "riviera-navy", sea: "riviera-sea", fuchsia: "riviera-fuchsia" },
+  },
+  {
     id: "black-tie",
     name: "Modern Black-Tie",
     card: "black-tie",

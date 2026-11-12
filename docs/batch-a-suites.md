@@ -48,6 +48,7 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Heirloom Peony | peony clusters top-left and bottom-right, centre clear | Waiting; interim art cut from the mockup in place |
 | Wildflower Meadow | flowers up both sides, meadow and peaks along the bottom, centre clear | Waiting; interim art in place |
 | Modern Black-Tie | none (type only) | Done |
+| French Riviera | terrace, villas, sea and bougainvillea (cards), open sea (invitation), arch terrace band (site) | **Done** (owner's zip, 2026-11-12) |
 | Postmark | Tuscan villa and cypresses (cards, site), vineyards (invitation); airmail edge | **Done** (owner's zip, 2026-11-12; olive leaves painted out, owner) |
 | Sonoran Desert | saguaros, sandstone mountain, sage and ocotillo; full-bleed sky | **Done** (owner's zip, 2026-11-12) |
 | Garden Arch | rose-hung stone arch over an Italian lake, villa, cypresses | **Done** (owner's zip, 2026-11-12) |
@@ -92,3 +93,8 @@ terrace is busy all over, so it is a full-width band under the names rather than
 Postmark (2026-11-12) is the Tuscany suite. The owner disliked the olive leaves hanging over the top, so
 they are painted out of the sky (`tools/deleaf.py`); the stamp and postmark are left off (no small
 images at the top). The airmail edge is vector (`airmailSoft`, accent and muted stripes).
+
+French Riviera (2026-11-12): id `french-riviera`, separate from the older vector "Riviera Tile". The website
+painting has bougainvillea across its sky, so it is a full-width band under the names.
+Mediterranean (Amalfi, cobalt tiles and lemons) is waiting: its zip's art is 498x265 and the card
+previews 458px wide, too small to look sharp; needs the artwork at 1000px+ like the other zips.
