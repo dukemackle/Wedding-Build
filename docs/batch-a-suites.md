@@ -48,6 +48,12 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Heirloom Peony | peony clusters top-left and bottom-right, centre clear | Waiting; interim art cut from the mockup in place |
 | Wildflower Meadow | flowers up both sides, meadow and peaks along the bottom, centre clear | Waiting; interim art in place |
 | Modern Black-Tie | none (type only) | Done |
+| Coastal Sunset | Big Sur cliffs, sea, sun and poppies in the bottom half | **Done** (owner's painting and website mockup, 2026-11-12) |
+
+Coastal Sunset (added 2026-11-12) also has its own website painting, cut from the owner's website
+mockup with the type inpainted away (`coastal-panorama.webp`). It fills the whole hero, edge to edge,
+with the names on its sky; phones keep the height and trim the sides. The card backs carry a strip of
+the poppies along the foot (`coastal-foot.webp`).
 
 Prompt that worked for Highland: attach the approved mockup and ask ChatGPT to repaint its artwork
 with no text at all, same watercolour style, leaving the text area as empty paper; tall 1024x1536.

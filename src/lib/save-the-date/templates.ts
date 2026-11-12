@@ -877,6 +877,31 @@ export const TEMPLATES: Template[] = [
     ],
   },
   {
+    id: "coastal-sunset",
+    name: "Coastal Sunset",
+    family: "Coastal & beach",
+    mood: "Big Sur at sunset in watercolour, cliffs, sea and poppies under a script headline and your names in capitals.",
+    usesPhoto: false,
+    grain: 0.012,
+    palettes: [
+      { id: "driftwood", label: "Driftwood", paper: "#faebdc", ink: "#5e4838", accent: "#5e4838", muted: "#7a6352", onPhoto: "#ffffff" },
+      { id: "sea", label: "Sea blue", paper: "#faebdc", ink: "#2f4a63", accent: "#2f4a63", muted: "#52677a", onPhoto: "#ffffff" },
+      { id: "dusk", label: "Dusk", paper: "#faebdc", ink: "#5a3b4c", accent: "#5a3b4c", muted: "#7a5d6b", onPhoto: "#ffffff" },
+    ],
+    pairings: [
+      { id: "coast", label: "Garamond & script", display: "ebgaramond", script: "parisienne", sans: "ebgaramond" },
+      { id: "copperplate", label: "Copperplate", display: "cormorant", script: "pinyon", sans: "cormorant" },
+      { id: "brush", label: "Soft brush", display: "marcellus", script: "allura", sans: "marcellus" },
+    ],
+    layers: [
+      { kind: "art", id: "scene", label: "Big Sur coast", art: "coastalStd", x: 0, y: 0, w: 1000 },
+      { kind: "text", id: "headline", label: "Headline", bind: "headline", text: "Save the Date", x: 500, y: 205, size: 165, font: "script", color: "ink", anchor: "middle", maxWidth: 860 },
+      { kind: "text", id: "names", label: "Names", bind: "names", x: 500, y: 352, size: 84, font: "display", color: "ink", upper: true, tracking: 0.08, anchor: "middle", maxWidth: 820 },
+      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 452, size: 38, font: "display", color: "ink", upper: true, tracking: 0.18, anchor: "middle", maxWidth: 760 },
+      { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 516, size: 44, font: "display", italic: true, color: "ink", tracking: 0.08, anchor: "middle", maxWidth: 760 },
+    ],
+  },
+  {
     id: "black-tie",
     name: "Modern Black-Tie",
     family: "Celestial & black tie",

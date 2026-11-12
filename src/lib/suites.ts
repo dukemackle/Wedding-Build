@@ -106,6 +106,14 @@ export const SUITES: Suite[] = [
     siteColourways: { navy: "meadow-navy", forest: "meadow-forest", poppy: "meadow-poppy" },
   },
   {
+    id: "coastal-sunset",
+    name: "Coastal Sunset",
+    card: "coastal-sunset",
+    site: "coastal-sunset",
+    names: "script",
+    siteColourways: { driftwood: "coastal-driftwood", sea: "coastal-sea", dusk: "coastal-dusk" },
+  },
+  {
     id: "black-tie",
     name: "Modern Black-Tie",
     card: "black-tie",

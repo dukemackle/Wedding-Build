@@ -614,7 +614,11 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
   return (
     <header
       className={`site-hero-plain relative overflow-hidden px-5 sm:px-8 ${
-        sides ? "pb-[clamp(170px,27vw,400px)] pt-14 sm:pt-20" : scene === "peonies" ? "pb-20 pt-24 sm:pb-36 sm:pt-28" : "pb-10 pt-12 sm:pb-12 sm:pt-16"
+        sides
+          ? "pb-[clamp(170px,27vw,400px)] pt-14 sm:pt-20"
+          : scene === "coastal-sunset"
+            ? "pb-[340px] pt-12 sm:pb-[clamp(200px,24vw,380px)] sm:pt-16"
+            : scene === "peonies" ? "pb-20 pt-24 sm:pb-36 sm:pt-28" : "pb-10 pt-12 sm:pb-12 sm:pt-16"
       }`}
     >
       <SiteScene where="surround" />

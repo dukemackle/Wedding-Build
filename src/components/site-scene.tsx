@@ -852,6 +852,13 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
 };
 
 const SURROUNDS: Draw = {
+  // Coastal Sunset: the whole Big Sur painting behind the hero, edge to edge
+  // (owner's mockup), the names on its sky. Narrow screens keep the height
+  // and trim the sides, leaning right so the sun stays in.
+  "coastal-sunset": () => (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img src={`${BATCH_A}/coastal-panorama.webp`} alt="" width={992} height={500} className={`${painted} absolute inset-0 h-full w-full object-cover object-[62%_100%]`} />
+  ),
   // Peonies at two corners, off the edges: the top left and the bottom right.
   peonies: () => (
     <>

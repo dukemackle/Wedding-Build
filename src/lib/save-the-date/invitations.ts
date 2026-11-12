@@ -30,6 +30,7 @@ export const INVITATION_SOURCES = [
   "heirloom-peony",
   "wildflower-meadow",
   "black-tie",
+  "coastal-sunset",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -72,6 +73,21 @@ const art = (l: Omit<ArtLayer, "kind">): ArtLayer => ({ kind: "art", ...l });
  * "art-" only where the RSVP back should not carry them (it has its own, back.ts).
  */
 const LAID_OUT: Record<string, Layer[]> = {
+  "coastal-sunset": [
+    // The painting sits lower than on the save the date, so the clouds start under the wording.
+    art({ id: "scene", label: "Big Sur coast", art: "coastalStd", x: 0, y: 150, w: 1000 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", y: 120, size: 22, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 640 }),
+    text({ id: "nameA", label: "First name", bind: "nameA", y: 236, size: 120, font: "script", color: "ink", maxWidth: 560 }),
+    text({ id: "and", label: "And", bind: "custom", text: "and", y: 292, size: 32, font: "display", italic: true, color: "ink", maxWidth: 120 }),
+    text({ id: "nameB", label: "Second name", bind: "nameB", y: 392, size: 120, font: "script", color: "ink", maxWidth: 600 }),
+    text({ id: "request", label: "Request", bind: "request", y: 458, size: 27, font: "display", italic: true, color: "ink", tracking: 0.05, maxWidth: 760 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "formalDay", y: 530, size: 31, font: "display", color: "ink", upper: true, tracking: 0.1, maxWidth: 800 }),
+    text({ id: "year", label: "Year", bind: "date", dateStyle: "yearWords", when: "numericDate", y: 564, size: 17, font: "sans", color: "ink", upper: true, tracking: 0.2, maxWidth: 760 }),
+    text({ id: "time", label: "Time", bind: "time", y: 598, size: 23, font: "display", italic: true, color: "ink", maxWidth: 760 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 650, size: 31, font: "display", color: "ink", upper: true, tracking: 0.12, maxWidth: 720 }),
+    text({ id: "place", label: "Town", bind: "place", y: 684, size: 17, font: "sans", color: "ink", upper: true, tracking: 0.26, maxWidth: 640 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 726, size: 26, font: "display", italic: true, color: "ink", tracking: 0.04, maxWidth: 520 }),
+  ],
   "highland-lake": [
     // The painting sits lower than on the save the date, under the longer wording.
     art({ id: "scene", label: "Alpine lake", art: "highlandInv", x: 0, y: 110, w: 1000 }),

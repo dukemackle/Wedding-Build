@@ -57,6 +57,7 @@ const BACK_ART: Record<string, ArtLayer[]> = {
     { kind: "art", id: "back-right", label: "Wildflowers", art: "wildflowerRight", x: 760, y: 0, w: 300 },
     { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 },
   ],
+  "coastal-sunset": [{ kind: "art", id: "back-coast", label: "Coast and poppies", art: "coastalFoot", x: 0, y: 1205, w: 1000 }],
   "black-tie": [{ kind: "art", id: "back-frame", label: "Double frame", art: "doubleFrame", x: 0, y: 0, w: 1000, color: "ink" }],
 };
 
