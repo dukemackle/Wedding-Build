@@ -50,6 +50,7 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Modern Black-Tie | none (type only) | Done |
 | Golden Barn | barn with lights, pond, peaks at golden hour; id `golden-barn` (owner's "Homestead" zip; that name is taken by a live template) | **Done** (2026-11-12) |
 | Starlit Terrace | lantern-lit stone terrace over moonlit hills under a starry navy sky; dark suite, ivory type; id `starlit-terrace` (owner's "Midnight" zip; that name is taken by a live template). Sky mottle smoothed (stars kept), a clipped flower at the panorama's right edge painted out | **Done** (2026-11-12) |
+| Golden Hills | oak-dotted hills under a champagne-gold sunset; id `golden-hills` (owner's "Golden Hour" zip; that name is taken by a live template). Site foot cut from the tall background (the panorama has a clipped overhanging branch and fence post) | **Done** (2026-11-12) |
 | Meadow Vista | golden hills, oaks, winding path, lupine; id `meadow-vista` | **Done** (owner's zip, 2026-11-12) |
 | Evergreen | pines, misty ridges, snowy peaks, sunset; id `evergreen-ridge` | **Done** (owner's zip in the new format, 2026-11-12) |
 | Palm Shore | palm beach at golden hour (cards, site foot); id `palm-shore` ("Shoreline" is an older photo save the date) | **Done** (owner's three-image set, 2026-11-12; two hibiscus painted out, owner) |

@@ -201,6 +201,14 @@ export const SUITES: Suite[] = [
     siteColourways: { barnwood: "barn-wood", pine: "barn-pine", dusk: "barn-dusk" },
   },
   {
+    id: "golden-hills",
+    name: "Golden Hills",
+    card: "golden-hills",
+    site: "golden-hills",
+    names: "script",
+    siteColourways: { sunset: "hills-sunset", sage: "hills-sage", rose: "hills-rose" },
+  },
+  {
     id: "starlit-terrace",
     name: "Starlit Terrace",
     card: "starlit-terrace",

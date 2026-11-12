@@ -731,6 +731,7 @@ export const SCENES = [
   { id: "evergreen-ridge", label: "Painted evergreen ridge", place: "foot" },
   { id: "meadow-vista", label: "Painted meadow vista", place: "foot" },
   { id: "golden-barn", label: "Painted golden barn", place: "foot" },
+  { id: "golden-hills", label: "Painted golden hills", place: "foot" },
   { id: "starlit-terrace", label: "Painted starlit terrace", place: "foot" },
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
@@ -1041,6 +1042,9 @@ export const PALETTES = [
   { id: "meadow-poppy", name: "Poppy", family: "orange", bg: "#fbf3e6", ink: "#5c2a14", heading: "#7a3418", accent: "#7a3418" },
   { id: "barn-wood", name: "Barnwood", family: "brown", bg: "#f9f3e6", ink: "#4a3324", heading: "#4a3324", accent: "#4a3324" },
   { id: "barn-pine", name: "Pine", family: "green", bg: "#f9f3e6", ink: "#2f4232", heading: "#2f4232", accent: "#2f4232" },
+  { id: "hills-sunset", name: "Sunset", family: "brown", bg: "#f9f4ec", ink: "#5a3a2a", heading: "#5a3a2a", accent: "#5a3a2a" },
+  { id: "hills-sage", name: "Oak & sage", family: "green", bg: "#f9f4ec", ink: "#3d4a33", heading: "#3d4a33", accent: "#3d4a33" },
+  { id: "hills-rose", name: "Dusk rose", family: "pink", bg: "#f9f4ec", ink: "#6a3b3e", heading: "#6a3b3e", accent: "#6a3b3e" },
   { id: "starlit-ivory", name: "Ivory & gold", family: "blue", bg: "#08132f", ink: "#f3ead8", heading: "#f3ead8", accent: "#e0b65a" },
   { id: "starlit-moon", name: "Moonlight", family: "blue", bg: "#08132f", ink: "#e8eef7", heading: "#e8eef7", accent: "#b9c8e0" },
   { id: "starlit-candle", name: "Candlelight", family: "blue", bg: "#08132f", ink: "#f7e6c4", heading: "#f7e6c4", accent: "#f0c27a" },
