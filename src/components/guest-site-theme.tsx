@@ -25,8 +25,9 @@ function paintedSky(design: SiteDesign): CSSProperties {
     // The menu bar takes the page's top colour, so there's no cream strip over it.
     ["--site-bar-bg" as string]: `color-mix(in srgb, ${sky} 28%, var(--color-parchment))`,
     // Each suite's own colour all the way down: a hint of its sky at the
-    // top, deepening to the sky itself where the painting begins.
-    backgroundImage: `linear-gradient(to bottom, color-mix(in srgb, ${sky} 28%, var(--color-parchment)) 0%, color-mix(in srgb, ${sky} 55%, var(--color-parchment)) 50%, ${sky} 100%)`,
+    // top, deepening towards it; the painting's own ramp (site-scene.tsx)
+    // lands on its exact top colour.
+    backgroundImage: `linear-gradient(to bottom, color-mix(in srgb, ${sky} 30%, var(--color-parchment)) 0%, color-mix(in srgb, ${sky} 70%, var(--color-parchment)) 100%)`,
   };
 }
 
@@ -184,7 +185,7 @@ export function GuestSiteTheme({
             <TextEditingContext.Provider value={textEditing}>{children}</TextEditingContext.Provider>
           </ReplayContext.Provider>
         </DesignContext.Provider>
-        <footer className="mt-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-6 py-6 text-xs text-ink/50">
+        <footer className="relative z-10 mt-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-6 py-6 text-xs text-ink/50">
           <Link href="/" className="hover:text-ink">
             Made with You Do, I Do
           </Link>

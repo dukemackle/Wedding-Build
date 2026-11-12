@@ -842,45 +842,52 @@ const painted = "pointer-events-none select-none";
  * (PAINTED_SKY), so the whole site reads as one scene. A phone keeps the
  * painting at least 360px tall and trims its sides at `x`, the part worth keeping.
  */
-const foot = (file: string, w: number, h: number, x: string): ReactNode => (
-  // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-  <img
-    src={`${BATCH_A}/${file}.webp`}
-    alt=""
-    aria-hidden="true"
-    width={w}
-    height={h}
-    style={{ objectPosition: `${x} 100%` }}
-    className={`${painted} site-scene block h-auto min-h-[360px] w-full object-cover [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.6)_7%,#000_16%)] sm:min-h-0 sm:[object-position:50%_100%!important] 2xl:max-h-[820px]`}
-  />
+const foot = (file: string, w: number, h: number, x: string, sky: string): ReactNode => (
+  // A ramp above the painting lands the page on exactly the colour of the
+  // painting's top edge, which then fades in over it: one picture, no seam.
+  <div aria-hidden="true" className="site-scene -mt-[clamp(160px,18vw,320px)] pt-[clamp(160px,18vw,320px)]" style={{ background: `linear-gradient(to bottom, transparent, ${sky} clamp(160px,18vw,320px))` }}>
+    {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS */}
+    <img
+      src={`${BATCH_A}/${file}.webp`}
+      alt=""
+      width={w}
+      height={h}
+      style={{ objectPosition: `${x} 100%` }}
+      className={`${painted} block h-auto min-h-[360px] w-full object-cover [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.6)_7%,#000_16%)] sm:min-h-0 sm:[object-position:50%_100%!important] 2xl:max-h-[820px]`}
+    />
+  </div>
 );
 
-const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
-  "alpine-lake": foot("highland-panorama", 952, 372, "50%"),
-  "coastal-sunset": foot("coastal-panorama", 992, 500, "62%"),
-  "terrace-arch": foot("terrace-panorama", 998, 526, "50%"),
-  "joshua-sunset": foot("jt-panorama", 1600, 595, "18%"),
-  "sonoran-sunset": foot("sd-panorama", 1600, 900, "80%"),
-  "lake-terrace": foot("ga-panorama", 1600, 815, "70%"),
-  "tuscan-villa": foot("pm-panorama", 1600, 842, "72%"),
-  "riviera-terrace": foot("fr-panorama", 1562, 808, "62%"),
-  "regatta-bay": foot("rg-panorama", 1572, 822, "60%"),
-  "palm-shore": foot("sh-panorama", 1984, 833, "78%"),
+/**
+ * The colour of each painting's top edge (its sky, sampled from the file):
+ * the page deepens to it, so the painting reads as the bottom of one sky.
+ */
+export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
+  "alpine-lake": "#dce9ee",
+  "coastal-sunset": "#f4e0da",
+  "terrace-arch": "#f9dcc6",
+  "joshua-sunset": "#faebe0",
+  "sonoran-sunset": "#f9f0e3",
+  "lake-terrace": "#c8d7e7",
+  "tuscan-villa": "#e9e2e1",
+  "riviera-terrace": "#9fc8f0",
+  "regatta-bay": "#b2cfe9",
+  "palm-shore": "#7db0ed",
 };
 
-/** The sky each painted foot fades out of: the page deepens to it towards the bottom. */
-export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
-  // Sampled from the top of each painting, so the page meets it without a seam.
-  "alpine-lake": "#dce9ee",
-  "coastal-sunset": "#f7e0d4",
-  "terrace-arch": "#f7d6c1",
-  "joshua-sunset": "#f8e2d3",
-  "sonoran-sunset": "#f6e6d2",
-  "lake-terrace": "#cddae7",
-  "tuscan-villa": "#e9e1dc",
-  "riviera-terrace": "#c4d9ef",
-  "regatta-bay": "#c3d8ea",
-  "palm-shore": "#b9cff0",
+const sky = (id: SceneId) => PAINTED_SKY[id] ?? "transparent";
+
+const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
+  "alpine-lake": foot("highland-panorama", 952, 372, "50%", sky("alpine-lake")),
+  "coastal-sunset": foot("coastal-panorama", 992, 500, "62%", sky("coastal-sunset")),
+  "terrace-arch": foot("terrace-panorama", 998, 526, "50%", sky("terrace-arch")),
+  "joshua-sunset": foot("jt-panorama", 1600, 595, "18%", sky("joshua-sunset")),
+  "sonoran-sunset": foot("sd-panorama", 1600, 900, "80%", sky("sonoran-sunset")),
+  "lake-terrace": foot("ga-panorama", 1600, 815, "70%", sky("lake-terrace")),
+  "tuscan-villa": foot("pm-panorama", 1600, 842, "72%", sky("tuscan-villa")),
+  "riviera-terrace": foot("fr-panorama", 1562, 808, "62%", sky("riviera-terrace")),
+  "regatta-bay": foot("rg-panorama", 1572, 822, "60%", sky("regatta-bay")),
+  "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
 };
 
 const SURROUNDS: Draw = {
@@ -1073,7 +1080,7 @@ export function SceneThumb({ scene, time = "day" }: { scene: SceneId; time?: Sce
           <span className="relative block h-5 w-36 rounded-full" style={{ background: "var(--color-ink)" }} />
           <span className="relative block h-3 w-20 rounded-full opacity-50" style={{ background: "var(--color-ink)" }} />
         </span>
-        {(place === "band" || place === "foot") && PAINTED_BANDS[scene] && <span className="block h-[55%] w-full shrink-0 [&>img]:h-full">{PAINTED_BANDS[scene]}</span>}
+        {(place === "band" || place === "foot") && PAINTED_BANDS[scene] && <span className="block h-[55%] w-full shrink-0 [&>div]:!mt-0 [&>div]:h-full [&>div]:!pt-0 [&_img]:h-full [&_img]:!min-h-0">{PAINTED_BANDS[scene]}</span>}
         {(place === "band" || place === "foot") && !PAINTED_BANDS[scene] && (
           <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="block h-[55%] w-full shrink-0">
             {lit(time, id, scene, BANDS[scene]?.(id))}
