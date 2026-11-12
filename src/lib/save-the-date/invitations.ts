@@ -57,6 +57,7 @@ export const INVITATION_SOURCES = [
   "misty-ridge",
   "boho-sunset",
   "rose-ribbon",
+  "papel-courtyard",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -257,6 +258,18 @@ const LAID_OUT: Record<string, Layer[]> = {
   ],
   "rose-ribbon": [
     art({ id: "scene", label: "Roses and ribbon", art: "roseRibbonStd", x: 0, y: 0, w: 1000 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", wrap: 18, lineHeight: 1.7, y: 172, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 560 }),
+    text({ id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, y: 340, size: 124, font: "script", color: "ink", maxWidth: 880 }),
+    text({ id: "request", label: "Request", bind: "request", wrap: 30, lineHeight: 1.7, y: 446, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 620 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 445, y: 522, w: 110, color: "ink", opacity: 0.6 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 588, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 760 }),
+    text({ id: "time", label: "Time", bind: "time", y: 630, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, maxWidth: 720 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 700, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 700 }),
+    text({ id: "place", label: "Town", bind: "place", y: 740, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 820, size: 54, font: "script", color: "ink", maxWidth: 640 }),
+  ],
+  "papel-courtyard": [
+    art({ id: "scene", label: "Papel courtyard", art: "papelStd", x: 0, y: 0, w: 1000 }),
     text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", wrap: 18, lineHeight: 1.7, y: 172, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 560 }),
     text({ id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, y: 340, size: 124, font: "script", color: "ink", maxWidth: 880 }),
     text({ id: "request", label: "Request", bind: "request", wrap: 30, lineHeight: 1.7, y: 446, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 620 }),
