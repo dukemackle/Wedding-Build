@@ -105,3 +105,31 @@ site; the painting is a `foot` scene (site-scene.tsx `PAINTED_BANDS` via `foot()
 deepens to its sky (`PAINTED_SKY`, applied in guest-site-theme.tsx). Paintings are pickable on every
 template (editor-tabs.tsx `SCENE_GROUPS`, "Paintings"). For a new suite: add the panorama with
 `foot(file, w, h, phoneX)` and its sky colour, and give the scene `place: "foot"`.
+
+## Prompt for new suites (2026-11-12)
+
+What a new suite's zip needs, so it builds without guesswork. Paste into ChatGPT with the approved mockup:
+
+```
+I need production artwork for a wedding stationery suite called [NAME], matching the attached
+mockup exactly (same watercolour style, colours, scene and mood). Make each file as a SEPARATE
+image, not a board or mockup, with NO text, letters, numbers, borders, stamps, logos or devices.
+
+1. save-the-date-artwork.png, 1500x2100 portrait. Warm ivory paper (#FAF4E7) across the top
+   60%, completely empty for type. The scene painted across the bottom 40%, edge to edge,
+   its top edge softly fading into the paper. Nothing in the top corners.
+2. invitation-artwork.png, 1500x2100 portrait. Same paper and same scene (or a quieter view of
+   it), in the bottom 35% only; the top 65% empty paper.
+3. website-background.png, 1600x3200 portrait. The landscape fills only the bottom third,
+   edge to edge. The top two-thirds is soft open watercolour sky that grows paler and calmer
+   towards the top, almost plain paper at the top edge. No branches, flowers or birds in the
+   sky, nothing touching the top or side edges.
+4. website-panorama.png, 2400x1000 landscape. The same scene, wide, with clear sky in the top
+   third and nothing cut off at the top.
+
+Keep every important element (trees, buildings, boats, flowers) whole and inside the image,
+not cut by the edges. Same light and time of day in all four. Export as PNG at full size.
+```
+
+Never acceptable: images under 1000px wide, cropped presentation boards, or text-free art cut
+from a mockup board (it is too small and doesn't match). Ask for a resend.
