@@ -34,6 +34,7 @@ import {
   type ClaimPreferredVendor,
   type ClaimSpace,
   type ClaimSubmission,
+  type PhotoUse,
 } from "@/lib/venue-claim";
 import {
   uploadClaimPhoto,
@@ -45,7 +46,7 @@ import {
 } from "./actions";
 import { ImportPanel, mergeDraft, mergeFaqs, mergeVendors } from "../import-panel";
 import { SavedNote, useSavedDraft, type ServerDraft } from "../use-saved-draft";
-import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, Section, Select, WriteHelper, YesNo } from "../form-parts";
+import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, PhotoUseFields, Section, Select, WriteHelper, YesNo } from "../form-parts";
 import { StepNav, StepRail, type Step } from "../steps";
 import { BookingFactsSection } from "../booking-fields";
 import { ListingPreview, PreviewPrompt } from "../listing-preview";
@@ -105,6 +106,7 @@ export function ClaimForm({
   const [spaces, setSpaces] = useState<ClaimSpace[]>(initial.spaces);
   const [spaceUploading, setSpaceUploading] = useState<number | null>(null);
   const [submitter, setSubmitter] = useState(initial.submitter);
+  const [photoUse, setPhotoUse] = useState<PhotoUse>(initial.photoUse ?? { marketing: false, credit: null });
   const [heardFrom, setHeardFrom] = useState("");
 
   const [uploading, setUploading] = useState(0);
@@ -121,12 +123,13 @@ export function ClaimForm({
     token,
     draft,
     submittedAt,
-    { details, writeNotes, photos, vendors, faqs, spaces, submitter, step },
+    { details, writeNotes, photos, photoUse, vendors, faqs, spaces, submitter, step },
     // A draft saved before a field existed lacks it, so the page's value fills in.
     (d) => {
       if (d.details) setDetails({ ...initial.details, ...d.details });
       if (typeof d.writeNotes === "string") setWriteNotes(d.writeNotes);
       if (Array.isArray(d.photos)) setPhotos(d.photos);
+      if (d.photoUse && typeof d.photoUse === "object") setPhotoUse({ marketing: d.photoUse.marketing === true, credit: d.photoUse.credit ?? null });
       if (Array.isArray(d.vendors)) setVendors(d.vendors);
       if (Array.isArray(d.faqs)) setFaqs(d.faqs);
       if (Array.isArray(d.spaces)) setSpaces(d.spaces);
@@ -241,6 +244,7 @@ export function ClaimForm({
         preferredVendors: vendors,
         spaces,
         photoUrls: photos,
+        photoUse,
         submitter,
       }, { heardFrom, via, firstTouch: readFirstTouch() }).catch(() => ({ error: "Couldn't reach us just now -- your answers are still here, so try again in a minute." }) as { error?: string; errors?: string[] });
       if (result.error) setErrors([result.error]);
@@ -570,7 +574,10 @@ export function ClaimForm({
           <Section title="Photos" hint={`Up to ${MAX_CLAIM_PHOTOS}. The first one is the cover couples see in search.`}>
             <PhotoGridEditor photos={photos} setPhotos={setPhotos} uploading={uploading} onAddFiles={addPhotos} />
             {photoError && <p className="mt-3 text-sm text-red-700">{photoError}</p>}
-            <p className="mt-3 text-xs text-ink/50">Only upload photos you own or have permission to use.</p>
+            <p className="mt-3 text-xs text-ink/50">
+              Only upload photos you own or have the photographer&apos;s permission to share here.
+            </p>
+            <PhotoUseFields value={photoUse} onChange={setPhotoUse} />
           </Section>
 
           <Section

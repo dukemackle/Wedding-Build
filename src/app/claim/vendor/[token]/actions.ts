@@ -57,6 +57,8 @@ export async function submitVendorClaim(
     details: value.details,
     faqs: value.faqs,
     photo_urls: value.photoUrls,
+    photo_marketing_ok: value.photoUse?.marketing === true,
+    photo_credit: value.photoUse?.credit ?? null,
   });
   if (error) return { error: "Couldn't save your changes -- please try again." };
   trackEvent("listing_claim_submitted", { listing: { kind: "vendor", id: vendor.id } });

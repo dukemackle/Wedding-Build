@@ -8,6 +8,7 @@ export const VENDOR_STATUSES: ListingStatus[] = [
   "stale",
   "incomplete",
   "no_email",
+  "photos_ok",
 ];
 
 export const VENDOR_LISTING = {

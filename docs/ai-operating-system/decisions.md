@@ -354,3 +354,15 @@ rules, batch self-merge, 50-state coverage, page widths) and
   weeks of registration for a feature no one uses yet.
 - Revisit: when couples ask for texts. Then add funds, register the brand and
   campaign (Account Notifications), set the three TWILIO_* secrets.
+
+## 2026-11-12: Listing photos beyond the listing need an opt-in; attorney before outreach
+
+- Decision (owner): the owner meets an attorney before any venue/vendor
+  outreach email or launch (legal audit A9). Listing photos may be used on
+  the homepage and in guest-site template designs, but only from businesses
+  that tick the new opt-in on the claim form (`photo_marketing_ok`), credited.
+- Why: Terms §6 only licensed display inside the listing experience;
+  photographers often own the copyright and couples appear in the photos.
+- Trade-off: fewer usable photos than "everything uploaded", in exchange for
+  a clean, provable consent per business.
+

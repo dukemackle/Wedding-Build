@@ -17,7 +17,9 @@ export type ListingStatus =
   | "stale"
   | "incomplete"
   | "claimed"
-  | "no_email";
+  | "no_email"
+  /** Opted in to their photos being featured beyond the listing (0167). */
+  | "photos_ok";
 
 export type ListingSort = "name" | "newest" | "check";
 
@@ -42,6 +44,7 @@ const STATUSES: ListingStatus[] = [
   "incomplete",
   "claimed",
   "no_email",
+  "photos_ok",
 ];
 const SORTS: ListingSort[] = ["name", "newest", "check"];
 

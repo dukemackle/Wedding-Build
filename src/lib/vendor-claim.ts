@@ -1,7 +1,7 @@
 import { STATES, STYLE_TIERS, VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import type { Vendor, VendorPriceUnit } from "@/lib/supabase/types";
 import { BUSINESS_FACT_LABELS, businessFactsFrom, validateBusinessFacts, type BusinessFacts } from "@/lib/business-facts";
-import { clean, EMAIL, isUrl, MAX_CLAIM_PHOTOS, normaliseWebsite, type ClaimFaq } from "@/lib/venue-claim";
+import { clean, cleanPhotoUse, EMAIL, isUrl, MAX_CLAIM_PHOTOS, normaliseWebsite, type ClaimFaq, type PhotoUse } from "@/lib/venue-claim";
 
 /**
  * What a vendor can submit through its claim link, and the checks on it --
@@ -35,6 +35,9 @@ export type VendorClaimSubmission = {
   details: VendorClaimDetails;
   faqs: ClaimFaq[];
   photoUrls: string[];
+  /** Optional, unticked by default: may You Do, I Do use these photos beyond the
+   *  listing (homepage, marketing, guest-site template designs)? Terms §6. */
+  photoUse?: PhotoUse;
   submitter: { name: string; email: string; role: string | null; represents: boolean };
 };
 
@@ -181,6 +184,7 @@ export function validateVendorClaim(input: VendorClaimSubmission): {
     (u): u is string => typeof u === "string",
   );
   if (photoUrls.length > MAX_CLAIM_PHOTOS) errors.push(`Keep it to ${MAX_CLAIM_PHOTOS} photos.`);
+  const photoUse = cleanPhotoUse(input.photoUse, errors);
 
   const submitter = {
     name: clean(input.submitter?.name),
@@ -192,5 +196,5 @@ export function validateVendorClaim(input: VendorClaimSubmission): {
   if (!EMAIL.test(submitter.email)) errors.push("We need an email to reach you about this listing.");
   if (!submitter.represents) errors.push("Confirm that you represent this business.");
 
-  return { value: { details, faqs, photoUrls, submitter }, errors: [...new Set(errors)] };
+  return { value: { details, faqs, photoUrls, photoUse, submitter }, errors: [...new Set(errors)] };
 }

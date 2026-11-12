@@ -90,6 +90,8 @@ export async function submitVenueClaim(
     preferred_vendors: value.preferredVendors,
     spaces: value.spaces,
     photo_urls: value.photoUrls,
+    photo_marketing_ok: value.photoUse?.marketing === true,
+    photo_credit: value.photoUse?.credit ?? null,
   });
   if (error) return { error: "Couldn't save your changes -- please try again." };
   trackEvent("listing_claim_submitted", { listing: { kind: "venue", id: venue.id } });

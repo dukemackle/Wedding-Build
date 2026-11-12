@@ -26,6 +26,18 @@ legal questions to the owner rather than deciding them.
   AI-sent reply signs as Wren, You Do, I Do's assistant (California's bot
   disclosure law; honest anyway).
 
+- **Listing-photo opt-in (2026-11-12, migration 0167):** both claim forms have
+  an optional photo-credit field and an unticked box letting You Do, I Do use
+  the photos on its own site (homepage included), in marketing and in
+  guest-site template designs (Terms §6, "Featuring your photos"). Stored on
+  the submission and copied to `venues`/`vendors.photo_marketing_ok` at
+  approval; a later submission unticked withdraws it (remove from site and
+  templates within 30 days). Only use a listing photo outside its listing
+  when `photo_marketing_ok` is true, show `photo_credit`, and prefer photos
+  without recognisable people for ads (admin Venues/Vendors: "Photos OK to
+  feature" chip). Attorney review is A9 in
+  `docs/legal-audit.md`, before any outreach email.
+
 - **Listing reports and contact taps (2026-10-05):** the "Something wrong
   with this listing?" form shows `LegalNotice`; Privacy §1 covers the
   optional reporter email and the anonymous tap counts on listing links.

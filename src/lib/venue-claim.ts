@@ -91,12 +91,29 @@ export type ClaimPreferredVendor = {
   required?: boolean;
 };
 
+/** Whether a business lets us use its listing photos beyond the listing, and
+ *  the credit to show when we do. Stored on the listing at approval (0167). */
+export type PhotoUse = { marketing: boolean; credit: string | null };
+
+export const PHOTO_CREDIT_MAX = 120;
+
+/** Anything but an explicit tick is "no". Older drafts and submissions have no value. */
+export function cleanPhotoUse(raw: unknown, errors: string[]): PhotoUse {
+  const r = (raw ?? {}) as { marketing?: unknown; credit?: unknown };
+  const credit = clean(r.credit);
+  if (credit.length > PHOTO_CREDIT_MAX) errors.push(`Keep the photo credit to ${PHOTO_CREDIT_MAX} characters.`);
+  return { marketing: r.marketing === true, credit: credit || null };
+}
+
 export type ClaimSubmission = {
   details: ClaimDetails;
   faqs: ClaimFaq[];
   preferredVendors: ClaimPreferredVendor[];
   spaces: ClaimSpace[];
   photoUrls: string[];
+  /** Optional, unticked by default: may You Do, I Do use these photos beyond the
+   *  listing (homepage, marketing, guest-site template designs)? Terms §6. */
+  photoUse?: PhotoUse;
   submitter: { name: string; email: string; role: string | null; represents: boolean };
 };
 
@@ -414,6 +431,7 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
     (u): u is string => typeof u === "string",
   );
   if (photoUrls.length > MAX_CLAIM_PHOTOS) errors.push(`Keep it to ${MAX_CLAIM_PHOTOS} photos.`);
+  const photoUse = cleanPhotoUse(input.photoUse, errors);
 
   const submitter = {
     name: clean(input.submitter?.name),
@@ -426,7 +444,7 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
   if (!submitter.represents) errors.push("Confirm that you represent this venue.");
 
   return {
-    value: { details, faqs, preferredVendors, spaces, photoUrls, submitter },
+    value: { details, faqs, preferredVendors, spaces, photoUrls, photoUse, submitter },
     errors: [...new Set(errors)],
   };
 }
