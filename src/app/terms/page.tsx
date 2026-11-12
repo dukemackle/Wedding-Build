@@ -12,7 +12,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: November 7, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: November 12, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -144,11 +144,26 @@ export default function TermsPage() {
             <p className="mt-3">
               If you list or claim a business on You Do, I Do, you confirm you&apos;re authorized to
               represent it and that you own, or have permission to share, every photo and detail
-              you submit. You grant You Do, I Do a non-exclusive, royalty-free license to display that
-              listing content publicly in the Service — on your listing page, in search results
-              and maps, in previews shown to couples, and on the wedding websites and planning
-              dashboards of couples who have chosen or saved your venue — until you ask us to remove it. We
-              review submissions before they go live and may edit or decline them.
+              you submit. You grant You Do, I Do a non-exclusive, royalty-free license to store,
+              copy, resize, crop and process that listing content (including automated tagging and descriptions) and to
+              display it publicly in the
+              Service — on your listing page, in search results and maps, in previews shown to
+              couples, and on the wedding websites and planning dashboards of couples who have
+              chosen or saved your venue — until you ask us to remove it. We review submissions
+              before they go live and may edit or decline them. We don&apos;t use your photos to
+              train AI models and don&apos;t sell or give them to anyone else.
+            </p>
+            <p className="mt-3">
+              <strong className="text-ink">Featuring your photos (optional).</strong> If you tick the
+              box on the listing form, you also let You Do, I Do use your listing photos on its own
+              website (including the homepage), in its marketing (such as social media, email and
+              ads) and in the sample designs couples choose for their wedding websites, with the
+              photo credit you give us where the format allows. You confirm you have the rights
+              to allow this, including any permission needed from the photographer and from people
+              who can be recognized in the photos. You can withdraw this at any time by unticking
+              the box on a later update or emailing us; we then stop using the photos in anything
+              new and remove them from our website and template designs within 30 days. Material
+              already printed or sent out can&apos;t be recalled.
             </p>
             <p className="mt-3">
               The Attire section shows clothing and rings sold by other companies. Buying or

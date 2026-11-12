@@ -93,6 +93,7 @@ export default async function ClaimPage({
         preferredVendors: pending.preferred_vendors,
         spaces: pending.spaces ?? [],
         photoUrls: pending.photo_urls,
+        photoUse: { marketing: pending.photo_marketing_ok === true, credit: pending.photo_credit ?? null },
         submitter: {
           name: pending.submitter_name,
           email: pending.submitter_email,
@@ -117,6 +118,7 @@ export default async function ClaimPage({
           required: v.required,
         })),
         photoUrls: venue.photo_urls.length > 0 ? venue.photo_urls : venue.image_url ? [venue.image_url] : [],
+        photoUse: { marketing: venue.photo_marketing_ok === true, credit: venue.photo_credit ?? null },
         // A venue that just listed itself gave us its email a minute ago.
         submitter: {
           name: "",

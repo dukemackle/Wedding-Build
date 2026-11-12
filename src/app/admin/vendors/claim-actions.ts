@@ -69,6 +69,10 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
       ...(isNew ? { active: true } : {}),
       photo_urls: submission.photo_urls,
       image_url: submission.photo_urls[0] ?? null,
+      // The latest approved submission's answer wins, so unticking withdraws it (Terms §6).
+      photo_marketing_ok: submission.photo_marketing_ok === true,
+      photo_marketing_ok_at: submission.photo_marketing_ok === true ? now : null,
+      photo_credit: submission.photo_credit ?? null,
       source: "claimed",
       last_verified_at: now,
       verified_by: `vendor: ${submission.submitter_email}`,

@@ -3,7 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { AnimatedWrenBird } from "@/components/animated-wren-bird";
 import { WrenChatBirdIcon } from "@/components/icons";
-import { MAX_CLAIM_PHOTOS, CLAIM_PHOTO_TYPES } from "@/lib/venue-claim";
+import { MAX_CLAIM_PHOTOS, CLAIM_PHOTO_TYPES, PHOTO_CREDIT_MAX, type PhotoUse } from "@/lib/venue-claim";
 
 // The pieces the venue and vendor claim forms are both built from.
 
@@ -306,6 +306,41 @@ export function WriteHelper({
           Close
         </button>
       </div>
+    </div>
+  );
+}
+
+/** Under the photo grid: who took the photos, and the optional, unticked
+ *  opt-in to use them beyond the listing (Terms §6, migration 0167). The
+ *  listing licence itself comes from the Terms; this box is extra and never
+ *  required to send the form. */
+export function PhotoUseFields({ value, onChange }: { value: PhotoUse; onChange: (value: PhotoUse) => void }) {
+  return (
+    <div className="mt-5 flex flex-col gap-4 border-t border-hairline pt-5">
+      <Field label="Photo credit (optional)">
+        <input
+          value={value.credit ?? ""}
+          onChange={(e) => onChange({ ...value, credit: e.target.value || null })}
+          maxLength={PHOTO_CREDIT_MAX}
+          className={inputClass}
+          placeholder="e.g. Jane Smith Photography"
+        />
+      </Field>
+      <label className="flex items-start gap-3 text-sm text-ink/80">
+        <input
+          type="checkbox"
+          checked={value.marketing}
+          onChange={(e) => onChange({ ...value, marketing: e.target.checked })}
+          className="mt-0.5 h-4 w-4 shrink-0 accent-forest"
+        />
+        <span>
+          You Do, I Do may also feature these photos on its own website (including the homepage), in its
+          marketing and in the sample designs couples choose for their wedding sites, credited as above.
+          <span className="mt-1 block text-xs text-ink/55">
+            Optional. Untick it on a later update and we stop using them in anything new.
+          </span>
+        </span>
+      </label>
     </div>
   );
 }

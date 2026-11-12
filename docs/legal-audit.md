@@ -450,6 +450,7 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 | A6 | Paid listing agreement and auto-renewal flow (before Phase 1) | Attorney | State auto-renewal laws |
 | A7 | Insurance: tech E&O, cyber, media, GL; TCPA exclusions | Licensed broker | Coverage |
 | A8 | Sales tax on paid listings (before Phase 1) | CPA | Digital-services tax varies by state |
+| A9 | **Before any outreach email or launch** (owner meeting an attorney): Terms §6 listing-photo licence and the optional "feature your photos" opt-in (homepage, marketing, guest-site template designs); whether the business's warranty is enough when a photographer owns the copyright and couples appear in the photos (right of publicity, Cal. Civ. Code 3344); withdrawal window (30 days) | Attorney | Copyright sublicensing; publicity rights in ads |
 
 ## 12. Risk register (live)
 
