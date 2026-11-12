@@ -9,7 +9,7 @@ import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-v
 import { CanvasEditing } from "./canvas-editing";
 import { bannerPhoto } from "@/lib/site-design";
 import { PhotoEditing } from "./photo-editing";
-import { SAMPLE_GALLERY, SAMPLE_GUEST_NAMES, SAMPLE_HERO } from "@/lib/sample-photos";
+import { SAMPLE_GALLERY, SAMPLE_GUEST_NAMES, sampleHero } from "@/lib/sample-photos";
 
 export const metadata: Metadata = { title: "Guest site preview", robots: { index: false } };
 
@@ -20,15 +20,16 @@ export const metadata: Metadata = { title: "Guest site preview", robots: { index
  *
  * `?design=<id>` starts on that design. `?look=1` is the template gallery's
  * preview: the parent page sends the look to show, and nothing on it can be
- * dragged or retyped. `?view=1` is the editor's "Open preview" tab: the draft
+ * dragged or retyped; `&template=<id>` picks that template's sample banner.
+ * `?view=1` is the editor's "Open preview" tab: the draft
  * full size in its own tab, as guests would get it, before or after it's live.
  */
 export default async function GuestSitePreviewPage({
   searchParams,
 }: {
-  searchParams: Promise<{ design?: string; look?: string; samples?: string; view?: string }>;
+  searchParams: Promise<{ design?: string; look?: string; samples?: string; template?: string; view?: string }>;
 }) {
-  const { design: designId, look, samples: withSamples, view } = await searchParams;
+  const { design: designId, look, samples: withSamples, template, view } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -108,7 +109,10 @@ export default async function GuestSitePreviewPage({
   const samples = Boolean(look) || withSamples === "1";
   // Before a sample stands in: whether the banner is the couple's own upload, which can be removed.
   const ownBanner = Boolean(asGuestsSeeIt.hero_photo_url);
-  if (samples && !bannerPhoto(asGuestsSeeIt)) asGuestsSeeIt.hero_photo_url = SAMPLE_HERO;
+  const stored = parseSiteDesign(row ? row.design : wedding.site_design);
+  // Each template has its own sample couple; the gallery names it in the
+  // address (its look arrives later by message), the editor's is the design's.
+  if (samples && !bannerPhoto(asGuestsSeeIt)) asGuestsSeeIt.hero_photo_url = sampleHero(template ?? stored.template);
   // Same for "Who's coming": empty until someone RSVPs, so the editor shows
   // stand-ins tagged "Sample" (owner, 2026-11-03). Never on the live site.
   const sampleGuests = samples && loaded.confirmedGuests.length === 0;
@@ -134,7 +138,6 @@ export default async function GuestSitePreviewPage({
     }),
     sampleGuests,
   };
-  const stored = parseSiteDesign(row ? row.design : wedding.site_design);
   const draft = row?.shared_wording ? withWording(stored, parseWording(wedding.site_wording)) : stored;
 
   return (

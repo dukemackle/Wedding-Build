@@ -90,7 +90,7 @@ export function SitePageThumb({ design }: { design: SiteDesign }) {
       {live && box.w > 0 && (
         <iframe
           ref={frameRef}
-          src="/guests/site/preview?look=1"
+          src={`/guests/site/preview?look=1&template=${still.template ?? ""}`}
           title=""
           tabIndex={-1}
           scrolling="no"
