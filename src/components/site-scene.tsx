@@ -862,7 +862,11 @@ const foot = (file: string, w: number, h: number, x: string, sky: string): React
 
 /** Frame scenes whose painting also runs along the foot of the page. */
 const SURROUND_FEET: Partial<Record<SceneId, ReactNode>> = {
-  "painted-wildflowers": foot("wildflower-meadow", 1000, 440, "50%", "transparent"),
+  // Its own cut-out edge (no fade), so the top flowers stay whole.
+  "painted-wildflowers": (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img src={`${BATCH_A}/wildflower-meadow.webp`} alt="" aria-hidden="true" width={1000} height={440} className={`${painted} site-scene block h-auto min-h-[300px] w-full object-cover object-top`} />
+  ),
 };
 
 /**
@@ -940,9 +944,9 @@ const SURROUNDS: Draw = {
   "painted-wildflowers": () => (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
-      <img src={`${BATCH_A}/wildflower-left.webp`} alt="" width={300} height={880} className={`${painted} absolute left-0 top-0 h-[calc(100%-clamp(90px,14vw,200px))] w-[17vw] max-w-[230px] object-cover object-left-top [mask-image:linear-gradient(to_right,#000_55%,transparent)] sm:w-[19vw]`} />
+      <img src={`${BATCH_A}/wildflower-left.webp`} alt="" width={300} height={880} className={`${painted} absolute left-0 top-0 h-full w-[17vw] max-w-[230px] object-cover object-left-top [mask-image:linear-gradient(to_right,#000_55%,transparent),linear-gradient(to_bottom,#000_60%,transparent)] [mask-composite:intersect] [-webkit-mask-composite:source-in] sm:w-[19vw]`} />
       {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
-      <img src={`${BATCH_A}/wildflower-right.webp`} alt="" width={300} height={880} className={`${painted} absolute right-0 top-0 h-[calc(100%-clamp(90px,14vw,200px))] w-[17vw] max-w-[230px] object-cover object-right-top [mask-image:linear-gradient(to_left,#000_55%,transparent)] sm:w-[19vw]`} />
+      <img src={`${BATCH_A}/wildflower-right.webp`} alt="" width={300} height={880} className={`${painted} absolute right-0 top-0 h-full w-[17vw] max-w-[230px] object-cover object-right-top [mask-image:linear-gradient(to_left,#000_55%,transparent),linear-gradient(to_bottom,#000_60%,transparent)] [mask-composite:intersect] [-webkit-mask-composite:source-in] sm:w-[19vw]`} />
     </>
   ),
   // Gilded (suites wave 2): the card's line-drawn flowers, running off the
