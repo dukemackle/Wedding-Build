@@ -169,6 +169,14 @@ export const SUITES: Suite[] = [
     siteColourways: { navy: "regatta-navy", ocean: "regatta-ocean", slate: "regatta-slate" },
   },
   {
+    id: "palm-shore",
+    name: "Palm Shore",
+    card: "palm-shore",
+    site: "palm-shore",
+    names: "script",
+    siteColourways: { navy: "shoreline-navy", lagoon: "shoreline-lagoon", coral: "shoreline-coral" },
+  },
+  {
     id: "black-tie",
     name: "Modern Black-Tie",
     card: "black-tie",

@@ -58,6 +58,7 @@ const BACK_ART: Record<string, ArtLayer[]> = {
     { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 },
   ],
   // The whole painting, the back's type on a paper panel laid over it.
+  "palm-shore": [{ kind: "art", id: "back-scene", label: "Palms on the shore", art: "shorelineInv", x: 0, y: 0, w: 1000 }],
   regatta: [{ kind: "art", id: "back-scene", label: "Lighthouse and hydrangeas", art: "regattaStd", x: 0, y: 975, w: 1000 }],
   "french-riviera": [{ kind: "art", id: "back-scene", label: "Riviera terrace", art: "rivieraStd", x: 0, y: 900, w: 1000 }],
   postmark: [
@@ -89,7 +90,7 @@ export const BACK_QR = { x: 360, y: 600, w: 280 } as const;
  * type moves up by this much to leave it room (Coastal Sunset: the surf,
  * rocks and poppies, not a sliver of them, owner 2026-11-12).
  */
-const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250 };
+const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250, "palm-shore": 200 };
 const liftOf = (t: Pick<Template, "id" | "source">) => BACK_LIFT[t.source ?? t.id] ?? 0;
 
 /** Where a design's back puts the QR code. */

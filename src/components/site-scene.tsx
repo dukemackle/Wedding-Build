@@ -865,6 +865,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "tuscan-villa": foot("pm-panorama", 1600, 842, "72%"),
   "riviera-terrace": foot("fr-panorama", 1562, 808, "62%"),
   "regatta-bay": foot("rg-panorama", 1572, 822, "60%"),
+  "palm-shore": foot("sh-panorama", 1984, 833, "78%"),
 };
 
 /** The sky each painted foot fades out of: the page deepens to it towards the bottom. */
@@ -879,6 +880,7 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   "tuscan-villa": "#e9e1dc",
   "riviera-terrace": "#c4d9ef",
   "regatta-bay": "#c3d8ea",
+  "palm-shore": "#b9cff0",
 };
 
 const SURROUNDS: Draw = {
