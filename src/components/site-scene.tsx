@@ -863,14 +863,14 @@ const foot = (file: string, w: number, h: number, x: string, sky: string): React
  * the page deepens to it, so the painting reads as the bottom of one sky.
  */
 export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
-  "alpine-lake": "#dce9ee",
+  "alpine-lake": "#e5e3e3",
   "coastal-sunset": "#f4e0da",
   "terrace-arch": "#f9dcc6",
   "joshua-sunset": "#faebe0",
   "sonoran-sunset": "#f9f0e3",
-  "lake-terrace": "#c8d7e7",
+  "lake-terrace": "#bad4ec",
   "tuscan-villa": "#e9e2e1",
-  "riviera-terrace": "#9fc8f0",
+  "riviera-terrace": "#c4dcfb",
   "regatta-bay": "#b2cfe9",
   "palm-shore": "#7db0ed",
 };
@@ -878,14 +878,14 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
 const sky = (id: SceneId) => PAINTED_SKY[id] ?? "transparent";
 
 const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
-  "alpine-lake": foot("highland-panorama", 952, 372, "50%", sky("alpine-lake")),
+  "alpine-lake": foot("highland-panorama", 1452, 610, "40%", sky("alpine-lake")),
   "coastal-sunset": foot("coastal-panorama", 992, 500, "62%", sky("coastal-sunset")),
   "terrace-arch": foot("terrace-panorama", 998, 526, "50%", sky("terrace-arch")),
   "joshua-sunset": foot("jt-panorama", 1600, 595, "18%", sky("joshua-sunset")),
   "sonoran-sunset": foot("sd-panorama", 1600, 900, "80%", sky("sonoran-sunset")),
-  "lake-terrace": foot("ga-panorama", 1600, 815, "70%", sky("lake-terrace")),
+  "lake-terrace": foot("ga-panorama", 1494, 620, "50%", sky("lake-terrace")),
   "tuscan-villa": foot("pm-panorama", 1600, 842, "72%", sky("tuscan-villa")),
-  "riviera-terrace": foot("fr-panorama", 1562, 808, "62%", sky("riviera-terrace")),
+  "riviera-terrace": foot("fr-panorama", 1936, 806, "70%", sky("riviera-terrace")),
   "regatta-bay": foot("rg-panorama", 1572, 822, "60%", sky("regatta-bay")),
   "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
 };
