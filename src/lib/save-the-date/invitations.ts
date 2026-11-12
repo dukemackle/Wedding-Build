@@ -33,6 +33,8 @@ export const INVITATION_SOURCES = [
   "coastal-sunset",
   "bougainvillea",
   "joshua-tree",
+  "sonoran",
+  "garden-arch",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -75,6 +77,32 @@ const art = (l: Omit<ArtLayer, "kind">): ArtLayer => ({ kind: "art", ...l });
  * "art-" only where the RSVP back should not carry them (it has its own, back.ts).
  */
 const LAID_OUT: Record<string, Layer[]> = {
+  sonoran: [
+    art({ id: "scene", label: "Sonoran desert", art: "sonoranInv", x: 0, y: 0, w: 1000 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", y: 92, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 640 }),
+    text({ id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, y: 230, size: 140, font: "script", color: "ink", maxWidth: 900 }),
+    text({ id: "request", label: "Request", bind: "request", wrap: 24, lineHeight: 1.7, y: 364, size: 24, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 640 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 445, y: 462, w: 110, color: "accent", opacity: 0.7 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 548, size: 33, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 800 }),
+    text({ id: "time", label: "Time", bind: "time", y: 596, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, maxWidth: 760 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 690, size: 32, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 540 }),
+    text({ id: "place", label: "Town", bind: "place", y: 734, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 540 }),
+    art({ id: "rule2", label: "Rule", art: "rule", x: 445, y: 784, w: 110, color: "accent", opacity: 0.7 }),
+    text({ id: "note", label: "Reception", bind: "note", wrap: 22, lineHeight: 1, y: 868, size: 54, font: "script", color: "ink", maxWidth: 540 }),
+  ],
+  "garden-arch": [
+    art({ id: "scene", label: "Lake and villa", art: "gardenInv", x: 0, y: 830, w: 1000 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", wrap: 18, lineHeight: 1.7, y: 112, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 560 }),
+    text({ id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, y: 290, size: 124, font: "script", color: "ink", maxWidth: 880 }),
+    text({ id: "request", label: "Request", bind: "request", wrap: 30, lineHeight: 1.7, y: 404, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 620 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 445, y: 486, w: 110, color: "accent", opacity: 0.7 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 560, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 760 }),
+    text({ id: "time", label: "Time", bind: "time", y: 604, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, maxWidth: 720 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 680, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 700 }),
+    text({ id: "place", label: "Town", bind: "place", y: 722, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
+    art({ id: "rule2", label: "Rule", art: "rule", x: 445, y: 764, w: 110, color: "accent", opacity: 0.7 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 834, size: 54, font: "script", color: "ink", maxWidth: 640 }),
+  ],
   "joshua-tree": [
     art({ id: "scene", label: "Joshua tree at sunset", art: "joshuaInv", x: 0, y: 867, w: 1000 }),
     text({ id: "host", label: "Opening line", bind: "headline", text: "You are joyfully invited to the wedding of", wrap: 30, lineHeight: 1.7, y: 128, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 640 }),

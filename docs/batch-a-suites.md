@@ -48,6 +48,8 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Heirloom Peony | peony clusters top-left and bottom-right, centre clear | Waiting; interim art cut from the mockup in place |
 | Wildflower Meadow | flowers up both sides, meadow and peaks along the bottom, centre clear | Waiting; interim art in place |
 | Modern Black-Tie | none (type only) | Done |
+| Sonoran Desert | saguaros, sandstone mountain, sage and ocotillo; full-bleed sky | **Done** (owner's zip, 2026-11-12) |
+| Garden Arch | rose-hung stone arch over an Italian lake, villa, cypresses | **Done** (owner's zip, 2026-11-12) |
 | Joshua Tree Sunset | Joshua tree, boulders, purple mountains, sunset in the bottom third; text-free art supplied | **Done** (owner's zip with text-free artwork, 2026-11-12) |
 | Bougainvillea Terrace | terracotta arch, bougainvillea, potted olive and geraniums, hills; full-bleed | **Done** (owner's painting and website mockup, 2026-11-12) |
 | Coastal Sunset | Big Sur cliffs, sea, sun and poppies in the bottom half | **Done** (owner's painting and website mockup, 2026-11-12) |
@@ -79,3 +81,9 @@ and a 1600x595 website panorama), so nothing was inpainted: the ivory is keyed o
 On a phone the website painting sits under the type, so the tree never crosses the names.
 Still waiting: Tuscany vineyard (owner: no olive leaves at the top) and the Tucson desert arch;
 both were sent mid-turn and never reached the session's files, so they need resending.
+
+Sonoran Desert (2026-11-12): the zip's text-free card art faded the big saguaro out at the top, so the
+cards use the lettered references with the type removed by `skyfill.py` (a sky-only, wide-across
+normalized fill plus paper grain): `sd-std.webp`, `sd-inv.webp`; the website panorama is the zip's.
+Garden Arch (2026-11-12): the zip's text-free art keyed onto the paper (`ga-*.webp`); the website lake
+terrace is busy all over, so it is a full-width band under the names rather than behind them.

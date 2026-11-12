@@ -129,6 +129,22 @@ export const SUITES: Suite[] = [
     siteColourways: { umber: "joshua-umber", dusk: "joshua-dusk", sage: "joshua-sage" },
   },
   {
+    id: "sonoran",
+    name: "Sonoran Desert",
+    card: "sonoran",
+    site: "sonoran",
+    names: "script",
+    siteColourways: { umber: "sonoran-umber", rose: "sonoran-rose", sage: "sonoran-sage" },
+  },
+  {
+    id: "garden-arch",
+    name: "Garden Arch",
+    card: "garden-arch",
+    site: "garden-arch",
+    names: "script",
+    siteColourways: { espresso: "garden-espresso", rose: "garden-rose", lake: "garden-lake" },
+  },
+  {
     id: "black-tie",
     name: "Modern Black-Tie",
     card: "black-tie",

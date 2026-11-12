@@ -622,6 +622,8 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
           ? "pb-[clamp(170px,27vw,400px)] pt-14 sm:pt-20"
           : scene === "joshua-sunset"
             ? "pb-[270px] pt-12 sm:pb-[clamp(140px,12vw,200px)] sm:pt-14"
+            : scene === "sonoran-sunset"
+              ? "pb-[270px] pt-12 sm:pb-[clamp(220px,24vw,360px)] sm:pt-12"
             : scene === "terrace-arch"
             ? "pb-[300px] pt-28 sm:pb-[clamp(190px,17vw,300px)] sm:pt-[clamp(110px,11vw,170px)]"
             : scene === "coastal-sunset"
@@ -632,7 +634,7 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
       <SiteScene where="surround" />
       <div
         className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : STANDARD_WIDTH} ${
-          scene === "joshua-sunset" ? "lg:ml-[34vw] lg:mr-[4vw] lg:w-auto" : ""
+          scene === "joshua-sunset" ? "lg:ml-[34vw] lg:mr-[4vw] lg:w-auto" : scene === "sonoran-sunset" ? "lg:ml-[4vw] lg:mr-[36vw] lg:w-auto" : ""
         }`}
       >
         <SiteText slot="hero.kicker" as="p" className={`text-[11px] text-ink sm:text-[13px] ${caps}`}>

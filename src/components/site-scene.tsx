@@ -835,6 +835,19 @@ const BATCH_A = "/site-art/batch-a";
 const painted = "pointer-events-none select-none";
 
 const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
+  // Garden Arch: the lake terrace is busy all over, so it runs edge to edge
+  // under the names rather than behind them.
+  "lake-terrace": (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img
+      src={`${BATCH_A}/ga-panorama.webp`}
+      alt=""
+      aria-hidden="true"
+      width={1600}
+      height={815}
+      className={`${painted} site-scene block h-[clamp(240px,30vw,480px)] w-full object-cover object-[50%_55%]`}
+    />
+  ),
   // The suite's wide lake painting right under the names, edge to edge at
   // every width (owner, 2026-11-11). A phone keeps it at least 240px tall,
   // trimming the sides rather than shrinking the peaks to a sliver.
@@ -852,6 +865,12 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
 };
 
 const SURROUNDS: Draw = {
+  // Sonoran Desert: the painting behind the hero, the names on its pale sky;
+  // on a phone it sits under the type, the big saguaro in view.
+  "sonoran-sunset": () => (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img src={`${BATCH_A}/sd-panorama.webp`} alt="" width={1600} height={900} className={`${painted} absolute inset-x-0 bottom-0 h-[280px] w-full object-cover object-[80%_100%] [mask-image:linear-gradient(to_bottom,transparent,#000_35%)] sm:inset-0 sm:h-full sm:object-bottom sm:[mask-image:none]`} />
+  ),
   // Joshua Tree Sunset: the desert painting behind the hero, edge to edge,
   // the tree at the left. On a phone it sits under the type instead, so the
   // tree never runs through the names.

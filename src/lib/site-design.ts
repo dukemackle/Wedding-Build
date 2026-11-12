@@ -725,6 +725,7 @@ export const SCENES = [
   { id: "ocean-tiles", label: "Ocean tiles", place: "strip" },
   // Batch A suites: watercolours cut from the approved mockups (site-scene.tsx).
   { id: "alpine-lake", label: "Painted alpine lake", place: "band" },
+  { id: "lake-terrace", label: "Painted lake terrace", place: "band" },
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
   { id: "peonies", label: "Painted peonies", place: "surround" },
@@ -732,6 +733,7 @@ export const SCENES = [
   { id: "coastal-sunset", label: "Painted Big Sur coast", place: "surround" },
   { id: "terrace-arch", label: "Painted terrace arch", place: "surround" },
   { id: "joshua-sunset", label: "Painted Joshua tree sunset", place: "surround" },
+  { id: "sonoran-sunset", label: "Painted Sonoran desert", place: "surround" },
   { id: "drape", label: "Draped fabric", place: "surround" },
   { id: "western-pattern", label: "Western icons", place: "surround" },
   { id: "ocean-pattern", label: "Sea life", place: "surround" },
@@ -1029,6 +1031,12 @@ export const PALETTES = [
   { id: "meadow-navy", name: "Meadow navy", family: "blue", bg: "#fbf3e6", ink: "#1b2e45", heading: "#1b2e45", accent: "#1b2e45" },
   { id: "meadow-forest", name: "Meadow green", family: "green", bg: "#fbf3e6", ink: "#253f2e", heading: "#253f2e", accent: "#253f2e" },
   { id: "meadow-poppy", name: "Poppy", family: "orange", bg: "#fbf3e6", ink: "#5c2a14", heading: "#7a3418", accent: "#7a3418" },
+  { id: "sonoran-umber", name: "Desert umber", family: "brown", bg: "#fbf3e8", ink: "#4b3524", heading: "#4b3524", accent: "#4b3524" },
+  { id: "sonoran-rose", name: "Canyon rose", family: "red", bg: "#fbf3e8", ink: "#6b3434", heading: "#6b3434", accent: "#6b3434" },
+  { id: "sonoran-sage", name: "Desert sage", family: "green", bg: "#fbf3e8", ink: "#3f4b37", heading: "#3f4b37", accent: "#3f4b37" },
+  { id: "garden-espresso", name: "Espresso", family: "brown", bg: "#f9f3e8", ink: "#4a3328", heading: "#4a3328", accent: "#4a3328" },
+  { id: "garden-rose", name: "Garden rose", family: "pink", bg: "#f9f3e8", ink: "#7a3e4a", heading: "#7a3e4a", accent: "#7a3e4a" },
+  { id: "garden-lake", name: "Lake blue", family: "blue", bg: "#f9f3e8", ink: "#2e4a5e", heading: "#2e4a5e", accent: "#2e4a5e" },
   { id: "joshua-umber", name: "Desert umber", family: "brown", bg: "#faf2e7", ink: "#473026", heading: "#473026", accent: "#473026" },
   { id: "joshua-dusk", name: "Mountain dusk", family: "purple", bg: "#faf2e7", ink: "#433052", heading: "#433052", accent: "#433052" },
   { id: "joshua-sage", name: "Desert sage", family: "green", bg: "#faf2e7", ink: "#3d4a36", heading: "#3d4a36", accent: "#3d4a36" },
