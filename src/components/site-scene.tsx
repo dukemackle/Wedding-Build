@@ -879,6 +879,7 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   "golden-barn": "#f9f3e6",
   "starlit-terrace": "#08132f",
   "golden-hills": "#f9f4ec",
+  "blush-garden": "#f9f4ec",
 };
 
 /** Paintings whose page is a texture from the painting (a wall), not a sky colour. */
@@ -931,6 +932,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "regatta-bay": foot("rg-panorama", 1572, 822, "60%", sky("regatta-bay")),
   "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
   "golden-barn": foot("hs-foot", 1600, 1400, "25%", sky("golden-barn")),
+  "blush-garden": foot("bl-foot", 1600, 1050, "70%", sky("blush-garden")),
   "golden-hills": foot("gl-foot", 1600, 1200, "35%", sky("golden-hills")),
   "starlit-terrace": foot("st-panorama", 2000, 833, "12%", sky("starlit-terrace")),
   "meadow-vista": foot("mv-foot", 1600, 1393, "45%", sky("meadow-vista")),

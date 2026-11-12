@@ -1155,6 +1155,33 @@ export const TEMPLATES: Template[] = [
       { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 744, size: 30, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, anchor: "middle", maxWidth: 760 },
     ],
   },  {
+    id: "blush-garden",
+    name: "Blush Garden",
+    family: "Romantic florals",
+    mood: "A blush bouquet of peonies, roses and anemone gathered in the corner in watercolour, your names in script on textured cream paper.",
+    usesPhoto: false,
+    grain: 0.008,
+    palettes: [
+      { id: "rose", label: "Rose", paper: "#f9f4ec", ink: "#6d3a45", accent: "#6d3a45", muted: "#8f6a70", onPhoto: "#ffffff" },
+      { id: "sage", label: "Sage", paper: "#f9f4ec", ink: "#3f4a3a", accent: "#3f4a3a", muted: "#66705f", onPhoto: "#ffffff" },
+      { id: "mauve", label: "Mauve", paper: "#f9f4ec", ink: "#5a3f55", accent: "#5a3f55", muted: "#7f6a7b", onPhoto: "#ffffff" },
+    ],
+    pairings: [
+      { id: "blush", label: "Garamond & script", display: "ebgaramond", script: "parisienne", sans: "ebgaramond" },
+      { id: "copperplate", label: "Copperplate", display: "cormorant", script: "pinyon", sans: "cormorant" },
+      { id: "brush", label: "Soft brush", display: "marcellus", script: "allura", sans: "marcellus" },
+    ],
+    layers: [
+      { kind: "art", id: "scene", label: "Blush garden", art: "blushGardenStd", x: 0, y: 0, w: 1000 },
+      { kind: "text", id: "save", label: "Save", bind: "custom", text: "Save", x: 420, y: 330, size: 70, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, anchor: "end", maxWidth: 300 },
+      { kind: "text", id: "the", label: "the", bind: "custom", text: "the", x: 500, y: 330, size: 60, font: "script", color: "ink", anchor: "middle", maxWidth: 130 },
+      { kind: "text", id: "dateWord", label: "Date", bind: "custom", text: "Date", x: 580, y: 330, size: 70, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, anchor: "start", maxWidth: 300 },
+      { kind: "art", id: "rule", label: "Rule", art: "rule", x: 430, y: 398, w: 140, color: "ink", opacity: 0.6 },
+      { kind: "text", id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, x: 500, y: 532, size: 140, font: "script", color: "ink", anchor: "middle", maxWidth: 860 },
+      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 680, size: 44, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, anchor: "middle", maxWidth: 760 },
+      { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 744, size: 30, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, anchor: "middle", maxWidth: 760 },
+    ],
+  },  {
     id: "golden-hills",
     name: "Golden Hills",
     family: "Landscape",
