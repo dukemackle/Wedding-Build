@@ -381,3 +381,14 @@ rules, batch self-merge, 50-state coverage, page widths) and
   Scene › Paintings).
 - Why: the paintings had replaced the couple's photo; couples expect to see
   themselves first.
+
+## 2026-11-12: Every suite painting blends into the page, never a hard edge
+
+- Rule (owner): on every painted suite's website the top of the painting fades
+  into the page, and the page is that painting's own background (its sky
+  colour, its plaster wall, its paper), so page and painting read as one
+  picture. No visible line, colour band or cropped top anywhere.
+- How: `foot()` in site-scene.tsx (top-edge mask plus a ramp to the
+  painting's sampled top colour, `PAINTED_SKY`); a wall or texture goes in
+  `PAINTED_TEXTURE`. A painting cut off at the top gets repainted with sky
+  above it, not cropped.

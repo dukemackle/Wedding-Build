@@ -137,3 +137,8 @@ Never usable: images under ~1000px wide, crops of a presentation board.
 Evergreen (2026-11-12) arrived in the right format: save-the-date-artwork 1500x2100, website-background
 1600x3200 (scene in the bottom third, plain paper above), website-panorama 2400x1000. The site uses the
 bottom of the tall background (`ev-foot.webp`) on the page's own paper colour, so it is seamless.
+
+**Standing rule (owner, 2026-11-12):** every suite's website painting fades in at the top and the page
+takes the painting's own background (sky colour, wall, paper), so they read as one picture. Sample the
+top-edge colour from the file for `PAINTED_SKY`; use `PAINTED_TEXTURE` for walls. Check the join at
+1440 and 375 before sending a preview.
