@@ -48,6 +48,7 @@ export const INVITATION_SOURCES = [
   "pressed-botanicals",
   "greenery-arch",
   "golden-magnolia",
+  "tuscan-engraving",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -149,6 +150,18 @@ const LAID_OUT: Record<string, Layer[]> = {
     text({ id: "venue", label: "Venue", bind: "venue", y: 700, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 700 }),
     text({ id: "place", label: "Town", bind: "place", y: 740, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
     text({ id: "note", label: "Reception", bind: "note", y: 820, size: 54, font: "script", color: "ink", maxWidth: 640 }),
+  ],
+  "tuscan-engraving": [
+    art({ id: "scene", label: "Tuscan engraving", art: "tuscanEngravingStd", x: 0, y: 0, w: 1000 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", wrap: 18, lineHeight: 1.7, y: 232, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 560 }),
+    text({ id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, y: 400, size: 124, font: "script", color: "ink", maxWidth: 880 }),
+    text({ id: "request", label: "Request", bind: "request", wrap: 30, lineHeight: 1.7, y: 506, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 620 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 445, y: 582, w: 110, color: "ink", opacity: 0.6 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 648, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 760 }),
+    text({ id: "time", label: "Time", bind: "time", y: 690, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, maxWidth: 720 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 760, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 700 }),
+    text({ id: "place", label: "Town", bind: "place", y: 800, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 880, size: 54, font: "script", color: "ink", maxWidth: 640 }),
   ],
   "golden-hills": [
     art({ id: "scene", label: "Golden hills", art: "goldenHillsStd", x: 0, y: 0, w: 1000 }),

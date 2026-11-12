@@ -735,6 +735,7 @@ export const SCENES = [
   { id: "greenery-arch", label: "Painted greenery arch", place: "foot" },
   { id: "golden-magnolia", label: "Painted golden magnolia", place: "foot" },
   { id: "blush-garden", label: "Painted blush garden", place: "foot" },
+  { id: "tuscan-engraving", label: "Engraved Tuscan villa", place: "foot" },
   { id: "golden-hills", label: "Painted golden hills", place: "foot" },
   { id: "starlit-terrace", label: "Painted starlit terrace", place: "foot" },
   // Around the names.
@@ -1058,6 +1059,9 @@ export const PALETTES = [
   { id: "blush-rose", name: "Rose", family: "pink", bg: "#f9f4ec", ink: "#6d3a45", heading: "#6d3a45", accent: "#6d3a45" },
   { id: "blush-sage", name: "Sage", family: "green", bg: "#f9f4ec", ink: "#3f4a3a", heading: "#3f4a3a", accent: "#3f4a3a" },
   { id: "blush-mauve", name: "Mauve", family: "purple", bg: "#f9f4ec", ink: "#5a3f55", heading: "#5a3f55", accent: "#5a3f55" },
+  { id: "engraving-sepia", name: "Sepia", family: "brown", bg: "#f9f3e6", ink: "#5a3f2c", heading: "#5a3f2c", accent: "#5a3f2c" },
+  { id: "engraving-cypress", name: "Cypress", family: "green", bg: "#f9f3e6", ink: "#3e4a35", heading: "#3e4a35", accent: "#3e4a35" },
+  { id: "engraving-ink", name: "Iron ink", family: "neutral", bg: "#f9f3e6", ink: "#2f2a26", heading: "#2f2a26", accent: "#2f2a26" },
   { id: "hills-sunset", name: "Sunset", family: "brown", bg: "#f9f4ec", ink: "#5a3a2a", heading: "#5a3a2a", accent: "#5a3a2a" },
   { id: "hills-sage", name: "Oak & sage", family: "green", bg: "#f9f4ec", ink: "#3d4a33", heading: "#3d4a33", accent: "#3d4a33" },
   { id: "hills-rose", name: "Dusk rose", family: "pink", bg: "#f9f4ec", ink: "#6a3b3e", heading: "#6a3b3e", accent: "#6a3b3e" },

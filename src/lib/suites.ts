@@ -209,6 +209,14 @@ export const SUITES: Suite[] = [
     siteColourways: { sunset: "hills-sunset", sage: "hills-sage", rose: "hills-rose" },
   },
   {
+    id: "tuscan-engraving",
+    name: "Tuscan Engraving",
+    card: "tuscan-engraving",
+    site: "tuscan-engraving",
+    names: "script",
+    siteColourways: { sepia: "engraving-sepia", cypress: "engraving-cypress", ink: "engraving-ink" },
+  },
+  {
     id: "blush-garden",
     name: "Blush Garden",
     card: "blush-garden",
