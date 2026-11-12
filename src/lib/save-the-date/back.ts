@@ -66,6 +66,7 @@ const BACK_ART: Record<string, ArtLayer[]> = {
   "vineyard-etching": [{ kind: "art", id: "back-scene", label: "Vineyard etching", art: "vineyardEtchingStd", x: 0, y: 0, w: 1000 }],
   "tuscan-engraving": [{ kind: "art", id: "back-scene", label: "Tuscan engraving", art: "tuscanEngravingStd", x: 0, y: 0, w: 1000 }],
   "golden-hills": [{ kind: "art", id: "back-scene", label: "Golden hills", art: "goldenHillsStd", x: 0, y: 0, w: 1000 }],
+  "deco-fan": [{ kind: "art", id: "back-scene", label: "Deco fan", art: "decoFanBack", x: 100, y: 870, w: 800 }],
   "starlit-terrace": [{ kind: "art", id: "back-scene", label: "Starlit terrace", art: "starlitStd", x: 0, y: 0, w: 1000 }],
   "golden-barn": [{ kind: "art", id: "back-scene", label: "Golden barn", art: "goldenBarnStd", x: 0, y: 0, w: 1000 }],
   "meadow-vista": [{ kind: "art", id: "back-scene", label: "Meadow vista", art: "meadowVistaStd", x: 0, y: 0, w: 1000 }],
@@ -102,7 +103,7 @@ export const BACK_QR = { x: 360, y: 600, w: 280 } as const;
  * type moves up by this much to leave it room (Coastal Sunset: the surf,
  * rocks and poppies, not a sliver of them, owner 2026-11-12).
  */
-const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250, "palm-shore": 200, "evergreen-ridge": 200, "meadow-vista": 200, "golden-barn": 200, "starlit-terrace": 200, "golden-hills": 200, "blush-garden": 200, "golden-magnolia": 200, "tuscan-engraving": 200, "vineyard-etching": 200 };
+const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250, "palm-shore": 200, "evergreen-ridge": 200, "meadow-vista": 200, "golden-barn": 200, "starlit-terrace": 200, "golden-hills": 200, "blush-garden": 200, "golden-magnolia": 200, "tuscan-engraving": 200, "vineyard-etching": 200, "deco-fan": 230 };
 const liftOf = (t: Pick<Template, "id" | "source">) => BACK_LIFT[t.source ?? t.id] ?? 0;
 
 /** Where a design's back puts the QR code. */

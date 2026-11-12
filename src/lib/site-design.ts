@@ -738,6 +738,7 @@ export const SCENES = [
   { id: "vineyard-etching", label: "Etched vineyard", place: "foot" },
   { id: "tuscan-engraving", label: "Engraved Tuscan villa", place: "foot" },
   { id: "golden-hills", label: "Painted golden hills", place: "foot" },
+  { id: "deco-fan", label: "Gold Art Deco fan", place: "foot" },
   { id: "starlit-terrace", label: "Painted starlit terrace", place: "foot" },
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
@@ -1069,6 +1070,9 @@ export const PALETTES = [
   { id: "hills-sunset", name: "Sunset", family: "brown", bg: "#f9f4ec", ink: "#5a3a2a", heading: "#5a3a2a", accent: "#5a3a2a" },
   { id: "hills-sage", name: "Oak & sage", family: "green", bg: "#f9f4ec", ink: "#3d4a33", heading: "#3d4a33", accent: "#3d4a33" },
   { id: "hills-rose", name: "Dusk rose", family: "pink", bg: "#f9f4ec", ink: "#6a3b3e", heading: "#6a3b3e", accent: "#6a3b3e" },
+  { id: "deco-champagne", name: "Champagne", family: "blue", bg: "#0d1a31", ink: "#f3ead8", heading: "#f3ead8", accent: "#d9b56a" },
+  { id: "deco-gold", name: "Pale gold", family: "gold", bg: "#0d1a31", ink: "#ecd9a6", heading: "#ecd9a6", accent: "#ecd9a6" },
+  { id: "deco-silver", name: "Silver", family: "blue", bg: "#0d1a31", ink: "#e8ecf2", heading: "#e8ecf2", accent: "#b9c3d1" },
   { id: "starlit-ivory", name: "Ivory & gold", family: "blue", bg: "#08132f", ink: "#f3ead8", heading: "#f3ead8", accent: "#e0b65a" },
   { id: "starlit-moon", name: "Moonlight", family: "blue", bg: "#08132f", ink: "#e8eef7", heading: "#e8eef7", accent: "#b9c8e0" },
   { id: "starlit-candle", name: "Candlelight", family: "blue", bg: "#08132f", ink: "#f7e6c4", heading: "#f7e6c4", accent: "#f0c27a" },

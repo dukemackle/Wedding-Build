@@ -265,6 +265,14 @@ export const SUITES: Suite[] = [
     siteColourways: { ivory: "starlit-ivory", moonlight: "starlit-moon", candlelight: "starlit-candle" },
   },
   {
+    id: "deco-fan",
+    name: "Deco Fan",
+    card: "deco-fan",
+    site: "deco-fan",
+    names: "script",
+    siteColourways: { champagne: "deco-champagne", gold: "deco-gold", silver: "deco-silver" },
+  },
+  {
     id: "black-tie",
     name: "Modern Black-Tie",
     card: "black-tie",
