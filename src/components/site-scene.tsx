@@ -48,9 +48,11 @@ export function SiteScene({ where }: { where: "band" | "strip" | "surround" | "f
   const design = useSiteDesign();
   const id = useId().replace(/:/g, "");
   const scene = resolveDesign(design).scene;
-  if (sceneById(scene).place !== where) return null;
+  if (sceneById(scene).place !== where && !(where === "foot" && SURROUND_FEET[scene])) return null;
 
   if ((where === "band" || where === "foot") && PAINTED_BANDS[scene]) return PAINTED_BANDS[scene];
+  // A frame scene that also closes the page (Wildflower's meadow under its side flowers).
+  if (where === "foot" && SURROUND_FEET[scene]) return SURROUND_FEET[scene];
   if (where === "band" || where === "foot") {
     return (
       <svg
@@ -858,6 +860,11 @@ const foot = (file: string, w: number, h: number, x: string, sky: string): React
   </div>
 );
 
+/** Frame scenes whose painting also runs along the foot of the page. */
+const SURROUND_FEET: Partial<Record<SceneId, ReactNode>> = {
+  "painted-wildflowers": foot("wildflower-meadow", 1000, 440, "50%", "transparent"),
+};
+
 /**
  * The colour of each painting's top edge (its sky, sampled from the file):
  * the page deepens to it, so the painting reads as the bottom of one sky.
@@ -934,8 +941,6 @@ const SURROUNDS: Draw = {
       <img src={`${BATCH_A}/wildflower-left.webp`} alt="" width={300} height={880} className={`${painted} absolute left-0 top-0 h-[calc(100%-clamp(90px,14vw,200px))] w-[17vw] max-w-[230px] object-cover object-left-top [mask-image:linear-gradient(to_right,#000_55%,transparent)] sm:w-[19vw]`} />
       {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
       <img src={`${BATCH_A}/wildflower-right.webp`} alt="" width={300} height={880} className={`${painted} absolute right-0 top-0 h-[calc(100%-clamp(90px,14vw,200px))] w-[17vw] max-w-[230px] object-cover object-right-top [mask-image:linear-gradient(to_left,#000_55%,transparent)] sm:w-[19vw]`} />
-      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
-      <img src={`${BATCH_A}/wildflower-meadow.webp`} alt="" width={1000} height={440} className={`${painted} absolute inset-x-0 bottom-0 h-[clamp(170px,30vw,440px)] w-full object-cover object-top`} />
     </>
   ),
   // Gilded (suites wave 2): the card's line-drawn flowers, running off the
