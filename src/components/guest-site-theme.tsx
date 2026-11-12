@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { PAINTED_SKY, SiteScene } from "@/components/site-scene";
+import { PAINTED_SKY, PAINTED_TEXTURE, SiteScene } from "@/components/site-scene";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ALL_FONTS_HREF,
@@ -19,8 +19,20 @@ import {
  * Left alone when the couple chose their own background pattern or texture.
  */
 function paintedSky(design: SiteDesign): CSSProperties {
-  const sky = PAINTED_SKY[resolveDesign(design).scene];
+  const scene = resolveDesign(design).scene;
+  const sky = PAINTED_SKY[scene];
   if (!sky || design.background.pattern !== "none" || design.background.texture !== "none") return {};
+  const texture = PAINTED_TEXTURE[scene];
+  if (texture)
+    return {
+      ["--site-bar-bg" as string]: `color-mix(in srgb, ${sky} 45%, var(--color-parchment))`,
+      // The painting's own wall behind the whole page, washed with paper at
+      // the top so the names read, full strength where the painting begins.
+      backgroundImage: `linear-gradient(to bottom, color-mix(in srgb, var(--color-parchment) 55%, transparent) 0%, color-mix(in srgb, var(--color-parchment) 25%, transparent) 40%, transparent 75%), url(${texture.url})`,
+      backgroundSize: `100% 100%, ${texture.size}`,
+      backgroundRepeat: "no-repeat, repeat",
+      backgroundPosition: "top left, bottom center",
+    };
   return {
     // The menu bar takes the page's top colour, so there's no cream strip over it.
     ["--site-bar-bg" as string]: `color-mix(in srgb, ${sky} 28%, var(--color-parchment))`,

@@ -865,7 +865,7 @@ const foot = (file: string, w: number, h: number, x: string, sky: string): React
 export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   "alpine-lake": "#e5e3e3",
   "coastal-sunset": "#f4e0da",
-  "terrace-arch": "#f9dcc6",
+  "terrace-arch": "#f9b88c",
   "joshua-sunset": "#faebe0",
   "sonoran-sunset": "#f9f0e3",
   "lake-terrace": "#bad4ec",
@@ -875,12 +875,35 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   "palm-shore": "#7db0ed",
 };
 
+/** Paintings whose page is a texture from the painting (a wall), not a sky colour. */
+export const PAINTED_TEXTURE: Partial<Record<SceneId, { url: string; size: string }>> = {
+  "terrace-arch": { url: `${BATCH_A}/terrace-wall.webp`, size: "calc(min(100vw, 900px) * 2) auto" },
+};
+
 const sky = (id: SceneId) => PAINTED_SKY[id] ?? "transparent";
 
 const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "alpine-lake": foot("highland-panorama", 1452, 610, "40%", sky("alpine-lake")),
   "coastal-sunset": foot("coastal-panorama", 992, 500, "62%", sky("coastal-sunset")),
-  "terrace-arch": foot("terrace-panorama", 998, 526, "50%", sky("terrace-arch")),
+  // Bougainvillea: the plaster wall is the page (PAINTED_TEXTURE), so the arch
+  // stands in it at its own size, centred, its floor carried on edge to edge
+  // (owner, 2026-11-12). Never cropped: a phone shows the whole arch.
+  "terrace-arch": (
+    <div
+      aria-hidden="true"
+      className="site-scene flex justify-center"
+      style={{ background: `url(${BATCH_A}/terrace-floor.webp) bottom center / auto min(13.55vw, 122px) repeat-x` }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS */}
+      <img
+        src={`${BATCH_A}/terrace-panorama.webp`}
+        alt=""
+        width={1078}
+        height={1116}
+        className={`${painted} block h-auto w-full max-w-[900px] [mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%),linear-gradient(to_right,transparent_0%,#000_4%,#000_96%,transparent_100%)] [mask-composite:intersect] [-webkit-mask-composite:source-in]`}
+      />
+    </div>
+  ),
   "joshua-sunset": foot("jt-panorama", 1600, 595, "18%", sky("joshua-sunset")),
   "sonoran-sunset": foot("sd-panorama", 1600, 900, "80%", sky("sonoran-sunset")),
   "lake-terrace": foot("ga-panorama", 1494, 620, "50%", sky("lake-terrace")),
