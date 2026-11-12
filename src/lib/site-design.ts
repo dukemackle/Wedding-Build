@@ -733,7 +733,7 @@ export const SCENES = [
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
   { id: "peonies", label: "Painted peonies", place: "surround" },
-  { id: "painted-wildflowers", label: "Painted wildflowers", place: "surround" },
+  { id: "painted-wildflowers", label: "Painted wildflowers", place: "foot" },
   { id: "coastal-sunset", label: "Painted Big Sur coast", place: "foot" },
   { id: "terrace-arch", label: "Painted terrace arch", place: "foot" },
   { id: "joshua-sunset", label: "Painted Joshua tree sunset", place: "foot" },

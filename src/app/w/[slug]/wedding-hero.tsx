@@ -617,7 +617,7 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
       : `min(clamp(3rem,6.5vw,5.75rem), calc((100vw - 2.5rem) / ${(longest * 0.46).toFixed(2)}))`
     : `min(clamp(2.4rem,5vw,4rem), calc((100vw - 9rem) / ${(longest * 0.82).toFixed(2)}))`;
   // Painted flowers down both sides leave a narrower column, and a meadow under it.
-  const sides = scene === "painted-wildflowers";
+  const sides = false;
   return (
     <header
       className={`site-hero-plain relative overflow-hidden px-5 sm:px-8 ${
