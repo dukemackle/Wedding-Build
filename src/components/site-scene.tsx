@@ -873,6 +873,8 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   "riviera-terrace": "#c4dcfb",
   "regatta-bay": "#b2cfe9",
   "palm-shore": "#7db0ed",
+  // Its painting already rises out of plain paper, so the page stays paper.
+  "evergreen-ridge": "#f9f5eb",
 };
 
 /** Paintings whose page is a texture from the painting (a wall), not a sky colour. */
@@ -911,6 +913,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "riviera-terrace": foot("fr-panorama", 1936, 806, "70%", sky("riviera-terrace")),
   "regatta-bay": foot("rg-panorama", 1572, 822, "60%", sky("regatta-bay")),
   "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
+  "evergreen-ridge": foot("ev-foot", 1600, 1300, "30%", sky("evergreen-ridge")),
 };
 
 const SURROUNDS: Draw = {

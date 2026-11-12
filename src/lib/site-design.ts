@@ -728,6 +728,7 @@ export const SCENES = [
   { id: "lake-terrace", label: "Painted lake terrace", place: "foot" },
   { id: "regatta-bay", label: "Painted sailing bay", place: "foot" },
   { id: "palm-shore", label: "Painted palm beach", place: "foot" },
+  { id: "evergreen-ridge", label: "Painted evergreen ridge", place: "foot" },
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
   { id: "peonies", label: "Painted peonies", place: "surround" },
@@ -1035,6 +1036,9 @@ export const PALETTES = [
   { id: "meadow-navy", name: "Meadow navy", family: "blue", bg: "#fbf3e6", ink: "#1b2e45", heading: "#1b2e45", accent: "#1b2e45" },
   { id: "meadow-forest", name: "Meadow green", family: "green", bg: "#fbf3e6", ink: "#253f2e", heading: "#253f2e", accent: "#253f2e" },
   { id: "meadow-poppy", name: "Poppy", family: "orange", bg: "#fbf3e6", ink: "#5c2a14", heading: "#7a3418", accent: "#7a3418" },
+  { id: "ridge-forest", name: "Forest", family: "green", bg: "#f9f5eb", ink: "#2b3f2f", heading: "#2b3f2f", accent: "#2b3f2f" },
+  { id: "ridge-slate", name: "Mountain slate", family: "blue", bg: "#f9f5eb", ink: "#2f3d4f", heading: "#2f3d4f", accent: "#2f3d4f" },
+  { id: "ridge-dusk", name: "Dusk", family: "brown", bg: "#f9f5eb", ink: "#5a3e3a", heading: "#5a3e3a", accent: "#5a3e3a" },
   { id: "shoreline-navy", name: "Island navy", family: "blue", bg: "#fcf2e2", ink: "#1d2b4f", heading: "#1d2b4f", accent: "#1d2b4f" },
   { id: "shoreline-lagoon", name: "Lagoon", family: "green", bg: "#fcf2e2", ink: "#1f5a6b", heading: "#1f5a6b", accent: "#1f5a6b" },
   { id: "shoreline-coral", name: "Coral", family: "orange", bg: "#fcf2e2", ink: "#8f3d2b", heading: "#8f3d2b", accent: "#8f3d2b" },
