@@ -22,7 +22,11 @@ function paintedSky(design: SiteDesign): CSSProperties {
   const sky = PAINTED_SKY[resolveDesign(design).scene];
   if (!sky || design.background.pattern !== "none" || design.background.texture !== "none") return {};
   return {
-    backgroundImage: `linear-gradient(to bottom, var(--color-parchment) 0%, var(--color-parchment) 30%, color-mix(in srgb, ${sky} 70%, var(--color-parchment)) 100%)`,
+    // The menu bar takes the page's top colour, so there's no cream strip over it.
+    ["--site-bar-bg" as string]: `color-mix(in srgb, ${sky} 28%, var(--color-parchment))`,
+    // Each suite's own colour all the way down: a hint of its sky at the
+    // top, deepening to the sky itself where the painting begins.
+    backgroundImage: `linear-gradient(to bottom, color-mix(in srgb, ${sky} 28%, var(--color-parchment)) 0%, color-mix(in srgb, ${sky} 55%, var(--color-parchment)) 50%, ${sky} 100%)`,
   };
 }
 

@@ -319,7 +319,7 @@ function SiteBar({
     <>
     <nav
       aria-label="Wedding website"
-      className="site-bar sticky top-0 z-30 border-b border-hairline bg-parchment/95 backdrop-blur supports-[backdrop-filter]:bg-parchment/85"
+      className="site-bar sticky top-0 z-30 border-b border-hairline bg-[color-mix(in_srgb,var(--site-bar-bg,var(--color-parchment))_95%,transparent)] backdrop-blur supports-[backdrop-filter]:bg-[color-mix(in_srgb,var(--site-bar-bg,var(--color-parchment))_85%,transparent)]"
     >
       {/* Phone: the names, RSVP and a Menu button. */}
       <div className="flex h-14 items-center gap-4 px-4 sm:px-6 lg:hidden">

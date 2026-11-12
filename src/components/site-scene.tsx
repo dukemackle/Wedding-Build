@@ -837,9 +837,10 @@ const painted = "pointer-events-none select-none";
 /**
  * The painted suites' landscapes close the page, edge to edge under the
  * footer, like Highland's moor; the couple's own photo has the top
- * (owner, 2026-11-12). Each fades in from its top edge, out of the page's
- * sky tint (PAINTED_SKY), so the whole site reads as one scene. A phone
- * keeps the painting tall and trims its sides at `x`, the part worth keeping.
+ * (owner, 2026-11-12). Shown whole (never trimmed at the top), it fades in
+ * softly out of the page, which deepens to the painting's own sky colour
+ * (PAINTED_SKY), so the whole site reads as one scene. A phone keeps the
+ * painting at least 300px tall and trims its sides at `x`, the part worth keeping.
  */
 const foot = (file: string, w: number, h: number, x: string): ReactNode => (
   // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
@@ -850,7 +851,7 @@ const foot = (file: string, w: number, h: number, x: string): ReactNode => (
     width={w}
     height={h}
     style={{ objectPosition: `${x} 100%` }}
-    className={`${painted} site-scene block h-[clamp(260px,36vw,600px)] w-full object-cover [mask-image:linear-gradient(to_bottom,transparent,#000_28%)] sm:[object-position:50%_100%!important]`}
+    className={`${painted} site-scene block h-auto min-h-[300px] w-full object-cover [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.35)_16%,#000_40%)] sm:min-h-0 sm:[object-position:50%_100%!important] 2xl:max-h-[820px]`}
   />
 );
 
@@ -868,15 +869,16 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
 
 /** The sky each painted foot fades out of: the page deepens to it towards the bottom. */
 export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
-  "alpine-lake": "#dfe7ec",
-  "coastal-sunset": "#f6dccd",
-  "terrace-arch": "#f1dcc8",
-  "joshua-sunset": "#f1d9c4",
-  "sonoran-sunset": "#f5e2cc",
-  "lake-terrace": "#e1eaf1",
-  "tuscan-villa": "#e6e9ee",
-  "riviera-terrace": "#e0e9f3",
-  "regatta-bay": "#e0e9f2",
+  // Sampled from the top of each painting, so the page meets it without a seam.
+  "alpine-lake": "#dce9ee",
+  "coastal-sunset": "#f7e0d4",
+  "terrace-arch": "#f7d6c1",
+  "joshua-sunset": "#f8e2d3",
+  "sonoran-sunset": "#f6e6d2",
+  "lake-terrace": "#cddae7",
+  "tuscan-villa": "#e9e1dc",
+  "riviera-terrace": "#c4d9ef",
+  "regatta-bay": "#c3d8ea",
 };
 
 const SURROUNDS: Draw = {
