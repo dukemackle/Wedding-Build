@@ -620,7 +620,9 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
       className={`site-hero-plain relative overflow-hidden px-5 sm:px-8 ${
         sides
           ? "pb-[clamp(170px,27vw,400px)] pt-14 sm:pt-20"
-          : scene === "terrace-arch"
+          : scene === "joshua-sunset"
+            ? "pb-[270px] pt-12 sm:pb-[clamp(140px,12vw,200px)] sm:pt-14"
+            : scene === "terrace-arch"
             ? "pb-[300px] pt-28 sm:pb-[clamp(190px,17vw,300px)] sm:pt-[clamp(110px,11vw,170px)]"
             : scene === "coastal-sunset"
             ? "pb-[340px] pt-12 sm:pb-[clamp(200px,24vw,380px)] sm:pt-16"
@@ -628,7 +630,11 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
       }`}
     >
       <SiteScene where="surround" />
-      <div className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : STANDARD_WIDTH}`}>
+      <div
+        className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : STANDARD_WIDTH} ${
+          scene === "joshua-sunset" ? "lg:ml-[34vw] lg:mr-[4vw] lg:w-auto" : ""
+        }`}
+      >
         <SiteText slot="hero.kicker" as="p" className={`text-[11px] text-ink sm:text-[13px] ${caps}`}>
           {design.occasion.kind === "renewal" ? "We're renewing our vows" : "Together with their families"}
         </SiteText>

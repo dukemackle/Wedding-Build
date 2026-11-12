@@ -852,6 +852,13 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
 };
 
 const SURROUNDS: Draw = {
+  // Joshua Tree Sunset: the desert painting behind the hero, edge to edge,
+  // the tree at the left. On a phone it sits under the type instead, so the
+  // tree never runs through the names.
+  "joshua-sunset": () => (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img src={`${BATCH_A}/jt-panorama.webp`} alt="" width={1600} height={595} className={`${painted} absolute inset-x-0 bottom-0 h-[280px] w-full object-cover object-[18%_100%] [mask-image:linear-gradient(to_bottom,transparent,#000_35%)] sm:inset-0 sm:h-full sm:object-bottom sm:[mask-image:none]`} />
+  ),
   // Bougainvillea Terrace: the arch painting behind the hero, edge to edge,
   // the names in its sky. Phones keep the arch's middle.
   "terrace-arch": () => (

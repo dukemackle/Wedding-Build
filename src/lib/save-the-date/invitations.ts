@@ -32,6 +32,7 @@ export const INVITATION_SOURCES = [
   "black-tie",
   "coastal-sunset",
   "bougainvillea",
+  "joshua-tree",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -74,6 +75,18 @@ const art = (l: Omit<ArtLayer, "kind">): ArtLayer => ({ kind: "art", ...l });
  * "art-" only where the RSVP back should not carry them (it has its own, back.ts).
  */
 const LAID_OUT: Record<string, Layer[]> = {
+  "joshua-tree": [
+    art({ id: "scene", label: "Joshua tree at sunset", art: "joshuaInv", x: 0, y: 867, w: 1000 }),
+    text({ id: "host", label: "Opening line", bind: "headline", text: "You are joyfully invited to the wedding of", wrap: 30, lineHeight: 1.7, y: 128, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 640 }),
+    text({ id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, y: 312, size: 124, font: "script", color: "ink", maxWidth: 900 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 440, y: 412, w: 120, color: "accent", opacity: 0.7 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 494, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, maxWidth: 800 }),
+    text({ id: "time", label: "Time", bind: "time", y: 546, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, maxWidth: 800 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 664, size: 64, font: "script", color: "ink", maxWidth: 820 }),
+    text({ id: "place", label: "Town", bind: "place", y: 726, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 760 }),
+    art({ id: "rule2", label: "Rule", art: "rule", x: 440, y: 776, w: 120, color: "accent", opacity: 0.7 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 838, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
+  ],
   // The wording in the arch's sky, the venue on the terrace floor, as on the save the date.
   bougainvillea: [
     art({ id: "scene", label: "Bougainvillea terrace", art: "terraceStd", x: 0, y: 0, w: 1000 }),

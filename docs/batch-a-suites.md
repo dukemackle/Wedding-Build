@@ -48,6 +48,7 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Heirloom Peony | peony clusters top-left and bottom-right, centre clear | Waiting; interim art cut from the mockup in place |
 | Wildflower Meadow | flowers up both sides, meadow and peaks along the bottom, centre clear | Waiting; interim art in place |
 | Modern Black-Tie | none (type only) | Done |
+| Joshua Tree Sunset | Joshua tree, boulders, purple mountains, sunset in the bottom third; text-free art supplied | **Done** (owner's zip with text-free artwork, 2026-11-12) |
 | Bougainvillea Terrace | terracotta arch, bougainvillea, potted olive and geraniums, hills; full-bleed | **Done** (owner's painting and website mockup, 2026-11-12) |
 | Coastal Sunset | Big Sur cliffs, sea, sun and poppies in the bottom half | **Done** (owner's painting and website mockup, 2026-11-12) |
 
@@ -71,3 +72,10 @@ Print sharpness: 1024px is below 300dpi at 5x7, so the finals get upscaled toget
 Bougainvillea Terrace (2026-11-12) is a full-bleed painting with the type set on it (sky and terrace
 floor), so nothing is keyed: the words are inpainted away (`terrace-std.webp`, `terrace-panorama.webp`).
 Its backs lay a paper panel over the whole painting for the QR code. Names are italic, not script.
+
+Joshua Tree Sunset (2026-11-12) came as a zip with text-free paintings (`*-artwork.png`, 1500x2100
+and a 1600x595 website panorama), so nothing was inpainted: the ivory is keyed out
+(`jt-save-the-date.webp`, `jt-invitation.webp`) and the panorama used as is (`jt-panorama.webp`).
+On a phone the website painting sits under the type, so the tree never crosses the names.
+Still waiting: Tuscany vineyard (owner: no olive leaves at the top) and the Tucson desert arch;
+both were sent mid-turn and never reached the session's files, so they need resending.
