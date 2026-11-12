@@ -418,6 +418,64 @@ B Real Entertainment	Music		Severna Park	Maryland		Severna Park DJ company offer
 Ory Florals	Florals	71 W Main St.	New Market	Maryland		New Market floral studio making wedding flowers from personal bouquets to ceremony and reception arrangements, with a limited number of weddings each season.	ory@oryflorals.com	301-865-8860	https://www.orycustomflorals.com/	https://www.instagram.com/orycustomflorals/	2000	package
 Cork & Banner Films	Videography	15 N. Court St., Suite 206	Frederick	Maryland	Maryland, DC, Virginia	Frederick wedding film studio making films for couples across Maryland, DC and Virginia, working from an office on North Court Street.			https://www.corkandbannerfilms.com/	https://www.instagram.com/corkandbannerfilms/	6250	package`,
   },
+  {
+    name: "Baltimore: photography, videography, music and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Urban Row Photography	Photography		Baltimore	Maryland	Maryland, DC and beyond	Baltimore wedding photographer with an architecture background, capturing city couples in a vibrant, design-led style on film and digital.	naomi@urbanrowphoto.com		https://urbanrowphoto.com/			
+Turtleneck Films	Videography		Baltimore	Maryland	Baltimore, Washington DC and Philadelphia; travels further	Baltimore filmmaker producing natural, story-led wedding films, with recent work at Chesapeake Bay farm venues and travel available anywhere.	seth@turtleneckfilms.com		https://www.turtleneckfilms.com/		2500	package
+DJ Ray Bachman	Music		Baltimore	Maryland	Baltimore, Towson, Annapolis and Washington DC metro	Long-serving Baltimore wedding DJ offering free consultations and covering Baltimore County, Annapolis and the wider DC metro area.		443-722-6059	https://djraybachman.com/			
+Dessert & Company	Cake		Baltimore	Maryland		Baltimore custom cake shop designing tiered wedding cakes and dessert-table sweets, with both delivery and pickup available.	info@dessertandcompany.com	301-549-9244	https://www.dessertandcompany.com/			`,
+  },
+  {
+    name: "Annapolis: music, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Toussaint Productions	Music		Annapolis	Maryland	Maryland, DC, Virginia, Delaware, Pennsylvania and New Jersey	Annapolis wedding DJ company offering ceremony music and tiered reception packages, with lighting and photo booth add-ons for receptions.			https://www.toussaintproductions.com/	https://www.instagram.com/toussaintproductions/	1200	package
+Entertainment Excellence	Music		Shady Side	Maryland	Maryland and beyond	Open-format wedding DJ and MC outfit that mixes live across genres, reading the room to keep the dance floor full from first dance to last song.	EntertainmentExcellence.DMV@gmail.com	410-474-7030	https://entertainmentexcellencedmv.com/	https://www.instagram.com/deejceej/		
+Main & Market	Catering	914 Bay Ridge Road	Annapolis	Maryland	Annapolis, Baltimore and Washington, D.C.	Annapolis caterer whose event designers coordinate chefs, servers and bartenders, and can plan the rehearsal dinner as well as the wedding meal.	hello@mainandmarket.com	410-626-0388	https://catering.mainandmarket.com/catering-services/weddings/	https://www.instagram.com/mainandmarket914/		
+Graul's Market	Cake		Annapolis	Maryland	Baltimore, Annapolis and surrounding counties	Family-run Annapolis market bakery making tiered wedding and groom's cakes in buttercream or fondant, with delivery across the region.			https://www.graulsmarket.com/departments/			
+Be My Guest Catering	Catering	8258 Veterans Hwy, Ste 11	Millersville	Maryland	Maryland	Anne Arundel caterer building custom wedding menus, with full-service staffing and bar options for receptions and rehearsal dinners alike.			https://www.bmgcatering.com/wedding-catering/	https://www.instagram.com/bmgcatering/		`,
+  },
+  {
+    name: "Frederick: florals, videography and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Abloom, Ltd.	Florals		Frederick	Maryland	Frederick and surrounding area	Long-established Frederick studio florist designing wedding flowers and event décor for couples across Frederick and nearby towns.		301-898-5550	https://abloomltd.com/			
+By The Gatewoods	Videography		Frederick	Maryland	Maryland and destination weddings	Frederick duo making documentary-style wedding films with aerial coverage, plus combined photo and video packages for the whole day.			https://bythegatewoods.com/	https://www.instagram.com/bythegatewoods/	5800	package
+Another Slice of Cake	Cake	238a N Market St	Frederick	Maryland		Downtown Frederick bakery on North Market Street making custom wedding cakes in buttercream or fondant, alongside cupcakes and celebration bakes.			https://www.anothersliceofcake.com/	https://www.instagram.com/anothersliceofcakecafe/	7	per person
+Sol & Bloom	Florals		Frederick	Maryland		Frederick floral atelier designing bespoke wedding and event flowers, working closely with each couple on a tailored floral plan.	solandbloom@gmail.com	(240) 739-2930	https://www.solandbloom.com/	https://www.instagram.com/solandbloomfloralco/		`,
+  },
+  {
+    name: "Eastern Shore: hair & makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Willow Magnolia Beauty	Hair & Makeup		Chesapeake City	Maryland	East Coast incl. Maryland, Delaware, Pennsylvania, New Jersey, New York and Georgia	Travelling bridal hair and makeup team for brides and wedding parties, with salon trials, extensions and stay-on-site touch-up options.	willowmagnoliabeauty@gmail.com		https://www.willowmagnoliabeauty.com/		150	per person
+Arbor Lane Studios	Videography		Ocean City	Maryland	Maryland Eastern Shore and Delaware	Ocean City husband-and-wife photo and film studio making cinematic highlight films of coastal weddings, filming couples since 2006.	amanda@arborlanestudios.com	443-282-9254	https://arborlanestudios.com/wedding-videography	https://www.instagram.com/arborlanestudios/	2500	package`,
+  },
+  {
+    name: "Western Maryland: photography, hair & makeup, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Wolford Photography	Photography	120 Valley Street	Cumberland	Maryland	Cumberland, MD and beyond	Cumberland photographer covering weddings alongside family and newborn sessions, with a relaxed, story-led approach to the day.	lisa@wolfordphotography.com	301-338-8244	https://wolfordphotography.com/	https://www.instagram.com/wolfordphotography/		
+Poetically Brushed LLC	Hair & Makeup		Hagerstown	Maryland	MD, DC, VA, PA and WV	Travelling bridal hair and make-up team working from Hagerstown and Frederick across Maryland, DC, Virginia, Pennsylvania and West Virginia.			https://www.poeticallybrushed.com/	https://www.instagram.com/poeticallybrushedkim/	350	package
+Huckleberry's	Catering		Accident	Maryland	Deep Creek Lake and Garrett County	Deep Creek Lake caterer handling everything from lakeside rehearsal dinners to large barn weddings, with menus built around each couple.		(301) 750-5650	https://huckleberryscatering.com/	https://www.instagram.com/huckleberrys_catering/		
+Sagittarius Salon & Spa	Hair & Makeup	1136 Conrad Court	Hagerstown	Maryland		Hagerstown salon and spa at The Galleria offering bridal make-up alongside hair styling, with wedding pricing quoted on request.			https://www.sagittariussalon.com/	https://www.instagram.com/sagittariussalon/		
+Julie Anna's Joy Photography	Photography		La Vale	Maryland	Maryland	La Vale wedding and family photographer working across Maryland, offering full wedding collections and smaller packages for intimate days.	julieannasjoy@gmail.com	301.697.2834	https://www.julieannasjoy.com/	https://www.instagram.com/julieannasjoyphotography/	2850	package
+Monica's Sugar Studio LLC	Cake	19490 Garrett's Mill Rd	Knoxville	Maryland	Southern Washington County	Award-winning cake studio in Pleasant Valley near Brunswick, making tiered wedding cakes with gourmet and gluten-free flavour options.	monica@monicassugarstudio.com	(240) 367-4228	https://monicassugarstudio.com/	https://www.instagram.com/monicassugarstudio/		`,
+  },
+  {
+    name: "Southern Maryland: florals, photography, planning, music, catering, hair & makeup and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sunnyside Florals	Florals		Clements	Maryland	Southern Maryland	Small Clements flower farm growing seasonal blooms and arranging full-service wedding bouquets, buttonholes and centrepieces.	info@sunnysideflorals.com		https://sunnysideflorals.com/pages/weddings-sunnyside-florals	https://www.instagram.com/sunnysideflorals/		
+Ian Tresselt Design	Florals	28 Solomon's Island Rd. S.	Prince Frederick	Maryland		Prince Frederick floral studio designing seasonal wedding flowers from regional and US-grown blooms, with full-service and a la carte options.	ian@iantresseltdesign.com	443.695.5987	https://www.iantresselt.com/	https://www.instagram.com/iantresseltdesign/		
+Jennifer Mummert Photography	Photography		Leonardtown	Maryland	St. Mary's, Calvert and Charles counties; DC and the DMV	Documentary-style wedding photographer covering St. Mary's, Calvert and Charles counties, with packages for full days, elopements and courthouse weddings.	jmpsomd@gmail.com	240-903-0913	https://www.jmpsomd.com/weddings	https://www.instagram.com/jmpsomd/		
+The Classic Coord	Planning		Leonardtown	Maryland	Southern Maryland	Southern Maryland wedding coordinator handling timelines, vendor organisation and day-of logistics so couples and families can relax.	classiccoord@gmail.com	240-682-3315	https://www.theclassiccoord.com/		900	package
+AMAVI Wedding Events	Planning		La Plata	Maryland	DMV	Southern Maryland planning team offering full planning, design and weekend wedding coordination, joining early or picking up near the end.			https://www.amaviweddingevents.com/	https://www.instagram.com/amaviweddingevents/	1800	package
+Elite Beatz Entertainment	Music		Mechanicsville	Maryland	Southern Maryland and the East Coast	Long-running Southern Maryland DJ company, in business since 1998, also offering photo booths, photography and wedding rental packages.	info@elitebeatz.com	301-884-4152	https://elitebeatz.com/			
+Big T's Entertainment LLC	Music		Mechanicsville	Maryland	Southern Maryland, Maryland, Virginia and DC	Southern Maryland wedding DJ and MC team offering uplighting, mirror and 360 photo booths, audio guest books and party extras.	BigTsEntertainment@gmail.com	(240) 925-8038	https://bigtsentertainmentllc.com/			
+Jenius Creations	Music		California	Maryland	Southern Maryland and Northern Virginia	Harpist Jen Narkevicius plays wedding and event music from studios in Southern Maryland and Northern Virginia, and also teaches harp.			https://jeniuscreations.com/your-event/			
+Simply Q BBQ	Catering		Indian Head	Maryland		Indian Head barbecue caterer and food truck serving slow-cooked, smoke-finished menus for weddings and special events of any size.			https://simply-q.com/	https://www.instagram.com/simplyqbbq/		
+Bailey's Catering	Catering	21890 Society Hill Road	Leonardtown	Maryland	Southern Maryland	Leonardtown caterer with more than 30 years of experience, cooking full-service wedding menus for events across St. Mary's County.	baileyscateringmd@gmail.com	(301) 475-2699	https://www.baileyscatering.com/			
+Natural Looks by Victoria	Hair & Makeup		Huntingtown	Maryland	Calvert, Charles, St. Mary's, Prince George's and Anne Arundel counties; Annapolis and DC	On-location bridal makeup artist with a natural, less-is-more approach, serving Southern Maryland counties plus Annapolis and DC.	naturallooksmakeup@gmail.com	410-474-7620	https://www.naturallooksbyvictoria.com/	https://www.instagram.com/naturallooksbyvictoria/	450	per event
+SJR Beauty	Hair & Makeup		Leonardtown	Maryland	Southern Maryland	Southern Maryland salon team offering bridal hair and makeup for brides and wedding parties, with on-site bookings available.			https://sjrbeauty.com/	https://www.instagram.com/shirley_sjrbeauty/		
+Cakes by Christa	Cake		Waldorf	Maryland	DC metro area	Charles County baker designing custom tiered wedding cakes and cupcakes for the DC metro area, and teaching cake decorating classes locally.	Info@cakesbychrista.com		https://cakesbychrista.com/			`,
+  },
 ];
 
 export default batches;
