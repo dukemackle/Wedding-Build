@@ -183,6 +183,71 @@ it. Make a wide (1536×1024) and a tall (1024×1536) version of each.
 
 ---
 
+## Venue art: a real venue, painted (added 2026-11-12)
+
+The venue's own photo of its ceremony spot, turned into art for a custom guest
+site. Watercolour is the first style; more follow, so everything here says
+"venue art", never "watercolour".
+
+### Before you start
+
+- **Only from a venue with `photo_marketing_ok` true** (admin Venues: "Photos
+  OK to feature"), and not before the attorney review (legal audit A9) has
+  confirmed Terms §6 covers adapting the photo and running it through AI tools.
+- **ChatGPT → Settings → Data controls → "Improve the model for everyone": off.**
+  The photo is the venue's, licensed to us, not ours to train on.
+- Prefer a photo of the spot with **no people in it**.
+- Keep the venue's original photo (with its `photo_credit`) so new styles can
+  be made later without asking the venue again.
+
+### How to make one
+
+1. One chat per venue. Attach the venue's photo.
+2. Paste the **Venue rules** below, then one **Style** line, then ask for the
+   **wide** version (1536×1024, desktop). Then, in the same chat: *"Same
+   painting, same style, now as a tall 1024×1536 version for phones; recompose,
+   don't stretch."*
+3. Put the painting and the photo side by side. If anything was added, moved
+   or lost (an arch, a building, a tree line), regenerate. Only keep a piece
+   the venue would recognise as their place and you'd frame.
+4. Name the files `venue-<venue-slug>-<style>-wide.png` and `-tall.png` and
+   send them to Claude with the venue's name. Claude converts, wires them in,
+   previews at phone and desktop sizes, and adds the row to
+   `docs/site-art-sources.md`.
+
+### Venue rules (paste first, instead of the Rules block)
+
+> Turn the attached photograph into an original painting of this exact place.
+> Trace the scene faithfully: the same architecture, arches, trees, water,
+> hills and layout, in the same positions and proportions. Add nothing that
+> isn't in the photo and remove nothing important. Leave out any people, cars,
+> signs, chairs stacked to the side and other clutter. Fill the whole canvas
+> (not transparent). Keep the upper third calm and light (sky, soft wash or
+> plain paper) so names and a date can sit there. No text, no lettering, no
+> signature, no watermark, no border or frame. Elegant, high-end wedding
+> stationery quality. Original art, not in the style of any named living
+> artist.
+
+### Styles (one line per style; every venue uses the same line)
+
+Keep each line word for word so all venues in a style look like one artist's
+set. Each style lists the templates it suits; don't pair it with the others.
+
+- **watercolour** (Heirloom, Golden Hour, Riviera): Loose, luminous
+  watercolour on white paper. Soft wet edges, gentle blooms of colour, light
+  pencil underdrawing showing in places, generous white paper left unpainted
+  toward the edges. Natural, slightly muted colours true to the photo.
+- **engraving** (Heirloom, Classic, Editorial): A fine vintage steel engraving,
+  like a 19th-century book plate. Black ink only, crisp cross-hatching and
+  stippling for shade, clean white paper, no colour. Detailed but airy.
+
+Planned next (write the line here before making any): **pen and wash**
+(Homestead), **gouache** (Riviera), **papercut** (layered cut-paper, any
+template with a scene). Add a style only when it suits at least two templates,
+and keep the list short: three or four styles done well beat ten uneven ones.
+
+---
+
 ## Rules block (paste at the end of every prompt)
 
 > Transparent background (real PNG alpha), unless this prompt says otherwise.
