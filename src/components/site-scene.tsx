@@ -843,7 +843,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
       src={`${BATCH_A}/fr-panorama.webp`}
       alt=""
       aria-hidden="true"
-      width={1568}
+      width={1562}
       height={808}
       className={`${painted} site-scene block h-[clamp(240px,32vw,500px)] w-full object-cover object-[60%_70%]`}
     />
