@@ -77,6 +77,7 @@ const BACK_ART: Record<string, ArtLayer[]> = {
   "jharokha": [{ kind: "art", id: "back-scene", label: "Sandstone jharokha", art: "jharokhaStd", x: 0, y: 0, w: 1000 }],
   "plum-lattice": [{ kind: "art", id: "back-scene", label: "Plum blossom lattice", art: "plumLatticeBack", x: 0, y: 830, w: 1000 }],
   "adire": [{ kind: "art", id: "back-scene", label: "Indigo cloth", art: "adireStd", x: 0, y: 0, w: 1000 }],
+  "capiz": [{ kind: "art", id: "back-scene", label: "Capiz shells", art: "capizStd", x: 0, y: 0, w: 1000 }],
   "golden-hills": [{ kind: "art", id: "back-scene", label: "Golden hills", art: "goldenHillsStd", x: 0, y: 0, w: 1000 }],
   "deco-fan": [{ kind: "art", id: "back-scene", label: "Deco fan", art: "decoFanBack", x: 100, y: 870, w: 800 }],
   "starlit-terrace": [{ kind: "art", id: "back-scene", label: "Starlit terrace", art: "starlitStd", x: 0, y: 0, w: 1000 }],
@@ -115,7 +116,7 @@ export const BACK_QR = { x: 360, y: 600, w: 280 } as const;
  * type moves up by this much to leave it room (Coastal Sunset: the surf,
  * rocks and poppies, not a sliver of them, owner 2026-11-12).
  */
-const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250, "palm-shore": 200, "evergreen-ridge": 200, "meadow-vista": 200, "golden-barn": 200, "starlit-terrace": 200, "golden-hills": 200, "blush-garden": 200, "golden-magnolia": 200, "tuscan-engraving": 200, "vineyard-etching": 200, "deco-fan": 230, portico: 150, "iris-garden": 230, "gold-flourish": 200, "misty-ridge": 120, "boho-sunset": 200, "rose-ribbon": 200, "papel-courtyard": 200, "canopy": 200, "jharokha": 250, "plum-lattice": 200, "adire": 200 };
+const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250, "palm-shore": 200, "evergreen-ridge": 200, "meadow-vista": 200, "golden-barn": 200, "starlit-terrace": 200, "golden-hills": 200, "blush-garden": 200, "golden-magnolia": 200, "tuscan-engraving": 200, "vineyard-etching": 200, "deco-fan": 230, portico: 150, "iris-garden": 230, "gold-flourish": 200, "misty-ridge": 120, "boho-sunset": 200, "rose-ribbon": 200, "papel-courtyard": 200, "canopy": 200, "jharokha": 250, "plum-lattice": 200, "adire": 200, "capiz": 250 };
 const liftOf = (t: Pick<Template, "id" | "source">) => BACK_LIFT[t.source ?? t.id] ?? 0;
 
 /** Where a design's back puts the QR code. */

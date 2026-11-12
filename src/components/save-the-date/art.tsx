@@ -993,6 +993,7 @@ export const ART: Record<string, ArtDef> = {
   plumLatticeStd: batchA("Plum blossom lattice", "pl-std", 1000, 1400),
   plumLatticeBack: batchA("Plum blossom lattice", "pl-back", 1000, 900),
   adireStd: batchA("Indigo cloth", "ad-std", 1000, 1400),
+  capizStd: batchA("Capiz shells", "cz-std", 1000, 1400),
   starlitStd: batchA("Starlit terrace", "st-std", 1000, 1400),
   meadowVistaStd: batchA("Meadow vista", "mv-std", 1000, 1400),
   evergreenStd: batchA("Evergreen ridge", "ev-std", 1000, 1400),
