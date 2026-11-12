@@ -1128,6 +1128,33 @@ export const TEMPLATES: Template[] = [
     ],
   },
   {
+    id: "starlit-terrace",
+    name: "Starlit Terrace",
+    family: "Celestial & black tie",
+    mood: "A stone terrace by lantern light over moonlit hills and a starry night sky in watercolour, your names in ivory script.",
+    usesPhoto: false,
+    grain: 0.008,
+    palettes: [
+      { id: "ivory", label: "Ivory & gold", paper: "#08132f", ink: "#f3ead8", accent: "#e0b65a", muted: "#c9c3b4", onPhoto: "#ffffff" },
+      { id: "moonlight", label: "Moonlight", paper: "#08132f", ink: "#e8eef7", accent: "#b9c8e0", muted: "#b7c1d1", onPhoto: "#ffffff" },
+      { id: "candlelight", label: "Candlelight", paper: "#08132f", ink: "#f7e6c4", accent: "#f0c27a", muted: "#d4c3a2", onPhoto: "#ffffff" },
+    ],
+    pairings: [
+      { id: "starlit", label: "Garamond & script", display: "ebgaramond", script: "parisienne", sans: "ebgaramond" },
+      { id: "copperplate", label: "Copperplate", display: "cormorant", script: "pinyon", sans: "cormorant" },
+      { id: "brush", label: "Soft brush", display: "marcellus", script: "allura", sans: "marcellus" },
+    ],
+    layers: [
+      { kind: "art", id: "scene", label: "Starlit terrace", art: "starlitStd", x: 0, y: 0, w: 1000 },
+      { kind: "text", id: "save", label: "Save", bind: "custom", text: "Save", x: 420, y: 330, size: 70, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, anchor: "end", maxWidth: 300 },
+      { kind: "text", id: "the", label: "the", bind: "custom", text: "the", x: 500, y: 330, size: 60, font: "script", color: "ink", anchor: "middle", maxWidth: 130 },
+      { kind: "text", id: "dateWord", label: "Date", bind: "custom", text: "Date", x: 580, y: 330, size: 70, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, anchor: "start", maxWidth: 300 },
+      { kind: "art", id: "rule", label: "Rule", art: "rule", x: 430, y: 398, w: 140, color: "ink", opacity: 0.6 },
+      { kind: "text", id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, x: 500, y: 532, size: 140, font: "script", color: "ink", anchor: "middle", maxWidth: 860 },
+      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 680, size: 44, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, anchor: "middle", maxWidth: 760 },
+      { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 744, size: 30, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, anchor: "middle", maxWidth: 760 },
+    ],
+  },  {
     id: "golden-barn",
     name: "Golden Barn",
     family: "Western & ranch",
