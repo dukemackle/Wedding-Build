@@ -981,6 +981,7 @@ export const ART: Record<string, ArtDef> = {
   vineyardEtchingStd: batchA("Vineyard etching", "ve-std", 1000, 1400),
   decoFanStd: batchA("Deco fan", "df-std", 1000, 1400),
   decoFanBack: batchA("Deco fan", "df-back", 1000, 667),
+  porticoArch: batchA("Portico", "pt-arch", 1010, 840),
   starlitStd: batchA("Starlit terrace", "st-std", 1000, 1400),
   meadowVistaStd: batchA("Meadow vista", "mv-std", 1000, 1400),
   evergreenStd: batchA("Evergreen ridge", "ev-std", 1000, 1400),

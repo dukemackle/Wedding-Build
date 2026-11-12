@@ -249,6 +249,14 @@ export const SUITES: Suite[] = [
     siteColourways: { eucalyptus: "arch-eucalyptus", charcoal: "arch-charcoal", terracotta: "arch-clay" },
   },
   {
+    id: "portico",
+    name: "Portico",
+    card: "portico",
+    site: "portico",
+    names: "script",
+    siteColourways: { lake: "portico-lake", stone: "portico-stone", cypress: "portico-cypress" },
+  },
+  {
     id: "pressed-botanicals",
     name: "Pressed Botanicals",
     card: "pressed-botanicals",

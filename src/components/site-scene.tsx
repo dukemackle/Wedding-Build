@@ -886,6 +886,7 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   "blush-garden": "#f9f4ec",
   "golden-magnolia": "#f9efdf",
   "greenery-arch": "#faf4e7",
+  portico: "#f9f5eb",
   "pressed-botanicals": "#f9f3e6",
 };
 
@@ -940,6 +941,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
   "golden-barn": foot("hs-foot", 1600, 1400, "25%", sky("golden-barn")),
   "pressed-botanicals": foot("pb-panorama", 2000, 833, "15%", sky("pressed-botanicals"), true),
+  portico: foot("pt-foot", 2000, 900, "50%", sky("portico"), true),
   "greenery-arch": foot("gr-foot", 2000, 717, "50%", sky("greenery-arch"), true),
   "golden-magnolia": foot("gm-foot", 2000, 900, "0%", sky("golden-magnolia")),
   "blush-garden": foot("bl-foot", 1600, 1050, "70%", sky("blush-garden")),
