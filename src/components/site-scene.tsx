@@ -876,6 +876,7 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   // Its painting already rises out of plain paper, so the page stays paper.
   "evergreen-ridge": "#f9f5eb",
   "meadow-vista": "#f9f3e6",
+  "golden-barn": "#f9f3e6",
 };
 
 /** Paintings whose page is a texture from the painting (a wall), not a sky colour. */
@@ -890,11 +891,11 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   // meadow and peaks, kept exactly as one picture and set at the foot of the
   // page (owner, 2026-11-12). Its top fades into the paper.
   "painted-wildflowers": (
-    <div aria-hidden="true" className="site-scene relative h-[clamp(420px,62vw,980px)] w-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_18%)]">
+    <div aria-hidden="true" className="site-scene relative h-[clamp(520px,62vw,980px)] w-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_8%)]">
       {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
-      <img src={`${BATCH_A}/wildflower-left.webp`} alt="" width={300} height={880} className={`${painted} absolute bottom-[clamp(120px,18vw,300px)] left-0 h-full w-[17vw] max-w-[230px] object-cover object-left-bottom [mask-image:linear-gradient(to_right,#000_55%,transparent)] sm:w-[19vw]`} />
+      <img src={`${BATCH_A}/wildflower-left.webp`} alt="" width={300} height={880} className={`${painted} absolute bottom-[clamp(120px,18vw,300px)] left-0 h-[calc(100%-clamp(120px,18vw,300px))] w-auto max-w-none [mask-image:linear-gradient(to_right,#000_55%,transparent)] `} />
       {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
-      <img src={`${BATCH_A}/wildflower-right.webp`} alt="" width={300} height={880} className={`${painted} absolute bottom-[clamp(120px,18vw,300px)] right-0 h-full w-[17vw] max-w-[230px] object-cover object-right-bottom [mask-image:linear-gradient(to_left,#000_55%,transparent)] sm:w-[19vw]`} />
+      <img src={`${BATCH_A}/wildflower-right.webp`} alt="" width={300} height={880} className={`${painted} absolute bottom-[clamp(120px,18vw,300px)] right-0 h-[calc(100%-clamp(120px,18vw,300px))] w-auto max-w-none [mask-image:linear-gradient(to_left,#000_55%,transparent)] `} />
       {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
       <img src={`${BATCH_A}/wildflower-meadow.webp`} alt="" width={1000} height={440} className={`${painted} absolute inset-x-0 bottom-0 h-[clamp(240px,40vw,560px)] w-full object-cover object-top`} />
     </div>
@@ -927,6 +928,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "riviera-terrace": foot("fr-panorama", 1936, 806, "70%", sky("riviera-terrace")),
   "regatta-bay": foot("rg-panorama", 1572, 822, "60%", sky("regatta-bay")),
   "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
+  "golden-barn": foot("hs-foot", 1600, 1400, "25%", sky("golden-barn")),
   "meadow-vista": foot("mv-foot", 1600, 1393, "45%", sky("meadow-vista")),
   "evergreen-ridge": foot("ev-foot", 1600, 1300, "30%", sky("evergreen-ridge")),
 };

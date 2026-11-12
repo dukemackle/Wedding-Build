@@ -971,6 +971,7 @@ export const ART: Record<string, ArtDef> = {
   highlandStd: batchA("Alpine lake", "highland-std", 1024, 1434),
   highlandInv: batchA("Alpine lake", "highland-std", 1024, 1434),
   highlandForest: batchA("Pines and rocks", "highland-forest", 162, 170),
+  goldenBarnStd: batchA("Golden barn", "hs-std", 1000, 1400),
   meadowVistaStd: batchA("Meadow vista", "mv-std", 1000, 1400),
   evergreenStd: batchA("Evergreen ridge", "ev-std", 1000, 1400),
   shorelineStd: batchA("Palm on the shore", "sh-std", 1000, 1400),

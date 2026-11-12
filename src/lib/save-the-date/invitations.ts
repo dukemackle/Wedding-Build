@@ -41,6 +41,7 @@ export const INVITATION_SOURCES = [
   "palm-shore",
   "evergreen-ridge",
   "meadow-vista",
+  "golden-barn",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -83,6 +84,18 @@ const art = (l: Omit<ArtLayer, "kind">): ArtLayer => ({ kind: "art", ...l });
  * "art-" only where the RSVP back should not carry them (it has its own, back.ts).
  */
 const LAID_OUT: Record<string, Layer[]> = {
+  "golden-barn": [
+    art({ id: "scene", label: "Golden barn", art: "goldenBarnStd", x: 0, y: 0, w: 1000 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", wrap: 18, lineHeight: 1.7, y: 112, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 560 }),
+    text({ id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, y: 280, size: 124, font: "script", color: "ink", maxWidth: 880 }),
+    text({ id: "request", label: "Request", bind: "request", wrap: 30, lineHeight: 1.7, y: 386, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 620 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 445, y: 462, w: 110, color: "ink", opacity: 0.6 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 528, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 760 }),
+    text({ id: "time", label: "Time", bind: "time", y: 570, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, maxWidth: 720 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 640, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 700 }),
+    text({ id: "place", label: "Town", bind: "place", y: 680, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 760, size: 54, font: "script", color: "ink", maxWidth: 640 }),
+  ],
   "meadow-vista": [
     art({ id: "scene", label: "Meadow vista", art: "meadowVistaStd", x: 0, y: 0, w: 1000 }),
     text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", wrap: 18, lineHeight: 1.7, y: 112, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 560 }),
@@ -94,7 +107,8 @@ const LAID_OUT: Record<string, Layer[]> = {
     text({ id: "venue", label: "Venue", bind: "venue", y: 640, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 700 }),
     text({ id: "place", label: "Town", bind: "place", y: 680, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
     text({ id: "note", label: "Reception", bind: "note", y: 760, size: 54, font: "script", color: "ink", maxWidth: 640 }),
-  ],  "evergreen-ridge": [
+  ],
+  "evergreen-ridge": [
     art({ id: "scene", label: "Evergreen ridge", art: "evergreenStd", x: 0, y: 0, w: 1000 }),
     text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", wrap: 18, lineHeight: 1.7, y: 112, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 560 }),
     text({ id: "names", label: "Names", bind: "names", wrap: 18, valign: "middle", lineHeight: 0.92, y: 280, size: 124, font: "script", color: "ink", maxWidth: 880 }),

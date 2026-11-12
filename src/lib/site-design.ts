@@ -730,6 +730,7 @@ export const SCENES = [
   { id: "palm-shore", label: "Painted palm beach", place: "foot" },
   { id: "evergreen-ridge", label: "Painted evergreen ridge", place: "foot" },
   { id: "meadow-vista", label: "Painted meadow vista", place: "foot" },
+  { id: "golden-barn", label: "Painted golden barn", place: "foot" },
   // Around the names.
   { id: "gilded", label: "Gold flowers", place: "surround" },
   { id: "peonies", label: "Painted peonies", place: "surround" },
@@ -1037,6 +1038,9 @@ export const PALETTES = [
   { id: "meadow-navy", name: "Meadow navy", family: "blue", bg: "#fbf3e6", ink: "#1b2e45", heading: "#1b2e45", accent: "#1b2e45" },
   { id: "meadow-forest", name: "Meadow green", family: "green", bg: "#fbf3e6", ink: "#253f2e", heading: "#253f2e", accent: "#253f2e" },
   { id: "meadow-poppy", name: "Poppy", family: "orange", bg: "#fbf3e6", ink: "#5c2a14", heading: "#7a3418", accent: "#7a3418" },
+  { id: "barn-wood", name: "Barnwood", family: "brown", bg: "#f9f3e6", ink: "#4a3324", heading: "#4a3324", accent: "#4a3324" },
+  { id: "barn-pine", name: "Pine", family: "green", bg: "#f9f3e6", ink: "#2f4232", heading: "#2f4232", accent: "#2f4232" },
+  { id: "barn-dusk", name: "Mountain dusk", family: "blue", bg: "#f9f3e6", ink: "#3b3f58", heading: "#3b3f58", accent: "#3b3f58" },
   { id: "vista-olive", name: "Olive", family: "green", bg: "#f9f3e6", ink: "#3f4a2a", heading: "#3f4a2a", accent: "#3f4a2a" },
   { id: "vista-lupine", name: "Lupine", family: "purple", bg: "#f9f3e6", ink: "#3f3a5e", heading: "#3f3a5e", accent: "#3f3a5e" },
   { id: "vista-earth", name: "Earth", family: "brown", bg: "#f9f3e6", ink: "#5b3f2a", heading: "#5b3f2a", accent: "#5b3f2a" },
