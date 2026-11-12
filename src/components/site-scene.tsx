@@ -888,6 +888,7 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   "greenery-arch": "#faf4e7",
   portico: "#f9f5eb",
   "pressed-botanicals": "#f9f3e6",
+  "iris-garden": "#fdefda",
 };
 
 /** Paintings whose page is a texture from the painting (a wall), not a sky colour. */
@@ -940,6 +941,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "regatta-bay": foot("rg-panorama", 1572, 822, "60%", sky("regatta-bay")),
   "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
   "golden-barn": foot("hs-foot", 1600, 1400, "25%", sky("golden-barn")),
+  "iris-garden": foot("ir-panorama", 1942, 809, "35%", sky("iris-garden")),
   "pressed-botanicals": foot("pb-panorama", 2000, 833, "15%", sky("pressed-botanicals"), true),
   portico: foot("pt-foot", 2000, 900, "50%", sky("portico"), true),
   "greenery-arch": foot("gr-foot", 2000, 717, "50%", sky("greenery-arch"), true),

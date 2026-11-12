@@ -58,6 +58,7 @@ const BACK_ART: Record<string, ArtLayer[]> = {
     { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 },
   ],
   // The whole painting, the back's type on a paper panel laid over it.
+  "iris-garden": [{ kind: "art", id: "back-scene", label: "Iris garden", art: "irisGardenStd", x: 0, y: 0, w: 1000 }],
   "pressed-botanicals": [{ kind: "art", id: "back-scene", label: "Pressed botanicals", art: "pressedStd", x: 0, y: 0, w: 1000 }],
   // The arch over the initials and the website address.
   // A small arch at the foot, under the type.
@@ -105,7 +106,7 @@ export const BACK_QR = { x: 360, y: 600, w: 280 } as const;
  * type moves up by this much to leave it room (Coastal Sunset: the surf,
  * rocks and poppies, not a sliver of them, owner 2026-11-12).
  */
-const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250, "palm-shore": 200, "evergreen-ridge": 200, "meadow-vista": 200, "golden-barn": 200, "starlit-terrace": 200, "golden-hills": 200, "blush-garden": 200, "golden-magnolia": 200, "tuscan-engraving": 200, "vineyard-etching": 200, "deco-fan": 230, portico: 150 };
+const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250, "palm-shore": 200, "evergreen-ridge": 200, "meadow-vista": 200, "golden-barn": 200, "starlit-terrace": 200, "golden-hills": 200, "blush-garden": 200, "golden-magnolia": 200, "tuscan-engraving": 200, "vineyard-etching": 200, "deco-fan": 230, portico: 150, "iris-garden": 230 };
 const liftOf = (t: Pick<Template, "id" | "source">) => BACK_LIFT[t.source ?? t.id] ?? 0;
 
 /** Where a design's back puts the QR code. */
