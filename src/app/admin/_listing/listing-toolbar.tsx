@@ -20,6 +20,7 @@ export const STATUS_LABELS: Record<ListingStatus, string> = {
   incomplete: "Incomplete",
   claimed: "Claimed",
   no_email: "No email",
+  photos_ok: "Photos OK to feature",
 };
 
 // Chips that count problems to work through, as opposed to plain slices.
