@@ -58,6 +58,7 @@ const BACK_ART: Record<string, ArtLayer[]> = {
     { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 },
   ],
   // The whole painting, the back's type on a paper panel laid over it.
+  "pressed-botanicals": [{ kind: "art", id: "back-scene", label: "Pressed botanicals", art: "pressedStd", x: 0, y: 0, w: 1000 }],
   "blush-garden": [{ kind: "art", id: "back-scene", label: "Blush garden", art: "blushGardenStd", x: 0, y: 0, w: 1000 }],
   "golden-hills": [{ kind: "art", id: "back-scene", label: "Golden hills", art: "goldenHillsStd", x: 0, y: 0, w: 1000 }],
   "starlit-terrace": [{ kind: "art", id: "back-scene", label: "Starlit terrace", art: "starlitStd", x: 0, y: 0, w: 1000 }],

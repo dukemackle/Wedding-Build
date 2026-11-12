@@ -842,7 +842,8 @@ const painted = "pointer-events-none select-none";
  * (PAINTED_SKY), so the whole site reads as one scene. A phone keeps the
  * painting at least 360px tall and trims its sides at `x`, the part worth keeping.
  */
-const foot = (file: string, w: number, h: number, x: string, sky: string): ReactNode => (
+/** `whole`: two separate clusters at the corners, so phones get the whole width, never a zoomed crop that loses one. */
+const foot = (file: string, w: number, h: number, x: string, sky: string, whole = false): ReactNode => (
   // A ramp above the painting lands the page on exactly the colour of the
   // painting's top edge, which then fades in over it: one picture, no seam.
   <div aria-hidden="true" className="site-scene -mt-[clamp(160px,18vw,320px)] pt-[clamp(160px,18vw,320px)]" style={{ background: `linear-gradient(to bottom, transparent, ${sky} clamp(160px,18vw,320px))` }}>
@@ -853,7 +854,7 @@ const foot = (file: string, w: number, h: number, x: string, sky: string): React
       width={w}
       height={h}
       style={{ objectPosition: `${x} 100%` }}
-      className={`${painted} block h-auto min-h-[360px] w-full object-cover [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.6)_7%,#000_16%)] sm:min-h-0 sm:[object-position:50%_100%!important] 2xl:max-h-[820px]`}
+      className={`${painted} block h-auto ${whole ? "min-h-0" : "min-h-[360px]"} w-full object-cover [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.6)_7%,#000_16%)] sm:min-h-0 sm:[object-position:50%_100%!important] 2xl:max-h-[820px]`}
     />
   </div>
 );
@@ -880,6 +881,7 @@ export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
   "starlit-terrace": "#08132f",
   "golden-hills": "#f9f4ec",
   "blush-garden": "#f9f4ec",
+  "pressed-botanicals": "#f9f3e6",
 };
 
 /** Paintings whose page is a texture from the painting (a wall), not a sky colour. */
@@ -932,6 +934,7 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
   "regatta-bay": foot("rg-panorama", 1572, 822, "60%", sky("regatta-bay")),
   "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
   "golden-barn": foot("hs-foot", 1600, 1400, "25%", sky("golden-barn")),
+  "pressed-botanicals": foot("pb-panorama", 2000, 833, "15%", sky("pressed-botanicals"), true),
   "blush-garden": foot("bl-foot", 1600, 1050, "70%", sky("blush-garden")),
   "golden-hills": foot("gl-foot", 1600, 1200, "35%", sky("golden-hills")),
   "starlit-terrace": foot("st-panorama", 2000, 833, "12%", sky("starlit-terrace")),
