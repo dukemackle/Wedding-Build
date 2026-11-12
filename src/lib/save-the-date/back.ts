@@ -57,7 +57,7 @@ const BACK_ART: Record<string, ArtLayer[]> = {
     { kind: "art", id: "back-right", label: "Wildflowers", art: "wildflowerRight", x: 760, y: 0, w: 300 },
     { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 },
   ],
-  "coastal-sunset": [{ kind: "art", id: "back-coast", label: "Coast and poppies", art: "coastalFoot", x: 0, y: 1205, w: 1000 }],
+  "coastal-sunset": [{ kind: "art", id: "back-coast", label: "Coast and poppies", art: "coastalFoot", x: 0, y: 1000, w: 1000 }],
   "black-tie": [{ kind: "art", id: "back-frame", label: "Double frame", art: "doubleFrame", x: 0, y: 0, w: 1000, color: "ink" }],
 };
 
@@ -71,6 +71,17 @@ const PANEL: Record<string, ArtLayer> = {
 
 /** Where the QR code sits, in artboard units. */
 export const BACK_QR = { x: 360, y: 600, w: 280 } as const;
+
+/**
+ * Designs whose back carries a deep piece of painting along the foot: the
+ * type moves up by this much to leave it room (Coastal Sunset: the surf,
+ * rocks and poppies, not a sliver of them, owner 2026-11-12).
+ */
+const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200 };
+const liftOf = (t: Pick<Template, "id" | "source">) => BACK_LIFT[t.source ?? t.id] ?? 0;
+
+/** Where a design's back puts the QR code. */
+export const backQrFor = (t: Pick<Template, "id" | "source">) => ({ ...BACK_QR, y: BACK_QR.y - liftOf(t) });
 
 const text = (l: Omit<TextLayer, "kind" | "anchor" | "x">): TextLayer => ({ kind: "text", anchor: "middle", x: 500, ...l });
 
@@ -100,7 +111,8 @@ export function backLayers(t: Template, doc: CardDoc, site: string | null): Laye
   const panel = PANEL[id];
   const rsvp = invitation || Boolean(doc.back?.rsvp);
   const reply = invitation ? (doc.content.reply ?? "").trim() : "";
-  return [
+  const lift = liftOf(t);
+  const type: Layer[] = [
     ...(panel ? [{ kind: "art", id: "back-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.6 } satisfies ArtLayer, panel] : []),
     ...(panel ? [] : carried.length ? carried : [{ kind: "art", id: "back-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.45 } satisfies ArtLayer]),
     ...(NO_MONOGRAM.has(id) ? [] : [text({ id: "back-monogram", label: "Initials", bind: "monogram", joiner: " & ", y: 330, size: 84, font: "script", color: "accent", maxWidth: 520 })]),
@@ -111,6 +123,8 @@ export function backLayers(t: Template, doc: CardDoc, site: string | null): Laye
     ...(travel ? [text({ id: "back-travel", label: "Travel", bind: "custom", text: travel, y: 1056, size: 30, wrap: 34, lineHeight: 1.4, font: "display", italic: true, color: "ink", opacity: 0.85, maxWidth: 680 })] : []),
     text({ id: "back-date", label: "Date", bind: "date", dateStyle: "dots", y: 1190, size: 16, font: "sans", color: "muted", upper: true, tracking: 0.4, maxWidth: 560 }),
   ];
+  const art = type.filter((l) => l.kind === "art" && l.id !== "back-rule");
+  return [...art, ...type.filter((l) => !art.includes(l)).map((l) => (lift ? { ...l, y: l.y - lift } : l))];
 }
 
 /** The front's design with its layers swapped for the back's. */
