@@ -834,95 +834,52 @@ const STRIPS: Draw = {
 const BATCH_A = "/site-art/batch-a";
 const painted = "pointer-events-none select-none";
 
+/**
+ * The painted suites' landscapes close the page, edge to edge under the
+ * footer, like Highland's moor; the couple's own photo has the top
+ * (owner, 2026-11-12). Each fades in from its top edge, out of the page's
+ * sky tint (PAINTED_SKY), so the whole site reads as one scene. A phone
+ * keeps the painting tall and trims its sides at `x`, the part worth keeping.
+ */
+const foot = (file: string, w: number, h: number, x: string): ReactNode => (
+  // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+  <img
+    src={`${BATCH_A}/${file}.webp`}
+    alt=""
+    aria-hidden="true"
+    width={w}
+    height={h}
+    style={{ objectPosition: `${x} 100%` }}
+    className={`${painted} site-scene block h-[clamp(260px,36vw,600px)] w-full object-cover [mask-image:linear-gradient(to_bottom,transparent,#000_28%)] sm:[object-position:50%_100%!important]`}
+  />
+);
+
 const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
-  // Regatta: the sailboat's mast reaches into the sky, so the bay runs edge
-  // to edge under the names.
-  "regatta-bay": (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img
-      src={`${BATCH_A}/rg-panorama.webp`}
-      alt=""
-      aria-hidden="true"
-      width={1572}
-      height={822}
-      className={`${painted} site-scene block h-[clamp(240px,32vw,500px)] w-full object-cover object-[60%_60%]`}
-    />
-  ),
-  // French Riviera: bougainvillea fills the painting's sky, so the terrace
-  // runs edge to edge under the names rather than behind them.
-  "riviera-terrace": (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img
-      src={`${BATCH_A}/fr-panorama.webp`}
-      alt=""
-      aria-hidden="true"
-      width={1562}
-      height={808}
-      className={`${painted} site-scene block h-[clamp(240px,32vw,500px)] w-full object-cover object-[60%_70%]`}
-    />
-  ),
-  // Garden Arch: the lake terrace is busy all over, so it runs edge to edge
-  // under the names rather than behind them.
-  "lake-terrace": (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img
-      src={`${BATCH_A}/ga-panorama.webp`}
-      alt=""
-      aria-hidden="true"
-      width={1600}
-      height={815}
-      className={`${painted} site-scene block h-[clamp(240px,30vw,480px)] w-full object-cover object-[50%_55%]`}
-    />
-  ),
-  // The suite's wide lake painting right under the names, edge to edge at
-  // every width (owner, 2026-11-11). A phone keeps it at least 240px tall,
-  // trimming the sides rather than shrinking the peaks to a sliver.
-  "alpine-lake": (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img
-      src={`${BATCH_A}/highland-panorama.webp`}
-      alt=""
-      aria-hidden="true"
-      width={952}
-      height={372}
-      className={`${painted} site-scene block h-auto min-h-[240px] w-full object-cover object-bottom`}
-    />
-  ),
+  "alpine-lake": foot("highland-panorama", 952, 372, "50%"),
+  "coastal-sunset": foot("coastal-panorama", 992, 500, "62%"),
+  "terrace-arch": foot("terrace-panorama", 998, 526, "50%"),
+  "joshua-sunset": foot("jt-panorama", 1600, 595, "18%"),
+  "sonoran-sunset": foot("sd-panorama", 1600, 900, "80%"),
+  "lake-terrace": foot("ga-panorama", 1600, 815, "70%"),
+  "tuscan-villa": foot("pm-panorama", 1600, 842, "72%"),
+  "riviera-terrace": foot("fr-panorama", 1562, 808, "62%"),
+  "regatta-bay": foot("rg-panorama", 1572, 822, "60%"),
+};
+
+/** The sky each painted foot fades out of: the page deepens to it towards the bottom. */
+export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
+  "alpine-lake": "#dfe7ec",
+  "coastal-sunset": "#f6dccd",
+  "terrace-arch": "#f1dcc8",
+  "joshua-sunset": "#f1d9c4",
+  "sonoran-sunset": "#f5e2cc",
+  "lake-terrace": "#e1eaf1",
+  "tuscan-villa": "#e6e9ee",
+  "riviera-terrace": "#e0e9f3",
+  "regatta-bay": "#e0e9f2",
 };
 
 const SURROUNDS: Draw = {
-  // Postmark: the Tuscan villa painting behind the hero, the names on its sky
-  // at the left; on a phone it sits under the type, the villa in view.
-  "tuscan-villa": () => (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img src={`${BATCH_A}/pm-panorama.webp`} alt="" width={1600} height={842} className={`${painted} absolute inset-x-0 bottom-0 h-[280px] w-full object-cover object-[70%_100%] [mask-image:linear-gradient(to_bottom,transparent,#000_35%)] sm:inset-0 sm:h-full sm:object-bottom sm:[mask-image:none]`} />
-  ),
-  // Sonoran Desert: the painting behind the hero, the names on its pale sky;
-  // on a phone it sits under the type, the big saguaro in view.
-  "sonoran-sunset": () => (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img src={`${BATCH_A}/sd-panorama.webp`} alt="" width={1600} height={900} className={`${painted} absolute inset-x-0 bottom-0 h-[280px] w-full object-cover object-[80%_100%] [mask-image:linear-gradient(to_bottom,transparent,#000_35%)] sm:inset-0 sm:h-full sm:object-bottom sm:[mask-image:none]`} />
-  ),
-  // Joshua Tree Sunset: the desert painting behind the hero, edge to edge,
-  // the tree at the left. On a phone it sits under the type instead, so the
-  // tree never runs through the names.
-  "joshua-sunset": () => (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img src={`${BATCH_A}/jt-panorama.webp`} alt="" width={1600} height={595} className={`${painted} absolute inset-x-0 bottom-0 h-[280px] w-full object-cover object-[18%_100%] [mask-image:linear-gradient(to_bottom,transparent,#000_35%)] sm:inset-0 sm:h-full sm:object-bottom sm:[mask-image:none]`} />
-  ),
-  // Bougainvillea Terrace: the arch painting behind the hero, edge to edge,
-  // the names in its sky. Phones keep the arch's middle.
-  "terrace-arch": () => (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img src={`${BATCH_A}/terrace-panorama.webp`} alt="" width={998} height={526} className={`${painted} absolute inset-0 h-full w-full object-cover object-[50%_100%]`} />
-  ),
-  // Coastal Sunset: the whole Big Sur painting behind the hero, edge to edge
-  // (owner's mockup), the names on its sky. Narrow screens keep the height
-  // and trim the sides, leaning right so the sun stays in.
-  "coastal-sunset": () => (
-    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
-    <img src={`${BATCH_A}/coastal-panorama.webp`} alt="" width={992} height={500} className={`${painted} absolute inset-0 h-full w-full object-cover object-[62%_100%]`} />
-  ),
   // Peonies at two corners, off the edges: the top left and the bottom right.
   peonies: () => (
     <>

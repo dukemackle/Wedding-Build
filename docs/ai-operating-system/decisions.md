@@ -366,3 +366,18 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Why: most couples print save the dates; the interim art prints soft.
 - Revisit: when the seven PNGs arrive (Claude upscales, cuts the small
   pieces, re-previews, then opens the PR).
+
+## 2026-11-12: Suite websites put the couple's photo on top, the painting at the foot
+
+- Decision (owner): on the painted suites' guest sites the couple's own photo
+  takes the top (framed on the paper under their names; names, date and place
+  alone until a photo is uploaded). The suite's watercolour closes the page,
+  edge to edge under the footer, and the page deepens from paper to the
+  painting's sky colour towards it, like the Highland moor template.
+- Applies to every painted suite (Highland Lake and those added 2026-11-12);
+  Modern Black-Tie keeps its black-and-white photo top. The cards don't change.
+- Owner: keep every live template and give couples more options, so the
+  paintings are also offered on all templates (Design › Background ›
+  Scene › Paintings).
+- Why: the paintings had replaced the couple's photo; couples expect to see
+  themselves first.

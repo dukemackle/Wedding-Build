@@ -595,8 +595,7 @@ function SignatureHero({ wedding }: { wedding: PublicWedding }) {
  */
 function StationeryHero({ wedding }: { wedding: PublicWedding }) {
   const design = useSiteDesign();
-  const { scene } = resolveDesign(design);
-  const { scriptNames, theme } = resolveDesign(design);
+  const { scene, scriptNames, theme } = resolveDesign(design);
   // Script names, or italic ones (Bougainvillea): mixed case on one line, as on the card.
   const script = scriptNames || theme.italicNames;
   const { joiner } = design.names;
@@ -604,6 +603,10 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
   const second = wedding.partner_b_name ?? "";
   const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
   const date = wedding.wedding_date ? formatDate(wedding.wedding_date).replace(/^\w+, /, "") : null;
+  // The couple's own photo, framed on the paper under their names (owner,
+  // 2026-11-12); the suite's painting closes the page instead (site-scene.tsx).
+  // No photo yet: the names, date and place on the paper alone.
+  const photo = wedding.hero_photo_url;
   const caps = "uppercase tracking-[0.28em]";
   const rule = "h-px bg-[color-mix(in_srgb,var(--site-accent)_45%,transparent)]";
   const longest = Math.max(4, first.length, second.length);
@@ -618,25 +621,11 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
   return (
     <header
       className={`site-hero-plain relative overflow-hidden px-5 sm:px-8 ${
-        sides
-          ? "pb-[clamp(170px,27vw,400px)] pt-14 sm:pt-20"
-          : scene === "joshua-sunset"
-            ? "pb-[270px] pt-12 sm:pb-[clamp(140px,12vw,200px)] sm:pt-14"
-            : scene === "sonoran-sunset" || scene === "tuscan-villa"
-              ? "pb-[270px] pt-12 sm:pb-[clamp(220px,24vw,360px)] sm:pt-12"
-            : scene === "terrace-arch"
-            ? "pb-[300px] pt-28 sm:pb-[clamp(190px,17vw,300px)] sm:pt-[clamp(110px,11vw,170px)]"
-            : scene === "coastal-sunset"
-            ? "pb-[340px] pt-12 sm:pb-[clamp(200px,24vw,380px)] sm:pt-16"
-            : scene === "peonies" ? "pb-20 pt-24 sm:pb-36 sm:pt-28" : "pb-10 pt-12 sm:pb-12 sm:pt-16"
+        sides ? "pb-[clamp(170px,27vw,400px)] pt-14 sm:pt-20" : scene === "peonies" ? "pb-20 pt-24 sm:pb-36 sm:pt-28" : "pb-10 pt-12 sm:pb-12 sm:pt-16"
       }`}
     >
       <SiteScene where="surround" />
-      <div
-        className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : STANDARD_WIDTH} ${
-          scene === "joshua-sunset" ? "lg:ml-[34vw] lg:mr-[4vw] lg:w-auto" : scene === "sonoran-sunset" || scene === "tuscan-villa" ? "lg:ml-[4vw] lg:mr-[36vw] lg:w-auto" : ""
-        }`}
-      >
+      <div className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : STANDARD_WIDTH}`}>
         <SiteText slot="hero.kicker" as="p" className={`text-[11px] text-ink sm:text-[13px] ${caps}`}>
           {design.occasion.kind === "renewal" ? "We're renewing our vows" : "Together with their families"}
         </SiteText>
@@ -667,7 +656,17 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
           )}
         </SiteText>
         <p className="mt-4 font-display text-lg italic tracking-[0.06em] text-ink sm:text-xl">invite you to celebrate their wedding</p>
-        <span className={`mt-6 block w-24 sm:w-32 ${rule}`} aria-hidden="true" />
+        {photo ? (
+          // Framed like a print on the paper: a fine accent rule round a cream mat.
+          // Portrait on a phone, landscape on a wide screen.
+          <div className="mt-8 w-full max-w-[min(100%,46rem)] border border-[color-mix(in_srgb,var(--site-accent)_40%,transparent)] bg-[var(--color-card)] p-2 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.45)] sm:p-3">
+            <div className="site-hero-photo relative aspect-[4/5] w-full overflow-hidden bg-[var(--site-photo)] sm:aspect-[3/2]">
+              <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 640px) 736px, 100vw" className="hero-kenburns object-cover" />
+            </div>
+          </div>
+        ) : (
+          <span className={`mt-6 block w-24 sm:w-32 ${rule}`} aria-hidden="true" />
+        )}
         {date && <p className={`mt-6 font-display text-xl text-forest sm:text-2xl ${caps}`}>{date}</p>}
         {(wedding.venue_name || place) && (
           <p className={`mt-3 text-[11px] leading-relaxed text-ink sm:text-xs ${caps}`}>

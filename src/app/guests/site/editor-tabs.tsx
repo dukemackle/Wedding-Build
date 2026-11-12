@@ -440,6 +440,9 @@ export function PageArtworkSection({
 
 /** The scene groups in Background › Scene, by where each one sits. */
 const SCENE_GROUPS = [
+  // The suites' watercolours (and Highland's moor), offered on every template,
+  // not just their own suite's, so couples can mix them (owner, 2026-11-12).
+  { place: "foot", label: "Paintings", hint: "Along the bottom of the page" },
   { place: "band", label: "Landscapes", hint: "Under your names" },
   { place: "strip", label: "Strips", hint: "Across the top" },
   { place: "surround", label: "Frames", hint: "Around your names", note: "Frames show on tops without a photo." },

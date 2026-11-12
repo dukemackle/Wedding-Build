@@ -1,16 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { SiteScene } from "@/components/site-scene";
+import { PAINTED_SKY, SiteScene } from "@/components/site-scene";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ALL_FONTS_HREF,
   designCssVars,
   DEFAULT_SITE_DESIGN,
+  resolveDesign,
   siteFontsHref,
   type SiteDesign,
   type TextSlotId,
 } from "@/lib/site-design";
+
+/**
+ * A painted suite's page deepens from the paper towards its painting's sky,
+ * so the landscape at the foot fades in out of it (owner, 2026-11-12).
+ * Left alone when the couple chose their own background pattern or texture.
+ */
+function paintedSky(design: SiteDesign): CSSProperties {
+  const sky = PAINTED_SKY[resolveDesign(design).scene];
+  if (!sky || design.background.pattern !== "none" || design.background.texture !== "none") return {};
+  return {
+    backgroundImage: `linear-gradient(to bottom, var(--color-parchment) 0%, var(--color-parchment) 30%, color-mix(in srgb, ${sky} 70%, var(--color-parchment)) 100%)`,
+  };
+}
 
 /** What the editor sends into its preview frame whenever the draft changes. */
 export const DESIGN_MESSAGE = "wren:site-design";
@@ -152,7 +166,7 @@ export function GuestSiteTheme({
       />
       <div
         className="guest-site flex flex-1 flex-col bg-parchment font-body text-ink"
-        style={designCssVars(design) as CSSProperties}
+        style={{ ...(designCssVars(design) as CSSProperties), ...paintedSky(design) }}
         data-scroll={design.motion.scroll}
         data-photo={design.motion.photo}
         data-opening={design.motion.opening}

@@ -99,3 +99,9 @@ French Riviera (2026-11-12): id `french-riviera`, separate from the older vector
 painting has bougainvillea across its sky, so it is a full-width band under the names.
 Mediterranean (Amalfi, cobalt tiles and lemons) is waiting: its zip's art is 498x265 and the card
 previews 458px wide, too small to look sharp; needs the artwork at 1000px+ like the other zips.
+
+Website layout (owner, 2026-11-12): the couple's photo is framed at the top of every painted suite's
+site; the painting is a `foot` scene (site-scene.tsx `PAINTED_BANDS` via `foot()`), and the page
+deepens to its sky (`PAINTED_SKY`, applied in guest-site-theme.tsx). Paintings are pickable on every
+template (editor-tabs.tsx `SCENE_GROUPS`, "Paintings"). For a new suite: add the panorama with
+`foot(file, w, h, phoneX)` and its sky colour, and give the scene `place: "foot"`.
