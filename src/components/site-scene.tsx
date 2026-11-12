@@ -840,7 +840,7 @@ const painted = "pointer-events-none select-none";
  * (owner, 2026-11-12). Shown whole (never trimmed at the top), it fades in
  * softly out of the page, which deepens to the painting's own sky colour
  * (PAINTED_SKY), so the whole site reads as one scene. A phone keeps the
- * painting at least 300px tall and trims its sides at `x`, the part worth keeping.
+ * painting at least 360px tall and trims its sides at `x`, the part worth keeping.
  */
 const foot = (file: string, w: number, h: number, x: string): ReactNode => (
   // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
@@ -851,7 +851,7 @@ const foot = (file: string, w: number, h: number, x: string): ReactNode => (
     width={w}
     height={h}
     style={{ objectPosition: `${x} 100%` }}
-    className={`${painted} site-scene block h-auto min-h-[300px] w-full object-cover [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.35)_16%,#000_40%)] sm:min-h-0 sm:[object-position:50%_100%!important] 2xl:max-h-[820px]`}
+    className={`${painted} site-scene block h-auto min-h-[360px] w-full object-cover [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.6)_7%,#000_16%)] sm:min-h-0 sm:[object-position:50%_100%!important] 2xl:max-h-[820px]`}
   />
 );
 
