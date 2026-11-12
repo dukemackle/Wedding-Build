@@ -865,6 +865,12 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
 };
 
 const SURROUNDS: Draw = {
+  // Postmark: the Tuscan villa painting behind the hero, the names on its sky
+  // at the left; on a phone it sits under the type, the villa in view.
+  "tuscan-villa": () => (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img src={`${BATCH_A}/pm-panorama.webp`} alt="" width={1600} height={842} className={`${painted} absolute inset-x-0 bottom-0 h-[280px] w-full object-cover object-[70%_100%] [mask-image:linear-gradient(to_bottom,transparent,#000_35%)] sm:inset-0 sm:h-full sm:object-bottom sm:[mask-image:none]`} />
+  ),
   // Sonoran Desert: the painting behind the hero, the names on its pale sky;
   // on a phone it sits under the type, the big saguaro in view.
   "sonoran-sunset": () => (

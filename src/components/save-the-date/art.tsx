@@ -474,6 +474,29 @@ export const ART: Record<string, ArtDef> = {
       );
     },
   },
+  /** Postmark: a narrower airmail edge in the accent and muted colours (red and blue by default), so the ink stays for the type. */
+  airmailSoft: {
+    kind: "vector",
+    label: "Airmail border",
+    aspect: 1.4,
+    draw: (w, pal) => {
+      const s = w / 1000;
+      const band = 22;
+      const stripes: ReactNode[] = [];
+      for (let i = -1400; i < 1000 + 1400; i += 40) {
+        stripes.push(<path key={i} d={`M${i} 0L${i + 20} 0L${i + 20 + 1400} 1400L${i + 1400} 1400Z`} fill={(i / 40) % 2 ? pal.muted : pal.accent} />);
+      }
+      const id = `airmail-soft-${pal.id}`;
+      return (
+        <g transform={`scale(${s})`}>
+          <clipPath id={id}>
+            <path d={`M0 0H1000V1400H0Z M${band} ${band}V${1400 - band}H${1000 - band}V${band}Z`} clipRule="evenodd" />
+          </clipPath>
+          <g clipPath={`url(#${id})`}>{stripes}</g>
+        </g>
+      );
+    },
+  },
   stamp: {
     kind: "vector",
     label: "Stamp",
@@ -948,6 +971,8 @@ export const ART: Record<string, ArtDef> = {
   highlandStd: batchA("Alpine lake", "highland-std", 1024, 1434),
   highlandInv: batchA("Alpine lake", "highland-std", 1024, 1434),
   highlandForest: batchA("Pines and rocks", "highland-forest", 162, 170),
+  postmarkStd: batchA("Tuscan villa", "pm-std", 1000, 527),
+  postmarkInv: batchA("Tuscan vineyards", "pm-inv", 1000, 525),
   sonoranStd: batchA("Sonoran desert", "sd-std", 1000, 1400),
   sonoranInv: batchA("Sonoran desert (invitation)", "sd-inv", 1000, 1400),
   gardenStd: batchA("Garden arch over the lake", "ga-save-the-date", 1500, 920),

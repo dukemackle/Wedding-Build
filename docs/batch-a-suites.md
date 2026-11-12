@@ -48,6 +48,7 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Heirloom Peony | peony clusters top-left and bottom-right, centre clear | Waiting; interim art cut from the mockup in place |
 | Wildflower Meadow | flowers up both sides, meadow and peaks along the bottom, centre clear | Waiting; interim art in place |
 | Modern Black-Tie | none (type only) | Done |
+| Postmark | Tuscan villa and cypresses (cards, site), vineyards (invitation); airmail edge | **Done** (owner's zip, 2026-11-12; olive leaves painted out, owner) |
 | Sonoran Desert | saguaros, sandstone mountain, sage and ocotillo; full-bleed sky | **Done** (owner's zip, 2026-11-12) |
 | Garden Arch | rose-hung stone arch over an Italian lake, villa, cypresses | **Done** (owner's zip, 2026-11-12) |
 | Joshua Tree Sunset | Joshua tree, boulders, purple mountains, sunset in the bottom third; text-free art supplied | **Done** (owner's zip with text-free artwork, 2026-11-12) |
@@ -87,3 +88,7 @@ cards use the lettered references with the type removed by `skyfill.py` (a sky-o
 normalized fill plus paper grain): `sd-std.webp`, `sd-inv.webp`; the website panorama is the zip's.
 Garden Arch (2026-11-12): the zip's text-free art keyed onto the paper (`ga-*.webp`); the website lake
 terrace is busy all over, so it is a full-width band under the names rather than behind them.
+
+Postmark (2026-11-12) is the Tuscany suite. The owner disliked the olive leaves hanging over the top, so
+they are painted out of the sky (`tools/deleaf.py`); the stamp and postmark are left off (no small
+images at the top). The airmail edge is vector (`airmailSoft`, accent and muted stripes).
