@@ -162,6 +162,7 @@ const WIDTH_BY_PATH: Record<string, PageWidth> = {
   "/admin/ask": "wide",
   "/admin/audit-log": "wide",
   "/admin/errors": "wide",
+  "/admin/venue-art": "wide",
 };
 
 export function AdminContent({ children }: { children: React.ReactNode }) {

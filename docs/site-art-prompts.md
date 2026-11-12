@@ -202,6 +202,11 @@ site. Watercolour is the first style; more follow, so everything here says
 
 ### How to make one
 
+Use **admin → Venue art** (`/admin/venue-art`): it lists consenting venues,
+copies the prompts below in one click, and stores the uploads with their
+source photo, credit and consent date. The prompt text there comes from
+`src/lib/venue-art.ts`; change it there and here together.
+
 1. One chat per venue. Attach the venue's photo.
 2. Paste the **Venue rules** below, then one **Style** line, then ask for the
    **wide** version (1536×1024, desktop). Then, in the same chat: *"Same
