@@ -8,7 +8,7 @@ import { templateById as cardTemplateById } from "@/lib/save-the-date/templates"
 import type { CardDoc } from "@/lib/save-the-date/types";
 import { siteMatches, siteMatchingCard, suiteForCard } from "@/lib/suites";
 import { PanelLabel } from "./editor-tabs";
-import { SitePageThumb } from "./site-page-thumb";
+import { TemplatePicture } from "./template-picture";
 
 /**
  * Templates: finished looks to start from (src/lib/site-templates.ts). Each
@@ -36,7 +36,6 @@ export function TemplatesTab({
             <TemplateCard
               key={t.id}
               template={t}
-              design={design}
               selected={design.template === t.id}
               onPick={() => onChange(applyTemplate(design, t))}
             />
@@ -146,16 +145,13 @@ function Extras({
 
 function TemplateCard({
   template,
-  design,
   selected,
   onPick,
 }: {
   template: SiteTemplate;
-  design: SiteDesign;
   selected: boolean;
   onPick: () => void;
 }) {
-  const look = useMemo(() => applyTemplate(design, template), [design, template]);
   return (
     <button
       type="button"
@@ -167,7 +163,7 @@ function TemplateCard({
       }`}
     >
       <span className="relative block aspect-[3/4]">
-        <SitePageThumb design={look} />
+        <TemplatePicture id={template.id} upright />
       </span>
       <span className="block truncate border-t border-hairline px-2.5 py-2 text-[13px] font-medium text-ink">{template.name}</span>
     </button>
