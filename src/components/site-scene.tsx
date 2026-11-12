@@ -852,6 +852,12 @@ const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
 };
 
 const SURROUNDS: Draw = {
+  // Bougainvillea Terrace: the arch painting behind the hero, edge to edge,
+  // the names in its sky. Phones keep the arch's middle.
+  "terrace-arch": () => (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS
+    <img src={`${BATCH_A}/terrace-panorama.webp`} alt="" width={998} height={526} className={`${painted} absolute inset-0 h-full w-full object-cover object-[50%_100%]`} />
+  ),
   // Coastal Sunset: the whole Big Sur painting behind the hero, edge to edge
   // (owner's mockup), the names on its sky. Narrow screens keep the height
   // and trim the sides, leaning right so the sun stays in.

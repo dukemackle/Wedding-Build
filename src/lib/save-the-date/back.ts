@@ -57,6 +57,8 @@ const BACK_ART: Record<string, ArtLayer[]> = {
     { kind: "art", id: "back-right", label: "Wildflowers", art: "wildflowerRight", x: 760, y: 0, w: 300 },
     { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 },
   ],
+  // The whole painting, the back's type on a paper panel laid over it.
+  bougainvillea: [{ kind: "art", id: "back-scene", label: "Bougainvillea terrace", art: "terraceStd", x: 0, y: 0, w: 1000 }],
   "coastal-sunset": [{ kind: "art", id: "back-coast", label: "Coast and poppies", art: "coastalFoot", x: 0, y: 1000, w: 1000 }],
   "black-tie": [{ kind: "art", id: "back-frame", label: "Double frame", art: "doubleFrame", x: 0, y: 0, w: 1000, color: "ink" }],
 };
@@ -67,6 +69,7 @@ const NO_MONOGRAM = new Set(["decogala", "pressed"]);
 /** Designs whose type only reads on a panel (the front sets it on a badge). */
 const PANEL: Record<string, ArtLayer> = {
   hotellabel: { kind: "art", id: "back-panel", label: "Panel", art: "panel", x: 110, y: 170, w: 780, color: "onPhoto" },
+  bougainvillea: { kind: "art", id: "back-panel", label: "Panel", art: "panel", x: 110, y: 170, w: 780, color: "paper", opacity: 0.94 },
 };
 
 /** Where the QR code sits, in artboard units. */
@@ -113,7 +116,7 @@ export function backLayers(t: Template, doc: CardDoc, site: string | null): Laye
   const reply = invitation ? (doc.content.reply ?? "").trim() : "";
   const lift = liftOf(t);
   const type: Layer[] = [
-    ...(panel ? [{ kind: "art", id: "back-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.6 } satisfies ArtLayer, panel] : []),
+    ...(panel ? [...(carried.length ? carried : [{ kind: "art", id: "back-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.6 } satisfies ArtLayer]), panel] : []),
     ...(panel ? [] : carried.length ? carried : [{ kind: "art", id: "back-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.45 } satisfies ArtLayer]),
     ...(NO_MONOGRAM.has(id) ? [] : [text({ id: "back-monogram", label: "Initials", bind: "monogram", joiner: " & ", y: 330, size: 84, font: "script", color: "accent", maxWidth: 520 })]),
     { kind: "art", id: "back-rule", label: "Rule", art: "rule", x: 460, y: 376, w: 80, color: "accent" },

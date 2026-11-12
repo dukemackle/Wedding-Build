@@ -31,6 +31,7 @@ export const INVITATION_SOURCES = [
   "wildflower-meadow",
   "black-tie",
   "coastal-sunset",
+  "bougainvillea",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -73,6 +74,21 @@ const art = (l: Omit<ArtLayer, "kind">): ArtLayer => ({ kind: "art", ...l });
  * "art-" only where the RSVP back should not carry them (it has its own, back.ts).
  */
 const LAID_OUT: Record<string, Layer[]> = {
+  // The wording in the arch's sky, the venue on the terrace floor, as on the save the date.
+  bougainvillea: [
+    art({ id: "scene", label: "Bougainvillea terrace", art: "terraceStd", x: 0, y: 0, w: 1000 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", y: 236, size: 22, font: "sans", weight: 600, color: "ink", upper: true, tracking: 0.18, maxWidth: 500 }),
+    text({ id: "nameA", label: "First name", bind: "nameA", y: 340, size: 96, font: "display", italic: true, weight: 500, color: "ink", maxWidth: 620 }),
+    text({ id: "and", label: "And", bind: "custom", text: "and", y: 392, size: 34, font: "display", italic: true, color: "ink", maxWidth: 120 }),
+    text({ id: "nameB", label: "Second name", bind: "nameB", y: 470, size: 96, font: "display", italic: true, weight: 500, color: "ink", maxWidth: 640 }),
+    text({ id: "request", label: "Request", bind: "request", y: 530, size: 27, font: "display", italic: true, weight: 500, color: "ink", maxWidth: 640 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "formalDay", y: 594, size: 30, font: "display", weight: 600, color: "ink", upper: true, tracking: 0.08, maxWidth: 680 }),
+    text({ id: "year", label: "Year", bind: "date", dateStyle: "yearWords", when: "numericDate", y: 628, size: 17, font: "sans", weight: 600, color: "ink", upper: true, tracking: 0.18, maxWidth: 640 }),
+    text({ id: "time", label: "Time", bind: "time", y: 662, size: 23, font: "display", italic: true, weight: 500, color: "ink", maxWidth: 640 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 1238, size: 40, font: "display", weight: 600, color: "ink", upper: true, tracking: 0.1, maxWidth: 780 }),
+    text({ id: "place", label: "Town", bind: "place", y: 1284, size: 20, font: "sans", weight: 600, color: "ink", upper: true, tracking: 0.2, maxWidth: 700 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 1348, size: 32, font: "display", italic: true, weight: 500, color: "ink", maxWidth: 640 }),
+  ],
   "coastal-sunset": [
     // The painting sits lower than on the save the date, so the clouds start under the wording.
     art({ id: "scene", label: "Big Sur coast", art: "coastalStd", x: 0, y: 150, w: 1000 }),

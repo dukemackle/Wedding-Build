@@ -902,6 +902,33 @@ export const TEMPLATES: Template[] = [
     ],
   },
   {
+    id: "bougainvillea",
+    name: "Bougainvillea Terrace",
+    family: "Mediterranean destination",
+    mood: "A terracotta arch hung with bougainvillea, potted olive and geraniums, hills beyond, in watercolour.",
+    usesPhoto: false,
+    grain: 0.01,
+    palettes: [
+      { id: "terracotta", label: "Terracotta", paper: "#fbf0e3", ink: "#9a4220", accent: "#9a4220", muted: "#a5603f", onPhoto: "#fbf0e3" },
+      { id: "fuchsia", label: "Bougainvillea", paper: "#fbf0e3", ink: "#8c1f4f", accent: "#8c1f4f", muted: "#9c4b6c", onPhoto: "#fbf0e3" },
+      { id: "olive", label: "Olive", paper: "#fbf0e3", ink: "#4b5530", accent: "#4b5530", muted: "#68704c", onPhoto: "#fbf0e3" },
+    ],
+    pairings: [
+      { id: "terrace", label: "Garamond", display: "cormorant", script: "cormorant", sans: "cormorant" },
+      { id: "letterpress", label: "Letterpress", display: "ebgaramond", script: "ebgaramond", sans: "ebgaramond" },
+      { id: "classic", label: "Classic", display: "playfair", script: "playfair", sans: "montserrat" },
+    ],
+    layers: [
+      { kind: "art", id: "scene", label: "Bougainvillea terrace", art: "terraceStd", x: 0, y: 0, w: 1000 },
+      { kind: "text", id: "save", label: "Save", bind: "custom", text: "Save", x: 500, y: 371, size: 120, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, anchor: "middle", maxWidth: 520 },
+      { kind: "text", id: "the", label: "the", bind: "custom", text: "the", x: 500, y: 452, size: 86, font: "display", italic: true, weight: 500, color: "ink", anchor: "middle", maxWidth: 300 },
+      { kind: "text", id: "dateWord", label: "Date", bind: "custom", text: "Date", x: 500, y: 558, size: 120, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, anchor: "middle", maxWidth: 520 },
+      { kind: "text", id: "names", label: "Names", bind: "names", x: 500, y: 1238, size: 104, font: "display", italic: true, weight: 500, color: "ink", anchor: "middle", maxWidth: 820 },
+      { kind: "text", id: "date", label: "Date", bind: "date", dateStyle: "long", x: 500, y: 1318, size: 50, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, anchor: "middle", maxWidth: 760 },
+      { kind: "text", id: "place", label: "Place", bind: "place", x: 500, y: 1374, size: 30, font: "display", weight: 600, color: "ink", upper: true, tracking: 0.16, anchor: "middle", maxWidth: 820 },
+    ],
+  },
+  {
     id: "black-tie",
     name: "Modern Black-Tie",
     family: "Celestial & black tie",

@@ -48,6 +48,7 @@ top or between lines: fine rules only (owner, 2026-11-11).
 | Heirloom Peony | peony clusters top-left and bottom-right, centre clear | Waiting; interim art cut from the mockup in place |
 | Wildflower Meadow | flowers up both sides, meadow and peaks along the bottom, centre clear | Waiting; interim art in place |
 | Modern Black-Tie | none (type only) | Done |
+| Bougainvillea Terrace | terracotta arch, bougainvillea, potted olive and geraniums, hills; full-bleed | **Done** (owner's painting and website mockup, 2026-11-12) |
 | Coastal Sunset | Big Sur cliffs, sea, sun and poppies in the bottom half | **Done** (owner's painting and website mockup, 2026-11-12) |
 
 Coastal Sunset (added 2026-11-12) also has its own website painting, cut from the owner's website
@@ -66,3 +67,7 @@ Print sharpness: 1024px is below 300dpi at 5x7, so the finals get upscaled toget
 - Downstream site sections use the existing "invitation" and "evening" page styles. The mockups'
   painted section dividers (mist band, lavender sprigs, pines) are cut but not placed yet.
 - Card colourways change the ink only; the watercolours keep their own colours.
+
+Bougainvillea Terrace (2026-11-12) is a full-bleed painting with the type set on it (sky and terrace
+floor), so nothing is keyed: the words are inpainted away (`terrace-std.webp`, `terrace-panorama.webp`).
+Its backs lay a paper panel over the whole painting for the QR code. Names are italic, not script.

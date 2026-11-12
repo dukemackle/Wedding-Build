@@ -596,7 +596,9 @@ function SignatureHero({ wedding }: { wedding: PublicWedding }) {
 function StationeryHero({ wedding }: { wedding: PublicWedding }) {
   const design = useSiteDesign();
   const { scene } = resolveDesign(design);
-  const script = resolveDesign(design).scriptNames;
+  const { scriptNames, theme } = resolveDesign(design);
+  // Script names, or italic ones (Bougainvillea): mixed case on one line, as on the card.
+  const script = scriptNames || theme.italicNames;
   const { joiner } = design.names;
   const first = wedding.partner_a_name ?? "";
   const second = wedding.partner_b_name ?? "";
@@ -607,7 +609,9 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
   const longest = Math.max(4, first.length, second.length);
   // Script names: big, sized so the longer name fits a phone; capitals smaller and spaced.
   const size = script
-    ? `min(clamp(3.6rem,8.5vw,7.5rem), calc((100vw - 2.5rem) / ${(longest * 0.42).toFixed(2)}))`
+    ? scriptNames
+      ? `min(clamp(3.6rem,8.5vw,7.5rem), calc((100vw - 2.5rem) / ${(longest * 0.42).toFixed(2)}))`
+      : `min(clamp(3rem,6.5vw,5.75rem), calc((100vw - 2.5rem) / ${(longest * 0.46).toFixed(2)}))`
     : `min(clamp(2.4rem,5vw,4rem), calc((100vw - 9rem) / ${(longest * 0.82).toFixed(2)}))`;
   // Painted flowers down both sides leave a narrower column, and a meadow under it.
   const sides = scene === "painted-wildflowers";
@@ -616,7 +620,9 @@ function StationeryHero({ wedding }: { wedding: PublicWedding }) {
       className={`site-hero-plain relative overflow-hidden px-5 sm:px-8 ${
         sides
           ? "pb-[clamp(170px,27vw,400px)] pt-14 sm:pt-20"
-          : scene === "coastal-sunset"
+          : scene === "terrace-arch"
+            ? "pb-[300px] pt-28 sm:pb-[clamp(190px,17vw,300px)] sm:pt-[clamp(110px,11vw,170px)]"
+            : scene === "coastal-sunset"
             ? "pb-[340px] pt-12 sm:pb-[clamp(200px,24vw,380px)] sm:pt-16"
             : scene === "peonies" ? "pb-20 pt-24 sm:pb-36 sm:pt-28" : "pb-10 pt-12 sm:pb-12 sm:pt-16"
       }`}
