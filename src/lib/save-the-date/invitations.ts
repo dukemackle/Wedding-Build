@@ -46,6 +46,7 @@ export const INVITATION_SOURCES = [
   "golden-hills",
   "blush-garden",
   "pressed-botanicals",
+  "greenery-arch",
 ];
 
 export const INVITATION_PREFIX = "inv-";
@@ -111,6 +112,18 @@ const LAID_OUT: Record<string, Layer[]> = {
     text({ id: "venue", label: "Venue", bind: "venue", y: 820, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 700 }),
     text({ id: "place", label: "Town", bind: "place", y: 860, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
     text({ id: "note", label: "Reception", bind: "note", y: 940, size: 54, font: "script", color: "ink", maxWidth: 640 }),
+  ],
+  "greenery-arch": [
+    art({ id: "arch", label: "Greenery arch", art: "greeneryArch", x: 25, y: 400, w: 950 }),
+    text({ id: "host", label: "Hosts", bind: "headline", text: "Together with their families", wrap: 18, lineHeight: 1.7, y: 250, size: 22, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 560 }),
+    text({ id: "names", label: "Names", bind: "names", wrap: 14, valign: "middle", lineHeight: 0.92, y: 670, size: 108, font: "script", color: "ink", maxWidth: 620 }),
+    text({ id: "request", label: "Request", bind: "request", wrap: 30, lineHeight: 1.7, y: 900, size: 23, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.16, maxWidth: 620 }),
+    art({ id: "rule", label: "Rule", art: "rule", x: 445, y: 968, w: 110, color: "ink", opacity: 0.6 }),
+    text({ id: "date", label: "Date", bind: "date", dateStyle: "weekday", y: 1030, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 760 }),
+    text({ id: "time", label: "Time", bind: "time", y: 1072, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.12, maxWidth: 720 }),
+    text({ id: "venue", label: "Venue", bind: "venue", y: 1140, size: 31, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.1, maxWidth: 700 }),
+    text({ id: "place", label: "Town", bind: "place", y: 1180, size: 21, font: "display", weight: 500, color: "ink", upper: true, tracking: 0.14, maxWidth: 640 }),
+    text({ id: "note", label: "Reception", bind: "note", y: 1260, size: 54, font: "script", color: "ink", maxWidth: 640 }),
   ],
   "blush-garden": [
     art({ id: "scene", label: "Blush garden", art: "blushGardenStd", x: 0, y: 0, w: 1000 }),
