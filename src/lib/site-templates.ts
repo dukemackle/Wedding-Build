@@ -4,6 +4,7 @@ import {
   MOTION_PRESETS,
   NO_BACKGROUND,
   PALETTES,
+  sceneById,
   themeById,
   type FallingId,
   type FontPairingId,
@@ -823,10 +824,12 @@ export function applyTemplate(design: SiteDesign, t: SiteTemplate): SiteDesign {
     ornament: t.ornament ?? theme.ornament ?? "rule",
     // Art, scenes and falling extras are optional (owner, 2026-10-21): a
     // template starts with the couple's photo and nothing else over it.
-    // `withExtras` adds the template's own when they ask for them.
+    // `withExtras` adds the template's own when they ask for them. A painted
+    // suite's painting at the foot of the page is the design itself, not a
+    // decoration, so it comes on with the template (owner, 2026-11-13).
     art: { id: null, placement: "sides" },
     hero: t.hero,
-    scene: null,
+    scene: t.scene && sceneById(t.scene).place === "foot" ? t.scene : null,
     pageStyle: t.pageStyle ?? "cards",
     layouts: { ...design.layouts, rsvp: t.rsvp ?? "card" },
     background: { ...NO_BACKGROUND, ...t.background },
