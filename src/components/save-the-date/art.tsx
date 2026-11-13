@@ -996,6 +996,7 @@ export const ART: Record<string, ArtDef> = {
   capizStd: batchA("Capiz shells", "cz-std", 1000, 1400),
   hibiscusStd: batchA("Tropical hibiscus", "hb-std", 1000, 1400),
   autumnOrchardStd: batchA("Autumn orchard", "ao-std", 1000, 1400),
+  winterSolsticeStd: batchA("Winter solstice", "ws-std", 1000, 1400),
   starlitStd: batchA("Starlit terrace", "st-std", 1000, 1400),
   meadowVistaStd: batchA("Meadow vista", "mv-std", 1000, 1400),
   evergreenStd: batchA("Evergreen ridge", "ev-std", 1000, 1400),

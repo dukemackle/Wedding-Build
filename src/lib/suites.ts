@@ -209,6 +209,14 @@ export const SUITES: Suite[] = [
     siteColourways: { sunset: "hills-sunset", sage: "hills-sage", rose: "hills-rose" },
   },
   {
+    id: "winter-solstice",
+    name: "Winter Solstice",
+    card: "winter-solstice",
+    site: "winter-solstice",
+    names: "script",
+    siteColourways: { frost: "ws-frost", evergreen: "ws-evergreen", ember: "ws-ember" },
+  },
+  {
     id: "autumn-orchard",
     name: "Autumn Orchard",
     card: "autumn-orchard",
