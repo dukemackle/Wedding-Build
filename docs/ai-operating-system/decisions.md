@@ -382,3 +382,9 @@ rules, batch self-merge, 50-state coverage, page widths) and
   attorney review (A9) confirms Terms §6 covers adapting photos and AI
   processing before any outreach email asks for photos. AI output likely
   isn't copyrightable in the US, so others could copy the paintings.
+
+## 2026-11-13: Landing closing photo is fixed to the champagne toast
+- Decision: the "Ready when you are." band on the home page always shows the
+  toast photo (Al Elmes, Unsplash); the per-visit rotation is gone.
+- Why: the owner prefers it. It now renders on the server, so the band no
+  longer sits navy before the photo swaps in.
