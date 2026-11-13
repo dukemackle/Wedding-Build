@@ -325,6 +325,12 @@ export type Venue = BusinessFacts & {
   website: string | null;
   /** Gallery photos, cover first. `image_url` mirrors the cover. */
   photo_urls: string[];
+  /** The business opted in to its photos being used on the homepage, in
+   *  marketing and in guest-site template designs (0167, Terms §6). */
+  photo_marketing_ok: boolean;
+  photo_marketing_ok_at: string | null;
+  /** "Photo: …" credit to show wherever a listing photo is used. */
+  photo_credit: string | null;
   address: string | null;
   /** "Starting at", whole dollars, and what that price covers. */
   price_from: number | null;
@@ -413,6 +419,9 @@ export type VenueSubmission = {
   preferred_vendors: ClaimPreferredVendor[];
   spaces: ClaimSpace[];
   photo_urls: string[];
+  /** Opt-in to marketing and template use of the photos, and their credit (0167). */
+  photo_marketing_ok: boolean;
+  photo_credit: string | null;
   created_at: string;
   reviewed_at: string | null;
   /** How they found us (0153, src/lib/attribution.ts). */
@@ -469,6 +478,9 @@ export type VendorSubmission = {
   details: VendorClaimDetails;
   faqs: ClaimFaq[];
   photo_urls: string[];
+  /** Opt-in to marketing and template use of the photos, and their credit (0167). */
+  photo_marketing_ok: boolean;
+  photo_credit: string | null;
   created_at: string;
   reviewed_at: string | null;
   /** How they found us (0153, src/lib/attribution.ts). */
@@ -501,6 +513,12 @@ export type Vendor = BusinessFacts & {
   contact_email: string | null;
   /** Gallery photos, cover first. `image_url` mirrors the cover. */
   photo_urls: string[];
+  /** The business opted in to its photos being used on the homepage, in
+   *  marketing and in guest-site template designs (0167, Terms §6). */
+  photo_marketing_ok: boolean;
+  photo_marketing_ok_at: string | null;
+  /** "Photo: …" credit to show wherever a listing photo is used. */
+  photo_credit: string | null;
   contact_phone: string | null;
   website: string | null;
   service_area: string | null;
@@ -964,6 +982,26 @@ export type GuestPost = {
   seating_table_id: string | null;
   /** Phone wall-clock time the photo was taken, no zone (0159). */
   taken_local: string | null;
+};
+
+export type VenueArtStyle = "watercolour" | "engraving" | "pen-and-wash" | "gouache" | "papercut";
+
+/** A painting of a venue made from its own photo (0168). Admin-only. */
+export type VenueArt = {
+  id: string;
+  venue_id: string;
+  style: VenueArtStyle;
+  source_photo_url: string;
+  photo_credit: string | null;
+  consent_at: string | null;
+  /** Paths in the private `venue-art` bucket. */
+  wide_path: string | null;
+  tall_path: string | null;
+  status: "draft" | "approved";
+  approved_at: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
 };
 
 /** A photo, story or quote the couple added to their guest site. */

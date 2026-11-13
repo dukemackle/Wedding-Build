@@ -2327,6 +2327,19 @@ IVAN G Weddings, Flowers & Events	Florals	2600 SE 7th Place	Homestead	Florida	Ho
 KateAsFlowers	Florals		Miami	Florida		Miami floral designer creating full wedding flowers: bridal and bridesmaid bouquets, ceremony and reception arrangements, tablescapes and floral hair braids.	info@kateasflowers.com	(347) 265-3705	https://kateasflowers.com/	https://www.instagram.com/kateasflowers/	3000	package
 `,
   },
+  {
+    name: "Destin and 30A: Catering, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Culinary Catering 365	Catering		Fort Walton Beach	Florida	Fort Walton Beach, Destin and 30A	Emerald Coast wedding and event caterer led by chef Heyward McKenzie, building custom menus around each couple's tastes, dietary needs and budget.	info@culinarycatering365.com	(850) 428-3060	https://www.culinarycatering365.com/			
+Goodman Productions	Videography		Panama City Beach	Florida	30A, Destin and Panama City Beach	Panama City Beach wedding film studio whose most common package delivers more than 40 minutes of footage from the day, covering 30A and Destin.			https://www.goodmanproco.com/			
+`,
+  },
+  {
+    name: "Daytona and New Smyrna Beach: Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+You & I Pictures	Videography		New Smyrna Beach	Florida	Daytona Beach, Orlando, St. Augustine and destination weddings	New Smyrna Beach wedding film studio run by Kyle and Kassie since 2008, covering Daytona Beach, Orlando, St. Augustine and destinations.	youandipictures@gmail.com	386-689-3402	https://youandipictures.com/			
+`,
+  },
 ];
 
 export default batches;

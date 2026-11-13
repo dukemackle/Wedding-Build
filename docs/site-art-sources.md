@@ -48,3 +48,15 @@ listed here is what remains.
 |---|---|---|---|
 | `heirloom/arch.webp`, `corner.webp`, `ledge.webp`, `divider.webp` | AI-generated (ChatGPT), owner-commissioned, 2026-10-29, from the prompts in `docs/site-art-prompts.md` | Owner's under OpenAI's terms (US copyright unlikely for AI output, so others could copy it) | The "Heirloom garden" set (`ART_SUITES` in `src/lib/site-design.ts`). Converted from the transparent PNGs to WebP with alpha; the arch's trailing ends are cut at 1360px and faded; the others trimmed to their painted area. PNG originals are kept by the owner, not in the repo. |
 | `batch-a/*.webp` (97 files) | AI-generated (ChatGPT) reference mockups the owner approved, 2026-11-11 (Batch A reference pack: Highland, Heirloom, Wildflower; Coastal Sunset, Bougainvillea Terrace Joshua Tree Sunset, Sonoran Desert, Garden Arch, Postmark, French Riviera, Regatta, Palm Shore, Evergreen, Meadow Vista and Golden Barn added 2026-11-12; Starlit Terrace (owner's "Midnight" zip) added 2026-11-12; Golden Hills (owner's "Golden Hour" zip) added 2026-11-12; Blush Garden added 2026-11-12 (ChatGPT: adapted from an existing botanical study, recoloured); Pressed Botanicals (owner's "Pressed" zip) added 2026-11-12; Greenery Arch (owner's "Laurel Arch" zip) added 2026-11-12; Golden Magnolia added 2026-11-12 (ChatGPT: recomposed from a generated study); Tuscan Engraving added 2026-11-12 (ChatGPT: sepia adaptation of its painted Tuscan study); Vineyard Etching (owner's "Engraved" zip) added 2026-11-12; Deco Fan (owner's "Deco Gala" zip) added 2026-11-12; Portico added 2026-11-12; Iris Garden added 2026-11-12; Gold Flourish added 2026-11-12; Misty Ridge (owner's "Whitespace" zip) added 2026-11-12; Boho Sunset and Rose Ribbon added 2026-11-12; Papel added 2026-11-12; Canopy added 2026-11-12; Jharokha added 2026-11-12; Plum Lattice added 2026-11-12; Adire added 2026-11-12; Capiz added 2026-11-12; Hibiscus added 2026-11-12; Autumn Orchard added 2026-11-13; Winter Solstice added 2026-11-13; Lavender Provence added 2026-11-13). Text removed and paper keyed out by script, see `docs/batch-a-suites.md` | Owner's under OpenAI's terms (US copyright unlikely for AI output) | **Interim, screen resolution.** Cut from 1060px-wide mockups, so print exports are upscaled about 3x. Replace with the final assets listed in `docs/batch-a-suites.md` before calling the suites print-ready. |
+
+## Venue art
+
+Paintings made from a venue's own photo (prompts: "Venue art" in
+`docs/site-art-prompts.md`). Only from venues with `photo_marketing_ok` true.
+The painting copies the venue's photo, so the venue's consent is what lets us
+use it: if a venue withdraws (a later claim submission with the box unticked),
+remove every file in its rows within 30 days.
+
+The record is the `venue_art` table (0168), shown on admin → Venue art,
+which also flags withdrawn venues for deletion. Files are in the private
+`venue-art` storage bucket, not the repo.

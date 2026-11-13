@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
-import { applyTemplate, TEMPLATES } from "@/lib/site-templates";
+import { TEMPLATES } from "@/lib/site-templates";
 import { DesignsHome } from "./designs-home";
 import { loadSiteDesigns } from "./load-designs";
 import { LAST_DESIGN_COOKIE } from "./resume";
@@ -49,7 +49,6 @@ export default async function GuestSiteDesignsPage({
           id: t.id,
           name: t.name,
           blurb: t.blurb,
-          design: applyTemplate(site.base, t),
         }))}
         liveUrl={site.liveUrl}
       />

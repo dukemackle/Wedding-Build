@@ -3,15 +3,15 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
-import type { SiteDesign } from "@/lib/site-design";
 import { MAX_DESIGNS } from "@/lib/site-designs";
 import { createDesign, deleteDesign, makeDesignLive, renameDesign, setSharedWording } from "./actions";
 import type { DesignSummary } from "./load-designs";
 import { SitePageThumb } from "./site-page-thumb";
+import { TemplatePicture } from "./template-picture";
 import { forgetDesign } from "./resume";
 import { actionFailed } from "@/lib/action-error";
 
-type Starter = { id: string; name: string; blurb: string; design: SiteDesign };
+type Starter = { id: string; name: string; blurb: string };
 
 /** Templates shown before "See more": three rows of four (owner, 2026-10-28). */
 const TEMPLATES_SHOWN = 12;
@@ -124,7 +124,7 @@ export function DesignsHome({
         {(allTemplates ? starters : starters.slice(0, TEMPLATES_SHOWN)).map((t) => (
           <Link key={t.id} href={`/guests/site/templates?t=${t.id}`} className="group flex min-w-0 flex-col">
             <span className="relative block aspect-[4/5] overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
-              <SitePageThumb design={t.design} />
+              <TemplatePicture id={t.id} />
             </span>
             <span className="mt-2.5 truncate font-medium text-ink">{t.name}</span>
             <span className="line-clamp-2 text-[13px] leading-snug text-ink/55">{t.blurb}</span>

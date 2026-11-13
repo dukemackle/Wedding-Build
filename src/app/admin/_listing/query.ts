@@ -58,6 +58,8 @@ function applyStatus(query: Query, status: ListingStatus, config: ListingConfig)
       return query.eq("source", "claimed");
     case "no_email":
       return query.is("contact_email", null);
+    case "photos_ok":
+      return query.eq("photo_marketing_ok", true);
     default:
       return query;
   }

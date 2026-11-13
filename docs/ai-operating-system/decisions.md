@@ -396,3 +396,36 @@ rules, batch self-merge, 50-state coverage, page widths) and
 
 ## 2026-11-13: Batch A suites ship in batches
 Owner asked to put the new suites live (PR from `claude/modest-turing-7ws8qs`), to continue in a fresh chat using `docs/batch-a-suites.md` ("How to build one") and `scripts/batch-a/`, and to send several suites per message. One chat per branch at a time. Flat/clip-art or recoloured duplicates are declined with a redo prompt unless the owner says build it. Small (~1000-1900px) sets are fine on screen; larger masters needed before print.
+## 2026-11-12: Listing photos beyond the listing need an opt-in; attorney before outreach
+
+- Decision (owner): the owner meets an attorney before any venue/vendor
+  outreach email or launch (legal audit A9). Listing photos may be used on
+  the homepage and in guest-site template designs, but only from businesses
+  that tick the new opt-in on the claim form (`photo_marketing_ok`), credited.
+- Why: Terms §6 only licensed display inside the listing experience;
+  photographers often own the copyright and couples appear in the photos.
+- Trade-off: fewer usable photos than "everything uploaded", in exchange for
+  a clean, provable consent per business.
+
+
+## 2026-11-12: Venue art, in several styles, made in ChatGPT
+
+- Decision (owner): ask consenting venues for their best ceremony-spot photo
+  and turn it into art for custom guest-site templates. Watercolour first,
+  then more styles (engraving, pen and wash, gouache, papercut). Made by hand
+  in ChatGPT, like the template art (`docs/site-art-prompts.md`, "Venue art").
+- Why: a guest site showing the couple's real venue, painted, is something
+  The Knot, Zola and Joy don't offer, and it gives venues a reason to claim.
+- Trade-off: only works for venues that tick `photo_marketing_ok` and send a
+  good photo; making it by hand doesn't scale past a few dozen venues. A
+  couple-upload version needs an image API and a per-image cost decision.
+- Conditions: all wording says "venue art in any style", not "watercolour";
+  attorney review (A9) confirms Terms §6 covers adapting photos and AI
+  processing before any outreach email asks for photos. AI output likely
+  isn't copyrightable in the US, so others could copy the paintings.
+
+## 2026-11-13: Landing closing photo is fixed to the champagne toast
+- Decision: the "Ready when you are." band on the home page always shows the
+  toast photo (Al Elmes, Unsplash); the per-visit rotation is gone.
+- Why: the owner prefers it. It now renders on the server, so the band no
+  longer sits navy before the photo swaps in.

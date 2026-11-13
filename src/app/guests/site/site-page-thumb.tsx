@@ -48,7 +48,7 @@ export function SitePageThumb({ design }: { design: SiteDesign }) {
     });
     slotRef.current = id;
     const sizes = new ResizeObserver(([entry]) => setBox({ w: entry.contentRect.width, h: entry.contentRect.height }));
-    const seen = new IntersectionObserver(([entry]) => setThumbNear(id, entry.isIntersecting), { rootMargin: "150px" });
+    const seen = new IntersectionObserver(([entry]) => setThumbNear(id, entry.isIntersecting), { rootMargin: "400px" });
     sizes.observe(el);
     seen.observe(el);
     return () => {
@@ -65,11 +65,9 @@ export function SitePageThumb({ design }: { design: SiteDesign }) {
       if (event.source !== frameRef.current?.contentWindow) return;
       if (event.data?.type !== READY_MESSAGE) return;
       frameRef.current?.contentWindow?.postMessage({ type: DESIGN_MESSAGE, design: stillRef.current }, window.location.origin);
-      // A moment for the new look to paint before the frame shows.
-      timer = setTimeout(() => {
-        setShown(true);
-        thumbReady(slotRef.current);
-      }, 250);
+      // The next card can start now; this one waits a moment for its look to paint before it shows.
+      thumbReady(slotRef.current);
+      timer = setTimeout(() => setShown(true), 250);
     }
     window.addEventListener("message", onMessage);
     return () => {
@@ -90,7 +88,7 @@ export function SitePageThumb({ design }: { design: SiteDesign }) {
       {live && box.w > 0 && (
         <iframe
           ref={frameRef}
-          src="/guests/site/preview?look=1"
+          src={`/guests/site/preview?look=1&template=${still.template ?? ""}`}
           title=""
           tabIndex={-1}
           scrolling="no"

@@ -67,12 +67,14 @@ export default async function VendorClaimPage({
         details: pending.details,
         faqs: pending.faqs,
         photoUrls: pending.photo_urls,
+        photoUse: { marketing: pending.photo_marketing_ok === true, credit: pending.photo_credit ?? null },
         submitter: { name: pending.submitter_name, email: pending.submitter_email, role: pending.submitter_role, represents: false },
       }
     : {
         details: vendorDetailsFrom(vendor),
         faqs: [...liveFaqs, ...suggested],
         photoUrls: vendor.photo_urls.length > 0 ? vendor.photo_urls : vendor.image_url ? [vendor.image_url] : [],
+        photoUse: { marketing: vendor.photo_marketing_ok === true, credit: vendor.photo_credit ?? null },
         // A vendor that just listed itself gave us its email a minute ago.
         submitter: {
           name: "",

@@ -280,6 +280,63 @@ DJ Dawn Patrol	Music		Pass Christian	Mississippi	Biloxi, Gulfport, Ocean Springs
 Randy Barras Salon	Hair & Makeup	122 Fayard St.	Biloxi	Mississippi		Downtown Biloxi salon offering bridal and bridesmaid hair, with a bridal consultation required before the wedding day.	info@randybarras.com	(228) 374-6829	https://randybarras.com		50	per person
 `,
   },
+  {
+    name: "Tupelo: catering, music, videography, planning, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Champion Events	Planning		Starkville	Mississippi	Mississippi	Two-planner team offering weekend coordination, partial planning and full-service wedding planning, with assistants at the rehearsal and on the day.	info@championeventsllc.com	662.744.2602	https://www.championeventsllc.com/planning	https://www.instagram.com/championeventsllc/		
+DJ Q MAC Productions & Entertainment	Music		Starkville	Mississippi		Starkville DJ whose wedding package covers up to six hours of music with microphones, dance-floor lighting and fog machines.		662-546-0021	https://www.djqmac.com/	https://www.instagram.com/dj_qmac/	1075	package
+Scratches DJ Service	Music		Tupelo	Mississippi		Tupelo wedding DJ bringing the sound system, lighting and effects, playing the couple's requested music for receptions and parties.		(662) 842-8652	https://scratchesdjservice.com/	https://www.instagram.com/scratches_dj_service/		
+Brian Michael's Catering Company	Catering		Starkville	Mississippi	Starkville area	Starkville caterer grown from a local meat market and burger shop, now offering full-service wedding catering alongside floral design.	Brianlindner52@yahoo.com	(662) 418-8770	https://www.brianmichaelscatering.com/	https://www.instagram.com/brianmichaelscatering/		
+Angie's Catering and Floral Design	Catering	515 College St	Columbus	Mississippi		Columbus caterer and florist with an 8,500 sq ft hall for ceremony and reception, or catering off-site at a venue of the couple's choosing.	angieatkins42@yahoo.com	(662) 386-5634	https://angie-atkins.com/			
+Rosey Baby	Catering	300 S Jackson St	Starkville	Mississippi	Within 30-45 minutes of Starkville	Downtown Starkville crawfish restaurant catering weddings and bridal weekends with food, bar, staff, setup and cleanup at farms and local venues.	meetyouonthetracks@gmail.com	662-324-1949	https://www.roseybaby.com/catering	https://www.instagram.com/roseybabystarkville/		
+Zachary's	Catering	205 North 5th Street	Columbus	Mississippi		Columbus restaurant whose catering runs from party trays to wedding receptions, with custom menus and full bartending service.		662-240-0101	https://zacharyscolumbus.com/catering/	https://www.instagram.com/zacharyscolumbus/		
+DownUnder	Catering		Tupelo	Mississippi		Downtown Tupelo restaurant and live-music spot offering delivered catering for weddings and private parties, with 24 hours' notice.			https://downundertupelo.com/catering			
+Ashley Renee MUA	Hair & Makeup		Saltillo	Mississippi		Saltillo makeup artist offering bridal packages with a trial, skin prep, lashes and a choice of airbrush or traditional foundation.	ashleyreneemua28@gmail.com		https://www.ashleyreneemua.com/services	https://www.instagram.com/ashleyrenee_mua/	175	package
+KonnectEdits	Videography		Houston	Mississippi	North Mississippi, statewide and beyond	North Mississippi wedding film team offering drone footage, teasers and multi-day documentary coverage, plus photography and coordination.	Support1@konnectedits.com	(662) 631-9582	https://www.konnectedits.com/	https://www.instagram.com/konnectedits/	3000	package
+Jones Photography & Productions	Videography		Starkville	Mississippi	Starkville, all of Mississippi and neighbouring states	Starkville videographer and photographer filming wedding short films and full three-angle ceremony videos, with combined photo-video packages.	jakejones@jonespandp.com	601-750-8529	https://www.jonespandp.com/weddingpacakges		2500	package
+`,
+  },
+  {
+    name: "Hattiesburg: catering, hair & makeup, planning, music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+George Clayton Music	Music		Hattiesburg	Mississippi	South Mississippi and the Gulf Coast; free travel within 60 miles of Hattiesburg	Wedding DJ and MC covering ceremony and reception, with planning calls, a detailed wedding guide, wireless mics and optional uplighting.	georgeclaytonmusic@gmail.com		https://georgeclaytonmusic.com/	https://www.instagram.com/thegeorgeclayton/	1200	package
+Olivia Miley Events	Planning		Hattiesburg	Mississippi	South Mississippi; travel fees beyond 30 miles of Hattiesburg	Wedding planning studio offering full planning, guided consulting and wedding-day management, with online planning tools for couples.			https://www.oliviamiley.com/	https://www.instagram.com/oliviamileyevents/	1750	package
+Canvas Salon Downtown	Hair & Makeup	207 East Front Street Suite 102	Hattiesburg	Mississippi		Downtown Hattiesburg salon doing formal bridal hair and makeup, with a trial included and the wedding-morning timeline organised for you.		601-255-3274	https://www.canvasdowntown.com/	https://www.instagram.com/canvasdowntown/		
+Fancy Beauty Boutique	Hair & Makeup	1318 W Pine St	Hattiesburg	Mississippi		Makeup studio offering full-face bridal party packages with lashes, brows and contour, priced by the size of the wedding party.	bookmzfancyface@gmail.com	(404) 395-3813	https://square.site/book/B5X1DQJ422DFZ/fancy-beauty-boutique-hattiesburg-ms		480	package
+Brie Silly Charcuterie	Catering		Hattiesburg	Mississippi	Hattiesburg and surrounding areas	ServSafe-certified grazing and charcuterie caterer building custom boards and grazing tables styled to a wedding's theme.	courtney@briesillycharcuterie.com		https://www.briesillycharcuterie.com/	https://www.instagram.com/briesillycharcuterie/		
+Kudzu Catering and Events	Catering		Hattiesburg	Mississippi	Hattiesburg, Jackson, the MS Gulf Coast and surrounding areas	Full-service wedding caterer cooking Southern classics with local produce, with chefs and servers for receptions and rehearsal dinners.		601-522-7652	https://www.kudzucateringandevents.com/	https://www.instagram.com/kudzucateringandevents/		
+Mother Daughter Duo	Catering		Laurel	Mississippi	Laurel	Family-run Laurel caterer that also makes custom wedding cakes and helps with event planning and invitations for celebrations.		(601) 344-8811	https://eventslaurel.com/			
+Megan Elizabeth Films	Videography		Laurel	Mississippi	Mississippi, the Gulf Coast, Alabama, Louisiana and beyond	Laurel-based filmmaker with over fifteen years of cinematic wedding films, also offering wedding photography across the South.	hello@meganelizabethfilms.com	601-580-0413	https://www.meganelizabethfilms.com/	https://www.instagram.com/meganelizabethcook/		
+`,
+  },
+  {
+    name: "Gulf Coast: florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sadie Jane's Fresh Florist and Gifts	Florals	516 A Courthouse Road	Gulfport	Mississippi		Gulfport flower shop designing bouquets, wedding party flowers and ceremony and reception arrangements after a consultation.	sadiejanesinc@gmail.com	(228) 236-7272	https://www.sadiejanesfreshfloristandgifts.com/wedding-flowers			
+Quality Poultry & Seafood	Catering	895 Division Street	Biloxi	Mississippi	Mississippi Gulf Coast	Long-running Biloxi seafood market with a catering team that builds custom menus for weddings and rehearsal dinners.		(228) 432-0444	https://qpsbiloxi.com/catering/			
+`,
+  },
+  {
+    name: "Oxford: photography, florals, catering, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sonum May Photography	Photography		Oxford	Mississippi	Oxford and travelling	Documentary-style wedding and engagement photographer based in Oxford, with recent sessions around North Mississippi and Memphis.	hello@sonummayphotography.com		https://sonummayphotography.com/	https://www.instagram.com/sonummayphoto/		
+Taylor Square Photography	Photography	1415 University Avenue	Oxford	Mississippi	Oxford, Memphis, Nashville and the South	Fine-art wedding and portrait studio on University Avenue, photographing classic Oxford weddings and travelling across the South.	info@taylorsquarephotography.com	662-801-2133	https://taylorsquarephotography.com/	https://www.instagram.com/taylorsquare_weddings/		
+Ava Sue's Flowers	Florals	331 Hwy 51 North	Batesville	Mississippi	Batesville and surrounding areas	Local full-service florist in Batesville making wedding bouquets, ceremony pieces and reception centrepieces by consultation.	avaswill470@gmail.com	(662) 578-4020	https://www.avasuesflowers.com/			
+GG's Flowers and Gifts	Florals	213 Main St.	Water Valley	Mississippi	Water Valley and surrounding North Mississippi	Main Street florist and gift shop in Water Valley offering wedding flowers alongside everyday arrangements for the area.	ggflowers0223@gmail.com	(662) 473-1015	https://www.ggsflowersandgifts.com/weddings			
+Oxford Meat Company	Catering	2625 W Oxford Loop D	Oxford	Mississippi	Oxford	Family-run Oxford butcher and BBQ smokehouse that caters rehearsal dinners and full weddings with smoked meats and Southern sides.		(662) 202-4648	https://oxfordmeatco.com/	https://www.instagram.com/oxfordmeatcompany/		
+Southern Chic Salon & Spa	Hair & Makeup	2226 Jackson Ave W	Oxford	Mississippi	Oxford	West Oxford salon whose stylists do bridal hair plus traditional and airbrush wedding makeup; a second shop is in Southaven.	southernchicsalonandspa@gmail.com	(662) 234-0404	http://southernchicsalon.com/	https://www.instagram.com/southernchicsalonandspa/		
+`,
+  },
+  {
+    name: "Jackson: photography, planning, cake, videography, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kim Wilhite Photography	Photography		Brandon	Mississippi	Central Mississippi (Jackson, Madison, Flowood, Brandon)	Brandon wedding photographer covering the Jackson metro, with a regularly updated blog of Mississippi venue and planning guides.	info@kimwilhite.com		https://kimwilhite.com/	https://www.instagram.com/kim.wilhite.photography/	4100	package
+Steel Magnolia Event Planning	Planning		Brandon	Mississippi	Jackson, Brandon and Central Mississippi	Brandon planning studio offering full-service wedding planning and event-day coordination across the Jackson area.	steelmagnoliaeventplanning@gmail.com	(601) 966-3058	https://steelmagnoliaeventplanning.com/	https://www.instagram.com/steel_magnoliaevents/		
+Cakes by Iris	Cake	115 Cypress Cove	Flowood	Mississippi		Flowood cake studio founded in 2007 by Iris Smith, making personalised bride's and groom's cakes for Jackson-area weddings.	iris@cakesbyiris.com	601.540.6347	https://www.cakesbyiris.com/			
+Harold Lyle Films	Videography		Pearl	Mississippi	Central Mississippi and travelling	Husband-and-wife film team in central Mississippi producing wedding preview films, with photography and DJ services also offered.			https://www.haroldlylefilms.com/videography	https://www.instagram.com/haroldlylefilms/		
+Aa'Keela & The Beats	Music		Jackson	Mississippi	Mississippi	Jackson party band playing Motown, pop, funk, R&B and jazz for wedding receptions, with setlists shaped around the couple.	aakeelaandthebeats@gmail.com		https://www.aakeelaandthebeats.com/	https://www.instagram.com/aakeelaandthebeats/		
+`,
+  },
 ];
 
 export default batches;

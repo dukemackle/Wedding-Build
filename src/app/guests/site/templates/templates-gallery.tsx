@@ -8,6 +8,7 @@ import { PALETTES, resolveDesign, type Palette, type SiteDesign } from "@/lib/si
 import { TEMPLATES, applyTemplate, type SiteTemplate } from "@/lib/site-templates";
 import { createDesign } from "../actions";
 import { SitePageThumb } from "../site-page-thumb";
+import { TemplatePicture } from "../template-picture";
 import { actionFailed } from "@/lib/action-error";
 
 /**
@@ -105,7 +106,8 @@ function TemplateTile({
     <div className="group flex min-w-0 flex-col">
       <button type="button" onClick={onOpen} className="flex min-w-0 flex-col text-left">
         <span className="relative block aspect-[4/5] w-full overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
-          <SitePageThumb design={design} />
+          {/* The saved picture is the template's own colours; another colourway shows live. */}
+          {palette === null ? <TemplatePicture id={template.id} /> : <SitePageThumb design={design} />}
           {template.badge && (
             <span className="absolute right-2.5 top-2.5 rounded-full bg-[#FFD301] px-2.5 py-0.5 text-[12px] font-semibold text-[#14203d] shadow-sm">
               {template.badge}
@@ -385,7 +387,7 @@ function LivePreview({ design }: { design: SiteDesign }) {
       {box.w > 0 && (
         <iframe
           ref={frameRef}
-          src="/guests/site/preview?look=1"
+          src={`/guests/site/preview?look=1&template=${design.template ?? ""}`}
           title="Template preview"
           className="absolute left-0 top-0 border-0"
           style={{

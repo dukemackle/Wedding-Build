@@ -400,6 +400,83 @@ Lindsay J. Makeup & Hair	Hair & Makeup		Madison	Connecticut		Madison hair and ma
 Jock In The Box Entertainment	Music		Durham	Connecticut		Family-run Durham DJ and entertainment team playing Connecticut weddings since 1992, with ceremony sound, lighting and a couple planning portal.	todd@jockinthebox.com	203-235-0000	https://www.jockinthebox.com/	https://www.instagram.com/jockintheboxentertainment/	2900	package
 Tulips Floral Design at Water's Edge	Florals	1520 Boston Post Rd	Westbrook	Connecticut		Westbrook boutique floral studio designing wedding bouquets and ceremony and reception flowers, with consultations booked through its site.	tulipsatwatersedge@gmail.com	860-391-6070	https://www.tulipsfloraldesignstudio.com/	https://www.instagram.com/tulipsfloraldesign/		`,
   },
+  {
+    name: "Litchfield Hills: photography, planning, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Marie Cowan Photography	Photography		New Milford	Connecticut	New England and beyond	Litchfield County wedding photographer with a candid, timeless style, documenting full wedding days across New England.			https://mariecowanphotography.com/	https://www.instagram.com/mariecowanphotography/	4500	package
+Kate Uhry Photography	Photography		Bethlehem	Connecticut	Litchfield County and New England	Documentary-style wedding photographer shooting film and digital, with more than two decades of weddings behind her.			https://kateuhryphoto.com/	https://www.instagram.com/kateuhryphotography/		
+Elevate Green Events	Planning	143 West Street, Suite T	New Milford	Connecticut	Connecticut, New York and destinations	Planning, design and specialty rental team, formerly Green Apple Weddings & Events, working across Connecticut and New York.			https://elevategreen.events/	https://www.instagram.com/elevategreenevents/		
+Hair Dressed	Hair & Makeup	849 Winsted Road, Suite A	Torrington	Connecticut		Torrington loft salon offering custom bridal hair, airbrush makeup and lashes, in the salon or on site at your venue.	Hairdressedllc@gmail.com	860-496-1441	https://www.hairdressedsalon.com/wedding-services			
+Wicked Hair & Beauty	Hair & Makeup	57 Main St	Terryville	Connecticut	Connecticut	Hair-only bridal stylist working from a Terryville salon, travelling across Connecticut with assistant stylists for larger parties.	sam@wickedhairct.com	860-973-3774	https://www.wickedhairct.com/weddings	https://www.instagram.com/wickedhairct/	150	per person`,
+  },
+  {
+    name: "Hartford: photography, planning, music, catering, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Fox and Veil Photography	Photography		South Glastonbury	Connecticut		South Glastonbury wedding and portrait photographer with a warm, nostalgic style and eight-hour wedding collections.	hello@foxandveilphotography.com		https://foxandveilphotography.com/weddings	https://www.instagram.com/foxandveil/	7600	package
+Kimberly Nguyen Photography	Photography		Hartford	Connecticut	Connecticut, New York, Boston and destinations	Wedding photographer focused on natural, unposed moments, with packages running from six to ten hours of coverage.	kimberlypnguyenphotography@gmail.com		https://www.kimberlynguyenphotography.com/weddings	https://www.instagram.com/keemkaptures/	4200	package
+Bookmarked Weddings	Planning		Manchester	Connecticut	Connecticut, Rhode Island, Massachusetts	Connecticut planner and coordinator offering wedding management, partial and full planning, and design consultations.	tanya@bookmarkedweddings.com		https://bookmarkedweddings.com/	https://www.instagram.com/tanya.bookmarkedweddings/	4000	package
+Eventistry	Planning		Windsor Locks	Connecticut	Connecticut, New York, Boston and Newport	Full-service wedding planning and design firm, with coordination packages for couples who have done the groundwork.	info@eventistryct.com		https://www.eventistryct.com/	https://www.instagram.com/eventistryweddings/	5500	package
+Rye Street Events	Planning		Broad Brook	Connecticut	Connecticut, Massachusetts and beyond	Small planning company offering day-of coordination and partial planning for weddings and other celebrations.	ryestreetevents@gmail.com		https://ryestreetevents.com/		2300	package
+Everlasting Affairs	Planning		Somers	Connecticut	Connecticut and worldwide	Full-service wedding planning firm founded in 2015, known for classic celebrations finished with a modern touch.	info@everlastingaffairs.com		https://everlastingaffairs.com/	https://www.instagram.com/everlastingaffairsct/		
+Brasato	Catering	381A Governors Highway	South Windsor	Connecticut		Italian wedding caterer known for fresh pasta, serving plated, buffet or family-style menus with no separate staff fees.	info@eatbrasato.com	860-299-3368	https://brasatocatering.com/weddings	https://www.instagram.com/eatbrasato/		
+Ben Teaford Productions	Videography		Manchester	Connecticut	Connecticut and New England	Wedding filmmaker and former ESPN producer offering short highlight films and full-length documentary edits.			https://benteaford.com/	https://www.instagram.com/benteafordproductions/	2000	package
+Alyson Films	Videography		Plainville	Connecticut	Connecticut	Videographer offering cinematic highlight films and chaptered documentary edits, with drone coverage when the weather allows.	AlysonGrisham@yahoo.com	917-297-0312	https://alysonfilms.com/weddings	https://www.instagram.com/alysonfilmsllc/	2000	package
+Rainey Day Films	Videography		Windsor	Connecticut		Camcorder wedding films with a nostalgic home-video feel, from one-song music videos to longer keepsake edits.	skyler@raineydayfilms.com		https://www.raineydayfilms.com/	https://www.instagram.com/raineydayfilms.co/		
+AXETOWN Entertainment	Music		Canton	Connecticut	Connecticut	Wedding DJ and emcee company working since 1998, with ceremony music, lighting and tiered reception packages.	axetowndjs@gmail.com		https://www.axetownentertainment.com/	https://www.instagram.com/axetowndjs/	975	package
+Harmon Gray Entertainment	Music		Manchester	Connecticut		Manchester DJ and MC company that also provides lighting, photo booths and audio guestbooks for weddings.	services@harmongray.com		https://www.harmongray.com/weddings	https://www.instagram.com/harmongrayent/	1400	package`,
+  },
+  {
+    name: "Fairfield County: planning, music, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+DVFilmz	Videography		Shelton	Connecticut	Connecticut	Cinematic wedding films shot with slow motion, gimbals and sliders, with packages from six to eight hours of coverage.	danielvelfilms@gmail.com	954-994-4502	https://www.dvfilmz.com/	https://www.instagram.com/dvfilmz16/		
+Connecticut Wedding Videos by PRCov	Videography		Norwalk	Connecticut	Fairfield and New Haven counties	Wedding videographer with a two-step approach: book filming now and choose an edited highlight or full-day film later.	tobias@prcov.com	(203) 984-1309	https://www.connecticutweddingvideos.com/		949	package
+Pizzazz Strings	Music		Trumbull	Connecticut		Women-owned string ensemble founded in 2012, with a repertoire of over 1,000 tunes from classical to pop for weddings.	andrea@pizzazzstrings.com	860-655-6393	https://www.pizzazzstrings.com/			
+ETA Music	Music		Westport	Connecticut	Tri-State area	Versatile live party band for weddings, with larger line-ups including horns, plus DJs and specialty musicians on request.	info@etamusic.com	203-226-1616	https://www.etamusic.com/live-wedding-band/	https://www.instagram.com/etamusic/		
+Hannah Newton Events	Planning		Stamford	Connecticut		Stamford-based planner offering customised wedding planning and consulting, shaped around each couple's own vision.			https://www.hannahnewtonevents.com/	https://www.instagram.com/hannahnewtonevents/		
+Eye For Beauty	Hair & Makeup		Westport	Connecticut	Connecticut, Westchester and the Hudson Valley	Travelling bridal hair and makeup team that comes to you on the wedding day; a service minimum applies at weekends.	eyeforbeautyct@gmail.com	(203) 343-1677	https://www.eyeforbeautyct.com/	https://www.instagram.com/eyeforbeautyct/		`,
+  },
+  {
+    name: "New Haven: music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Quincy Moët Films	Videography		Milford	Connecticut	Connecticut	Wedding videography with highlight films, recorded vows and speeches, plus optional drone footage and a teaser reel.			https://quincymoetfilms.com/weddings	https://www.instagram.com/quincymoetfilms/	1600	package
+Powerstation Events	Music	1718 Highland Ave.	Cheshire	Connecticut	Connecticut and New England	Event production company offering wedding DJs, bands, lighting, videography and photo booths from its Cheshire base.	info@powerstationevents.com	(203) 250-8500	https://www.powerstationevents.com/weddings	https://www.instagram.com/powerstationevents_weddings/		
+OBrien Strings	Music		Orange	Connecticut	CT, NY, NJ, MA and RI	Solo and ensemble string musicians led by violinist Kate OBrien, playing ceremony and cocktail-hour music for weddings.	obrienstrings@gmail.com	203-623-1098	https://www.obrienstrings.com/	https://www.instagram.com/obrienstringspix/		`,
+  },
+  {
+    name: "Mystic: planning, music, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Good Graces Events	Planning		Preston	Connecticut	New England, Hudson Valley and beyond	Preston-based full-service planner designing relaxed, intentionally styled weddings at barns, homes, museums and coastal venues.			https://www.goodgracesevents.com/	https://www.instagram.com/goodgracesevents/	25000	package
+Blue Lane Events	Planning		Mystic	Connecticut	Mystic, CT and Martha's Vineyard, MA; destination weddings	Mystic planning team offering full planning and design, partial planning and day-of coordination, with island and yacht club experience.	info@bluelaneevents.com	(860) 415-6338	https://www.bluelaneevents.com/weddings	https://www.instagram.com/bluelaneevents/		
+Dawson Entertainment Production	Music		Norwich	Connecticut		Wedding DJ and MC company running since 2007, adding ceremony sound, uplighting and photo booths to reception entertainment.	info@dawsonentertainment.com		https://dawsonentertainment.com/weddings	https://www.instagram.com/dawsonentertainment/		
+Rose Gold Visual Co.	Videography		Groton	Connecticut	Connecticut shoreline, New England and destinations	Couple-run Connecticut team filming cinematic highlight and full ceremony films, with photo and video bundles available.			https://www.rosegoldvisualco.com/	https://www.instagram.com/rosegoldvisualco/	4300	package
+Sarah Mariah Bridal Hairstyling	Hair & Makeup		Gales Ferry	Connecticut	New England	Licensed bridal hairstylist with over ten years of experience, specialising in long-lasting curls, updos and natural texture.			https://www.sarahmariahbridal.com/	https://www.instagram.com/sarahmariahbridal/		`,
+  },
+  {
+    name: "Connecticut River Valley: planning, music, catering, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+AVENTZ Co.	Planning		Middletown	Connecticut	Connecticut, New York, Massachusetts, New Hampshire, Vermont and Southwest Florida	Design-led planning studio in central Connecticut offering full wedding planning or design with rehearsal coordination and day-of management.	letsplan@aventzco.com	(475) 331-3204	https://aventzco.com/wedding	https://www.instagram.com/aventzco/	8000	package
+Rashid Film & Photo	Videography		Middletown	Connecticut		Wedding filmmaker with over 500 weddings filmed, including multi-day and multicultural celebrations, delivering cinematic highlight films.	rashid.videographer@gmail.com		https://rashidfilm.com/	https://www.instagram.com/rashid_filmz/		
+Dagmar's Desserts	Cake	75 Main St.	Old Saybrook	Connecticut		Old Saybrook bakery known for European-style tortes and holiday baking that also designs custom wedding cakes to order.	hello@dagmarsdesserts.com	(860) 661-4661	https://www.dagmarsdesserts.com/weddingcakes	https://www.instagram.com/dagmarsdesserts/		
+Mezzo Grille	Catering	106 Court St	Middletown	Connecticut	Delivery throughout Connecticut	Downtown Middletown restaurant offering full-service wedding catering with setup, serving staff, clean-up and optional bar service.	events@mezzogrille.com	(860) 740-5419	https://www.mezzogrille.com/catering	https://www.instagram.com/mezzogrille/		
+DJ Crazy Chris	Music		Westbrook	Connecticut	Connecticut, Rhode Island and New England	Shoreline wedding DJ and MC with over 20 years of experience, known for personalised music and live mixing at receptions.			https://www.djcrazychris.com/	https://www.instagram.com/djcrazychris860/		`,
+  },
+  {
+    name: "Litchfield Hills: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Cutie Pies	Cake	131 Main St, Suite 105A	Thomaston	Connecticut		Main Street bakery famed for hundreds of cupcake flavours that also makes custom cakes for weddings and bridal showers.		(860) 484-4838	https://cutiepiesct.com/	https://www.instagram.com/cutiepiesct/		`,
+  },
+  {
+    name: "New Haven: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Unity Wedding Films	Videography		Meriden	Connecticut		Meriden wedding videography studio blending cinematic filmmaking with natural moments, offering highlight, ceremony and documentary films.			https://www.unityweddingfilms.com/		2200	package
+MV Film Productions	Videography		Meriden	Connecticut		Meriden wedding and event film studio run by Matthew Van Ness, making full wedding films and shorter wedding mini-films for couples.			https://mvfilmproductions.com/	https://www.instagram.com/mattvanness/		`,
+  },
+  {
+    name: "Fairfield County: hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Pure Salon & Beauty Studio	Hair & Makeup	24 Taylor Place	Westport	Connecticut	Fairfield, Norwalk and Westport; in salon or on location	Westport and Wilton salon whose team does bridal hair and make-up for the bride and wedding party, with a trial first and service in salon or on site.		(203) 454-9911	https://www.puresalonwestport.com/bridal	https://www.instagram.com/puresalon_beautystudio/	200	per person
+Gracenote Films	Videography		Fairfield	Connecticut	Connecticut, the Tri-State area and beyond	One-man cinematic wedding videography business in Fairfield, filming from the first look to the last dance and turning the day into a highlight film.	todd@gracenotefilms.com	(203) 520-9260	https://gracenotefilms.com/			`,
+  },
 ];
 
 export default batches;

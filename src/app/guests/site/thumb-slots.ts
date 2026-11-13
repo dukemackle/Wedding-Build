@@ -5,23 +5,32 @@
  * iframe, and a phone can't hold a dozen of those at once: iOS Safari ran out
  * of memory on /guests/site and showed "A problem repeatedly occurred"
  * (owner, 2026-11-06). So frames are rationed: only cards on or near the
- * screen get one, at most a few at a time (fewer on phones), they start one
- * after another rather than all together, and a card that scrolls away gives
- * its frame back.
+ * screen get one, at most a few at a time (fewer on phones), a couple start
+ * at once rather than all together, and a card that scrolls away gives its
+ * frame back. Desktop holds a whole "See more" page of twelve: at eight the
+ * bottom row stayed blank (owner, 2026-11-12, "templates load super slow").
  */
 
 type Entry = { el: HTMLElement; near: boolean; listener: () => void };
 
 const entries = new Map<number, Entry>();
 const live = new Set<number>();
-let loading: number | null = null;
-let loadingTimer: ReturnType<typeof setTimeout> | undefined;
+/** Frames still loading, each with a timer so one that never says it's ready can't hold up the rest. */
+const loading = new Map<number, ReturnType<typeof setTimeout>>();
 let nextId = 1;
+
+function isPhone() {
+  return window.matchMedia("(max-width: 639px), (pointer: coarse)").matches;
+}
 
 function cap() {
   if (typeof window === "undefined") return 0;
-  const phone = window.matchMedia("(max-width: 639px), (pointer: coarse)").matches;
-  return phone ? 4 : 8;
+  return isPhone() ? 4 : 12;
+}
+
+/** How many frames may load at once: one at a time made a dozen cards take a dozen round trips. */
+function parallel() {
+  return isPhone() ? 2 : 3;
 }
 
 /** Cards that want a frame, in page order (top of the page first). */
@@ -33,9 +42,9 @@ function wanted(): number[] {
     .slice(0, cap());
 }
 
-function clearLoading() {
-  loading = null;
-  clearTimeout(loadingTimer);
+function clearLoading(id: number) {
+  clearTimeout(loading.get(id));
+  loading.delete(id);
 }
 
 function pump() {
@@ -45,23 +54,21 @@ function pump() {
     if (!keep.has(id)) {
       live.delete(id);
       changed.add(id);
-      if (loading === id) clearLoading();
+      clearLoading(id);
     }
   }
-  if (loading === null) {
-    const next = [...keep].find((id) => !live.has(id));
-    if (next !== undefined) {
-      live.add(next);
-      changed.add(next);
-      loading = next;
-      // A frame that never says it's ready mustn't hold up the rest.
-      loadingTimer = setTimeout(() => {
-        if (loading === next) {
-          clearLoading();
-          pump();
-        }
-      }, 4000);
-    }
+  for (const next of keep) {
+    if (loading.size >= parallel()) break;
+    if (live.has(next)) continue;
+    live.add(next);
+    changed.add(next);
+    loading.set(
+      next,
+      setTimeout(() => {
+        clearLoading(next);
+        pump();
+      }, 4000),
+    );
   }
   for (const id of changed) entries.get(id)?.listener();
 }
@@ -75,7 +82,7 @@ export function registerThumb(el: HTMLElement, listener: () => void) {
 export function unregisterThumb(id: number) {
   entries.delete(id);
   live.delete(id);
-  if (loading === id) clearLoading();
+  clearLoading(id);
   pump();
 }
 
@@ -88,8 +95,8 @@ export function setThumbNear(id: number, near: boolean) {
 
 /** The frame has loaded and shown its look; let the next one start. */
 export function thumbReady(id: number) {
-  if (loading !== id) return;
-  clearLoading();
+  if (!loading.has(id)) return;
+  clearLoading(id);
   pump();
 }
 

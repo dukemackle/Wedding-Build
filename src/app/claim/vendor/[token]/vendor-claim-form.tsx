@@ -7,10 +7,10 @@ import { LegalNotice } from "@/components/legal-notice";
 import { ClaimDone } from "../../claim-done";
 import { uploadClaimPhotos } from "../../upload-photos";
 import { STATES, STYLE_TIERS, VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
-import { MAX_CLAIM_PHOTOS, type ClaimFaq } from "@/lib/venue-claim";
+import { MAX_CLAIM_PHOTOS, type ClaimFaq, type PhotoUse } from "@/lib/venue-claim";
 import type { VendorClaimDetails, VendorClaimSubmission } from "@/lib/vendor-claim";
 import type { Vendor, VendorPriceUnit } from "@/lib/supabase/types";
-import { Field, inputClass, labelClass, PhotoGridEditor, Section, Select } from "../../form-parts";
+import { Field, inputClass, labelClass, PhotoGridEditor, PhotoUseFields, Section, Select } from "../../form-parts";
 import {
   uploadVendorClaimPhoto,
   submitVendorClaim,
@@ -58,6 +58,7 @@ export function VendorClaimForm({
   const [photos, setPhotos] = useState<string[]>(initial.photoUrls);
   const [faqs, setFaqs] = useState<ClaimFaq[]>(initial.faqs);
   const [submitter, setSubmitter] = useState(initial.submitter);
+  const [photoUse, setPhotoUse] = useState<PhotoUse>(initial.photoUse ?? { marketing: false, credit: null });
   const [heardFrom, setHeardFrom] = useState("");
   const [uploading, setUploading] = useState(0);
   const [photoError, setPhotoError] = useState<string | null>(null);
@@ -73,12 +74,13 @@ export function VendorClaimForm({
     token,
     draft,
     submittedAt,
-    { details, amenitiesText, photos, faqs, submitter, step },
+    { details, amenitiesText, photos, photoUse, faqs, submitter, step },
     // A draft saved before a field existed lacks it, so the page's value fills in.
     (d) => {
       if (d.details) setDetails({ ...initial.details, ...d.details });
       if (typeof d.amenitiesText === "string") setAmenitiesText(d.amenitiesText);
       if (Array.isArray(d.photos)) setPhotos(d.photos);
+      if (d.photoUse && typeof d.photoUse === "object") setPhotoUse({ marketing: d.photoUse.marketing === true, credit: d.photoUse.credit ?? null });
       if (Array.isArray(d.faqs)) setFaqs(d.faqs);
       if (d.submitter) setSubmitter({ ...initial.submitter, ...d.submitter });
       if (typeof d.step === "number") setStep(d.step);
@@ -149,6 +151,7 @@ export function VendorClaimForm({
         details: { ...details, amenities: amenities() },
         faqs,
         photoUrls: photos,
+        photoUse,
         submitter,
       }, { heardFrom, via, firstTouch: readFirstTouch() }).catch(() => ({ error: "Couldn't reach us just now -- your answers are still here, so try again in a minute." }) as { error?: string; errors?: string[] });
       if (result.error) setErrors([result.error]);
@@ -325,7 +328,10 @@ export function VendorClaimForm({
           <Section title="Photos" hint={`Up to ${MAX_CLAIM_PHOTOS}. The first one is the cover couples see in search.`}>
             <PhotoGridEditor photos={photos} setPhotos={setPhotos} uploading={uploading} onAddFiles={addPhotos} />
             {photoError && <p className="mt-3 text-sm text-red-700">{photoError}</p>}
-            <p className="mt-3 text-xs text-ink/50">Only upload photos you own or have permission to use.</p>
+            <p className="mt-3 text-xs text-ink/50">
+              Only upload photos you own or have the photographer&apos;s permission to share here.
+            </p>
+            <PhotoUseFields value={photoUse} onChange={setPhotoUse} />
           </Section>
           {nav}
         </fieldset>

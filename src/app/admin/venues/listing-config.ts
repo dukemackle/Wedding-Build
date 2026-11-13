@@ -8,6 +8,7 @@ export const VENUE_STATUSES: ListingStatus[] = [
   "stale",
   "incomplete",
   "claimed",
+  "photos_ok",
 ];
 
 export const VENUE_LISTING = {
