@@ -465,6 +465,18 @@ DJ Crazy Chris	Music		Westbrook	Connecticut	Connecticut, Rhode Island and New En
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
 Cutie Pies	Cake	131 Main St, Suite 105A	Thomaston	Connecticut		Main Street bakery famed for hundreds of cupcake flavours that also makes custom cakes for weddings and bridal showers.		(860) 484-4838	https://cutiepiesct.com/	https://www.instagram.com/cutiepiesct/		`,
   },
+  {
+    name: "New Haven: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Unity Wedding Films	Videography		Meriden	Connecticut		Meriden wedding videography studio blending cinematic filmmaking with natural moments, offering highlight, ceremony and documentary films.			https://www.unityweddingfilms.com/		2200	package
+MV Film Productions	Videography		Meriden	Connecticut		Meriden wedding and event film studio run by Matthew Van Ness, making full wedding films and shorter wedding mini-films for couples.			https://mvfilmproductions.com/	https://www.instagram.com/mattvanness/		`,
+  },
+  {
+    name: "Fairfield County: hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Pure Salon & Beauty Studio	Hair & Makeup	24 Taylor Place	Westport	Connecticut	Fairfield, Norwalk and Westport; in salon or on location	Westport and Wilton salon whose team does bridal hair and make-up for the bride and wedding party, with a trial first and service in salon or on site.		(203) 454-9911	https://www.puresalonwestport.com/bridal	https://www.instagram.com/puresalon_beautystudio/	200	per person
+Gracenote Films	Videography		Fairfield	Connecticut	Connecticut, the Tri-State area and beyond	One-man cinematic wedding videography business in Fairfield, filming from the first look to the last dance and turning the day into a highlight film.	todd@gracenotefilms.com	(203) 520-9260	https://gracenotefilms.com/			`,
+  },
 ];
 
 export default batches;
