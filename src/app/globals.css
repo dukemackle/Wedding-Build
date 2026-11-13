@@ -1237,6 +1237,7 @@ body:has(.search-shell-root) .site-footer {
    "Wait for a tap" runs the same steps ten seconds later, under their own
    names, so a tap (dropping data-wait) starts the usual timing afresh. */
 .site-envelope {
+  cursor: pointer;
   animation: site-overlay-out calc(0.6s * var(--motion-speed, 1)) ease calc(2.6s * var(--motion-speed, 1)) both;
 }
 .site-envelope .site-envelope-seal-l {
@@ -1384,6 +1385,15 @@ body:has(.search-shell-root) .site-footer {
 }
 @keyframes site-part-drop-wait {
   to { translate: 0 22%; opacity: 0; }
+}
+/* A tap once it's opening skips the rest: a quick fade, whichever stage it's at.
+   Doubled class so it outranks every timing above. */
+.site-envelope.site-envelope[data-skip] {
+  animation: site-overlay-skip 0.25s ease both;
+}
+@keyframes site-overlay-skip {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
 }
 /* Drawn on the server before the script knows the guest's setting. */
 @media (prefers-reduced-motion: reduce) {

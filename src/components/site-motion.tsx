@@ -126,6 +126,16 @@ function Envelope({ initials, names, date, guest, card }: { initials: string } &
   // Removed once it has faded, so it never sits invisibly over the page.
   const [done, setDone] = useState(false);
   const [open, setOpen] = useState(!envelope.tap);
+  // Once it's opening, a tap (or Escape) skips straight to the site.
+  const [skipping, setSkipping] = useState(false);
+  useEffect(() => {
+    if (!open || skipping || done) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSkipping(true);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, skipping, done]);
   if (done) return null;
   const wax = SEALS.find((x) => x.id === envelope.seal)?.hex ?? resolved.accent;
   const liner = backgroundLayers({ ...NO_BACKGROUND, pattern: envelope.liner });
@@ -137,10 +147,11 @@ function Envelope({ initials, names, date, guest, card }: { initials: string } &
       className="site-envelope fixed inset-0 z-50 flex flex-col items-center justify-center gap-5 bg-parchment"
       data-wait={open ? undefined : ""}
       data-card={portrait ? "" : undefined}
+      data-skip={skipping ? "" : undefined}
       onAnimationEnd={(e) => {
         if (e.target === e.currentTarget) setDone(true);
       }}
-      onClick={() => setOpen(true)}
+      onClick={() => (open ? setSkipping(true) : setOpen(true))}
       aria-hidden={open || undefined}
       role={open ? undefined : "button"}
       aria-label={open ? undefined : "Open the invitation"}
@@ -310,7 +321,11 @@ function Envelope({ initials, names, date, guest, card }: { initials: string } &
           </div>
         </div>
       </div>
-      {!open && <p className="site-envelope-hint text-[13px] uppercase tracking-[0.24em] text-ink/60">Tap to open</p>}
+      {open ? (
+        <p className="text-[12px] uppercase tracking-[0.24em] text-ink/40">Tap to skip</p>
+      ) : (
+        <p className="site-envelope-hint text-[13px] uppercase tracking-[0.24em] text-ink/60">Tap to open</p>
+      )}
     </div>
   );
 }
