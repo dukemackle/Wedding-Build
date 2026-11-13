@@ -18,6 +18,8 @@ import { ChevronDownIcon } from "@/components/icons";
 import { RsvpForm } from "./rsvp-form";
 import { HouseholdRsvpForm } from "./household-rsvp-form";
 import type { Household } from "@/lib/households";
+import { formatDate as formatCardDate } from "@/lib/save-the-date/format";
+import type { CardDoc } from "@/lib/save-the-date/types";
 import { turnstileSiteKey } from "@/lib/turnstile";
 import { smsConfigured } from "@/lib/sms";
 import { RsvpSection } from "./rsvp-section";
@@ -206,11 +208,14 @@ export function GuestSiteView({
   wedding,
   content,
   household = null,
+  envelopeCard = null,
 }: {
   wedding: PublicWedding;
   content: GuestSiteContent;
   /** The household this browser opened with its personal link, if any (0141). */
   household?: Household | null;
+  /** The couple's own card, drawn inside the opening envelope (loadEnvelopeCard). */
+  envelopeCard?: { doc: CardDoc; fontsHref: string } | null;
 }) {
   const {
     registryItems,
@@ -443,7 +448,13 @@ export function GuestSiteView({
     <main className="flex flex-1 flex-col">
       <Replayable>
         <LiveDetailsProvider details={liveDetailsOf(wedding)}>
-          <SiteMotion initials={initials} />
+          <SiteMotion
+            initials={initials}
+            names={coupleNames}
+            date={wedding.wedding_date ? formatCardDate(wedding.wedding_date, "dots") : null}
+            guest={household?.names ?? null}
+            card={envelopeCard}
+          />
           <SiteNotice />
           <CeremonyProvider
             ceremony={

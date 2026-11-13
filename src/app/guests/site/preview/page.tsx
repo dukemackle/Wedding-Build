@@ -10,6 +10,7 @@ import { CanvasEditing } from "./canvas-editing";
 import { bannerPhoto } from "@/lib/site-design";
 import { PhotoEditing } from "./photo-editing";
 import { SAMPLE_GALLERY, SAMPLE_GUEST_NAMES, sampleHero } from "@/lib/sample-photos";
+import { loadEnvelopeCard } from "@/lib/save-the-date/guest-card";
 
 export const metadata: Metadata = { title: "Guest site preview", robots: { index: false } };
 
@@ -140,9 +141,12 @@ export default async function GuestSitePreviewPage({
   };
   const draft = row?.shared_wording ? withWording(stored, parseWording(wedding.site_wording)) : stored;
 
+  // Always looked up here: the envelope can be switched on while editing.
+  const envelopeCard = wedding.public_slug ? await loadEnvelopeCard(wedding.public_slug) : null;
+
   return (
     <GuestSiteTheme design={draft} preview>
-      <GuestSiteView wedding={asGuestsSeeIt} content={content} />
+      <GuestSiteView wedding={asGuestsSeeIt} content={content} envelopeCard={envelopeCard} />
       {/* Dragging, resizing and the rest: here only, never on /w/[slug]. */}
       {!look && !view && <CanvasEditing />}
       {/* Click a photo to replace or remove it, right where it sits. */}

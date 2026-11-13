@@ -72,6 +72,15 @@ export const loadGuestInvitation = cache(async (slug: string): Promise<GuestCard
   return { wedding, doc, imageUrl: row.image_url ?? null, ...cardWords(doc), fontsHref: cardFontsHref(doc) };
 });
 
+/**
+ * The card inside the guest site's opening envelope: the chosen invitation,
+ * else the chosen save-the-date, else none (the envelope holds a plain card).
+ */
+export async function loadEnvelopeCard(slug: string): Promise<{ doc: CardDoc; fontsHref: string } | null> {
+  const card = (await loadGuestInvitation(slug)) ?? (await loadGuestCard(slug));
+  return card ? { doc: card.doc, fontsHref: card.fontsHref } : null;
+}
+
 /** The couple's names and the date, as the card reads them. */
 export function cardWords(doc: CardDoc) {
   const c = doc.content;
