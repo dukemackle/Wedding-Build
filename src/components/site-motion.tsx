@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { useReplay, useSiteDesign } from "@/components/guest-site-theme";
+import { CardSvg } from "@/components/save-the-date/card-svg";
+import type { CardDoc } from "@/lib/save-the-date/types";
 import {
   MOTION_SPEED,
   NO_BACKGROUND,
@@ -114,9 +116,11 @@ type EnvelopeCard = {
   date?: string | null;
   /** The household opening it from their own link, written on the envelope. */
   guest?: string | null;
+  /** The couple's own invitation (or save-the-date) design, drawn instead of the plain card. */
+  card?: { doc: CardDoc; fontsHref: string } | null;
 };
 
-function Envelope({ initials, names, date, guest }: { initials: string } & EnvelopeCard) {
+function Envelope({ initials, names, date, guest, card }: { initials: string } & EnvelopeCard) {
   const { envelope } = useSiteDesign();
   const resolved = resolveDesign(useSiteDesign());
   // Removed once it has faded, so it never sits invisibly over the page.
@@ -125,11 +129,14 @@ function Envelope({ initials, names, date, guest }: { initials: string } & Envel
   if (done) return null;
   const wax = SEALS.find((x) => x.id === envelope.seal)?.hex ?? resolved.accent;
   const liner = backgroundLayers({ ...NO_BACKGROUND, pattern: envelope.liner });
+  // Their own card is portrait, so the envelope that holds it is too.
+  const portrait = Boolean(card);
   const flap = "polygon(0 0, 100% 0, 53% 94%, 51.5% 98.5%, 50% 100%, 48.5% 98.5%, 47% 94%)";
   return (
     <div
       className="site-envelope fixed inset-0 z-50 flex flex-col items-center justify-center gap-5 bg-parchment"
       data-wait={open ? undefined : ""}
+      data-card={portrait ? "" : undefined}
       onAnimationEnd={(e) => {
         if (e.target === e.currentTarget) setDone(true);
       }}
@@ -146,12 +153,16 @@ function Envelope({ initials, names, date, guest }: { initials: string } & Envel
     >
       {/* Room above for the opened flap and the card it lets out. */}
       <div
-        className="relative mt-[min(34vw,220px)] aspect-[1.55] w-[min(86vw,580px)]"
+        className={
+          portrait
+            ? "relative mt-[min(34vw,230px)] aspect-[1000/1360] w-[min(74vw,340px,calc((100dvh-150px)*0.52))]"
+            : "relative mt-[min(34vw,220px)] aspect-[1.55] w-[min(86vw,580px)]"
+        }
         style={{ perspective: 2200 }}
       >
         {/* Inside the back: lined, and shadowed towards the top fold. */}
         <div
-          className="absolute inset-0 z-[1] overflow-hidden rounded-[4px] shadow-[0_24px_50px_-12px_rgb(0_0_0_/_0.28),0_2px_6px_rgb(0_0_0_/_0.08)]"
+          className="site-envelope-part absolute inset-0 z-[1] overflow-hidden rounded-[4px] shadow-[0_24px_50px_-12px_rgb(0_0_0_/_0.28),0_2px_6px_rgb(0_0_0_/_0.08)]"
           style={{
             backgroundColor: "color-mix(in srgb, var(--site-accent) 18%, var(--color-card))",
             backgroundImage: liner.image,
@@ -161,24 +172,38 @@ function Envelope({ initials, names, date, guest }: { initials: string } & Envel
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0_/_0.1),rgb(0_0_0_/_0.03)_55%,transparent)]" />
         </div>
 
-        {/* The card, tucked in until the flap is up: their names and the date. */}
-        <div className="site-envelope-card absolute inset-x-[5%] bottom-[4%] top-[5%] z-[2] rounded-[2px] bg-card text-center text-ink shadow-[0_-1px_0_rgb(0_0_0_/_0.04),0_4px_14px_rgb(0_0_0_/_0.12)]">
-          {/* Hidden while sealed, so no word shows through the flap's hairline seams. */}
-          <div className="site-envelope-card-text flex h-full flex-col items-center gap-[5%] px-[6%] pt-[9%]">
-          <span className="text-[clamp(9px,1.6vw,11px)] uppercase tracking-[0.3em] text-ink/55">You&rsquo;re invited</span>
-          <span
-            className="leading-[1.05]"
-            style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: names && names.length > 22 ? "clamp(18px, 4.6vw, 32px)" : "clamp(22px, 5.6vw, 40px)" }}
-          >
-            {names || initials}
-          </span>
-          <span className="block h-px w-[14%] shrink-0 bg-[var(--site-accent)] opacity-70" />
-          {date && <span className="text-[clamp(10px,1.9vw,13px)] tracking-[0.22em] text-ink/70">{date}</span>}
-          </div>
-        </div>
+        {card ? (
+          <>
+            <link rel="stylesheet" href={card.fontsHref} precedence="default" />
+            {/* Their own card, which rises out, comes to the front and holds while the envelope drops away. */}
+            <div className="site-envelope-card absolute inset-x-[4%] top-[2.5%] z-[2] aspect-[1000/1400] rounded-[3px] bg-card shadow-[0_4px_14px_rgb(0_0_0_/_0.12)]">
+              <div className="site-envelope-card-text h-full w-full">
+                <CardSvg doc={card.doc} className="block h-full w-full rounded-[3px]" />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* The card, tucked in until the flap is up: their names and the date. */}
+            <div className="site-envelope-card absolute inset-x-[5%] bottom-[4%] top-[5%] z-[2] rounded-[2px] bg-card text-center text-ink shadow-[0_-1px_0_rgb(0_0_0_/_0.04),0_4px_14px_rgb(0_0_0_/_0.12)]">
+              {/* Hidden while sealed, so no word shows through the flap's hairline seams. */}
+              <div className="site-envelope-card-text flex h-full flex-col items-center gap-[5%] px-[6%] pt-[9%]">
+                <span className="text-[clamp(9px,1.6vw,11px)] uppercase tracking-[0.3em] text-ink/55">You&rsquo;re invited</span>
+                <span
+                  className="leading-[1.05]"
+                  style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: names && names.length > 22 ? "clamp(18px, 4.6vw, 32px)" : "clamp(22px, 5.6vw, 40px)" }}
+                >
+                  {names || initials}
+                </span>
+                <span className="block h-px w-[14%] shrink-0 bg-[var(--site-accent)] opacity-70" />
+                {date && <span className="text-[clamp(10px,1.9vw,13px)] tracking-[0.22em] text-ink/70">{date}</span>}
+              </div>
+            </div>
+          </>
+        )}
 
         {/* The front pocket: two side folds under a bottom fold, each casting a soft shadow. */}
-        <svg className="absolute inset-0 z-[3] h-full w-full overflow-visible" viewBox="0 0 155 100" preserveAspectRatio="none" aria-hidden="true">
+        <svg className="site-envelope-part absolute inset-0 z-[3] h-full w-full overflow-visible" viewBox="0 0 155 100" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <filter id="env-fold" x="-10%" y="-20%" width="120%" height="140%">
               <feDropShadow dx="0" dy="-0.4" stdDeviation="0.9" floodColor="#000" floodOpacity="0.13" />
@@ -209,14 +234,14 @@ function Envelope({ initials, names, date, guest }: { initials: string } & Envel
         </svg>
         {guest && (
           <p
-            className="pointer-events-none absolute inset-x-[20%] bottom-[11%] z-[3] truncate text-center text-ink/80"
+            className="site-envelope-part pointer-events-none absolute inset-x-[12%] bottom-[11%] z-[3] truncate text-center text-ink/80"
             style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: "clamp(16px, 3.6vw, 26px)" }}
           >
             {guest}
           </p>
         )}
 
-        <div className="site-envelope-flap absolute inset-x-0 top-0 z-[4] h-[60%] origin-top [transform-style:preserve-3d]">
+        <div className={`site-envelope-flap site-envelope-part absolute inset-x-0 top-0 z-[4] origin-top [transform-style:preserve-3d] ${portrait ? "h-[44%]" : "h-[60%]"}`}>
           {/* Outside: the paper, lit from above, with a crisp folded edge. */}
           <div
             className="absolute inset-0 bg-card [backface-visibility:hidden]"
@@ -241,7 +266,7 @@ function Envelope({ initials, names, date, guest }: { initials: string } & Envel
           </div>
           {/* The wax seal, which cracks in two and falls away before the flap lifts. */}
           <div
-            className="absolute bottom-0 left-1/2 aspect-square h-[42%] max-h-[124px] min-h-[68px] -translate-x-1/2 translate-y-1/2 drop-shadow-[0_3px_4px_rgb(0_0_0_/_0.25)] [backface-visibility:hidden]"
+            className="absolute bottom-0 left-1/2 aspect-square h-[42%] max-h-[124px] min-h-[60px] -translate-x-1/2 translate-y-1/2 drop-shadow-[0_3px_4px_rgb(0_0_0_/_0.25)] [backface-visibility:hidden]"
             aria-hidden="true"
           >
             {(["l", "r"] as const).map((side) => (

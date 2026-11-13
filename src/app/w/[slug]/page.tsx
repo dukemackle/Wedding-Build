@@ -11,6 +11,7 @@ import { GuestSiteView, loadGuestSiteContent } from "./guest-site-view";
 import { SiteGate } from "./site-gate";
 import { findHousehold } from "@/lib/households";
 import { inviteCookie } from "@/lib/invite-codes";
+import { loadEnvelopeCard } from "@/lib/save-the-date/guest-card";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -97,14 +98,16 @@ export default async function PublicWeddingPage({
   }
 
   const design = parseSiteDesign(wedding.site_design);
-  const [content, household] = await Promise.all([
+  const [content, household, envelopeCard] = await Promise.all([
     loadGuestSiteContent(supabase, wedding),
     findHousehold(wedding.id, (await cookies()).get(inviteCookie(slug))?.value),
+    // Only looked up when the site opens with the envelope.
+    design.motion.opening === "envelope" ? loadEnvelopeCard(slug) : null,
   ]);
 
   return (
     <GuestSiteTheme design={design}>
-      <GuestSiteView wedding={wedding} content={content} household={household} />
+      <GuestSiteView wedding={wedding} content={content} household={household} envelopeCard={envelopeCard} />
     </GuestSiteTheme>
   );
 }

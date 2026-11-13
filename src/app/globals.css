@@ -1323,6 +1323,68 @@ body:has(.search-shell-root) .site-footer {
   25% { transform: translate(3%, 1%) rotate(5deg); opacity: 1; }
   100% { transform: translate(30%, 130%) rotate(34deg); opacity: 0; }
 }
+/* Wide screens have room to show the card larger once it's out. */
+@media (min-width: 768px) {
+  .site-envelope[data-card] { --present-scale: 1.22; }
+}
+/* With the couple's own card: it rises out, comes to the front and holds
+   while the envelope drops away, then the overlay fades. */
+.site-envelope[data-card] {
+  animation: site-overlay-out calc(0.7s * var(--motion-speed, 1)) ease calc(4.4s * var(--motion-speed, 1)) both;
+}
+.site-envelope[data-card] .site-envelope-card {
+  animation: site-card-present calc(1.9s * var(--motion-speed, 1)) linear calc(1.25s * var(--motion-speed, 1)) both;
+}
+.site-envelope[data-card] .site-envelope-part {
+  animation-name: site-part-drop;
+  animation-duration: calc(0.7s * var(--motion-speed, 1));
+  animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
+  animation-delay: calc(2.1s * var(--motion-speed, 1));
+  animation-fill-mode: both;
+}
+.site-envelope[data-card][data-wait] {
+  animation: site-overlay-wait calc(0.7s * var(--motion-speed, 1)) ease calc(10s + 4.1s * var(--motion-speed, 1)) both;
+}
+.site-envelope[data-card][data-wait] .site-envelope-card {
+  animation: site-card-present-wait calc(1.9s * var(--motion-speed, 1)) linear calc(10s + 0.95s * var(--motion-speed, 1)) both;
+}
+.site-envelope[data-card][data-wait] .site-envelope-part {
+  animation-name: site-part-drop-wait;
+  animation-duration: calc(0.7s * var(--motion-speed, 1));
+  animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
+  animation-delay: calc(10s + 1.8s * var(--motion-speed, 1));
+  animation-fill-mode: both;
+}
+.site-envelope[data-card] .site-envelope-flap {
+  animation:
+    site-flap calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) calc(0.6s * var(--motion-speed, 1)) both,
+    site-flap-tuck calc(0.8s * var(--motion-speed, 1)) linear calc(0.6s * var(--motion-speed, 1)) both,
+    site-part-drop calc(0.7s * var(--motion-speed, 1)) cubic-bezier(0.5, 0, 0.75, 0) calc(2.1s * var(--motion-speed, 1)) both;
+}
+.site-envelope[data-card][data-wait] .site-envelope-flap {
+  animation:
+    site-flap-wait calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) calc(10s + 0.3s * var(--motion-speed, 1)) both,
+    site-flap-tuck-wait calc(0.8s * var(--motion-speed, 1)) linear calc(10s + 0.3s * var(--motion-speed, 1)) both,
+    site-part-drop-wait calc(0.7s * var(--motion-speed, 1)) cubic-bezier(0.5, 0, 0.75, 0) calc(10s + 1.8s * var(--motion-speed, 1)) both;
+}
+@keyframes site-card-present {
+  0% { transform: translateY(0); z-index: 2; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  38% { transform: translateY(-52%); z-index: 2; }
+  39% { transform: translateY(-52%); z-index: 7; animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1); }
+  100% { transform: translateY(-20%) scale(var(--present-scale, 1.08)); z-index: 7; }
+}
+@keyframes site-part-drop {
+  to { translate: 0 22%; opacity: 0; }
+}
+@keyframes site-card-present-wait {
+  0% { transform: translateY(0); z-index: 2; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  38% { transform: translateY(-52%); z-index: 2; }
+  39% { transform: translateY(-52%); z-index: 7; animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1); }
+  100% { transform: translateY(-20%) scale(var(--present-scale, 1.08)); z-index: 7; }
+}
+@keyframes site-part-drop-wait {
+  to { translate: 0 22%; opacity: 0; }
+}
 /* Drawn on the server before the script knows the guest's setting. */
 @media (prefers-reduced-motion: reduce) {
   .site-envelope {
