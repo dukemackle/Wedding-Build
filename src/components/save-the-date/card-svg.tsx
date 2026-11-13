@@ -4,7 +4,7 @@ import { isInvitationTemplate } from "@/lib/save-the-date/invitations";
 import QRCode from "qrcode";
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
-import { BACK_QR, backQrUrl, backTemplate } from "@/lib/save-the-date/back";
+import { backQrFor, backQrUrl, backTemplate } from "@/lib/save-the-date/back";
 import { hasNumericDate, layerText, wrapText } from "@/lib/save-the-date/format";
 import { cardPalette, templateById } from "@/lib/save-the-date/templates";
 import { ARTBOARD, type CardDoc, type ColorRole, type Layer, type LayerOverride, type Palette, type TextLayer } from "@/lib/save-the-date/types";
@@ -292,6 +292,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
         // Too little between them to scan (a dark ink set on a badge): white tile, darkest ink.
         const light = lum(lighter) - lum(dark) < 110 ? "#ffffff" : lighter;
         const pad = 26;
+        const BACK_QR = backQrFor(t);
         const k = BACK_QR.w / qr.size;
         return (
           <g data-layer="back-qr" opacity={site ? 1 : 0.35}>

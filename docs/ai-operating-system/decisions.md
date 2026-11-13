@@ -355,6 +355,47 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Revisit: when couples ask for texts. Then add funds, register the brand and
   campaign (Account Notifications), set the three TWILIO_* secrets.
 
+## 2026-11-11: Batch A suites wait for final, print-ready art
+
+- Decision (owner): the four Batch A suites (Highland Lake, Heirloom Peony,
+  Wildflower Meadow, Modern Black-Tie) don't go to a PR on the interim art
+  cut from the mockups. Final text-free watercolours first, so the suites
+  are print-ready at launch.
+- Built and pushed on `claude/modest-turing-7ws8qs`; the seven files and
+  their ChatGPT prompts are in `docs/batch-a-suites.md`.
+- Why: most couples print save the dates; the interim art prints soft.
+- Revisit: when the seven PNGs arrive (Claude upscales, cuts the small
+  pieces, re-previews, then opens the PR).
+
+## 2026-11-12: Suite websites put the couple's photo on top, the painting at the foot
+
+- Decision (owner): on the painted suites' guest sites the couple's own photo
+  takes the top (framed on the paper under their names; names, date and place
+  alone until a photo is uploaded). The suite's watercolour closes the page,
+  edge to edge under the footer, and the page deepens from paper to the
+  painting's sky colour towards it, like the Highland moor template.
+- Applies to every painted suite (Highland Lake and those added 2026-11-12);
+  Modern Black-Tie keeps its black-and-white photo top. The cards don't change.
+- Owner: keep every live template and give couples more options, so the
+  paintings are also offered on all templates (Design › Background ›
+  Scene › Paintings).
+- Why: the paintings had replaced the couple's photo; couples expect to see
+  themselves first.
+
+## 2026-11-12: Every suite painting blends into the page, never a hard edge
+
+- Rule (owner): on every painted suite's website the top of the painting fades
+  into the page, and the page is that painting's own background (its sky
+  colour, its plaster wall, its paper), so page and painting read as one
+  picture, as if the template and the painting were one image. No visible
+  line, colour band or cropped top anywhere.
+- How: `foot()` in site-scene.tsx (top-edge mask plus a ramp to the
+  painting's sampled top colour, `PAINTED_SKY`); a wall or texture goes in
+  `PAINTED_TEXTURE`. A painting cut off at the top gets repainted with sky
+  above it, not cropped.
+
+## 2026-11-13: Batch A suites ship in batches
+Owner asked to put the new suites live (PR from `claude/modest-turing-7ws8qs`), to continue in a fresh chat using `docs/batch-a-suites.md` ("How to build one") and `scripts/batch-a/`, and to send several suites per message. One chat per branch at a time. Flat/clip-art or recoloured duplicates are declined with a redo prompt unless the owner says build it. Small (~1000-1900px) sets are fine on screen; larger masters needed before print.
 ## 2026-11-12: Listing photos beyond the listing need an opt-in; attorney before outreach
 
 - Decision (owner): the owner meets an attorney before any venue/vendor

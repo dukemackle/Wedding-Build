@@ -15,7 +15,7 @@ import { SiteArt, SuiteCorner } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
 import { SiteSection } from "@/components/site-section";
-import { CANVAS_WIDTH, READING_WIDTH } from "@/lib/layout";
+import { CANVAS_WIDTH, READING_WIDTH, STANDARD_WIDTH } from "@/lib/layout";
 import { creditLinks, isLibraryPhoto, parseCredit } from "@/lib/photo-credit";
 
 function formatDate(dateStr: string) {
@@ -585,6 +585,158 @@ function SignatureHero({ wedding }: { wedding: PublicWedding }) {
 }
 
 /**
+ * Stationery (Batch A suites, docs/batch-a-suites.md): the top of the page
+ * set like the couple's printed invitation, on its paper: who's hosting in
+ * small capitals, the names large, the invitation line in italics, one fine
+ * rule (no ornament: owner, 2026-11-11), then the date and place. The suite's painting is the scene: a
+ * lake along the bottom, peonies at two corners, or wildflowers down both
+ * sides. Script names stay on one line on a computer and break between the
+ * names on a phone.
+ */
+function StationeryHero({ wedding }: { wedding: PublicWedding }) {
+  const design = useSiteDesign();
+  const { scene, scriptNames, theme } = resolveDesign(design);
+  // Script names, or italic ones (Bougainvillea): mixed case on one line, as on the card.
+  const script = scriptNames || theme.italicNames;
+  const { joiner } = design.names;
+  const first = wedding.partner_a_name ?? "";
+  const second = wedding.partner_b_name ?? "";
+  const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
+  const date = wedding.wedding_date ? formatDate(wedding.wedding_date).replace(/^\w+, /, "") : null;
+  // The couple's own photo, framed on the paper under their names (owner,
+  // 2026-11-12); the suite's painting closes the page instead (site-scene.tsx).
+  // No photo yet: the names, date and place on the paper alone.
+  const photo = wedding.hero_photo_url;
+  const caps = "uppercase tracking-[0.28em]";
+  const rule = "h-px bg-[color-mix(in_srgb,var(--site-accent)_45%,transparent)]";
+  const longest = Math.max(4, first.length, second.length);
+  // Script names: big, sized so the longer name fits a phone; capitals smaller and spaced.
+  const size = script
+    ? scriptNames
+      ? `min(clamp(3.6rem,8.5vw,7.5rem), calc((100vw - 2.5rem) / ${(longest * 0.42).toFixed(2)}))`
+      : `min(clamp(3rem,6.5vw,5.75rem), calc((100vw - 2.5rem) / ${(longest * 0.46).toFixed(2)}))`
+    : `min(clamp(2.4rem,5vw,4rem), calc((100vw - 9rem) / ${(longest * 0.82).toFixed(2)}))`;
+  // Painted flowers down both sides leave a narrower column, and a meadow under it.
+  const sides = false;
+  return (
+    <header
+      className={`site-hero-plain relative overflow-hidden px-5 sm:px-8 ${
+        sides ? "pb-16 pt-14 sm:pb-20 sm:pt-20" : scene === "peonies" ? "pb-20 pt-24 sm:pb-36 sm:pt-28" : "pb-10 pt-12 sm:pb-12 sm:pt-16"
+      }`}
+    >
+      <SiteScene where="surround" />
+      <div className={`relative z-10 mx-auto flex w-full flex-col items-center text-center ${sides ? "max-w-[min(36rem,calc(100vw-9rem))]" : STANDARD_WIDTH}`}>
+        <SiteText slot="hero.kicker" as="p" className={`text-[11px] text-ink sm:text-[13px] ${caps}`}>
+          {design.occasion.kind === "renewal" ? "We're renewing our vows" : "Together with their families"}
+        </SiteText>
+        <SiteText
+          slot="hero.names"
+          as="h1"
+          className={`site-names mt-4 text-forest [font-style:var(--site-name-style,normal)] [text-wrap:balance] ${script ? "leading-[1.05]" : "font-display font-medium uppercase leading-[1.15] tracking-[0.1em]"}`}
+          style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: size }}
+        >
+          {script ? (
+            <>
+              <span className="whitespace-nowrap">{first}</span>
+              {first && second && <> {joiner} </>}
+              <span className="whitespace-nowrap">{second}</span>
+            </>
+          ) : (
+            <>
+              <span className="block">{first}</span>
+              {first && second && (
+                <span className="my-[0.25em] flex items-center justify-center gap-4 text-[0.42em] normal-case tracking-normal" aria-hidden={false}>
+                  <span className="h-px w-12 bg-[var(--site-accent)] opacity-50 sm:w-20" aria-hidden="true" />
+                  <span className="font-display italic">{joiner === "&" ? "and" : joiner}</span>
+                  <span className="h-px w-12 bg-[var(--site-accent)] opacity-50 sm:w-20" aria-hidden="true" />
+                </span>
+              )}
+              <span className="block">{second}</span>
+            </>
+          )}
+        </SiteText>
+        <p className="mt-4 font-display text-lg italic tracking-[0.06em] text-ink sm:text-xl">invite you to celebrate their wedding</p>
+        {photo ? (
+          // Framed like a print on the paper: a fine accent rule round a cream mat.
+          // Portrait on a phone, landscape on a wide screen.
+          <div className="mt-8 w-full max-w-[min(100%,46rem)] border border-[color-mix(in_srgb,var(--site-accent)_40%,transparent)] bg-[var(--color-card)] p-2 shadow-[0_18px_40px_-28px_rgba(0,0,0,0.45)] sm:p-3">
+            <div className="site-hero-photo relative aspect-[4/5] w-full overflow-hidden bg-[var(--site-photo)] sm:aspect-[3/2]">
+              <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 640px) 736px, 100vw" className="hero-kenburns object-cover" />
+            </div>
+          </div>
+        ) : (
+          <span className={`mt-6 block w-24 sm:w-32 ${rule}`} aria-hidden="true" />
+        )}
+        {date && <p className={`mt-6 font-display text-xl text-forest sm:text-2xl ${caps}`}>{date}</p>}
+        {(wedding.venue_name || place) && (
+          <p className={`mt-3 text-[11px] leading-relaxed text-ink sm:text-xs ${caps}`}>
+            {place || wedding.venue_name}
+          </p>
+        )}
+        <HeroActions wedding={wedding} location={locationOf(wedding)} tone="dark" />
+      </div>
+    </header>
+  );
+}
+
+/**
+ * Formal (Modern Black-Tie): the couple's photo across the top, in black and
+ * white by default, a fine rule over their names in wide-spaced capitals,
+ * the date and place in a row, everything centred. Without a photo, the same
+ * type on the paper inside a fine double border, like the card.
+ */
+function FormalHero({ wedding, photo }: { wedding: PublicWedding; photo: string | null }) {
+  const design = useSiteDesign();
+  const { joiner } = design.names;
+  const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(` ${joiner} `);
+  const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
+  const date = wedding.wedding_date ? formatDate(wedding.wedding_date).replace(/^\w+, /, "") : null;
+  const tone = photo ? "light" : "dark";
+  const longest = Math.max(6, names.length);
+  const size = `min(clamp(2.2rem,5.4vw,4.75rem), calc((100vw - 3rem) / ${(longest * 0.62).toFixed(2)}))`;
+  const text = photo ? "text-white" : "text-forest";
+  const type = (
+    <div className={`relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-6 text-center ${text}`}>
+      <span className={`block h-px w-16 ${photo ? "bg-white/70" : "bg-[var(--site-accent)]"}`} aria-hidden="true" />
+      <SiteText
+        slot="hero.names"
+        as="h1"
+        className={`site-names mt-7 font-display font-normal uppercase leading-[1.15] tracking-[0.16em] [text-wrap:balance] ${photo ? "[text-shadow:0_2px_24px_rgba(0,0,0,0.35)]" : ""}`}
+        style={{ fontFamily: "var(--font-display)", fontSize: size }}
+      >
+        {names}
+      </SiteText>
+      {(date || place) && (
+        <SiteText slot="hero.date" as="p" className={`mt-5 text-xs uppercase leading-loose tracking-[0.3em] sm:text-sm ${photo ? "text-white/90" : "text-ink"}`}>
+          {date && <span className="block sm:inline">{date}</span>}
+          {date && place && <span className="mx-5 hidden h-3.5 w-px translate-y-0.5 bg-current opacity-60 sm:inline-block" aria-hidden="true" />}
+          {place && <span className="block sm:inline">{place}</span>}
+        </SiteText>
+      )}
+      <HeroActions wedding={wedding} location={locationOf(wedding)} tone={tone} />
+    </div>
+  );
+  if (!photo) {
+    return (
+      <header className="px-4 py-10 sm:px-6 lg:py-14">
+        <div className="mx-auto max-w-5xl border-[3px] border-[var(--color-ink)] p-2">
+          <div className="border border-[var(--color-ink)] py-20 lg:py-28">{type}</div>
+        </div>
+      </header>
+    );
+  }
+  return (
+    <header className="relative flex min-h-[calc(var(--site-vh,1vh)*72)] items-center overflow-hidden py-24 lg:min-h-[calc(var(--site-vh,1vh)*82)]">
+      <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
+        <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+      </div>
+      <span className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0_/_0.55),rgb(0_0_0_/_0.25)_45%,rgb(0_0_0_/_0.5))]" aria-hidden="true" />
+      {type}
+    </header>
+  );
+}
+
+/**
  * The top of the guest site, in the couple's chosen layout (Style tab):
  * the photo across the top with a card over it, photo and names side by
  * side, or an arched photo above the names. Until there's a photo, the
@@ -614,6 +766,8 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   }
 
   if (hero === "signature") return <SignatureHero wedding={wedding} />;
+  if (hero === "stationery") return <StationeryHero wedding={wedding} />;
+  if (hero === "formal") return <FormalHero wedding={wedding} photo={photo} />;
 
   // No photo yet is the common first-run state, so it gets its own
   // deliberate treatment rather than an empty grey band. "Text only" is the

@@ -1,16 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { SiteScene } from "@/components/site-scene";
+import { PAINTED_SKY, PAINTED_TEXTURE, SiteScene } from "@/components/site-scene";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ALL_FONTS_HREF,
   designCssVars,
   DEFAULT_SITE_DESIGN,
+  resolveDesign,
   siteFontsHref,
   type SiteDesign,
   type TextSlotId,
 } from "@/lib/site-design";
+
+/**
+ * A painted suite's page deepens from the paper towards its painting's sky,
+ * so the landscape at the foot fades in out of it (owner, 2026-11-12).
+ * Left alone when the couple chose their own background pattern or texture.
+ */
+function paintedSky(design: SiteDesign): CSSProperties {
+  const scene = resolveDesign(design).scene;
+  const sky = PAINTED_SKY[scene];
+  if (!sky || design.background.pattern !== "none" || design.background.texture !== "none") return {};
+  const texture = PAINTED_TEXTURE[scene];
+  if (texture)
+    return {
+      ["--site-bar-bg" as string]: `color-mix(in srgb, ${sky} 45%, var(--color-parchment))`,
+      // The painting's own wall behind the whole page, washed with paper at
+      // the top so the names read, full strength where the painting begins.
+      backgroundImage: `linear-gradient(to bottom, color-mix(in srgb, var(--color-parchment) 55%, transparent) 0%, color-mix(in srgb, var(--color-parchment) 25%, transparent) 40%, transparent 75%), url(${texture.url})`,
+      backgroundSize: `100% 100%, ${texture.size}`,
+      backgroundRepeat: "no-repeat, repeat",
+      backgroundPosition: "top left, bottom center",
+    };
+  return {
+    // The menu bar takes the page's top colour, so there's no cream strip over it.
+    ["--site-bar-bg" as string]: `color-mix(in srgb, ${sky} 28%, var(--color-parchment))`,
+    // Each suite's own colour all the way down: a hint of its sky at the
+    // top, deepening towards it; the painting's own ramp (site-scene.tsx)
+    // lands on its exact top colour.
+    backgroundImage: `linear-gradient(to bottom, color-mix(in srgb, ${sky} 30%, var(--color-parchment)) 0%, color-mix(in srgb, ${sky} 70%, var(--color-parchment)) 100%)`,
+  };
+}
 
 /** What the editor sends into its preview frame whenever the draft changes. */
 export const DESIGN_MESSAGE = "wren:site-design";
@@ -152,7 +183,7 @@ export function GuestSiteTheme({
       />
       <div
         className="guest-site flex flex-1 flex-col bg-parchment font-body text-ink"
-        style={designCssVars(design) as CSSProperties}
+        style={{ ...(designCssVars(design) as CSSProperties), ...paintedSky(design) }}
         data-scroll={design.motion.scroll}
         data-photo={design.motion.photo}
         data-opening={design.motion.opening}
@@ -166,7 +197,7 @@ export function GuestSiteTheme({
             <TextEditingContext.Provider value={textEditing}>{children}</TextEditingContext.Provider>
           </ReplayContext.Provider>
         </DesignContext.Provider>
-        <footer className="mt-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-6 py-6 text-xs text-ink/50">
+        <footer className="relative z-10 mt-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-6 py-6 text-xs text-ink/50">
           <Link href="/" className="hover:text-ink">
             Made with You Do, I Do
           </Link>

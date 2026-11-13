@@ -56,6 +56,7 @@ export function Studio({ view }: { view: string }) {
       </div>
     );
   if (view.startsWith("gallery")) return <Gallery view={view} />;
+  if (view.startsWith("batch-a")) return <BatchA view={view} />;
   // "send": the Send page with sample guests (nothing can actually send here).
   if (view === "send")
     return (
@@ -132,3 +133,46 @@ function Gallery({ view }: { view: string }) {
   );
 }
 
+
+const BATCH_A = ["highland-lake", "heirloom-peony", "wildflower-meadow", "black-tie", "coastal-sunset", "bougainvillea", "joshua-tree", "sonoran", "garden-arch", "postmark", "french-riviera", "regatta", "palm-shore", "evergreen-ridge", "meadow-vista", "golden-barn", "starlit-terrace", "golden-hills", "blush-garden", "pressed-botanicals", "greenery-arch", "golden-magnolia", "tuscan-engraving", "vineyard-etching", "deco-fan", "portico", "iris-garden", "gold-flourish", "misty-ridge", "boho-sunset", "rose-ribbon", "papel-courtyard", "canopy", "jharokha", "plum-lattice", "adire", "capiz", "hibiscus", "autumn-orchard", "winter-solstice", "lavender-provence"];
+
+/** The reference couple from the Batch A mockups, and a stress couple with accents and long names. */
+const AVERY: CardContent = { ...SAMPLE_INVITATION, nameA: "Avery", nameB: "Jordan", date: "2027-06-12", place: "Aspen, Colorado", venue: "The Lake House", time: "at five o'clock in the evening", note: "Reception to follow", request: "request the pleasure of your company" };
+const ACCENTS: CardContent = { ...SAMPLE_INVITATION, nameA: "José-María Björnsdóttir", nameB: "Zoë Anastasia Ångström", date: "2027-09-25", place: "Saint-Rémy-de-Provence, France", venue: "Château des Alpilles & Gardens", time: "at half past four in the afternoon" };
+
+/**
+ * QA sheet for the Batch A suites ("batch-a", or "batch-a-long" for the
+ * stress couple): each suite's save the date and its back, the invitation
+ * and its RSVP back, every colourway along the bottom.
+ */
+function BatchA({ view }: { view: string }) {
+  const content = view === "batch-a-long" ? ACCENTS : AVERY;
+  return (
+    <div className="min-h-dvh bg-[#efebe4] p-6">
+      <link rel="stylesheet" href={FONTS_HREF} precedence="default" />
+      <div className="grid gap-10">
+        {BATCH_A.map((id) => {
+          const std = { ...newCard(id, { ...content, headline: "", note: "Formal invitation to follow" }), back: { on: true, travel: "Rooms held at the Hotel Jerome until May 1" } };
+          const inv = { ...newCard(`inv-${id}`, content), back: { on: true, travel: "", rsvp: true } };
+          const t = TEMPLATES.find((x) => x.id === id);
+          return (
+            <section key={id} data-suite={id} className="grid grid-cols-4 gap-4">
+              <CardSvg doc={std} className="w-full shadow-lg" />
+              <CardSvg doc={std} side="back" site="youdoido.com/w/avery-and-jordan" className="w-full shadow-lg" />
+              <CardSvg doc={inv} className="w-full shadow-lg" />
+              <CardSvg doc={inv} side="back" site="youdoido.com/w/avery-and-jordan" className="w-full shadow-lg" />
+              <div className="col-span-4 grid grid-cols-6 gap-3">
+                {t?.palettes.map((p) => (
+                  <CardSvg key={p.id} doc={{ ...std, palette: p.id }} className="w-full shadow" />
+                ))}
+                {t?.palettes.map((p) => (
+                  <CardSvg key={`i${p.id}`} doc={{ ...inv, palette: p.id }} className="w-full shadow" />
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

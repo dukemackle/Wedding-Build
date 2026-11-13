@@ -45,7 +45,7 @@ export function HeroActions({
   const secondary =
     tone === "light"
       ? "border border-white/60 text-white hover:bg-white/10"
-      : "border border-forest/40 text-forest hover:bg-forest/5";
+      : "border border-forest/40 bg-parchment/75 text-forest hover:bg-parchment/90";
   const base = "btn-motion rounded-full px-4 py-2 text-sm sm:px-5 font-medium transition-colors";
 
   return (

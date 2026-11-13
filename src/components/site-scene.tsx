@@ -50,6 +50,7 @@ export function SiteScene({ where }: { where: "band" | "strip" | "surround" | "f
   const scene = resolveDesign(design).scene;
   if (sceneById(scene).place !== where) return null;
 
+  if ((where === "band" || where === "foot") && PAINTED_BANDS[scene]) return PAINTED_BANDS[scene];
   if (where === "band" || where === "foot") {
     return (
       <svg
@@ -824,7 +825,176 @@ const STRIPS: Draw = {
   ),
 };
 
+/**
+ * Batch A suites (docs/batch-a-suites.md): watercolour scenes cut from the
+ * owner's approved mockups, in /public/site-art/batch-a. Pictures rather
+ * than shapes, so they keep their own colours whatever the palette; the
+ * paper is keyed out, so they sit on the page's background.
+ */
+const BATCH_A = "/site-art/batch-a";
+const painted = "pointer-events-none select-none";
+
+/**
+ * The painted suites' landscapes close the page, edge to edge under the
+ * footer, like Highland's moor; the couple's own photo has the top
+ * (owner, 2026-11-12). Shown whole (never trimmed at the top), it fades in
+ * softly out of the page, which deepens to the painting's own sky colour
+ * (PAINTED_SKY), so the whole site reads as one scene. A phone keeps the
+ * painting at least 360px tall and trims its sides at `x`, the part worth keeping.
+ */
+/** `whole`: two separate clusters at the corners, so phones get the whole width, never a zoomed crop that loses one. */
+const foot = (file: string, w: number, h: number, x: string, sky: string, whole = false): ReactNode => (
+  // A ramp above the painting lands the page on exactly the colour of the
+  // painting's top edge, which then fades in over it: one picture, no seam.
+  <div aria-hidden="true" className="site-scene -mt-[clamp(160px,18vw,320px)] pt-[clamp(160px,18vw,320px)]" style={{ background: `linear-gradient(to bottom, transparent, ${sky} clamp(160px,18vw,320px))` }}>
+    {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS */}
+    <img
+      src={`${BATCH_A}/${file}.webp`}
+      alt=""
+      width={w}
+      height={h}
+      style={{ objectPosition: `${x} 100%` }}
+      className={`${painted} block h-auto ${whole ? "min-h-0" : "min-h-[360px]"} w-full object-cover [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.6)_7%,#000_16%)] sm:min-h-0 sm:[object-position:50%_100%!important] 2xl:max-h-[820px]`}
+    />
+  </div>
+);
+
+/**
+ * The colour of each painting's top edge (its sky, sampled from the file):
+ * the page deepens to it, so the painting reads as the bottom of one sky.
+ */
+export const PAINTED_SKY: Partial<Record<SceneId, string>> = {
+  "alpine-lake": "#e5e3e3",
+  "coastal-sunset": "#f4e0da",
+  "terrace-arch": "#f9b88c",
+  "joshua-sunset": "#faebe0",
+  "sonoran-sunset": "#f9f0e3",
+  "lake-terrace": "#bad4ec",
+  "tuscan-villa": "#e9e2e1",
+  "riviera-terrace": "#c4dcfb",
+  "regatta-bay": "#b2cfe9",
+  "palm-shore": "#7db0ed",
+  // Its painting already rises out of plain paper, so the page stays paper.
+  "evergreen-ridge": "#f9f5eb",
+  "meadow-vista": "#f9f3e6",
+  "golden-barn": "#f9f3e6",
+  "starlit-terrace": "#08132f",
+  "deco-fan": "#0d1a31",
+  "golden-hills": "#f9f4ec",
+  "lavender-provence": "#fde9ce",
+  "winter-solstice": "#feeac9",
+  "autumn-orchard": "#fcebcc",
+  "hibiscus": "#fdeed6",
+  "capiz": "#fcecd2",
+  "adire": "#f9f3e6",
+  "plum-lattice": "#fcf0dc",
+  "jharokha": "#faf4e7",
+  "canopy": "#fdeeda",
+  "papel-courtyard": "#fdebcb",
+  "rose-ribbon": "#fce7c8",
+  "boho-sunset": "#fde2bc",
+  "misty-ridge": "#f8f6f0",
+  "tuscan-engraving": "#f9f3e6",
+  "vineyard-etching": "#fbf5e8",
+  "blush-garden": "#f9f4ec",
+  "gold-flourish": "#fdf1dd",
+  "golden-magnolia": "#f9efdf",
+  "greenery-arch": "#faf4e7",
+  portico: "#f9f5eb",
+  "pressed-botanicals": "#f9f3e6",
+  "iris-garden": "#fdefda",
+};
+
+/** Paintings whose page is a texture from the painting (a wall), not a sky colour. */
+export const PAINTED_TEXTURE: Partial<Record<SceneId, { url: string; size: string }>> = {
+  "terrace-arch": { url: `${BATCH_A}/terrace-wall.webp`, size: "calc(min(100vw, 900px) * 2) auto" },
+};
+
+const sky = (id: SceneId) => PAINTED_SKY[id] ?? "transparent";
+
+const PAINTED_BANDS: Partial<Record<SceneId, ReactNode>> = {
+  // Wildflower Meadow: the card's whole frame, flowers up both sides into the
+  // meadow and peaks, kept exactly as one picture and set at the foot of the
+  // page (owner, 2026-11-12). Its top fades into the paper.
+  "painted-wildflowers": (
+    <div aria-hidden="true" className="site-scene relative h-[clamp(520px,62vw,980px)] w-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_8%)]">
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/wildflower-left.webp`} alt="" width={300} height={880} className={`${painted} absolute bottom-[clamp(120px,18vw,300px)] left-0 h-[calc(100%-clamp(120px,18vw,300px))] w-auto max-w-none [mask-image:linear-gradient(to_right,#000_55%,transparent)] `} />
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/wildflower-right.webp`} alt="" width={300} height={880} className={`${painted} absolute bottom-[clamp(120px,18vw,300px)] right-0 h-[calc(100%-clamp(120px,18vw,300px))] w-auto max-w-none [mask-image:linear-gradient(to_left,#000_55%,transparent)] `} />
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/wildflower-meadow.webp`} alt="" width={1000} height={440} className={`${painted} absolute inset-x-0 bottom-0 h-[clamp(240px,40vw,560px)] w-full object-cover object-top`} />
+    </div>
+  ),
+  "alpine-lake": foot("highland-panorama", 1452, 610, "40%", sky("alpine-lake")),
+  "coastal-sunset": foot("coastal-panorama", 992, 500, "62%", sky("coastal-sunset")),
+  // Bougainvillea: the plaster wall is the page (PAINTED_TEXTURE), so the arch
+  // stands in it at its own size, centred, its floor carried on edge to edge
+  // (owner, 2026-11-12). Never cropped: a phone shows the whole arch.
+  "terrace-arch": (
+    <div
+      aria-hidden="true"
+      className="site-scene flex justify-center"
+      style={{ background: `url(${BATCH_A}/terrace-floor.webp) bottom center / auto min(13.55vw, 122px) repeat-x` }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour, sized by CSS */}
+      <img
+        src={`${BATCH_A}/terrace-panorama.webp`}
+        alt=""
+        width={1078}
+        height={1116}
+        className={`${painted} block h-auto w-full max-w-[900px] [mask-image:linear-gradient(to_bottom,transparent_0%,#000_10%),linear-gradient(to_right,transparent_0%,#000_4%,#000_96%,transparent_100%)] [mask-composite:intersect] [-webkit-mask-composite:source-in]`}
+      />
+    </div>
+  ),
+  "joshua-sunset": foot("jt-panorama", 1600, 595, "18%", sky("joshua-sunset")),
+  "sonoran-sunset": foot("sd-panorama", 1600, 900, "80%", sky("sonoran-sunset")),
+  "lake-terrace": foot("ga-panorama", 1494, 620, "50%", sky("lake-terrace")),
+  "tuscan-villa": foot("pm-panorama", 1600, 842, "72%", sky("tuscan-villa")),
+  "riviera-terrace": foot("fr-panorama", 1936, 806, "70%", sky("riviera-terrace")),
+  "regatta-bay": foot("rg-panorama", 1572, 822, "60%", sky("regatta-bay")),
+  "palm-shore": foot("sh-panorama", 1984, 833, "78%", sky("palm-shore")),
+  "golden-barn": foot("hs-foot", 1600, 1400, "25%", sky("golden-barn")),
+  "iris-garden": foot("ir-panorama", 1942, 809, "35%", sky("iris-garden")),
+  "pressed-botanicals": foot("pb-panorama", 2000, 833, "15%", sky("pressed-botanicals"), true),
+  portico: foot("pt-foot", 2000, 900, "50%", sky("portico"), true),
+  "greenery-arch": foot("gr-foot", 2000, 717, "50%", sky("greenery-arch"), true),
+  "golden-magnolia": foot("gm-foot", 2000, 900, "0%", sky("golden-magnolia")),
+  "gold-flourish": foot("gf-panorama", 1942, 809, "82%", sky("gold-flourish")),
+  "blush-garden": foot("bl-foot", 1600, 1050, "70%", sky("blush-garden")),
+  "vineyard-etching": foot("ve-foot", 1600, 1150, "85%", sky("vineyard-etching")),
+  "tuscan-engraving": foot("te-panorama", 2000, 858, "80%", sky("tuscan-engraving")),
+  "misty-ridge": foot("mr-panorama", 2000, 833, "90%", sky("misty-ridge")),
+  "boho-sunset": foot("bs-panorama", 1942, 809, "70%", sky("boho-sunset")),
+  "rose-ribbon": foot("rr-panorama", 1942, 809, "30%", sky("rose-ribbon")),
+  "papel-courtyard": foot("pp-panorama", 2000, 833, "30%", sky("papel-courtyard")),
+  "canopy": foot("cy-panorama", 2000, 833, "50%", sky("canopy"), true),
+  "jharokha": foot("jk-panorama", 2000, 833, "52%", sky("jharokha")),
+  "plum-lattice": foot("pl-panorama", 1942, 809, "15%", sky("plum-lattice")),
+  "adire": foot("ad-panorama", 2000, 833, "50%", sky("adire")),
+  "capiz": foot("cz-panorama", 2000, 833, "85%", sky("capiz")),
+  "hibiscus": foot("hb-panorama", 1942, 809, "20%", sky("hibiscus")),
+  "autumn-orchard": foot("ao-panorama", 1942, 809, "50%", sky("autumn-orchard")),
+  "winter-solstice": foot("ws-panorama", 2000, 833, "30%", sky("winter-solstice")),
+  "lavender-provence": foot("lv-panorama", 1942, 809, "60%", sky("lavender-provence")),
+  "golden-hills": foot("gl-foot", 1600, 1200, "35%", sky("golden-hills")),
+  "deco-fan": foot("df-panorama", 2000, 833, "50%", sky("deco-fan")),
+  "starlit-terrace": foot("st-panorama", 2000, 833, "12%", sky("starlit-terrace")),
+  "meadow-vista": foot("mv-foot", 1600, 1393, "45%", sky("meadow-vista")),
+  "evergreen-ridge": foot("ev-foot", 1600, 1300, "30%", sky("evergreen-ridge")),
+};
+
 const SURROUNDS: Draw = {
+  // Peonies at two corners, off the edges: the top left and the bottom right.
+  peonies: () => (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/heirloom-corner-top.webp`} alt="" width={560} height={800} className={`${painted} absolute -left-2 -top-2 h-auto w-[34vw] max-w-[440px] sm:w-[30vw]`} />
+      {/* eslint-disable-next-line @next/next/no-img-element -- decorative watercolour */}
+      <img src={`${BATCH_A}/heirloom-corner-bottom.webp`} alt="" width={620} height={620} className={`${painted} absolute -bottom-2 -right-2 h-auto w-[36vw] max-w-[420px] sm:w-[28vw]`} />
+    </>
+  ),
+
   // Gilded (suites wave 2): the card's line-drawn flowers, running off the
   // left edge of the top of the page, in the accent, with a blossom branch
   // off the right on a wide screen to balance them. A phone has no room
@@ -993,7 +1163,8 @@ export function SceneThumb({ scene, time = "day" }: { scene: SceneId; time?: Sce
           <span className="relative block h-5 w-36 rounded-full" style={{ background: "var(--color-ink)" }} />
           <span className="relative block h-3 w-20 rounded-full opacity-50" style={{ background: "var(--color-ink)" }} />
         </span>
-        {(place === "band" || place === "foot") && (
+        {(place === "band" || place === "foot") && PAINTED_BANDS[scene] && <span className="block h-[55%] w-full shrink-0 [&>div]:!mt-0 [&>div]:h-full [&>div]:!pt-0 [&_img]:h-full [&_img]:!min-h-0">{PAINTED_BANDS[scene]}</span>}
+        {(place === "band" || place === "foot") && !PAINTED_BANDS[scene] && (
           <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="block h-[55%] w-full shrink-0">
             {lit(time, id, scene, BANDS[scene]?.(id))}
           </svg>

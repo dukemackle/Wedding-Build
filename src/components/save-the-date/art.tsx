@@ -25,6 +25,20 @@ const img = (label: string, file: string, width: number): ImageArt => ({
   src: `/site-art/${file}.webp`,
 });
 
+/**
+ * Batch A suites (2026-11-11): watercolours cut from the owner's approved
+ * reference mockups, text removed and the paper keyed out, in
+ * /public/site-art/batch-a. Interim art: screen resolution, not print
+ * (docs/batch-a-suites.md lists the final assets still needed).
+ */
+const batchA = (label: string, file: string, w: number, h: number): ImageArt => ({
+  kind: "image",
+  label,
+  aspect: h / w,
+  src: `/site-art/batch-a/${file}.webp`,
+});
+
+
 /** A four-point sparkle centred on (x, y). */
 function sparkle(x: number, y: number, r: number, key: string | number) {
   const k = r * 0.18;
@@ -450,6 +464,29 @@ export const ART: Record<string, ArtDef> = {
         stripes.push(<path key={i} d={`M${i} 0L${i + 22} 0L${i + 22 + 1400} 1400L${i + 1400} 1400Z`} fill={(i / 44) % 2 ? pal.ink : pal.accent} />);
       }
       const id = `airmail-${pal.id}`;
+      return (
+        <g transform={`scale(${s})`}>
+          <clipPath id={id}>
+            <path d={`M0 0H1000V1400H0Z M${band} ${band}V${1400 - band}H${1000 - band}V${band}Z`} clipRule="evenodd" />
+          </clipPath>
+          <g clipPath={`url(#${id})`}>{stripes}</g>
+        </g>
+      );
+    },
+  },
+  /** Postmark: a narrower airmail edge in the accent and muted colours (red and blue by default), so the ink stays for the type. */
+  airmailSoft: {
+    kind: "vector",
+    label: "Airmail border",
+    aspect: 1.4,
+    draw: (w, pal) => {
+      const s = w / 1000;
+      const band = 22;
+      const stripes: ReactNode[] = [];
+      for (let i = -1400; i < 1000 + 1400; i += 40) {
+        stripes.push(<path key={i} d={`M${i} 0L${i + 20} 0L${i + 20 + 1400} 1400L${i + 1400} 1400Z`} fill={(i / 40) % 2 ? pal.muted : pal.accent} />);
+      }
+      const id = `airmail-soft-${pal.id}`;
       return (
         <g transform={`scale(${s})`}>
           <clipPath id={id}>
@@ -926,6 +963,96 @@ export const ART: Record<string, ArtDef> = {
           <path d={half} />
           <path d={half} transform={`translate(${w} 0) scale(-1 1)`} />
           <path d={`M${c} ${m - 5}L${c + 5} ${m}L${c} ${m + 5}L${c - 5} ${m}Z`} />
+        </g>
+      );
+    },
+  },
+  // ---- Batch A suites ----
+  highlandStd: batchA("Alpine lake", "highland-std", 1024, 1434),
+  highlandInv: batchA("Alpine lake", "highland-std", 1024, 1434),
+  highlandForest: batchA("Pines and rocks", "highland-forest", 162, 170),
+  goldenBarnStd: batchA("Golden barn", "hs-std", 1000, 1400),
+  goldenHillsStd: batchA("Golden hills", "gl-std", 1000, 1400),
+  blushGardenStd: batchA("Blush garden", "bl-std", 1000, 1400),
+  pressedStd: batchA("Pressed botanicals", "pb-std", 1000, 1400),
+  greeneryArch: batchA("Greenery arch", "gr-arch", 1600, 659),
+  magnoliaStd: batchA("Golden magnolia", "gm-std", 1000, 1400),
+  tuscanEngravingStd: batchA("Tuscan engraving", "te-std", 1000, 1400),
+  vineyardEtchingStd: batchA("Vineyard etching", "ve-std", 1000, 1400),
+  decoFanStd: batchA("Deco fan", "df-std", 1000, 1400),
+  decoFanBack: batchA("Deco fan", "df-back", 1000, 667),
+  porticoArch: batchA("Portico", "pt-arch", 1010, 840),
+  irisGardenStd: batchA("Iris garden", "ir-std", 1000, 1400),
+  goldFlourishStd: batchA("Gold flourish", "gf-std", 1000, 1400),
+  mistyRidgeStd: batchA("Misty ridge", "mr-std", 1000, 1400),
+  bohoSunsetStd: batchA("Boho sunset", "bs-std", 1000, 1400),
+  roseRibbonStd: batchA("Roses and ribbon", "rr-std", 1000, 1400),
+  papelStd: batchA("Papel courtyard", "pp-std", 1000, 1400),
+  canopyStd: batchA("Chuppah canopy", "cy-std", 1000, 1400),
+  jharokhaStd: batchA("Sandstone jharokha", "jk-std", 1000, 1400),
+  plumLatticeStd: batchA("Plum blossom lattice", "pl-std", 1000, 1400),
+  plumLatticeBack: batchA("Plum blossom lattice", "pl-back", 1000, 900),
+  adireStd: batchA("Indigo cloth", "ad-std", 1000, 1400),
+  capizStd: batchA("Capiz shells", "cz-std", 1000, 1400),
+  hibiscusStd: batchA("Tropical hibiscus", "hb-std", 1000, 1400),
+  autumnOrchardStd: batchA("Autumn orchard", "ao-std", 1000, 1400),
+  winterSolsticeStd: batchA("Winter solstice", "ws-std", 1000, 1400),
+  lavenderProvenceStd: batchA("Lavender fields", "lv-std", 1000, 1400),
+  starlitStd: batchA("Starlit terrace", "st-std", 1000, 1400),
+  meadowVistaStd: batchA("Meadow vista", "mv-std", 1000, 1400),
+  evergreenStd: batchA("Evergreen ridge", "ev-std", 1000, 1400),
+  shorelineStd: batchA("Palm on the shore", "sh-std", 1000, 1400),
+  shorelineInv: batchA("Palms on the shore", "sh-inv", 1000, 1400),
+  regattaStd: batchA("Lighthouse and hydrangeas", "rg-save-the-date", 1000, 610),
+  regattaInv: batchA("Sailboat on the bay", "rg-invitation", 1000, 610),
+  rivieraStd: batchA("Riviera terrace", "fr-save-the-date", 1000, 670),
+  rivieraInv: batchA("Riviera sea", "fr-invitation", 1000, 670),
+  postmarkStd: batchA("Tuscan villa", "pm-std", 1000, 527),
+  postmarkInv: batchA("Tuscan vineyards", "pm-inv", 1000, 525),
+  sonoranStd: batchA("Sonoran desert", "sd-std", 1000, 1400),
+  sonoranInv: batchA("Sonoran desert (invitation)", "sd-inv", 1000, 1400),
+  gardenStd: batchA("Garden arch over the lake", "ga-save-the-date", 1500, 920),
+  gardenInv: batchA("Lake and villa", "ga-invitation", 1500, 920),
+  joshuaStd: batchA("Joshua tree at sunset", "jt-save-the-date", 1500, 800),
+  joshuaInv: batchA("Joshua tree at sunset (invitation)", "jt-invitation", 1500, 800),
+  terraceStd: batchA("Bougainvillea terrace", "terrace-std", 1000, 1400),
+  coastalStd: batchA("Big Sur coast", "coastal-std", 1024, 1434),
+  coastalFoot: batchA("Coast and poppies", "coastal-foot", 1024, 410),
+  heirloomStd: batchA("Peony corners", "heirloom-std", 1000, 1400),
+  heirloomInv: batchA("Peony corners (invitation)", "heirloom-inv", 1000, 1400),
+  heirloomTop: batchA("Peony cluster", "heirloom-corner-top", 560, 800),
+  heirloomBottom: batchA("Peony cluster (lower)", "heirloom-corner-bottom", 620, 620),
+  wildflowerFrame: batchA("Wildflower meadow", "wildflower-card", 1000, 1400),
+  wildflowerLeft: batchA("Wildflowers (left)", "wildflower-left", 300, 1400),
+  wildflowerRight: batchA("Wildflowers (right)", "wildflower-right", 300, 1400),
+  /** Black-tie: a heavier outer rule and a fine inner one, like an engraved card's border. */
+  doubleFrame: {
+    kind: "vector",
+    label: "Double frame",
+    aspect: 1.4,
+    draw: (w) => {
+      const s = w / 1000;
+      return (
+        <g fill="none" stroke="currentColor" transform={`scale(${s})`}>
+          <rect x={30} y={30} width={940} height={1340} strokeWidth={3} />
+          <rect x={44} y={44} width={912} height={1312} strokeWidth={1} />
+        </g>
+      );
+    },
+  },
+  /** Two short rules with a small diamond between them, spaced wide. */
+  diamondSpan: {
+    kind: "vector",
+    label: "Diamond rules",
+    aspect: 0.03,
+    draw: (w) => {
+      const y = w * 0.015;
+      const c = w / 2;
+      return (
+        <g stroke="currentColor" fill="currentColor" strokeWidth={1.6}>
+          <line x1={0} x2={w * 0.24} y1={y} y2={y} />
+          <line x1={w * 0.76} x2={w} y1={y} y2={y} />
+          <path d={`M${c} ${y - 8}L${c + 8} ${y}L${c} ${y + 8}L${c - 8} ${y}Z`} stroke="none" />
         </g>
       );
     },

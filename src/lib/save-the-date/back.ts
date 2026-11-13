@@ -37,16 +37,94 @@ const KEEP: Record<string, (string | [string, Partial<ArtLayer>])[]> = {
   calligraphy: ["deckle"],
 };
 
+/**
+ * Batch A suites: the back's own art, because each front's painting covers
+ * the card. A sprig or corner of the same watercolours, clear of the type.
+ */
+const BACK_ART: Record<string, ArtLayer[]> = {
+  "highland-lake": [
+    { kind: "art", id: "back-pines", label: "Pines", art: "highlandForest", x: 40, y: 1186, w: 180 },
+    { kind: "art", id: "back-pines2", label: "Pines", art: "highlandForest", x: 780, y: 1186, w: 180, flip: true },
+    { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.6 },
+  ],
+  "heirloom-peony": [
+    { kind: "art", id: "back-top", label: "Peonies", art: "heirloomTop", x: 0, y: 0, w: 280 },
+    { kind: "art", id: "back-bottom", label: "Peonies (lower)", art: "heirloomBottom", x: 690, y: 1090, w: 310 },
+    { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.45 },
+  ],
+  "wildflower-meadow": [
+    { kind: "art", id: "back-left", label: "Wildflowers", art: "wildflowerLeft", x: -60, y: 0, w: 300 },
+    { kind: "art", id: "back-right", label: "Wildflowers", art: "wildflowerRight", x: 760, y: 0, w: 300 },
+    { kind: "art", id: "back-deckle", label: "Deckled edge", art: "deckle", x: 0, y: 0, w: 1000, color: "ink", opacity: 0.4 },
+  ],
+  // The whole painting, the back's type on a paper panel laid over it.
+  "iris-garden": [{ kind: "art", id: "back-scene", label: "Iris garden", art: "irisGardenStd", x: 0, y: 0, w: 1000 }],
+  "pressed-botanicals": [{ kind: "art", id: "back-scene", label: "Pressed botanicals", art: "pressedStd", x: 0, y: 0, w: 1000 }],
+  // The arch over the initials and the website address.
+  // A small arch at the foot, under the type.
+  portico: [{ kind: "art", id: "back-arch", label: "Portico", art: "porticoArch", x: 310, y: 1090, w: 380 }],
+  "greenery-arch": [{ kind: "art", id: "back-arch", label: "Greenery arch", art: "greeneryArch", x: 25, y: 175, w: 950 }],
+  "golden-magnolia": [{ kind: "art", id: "back-scene", label: "Golden magnolia", art: "magnoliaStd", x: 0, y: 0, w: 1000 }],
+  "gold-flourish": [{ kind: "art", id: "back-scene", label: "Gold flourish", art: "goldFlourishStd", x: 0, y: 0, w: 1000 }],
+  "blush-garden": [{ kind: "art", id: "back-scene", label: "Blush garden", art: "blushGardenStd", x: 0, y: 0, w: 1000 }],
+  "vineyard-etching": [{ kind: "art", id: "back-scene", label: "Vineyard etching", art: "vineyardEtchingStd", x: 0, y: 0, w: 1000 }],
+  "tuscan-engraving": [{ kind: "art", id: "back-scene", label: "Tuscan engraving", art: "tuscanEngravingStd", x: 0, y: 0, w: 1000 }],
+  "misty-ridge": [{ kind: "art", id: "back-scene", label: "Misty ridge", art: "mistyRidgeStd", x: 0, y: 0, w: 1000 }],
+  "boho-sunset": [{ kind: "art", id: "back-scene", label: "Boho sunset", art: "bohoSunsetStd", x: 0, y: 0, w: 1000 }],
+  "rose-ribbon": [{ kind: "art", id: "back-scene", label: "Roses and ribbon", art: "roseRibbonStd", x: 0, y: 0, w: 1000 }],
+  "papel-courtyard": [{ kind: "art", id: "back-scene", label: "Papel courtyard", art: "papelStd", x: 0, y: 0, w: 1000 }],
+  "canopy": [{ kind: "art", id: "back-scene", label: "Chuppah canopy", art: "canopyStd", x: 0, y: 0, w: 1000 }],
+  "jharokha": [{ kind: "art", id: "back-scene", label: "Sandstone jharokha", art: "jharokhaStd", x: 0, y: 0, w: 1000 }],
+  "plum-lattice": [{ kind: "art", id: "back-scene", label: "Plum blossom lattice", art: "plumLatticeBack", x: 0, y: 830, w: 1000 }],
+  "adire": [{ kind: "art", id: "back-scene", label: "Indigo cloth", art: "adireStd", x: 0, y: 0, w: 1000 }],
+  "capiz": [{ kind: "art", id: "back-scene", label: "Capiz shells", art: "capizStd", x: 0, y: 0, w: 1000 }],
+  "hibiscus": [{ kind: "art", id: "back-scene", label: "Tropical hibiscus", art: "hibiscusStd", x: 0, y: 230, w: 1000 }],
+  "autumn-orchard": [{ kind: "art", id: "back-scene", label: "Autumn orchard", art: "autumnOrchardStd", x: 0, y: 0, w: 1000 }],
+  "winter-solstice": [{ kind: "art", id: "back-scene", label: "Winter solstice", art: "winterSolsticeStd", x: 0, y: 0, w: 1000 }],
+  "lavender-provence": [{ kind: "art", id: "back-scene", label: "Lavender fields", art: "lavenderProvenceStd", x: 0, y: 0, w: 1000 }],
+  "golden-hills": [{ kind: "art", id: "back-scene", label: "Golden hills", art: "goldenHillsStd", x: 0, y: 0, w: 1000 }],
+  "deco-fan": [{ kind: "art", id: "back-scene", label: "Deco fan", art: "decoFanBack", x: 100, y: 870, w: 800 }],
+  "starlit-terrace": [{ kind: "art", id: "back-scene", label: "Starlit terrace", art: "starlitStd", x: 0, y: 0, w: 1000 }],
+  "golden-barn": [{ kind: "art", id: "back-scene", label: "Golden barn", art: "goldenBarnStd", x: 0, y: 0, w: 1000 }],
+  "meadow-vista": [{ kind: "art", id: "back-scene", label: "Meadow vista", art: "meadowVistaStd", x: 0, y: 0, w: 1000 }],
+  "evergreen-ridge": [{ kind: "art", id: "back-scene", label: "Evergreen ridge", art: "evergreenStd", x: 0, y: 0, w: 1000 }],
+  "palm-shore": [{ kind: "art", id: "back-scene", label: "Palms on the shore", art: "shorelineInv", x: 0, y: 0, w: 1000 }],
+  regatta: [{ kind: "art", id: "back-scene", label: "Lighthouse and hydrangeas", art: "regattaStd", x: 0, y: 975, w: 1000 }],
+  "french-riviera": [{ kind: "art", id: "back-scene", label: "Riviera terrace", art: "rivieraStd", x: 0, y: 900, w: 1000 }],
+  postmark: [
+    { kind: "art", id: "back-scene", label: "Tuscan villa", art: "postmarkStd", x: 0, y: 960, w: 1000 },
+    { kind: "art", id: "back-border", label: "Airmail edge", art: "airmailSoft", x: 0, y: 0, w: 1000 },
+  ],
+  sonoran: [{ kind: "art", id: "back-scene", label: "Sonoran desert", art: "sonoranInv", x: 0, y: 0, w: 1000 }],
+  "garden-arch": [{ kind: "art", id: "back-scene", label: "Garden arch over the lake", art: "gardenStd", x: 0, y: 900, w: 1000 }],
+  "joshua-tree": [{ kind: "art", id: "back-scene", label: "Joshua tree at sunset", art: "joshuaStd", x: 0, y: 867, w: 1000 }],
+  bougainvillea: [{ kind: "art", id: "back-scene", label: "Bougainvillea terrace", art: "terraceStd", x: 0, y: 0, w: 1000 }],
+  "coastal-sunset": [{ kind: "art", id: "back-coast", label: "Coast and poppies", art: "coastalFoot", x: 0, y: 1000, w: 1000 }],
+  "black-tie": [{ kind: "art", id: "back-frame", label: "Double frame", art: "doubleFrame", x: 0, y: 0, w: 1000, color: "ink" }],
+};
+
 /** Designs whose top ornament takes the initials' place. */
 const NO_MONOGRAM = new Set(["decogala", "pressed"]);
 
 /** Designs whose type only reads on a panel (the front sets it on a badge). */
 const PANEL: Record<string, ArtLayer> = {
   hotellabel: { kind: "art", id: "back-panel", label: "Panel", art: "panel", x: 110, y: 170, w: 780, color: "onPhoto" },
+  bougainvillea: { kind: "art", id: "back-panel", label: "Panel", art: "panel", x: 110, y: 170, w: 780, color: "paper", opacity: 0.94 },
 };
 
 /** Where the QR code sits, in artboard units. */
 export const BACK_QR = { x: 360, y: 600, w: 280 } as const;
+
+/**
+ * Designs whose back carries a deep piece of painting along the foot: the
+ * type moves up by this much to leave it room (Coastal Sunset: the surf,
+ * rocks and poppies, not a sliver of them, owner 2026-11-12).
+ */
+const BACK_LIFT: Record<string, number> = { "coastal-sunset": 200, "joshua-tree": 200, sonoran: 230, "garden-arch": 260, postmark: 230, "french-riviera": 250, regatta: 250, "palm-shore": 200, "evergreen-ridge": 200, "meadow-vista": 200, "golden-barn": 200, "starlit-terrace": 200, "golden-hills": 200, "blush-garden": 200, "golden-magnolia": 200, "tuscan-engraving": 200, "vineyard-etching": 200, "deco-fan": 230, portico: 150, "iris-garden": 230, "gold-flourish": 200, "misty-ridge": 120, "boho-sunset": 200, "rose-ribbon": 200, "papel-courtyard": 200, "canopy": 200, "jharokha": 250, "plum-lattice": 200, "adire": 200, "capiz": 250, "hibiscus": 200, "autumn-orchard": 200, "winter-solstice": 200, "lavender-provence": 200 };
+const liftOf = (t: Pick<Template, "id" | "source">) => BACK_LIFT[t.source ?? t.id] ?? 0;
+
+/** Where a design's back puts the QR code. */
+export const backQrFor = (t: Pick<Template, "id" | "source">) => ({ ...BACK_QR, y: BACK_QR.y - liftOf(t) });
 
 const text = (l: Omit<TextLayer, "kind" | "anchor" | "x">): TextLayer => ({ kind: "text", anchor: "middle", x: 500, ...l });
 
@@ -71,13 +149,14 @@ export function backLayers(t: Template, doc: CardDoc, site: string | null): Laye
   // An invitation's back is its save-the-date design's: the same art, as an RSVP card.
   const id = t.source ?? t.id;
   const invitation = Boolean(t.source);
-  const carried = invitation ? t.layers.filter((l): l is ArtLayer => l.kind === "art" && l.id.startsWith("art-")).map((l) => ({ ...l, id: `back-${l.id}` })) : carriedArt(t, "back-");
+  const carried = BACK_ART[id] ?? (invitation ? t.layers.filter((l): l is ArtLayer => l.kind === "art" && l.id.startsWith("art-")).map((l) => ({ ...l, id: `back-${l.id}` })) : carriedArt(t, "back-"));
   const travel = doc.back?.travel.trim() ?? "";
   const panel = PANEL[id];
   const rsvp = invitation || Boolean(doc.back?.rsvp);
   const reply = invitation ? (doc.content.reply ?? "").trim() : "";
-  return [
-    ...(panel ? [{ kind: "art", id: "back-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.6 } satisfies ArtLayer, panel] : []),
+  const lift = liftOf(t);
+  const type: Layer[] = [
+    ...(panel ? [...(carried.length ? carried : [{ kind: "art", id: "back-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.6 } satisfies ArtLayer]), panel] : []),
     ...(panel ? [] : carried.length ? carried : [{ kind: "art", id: "back-frame", label: "Frame", art: "lineFrame", x: 45, y: 45, w: 910, color: "accent", opacity: 0.45 } satisfies ArtLayer]),
     ...(NO_MONOGRAM.has(id) ? [] : [text({ id: "back-monogram", label: "Initials", bind: "monogram", joiner: " & ", y: 330, size: 84, font: "script", color: "accent", maxWidth: 520 })]),
     { kind: "art", id: "back-rule", label: "Rule", art: "rule", x: 460, y: 376, w: 80, color: "accent" },
@@ -87,6 +166,8 @@ export function backLayers(t: Template, doc: CardDoc, site: string | null): Laye
     ...(travel ? [text({ id: "back-travel", label: "Travel", bind: "custom", text: travel, y: 1056, size: 30, wrap: 34, lineHeight: 1.4, font: "display", italic: true, color: "ink", opacity: 0.85, maxWidth: 680 })] : []),
     text({ id: "back-date", label: "Date", bind: "date", dateStyle: "dots", y: 1190, size: 16, font: "sans", color: "muted", upper: true, tracking: 0.4, maxWidth: 560 }),
   ];
+  const art = type.filter((l) => l.kind === "art" && l.id !== "back-rule");
+  return [...art, ...type.filter((l) => !art.includes(l)).map((l) => (lift ? { ...l, y: l.y - lift } : l))];
 }
 
 /** The front's design with its layers swapped for the back's. */

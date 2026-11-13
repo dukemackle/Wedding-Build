@@ -190,7 +190,8 @@ export type ArtLayer = Base & {
 
 export type Layer = TextLayer | PhotoLayer | ArtLayer;
 
-export type DateStyle = "long" | "dots" | "weekday" | "words" | "formal";
+/** "formalDay" and "yearWords" are the two halves of "formal", for designs that set them at different sizes. */
+export type DateStyle = "long" | "dots" | "weekday" | "words" | "formal" | "formalDay" | "yearWords";
 
 export type Template = {
   id: string;

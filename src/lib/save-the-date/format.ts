@@ -34,6 +34,11 @@ export function formatDate(iso: string, style: DateStyle): string {
       return `the ${ordinalWords(d)} of ${MONTHS[m - 1]}\n${words(y)}`;
     case "formal":
       return `${weekday}, the ${ordinalWords(d)} of ${MONTHS[m - 1]}\n${words(y)}`;
+    // Batch A suites set a formal date as two lines of different sizes.
+    case "formalDay":
+      return `${weekday}, the ${ordinalWords(d)} of ${MONTHS[m - 1]}`;
+    case "yearWords":
+      return words(y);
     default:
       return `${MONTHS[m - 1]} ${d}, ${y}`;
   }
