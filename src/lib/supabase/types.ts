@@ -1016,6 +1016,17 @@ export type SiteDesignRow = {
   updated_at: string;
 };
 
+/** A hearted template (0169): the couple's shortlist of looks to compare. */
+export type DesignFavoriteRow = {
+  id: string;
+  wedding_id: string;
+  kind: "site" | "save_the_date" | "invitation";
+  template_id: string;
+  palette: string | null;
+  created_by: string | null;
+  created_at: string;
+};
+
 /** The couple's save-the-date card (0155); `doc` is a CardDoc, see src/lib/save-the-date. */
 export type SaveTheDateRow = {
   id: string;

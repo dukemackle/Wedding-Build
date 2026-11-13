@@ -43,6 +43,7 @@ const WEDDING_TABLES = [
   "contact_submissions",
   "site_blocks",
   "site_designs",
+  "design_favorites",
   "save_the_dates",
   "invitations",
   "sheet_links",
