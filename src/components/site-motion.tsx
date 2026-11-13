@@ -146,7 +146,7 @@ function Envelope({ initials, names, date, guest }: { initials: string } & Envel
     >
       {/* Room above for the opened flap and the card it lets out. */}
       <div
-        className="relative mt-[min(26vw,170px)] aspect-[1.55] w-[min(86vw,580px)]"
+        className="relative mt-[min(34vw,220px)] aspect-[1.55] w-[min(86vw,580px)]"
         style={{ perspective: 2200 }}
       >
         {/* Inside the back: lined, and shadowed towards the top fold. */}
@@ -227,7 +227,7 @@ function Envelope({ initials, names, date, guest }: { initials: string } & Envel
             </svg>
           </div>
           {/* Inside: the liner, edged with a margin of plain paper. */}
-          <div className="absolute inset-0 bg-card [backface-visibility:hidden] [transform:rotateX(180deg)]" style={{ clipPath: flap }}>
+          <div className="absolute inset-0 bg-card [backface-visibility:hidden] [transform:rotateY(180deg)]" style={{ clipPath: flap }}>
             <div
               className="absolute inset-[5%_6%_9%]"
               style={{
@@ -237,7 +237,7 @@ function Envelope({ initials, names, date, guest }: { initials: string } & Envel
                 backgroundSize: liner.size,
               }}
             />
-            <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_0_0_/_0.12),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0_/_0.12),transparent_45%)]" />
           </div>
           {/* The wax seal, which cracks in two and falls away before the flap lifts. */}
           <div
