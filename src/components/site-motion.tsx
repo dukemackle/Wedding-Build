@@ -74,14 +74,14 @@ export function Replayable({ children }: { children: ReactNode }) {
 }
 
 /** The envelope, what falls, and the RSVP burst: the motion that sits over the page. */
-export function SiteMotion({ initials }: { initials: string }) {
+export function SiteMotion({ initials, ...card }: { initials: string } & EnvelopeCard) {
   const { motion, envelope } = useSiteDesign();
   const reduced = useReducedMotion();
   if (reduced) return null;
   return (
     <>
       {/* Keyed so switching "wait for a tap" starts it afresh. */}
-      {motion.opening === "envelope" && <Envelope key={String(envelope.tap)} initials={initials} />}
+      {motion.opening === "envelope" && <Envelope key={String(envelope.tap)} initials={initials} {...card} />}
       {motion.falling !== "none" && <Falling kind={motion.falling} color={motion.fallingColor} speed={MOTION_SPEED[motion.speed]} />}
       {motion.confetti && <Confetti kind={motion.falling} color={motion.fallingColor} />}
     </>
@@ -95,6 +95,10 @@ const SEAL_EDGE = Array.from({ length: 24 }, (_, i) => {
   return `${i ? "L" : "M"}${(32 + Math.cos(a) * r).toFixed(1)} ${(32 + Math.sin(a) * r).toFixed(1)}`;
 }).join("") + "Z";
 
+/** The seal's two halves, split along a jagged crack. */
+const SEAL_CRACK_L = "polygon(-10% -10%, 53% -10%, 46% 28%, 55% 52%, 45% 76%, 51% 110%, -10% 110%)";
+const SEAL_CRACK_R = "polygon(53% -10%, 110% -10%, 110% 110%, 51% 110%, 45% 76%, 55% 52%, 46% 28%)";
+
 /**
  * The envelope opening: a lined envelope sealed in wax with the couple's
  * initials (Motion › When the page opens). It opens by itself, or waits for
@@ -102,7 +106,17 @@ const SEAL_EDGE = Array.from({ length: 24 }, (_, i) => {
  * a slow phone that hasn't loaded the page's script yet never leaves a guest
  * stuck behind it.
  */
-function Envelope({ initials }: { initials: string }) {
+/** What the envelope carries beyond the seal: the card inside and who it's for. */
+type EnvelopeCard = {
+  /** "Ava & Ben", printed on the card. */
+  names?: string;
+  /** "06 · 12 · 2027", under the names. */
+  date?: string | null;
+  /** The household opening it from their own link, written on the envelope. */
+  guest?: string | null;
+};
+
+function Envelope({ initials, names, date, guest }: { initials: string } & EnvelopeCard) {
   const { envelope } = useSiteDesign();
   const resolved = resolveDesign(useSiteDesign());
   // Removed once it has faded, so it never sits invisibly over the page.
@@ -133,7 +147,7 @@ function Envelope({ initials }: { initials: string }) {
       {/* Room above for the opened flap and the card it lets out. */}
       <div
         className="relative mt-[min(26vw,170px)] aspect-[1.55] w-[min(86vw,580px)]"
-        style={{ perspective: 1100 }}
+        style={{ perspective: 2200 }}
       >
         {/* Inside the back: lined, and shadowed towards the top fold. */}
         <div
@@ -144,19 +158,23 @@ function Envelope({ initials }: { initials: string }) {
             backgroundSize: liner.size,
           }}
         >
-          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0_/_0.16),rgb(0_0_0_/_0.04)_55%,transparent)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0_/_0.1),rgb(0_0_0_/_0.03)_55%,transparent)]" />
         </div>
 
-        {/* The card, tucked in until the flap is up. */}
-        <div className="site-envelope-card absolute inset-x-[5%] bottom-[4%] top-[5%] z-[2] flex flex-col items-center justify-center gap-[6%] rounded-[2px] bg-card shadow-[0_-1px_0_rgb(0_0_0_/_0.04),0_4px_14px_rgb(0_0_0_/_0.12)]">
-          <span className="block h-px w-[18%] bg-[var(--site-accent)] opacity-60" />
+        {/* The card, tucked in until the flap is up: their names and the date. */}
+        <div className="site-envelope-card absolute inset-x-[5%] bottom-[4%] top-[5%] z-[2] rounded-[2px] bg-card text-center text-ink shadow-[0_-1px_0_rgb(0_0_0_/_0.04),0_4px_14px_rgb(0_0_0_/_0.12)]">
+          {/* Hidden while sealed, so no word shows through the flap's hairline seams. */}
+          <div className="site-envelope-card-text flex h-full flex-col items-center gap-[5%] px-[6%] pt-[9%]">
+          <span className="text-[clamp(9px,1.6vw,11px)] uppercase tracking-[0.3em] text-ink/55">You&rsquo;re invited</span>
           <span
-            className="text-ink"
-            style={{ fontFamily: "var(--font-monogram, var(--font-names, var(--font-display)))", fontSize: "clamp(26px, 7vw, 46px)" }}
+            className="leading-[1.05]"
+            style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: names && names.length > 22 ? "clamp(18px, 4.6vw, 32px)" : "clamp(22px, 5.6vw, 40px)" }}
           >
-            {initials}
+            {names || initials}
           </span>
-          <span className="block h-px w-[18%] bg-[var(--site-accent)] opacity-60" />
+          <span className="block h-px w-[14%] shrink-0 bg-[var(--site-accent)] opacity-70" />
+          {date && <span className="text-[clamp(10px,1.9vw,13px)] tracking-[0.22em] text-ink/70">{date}</span>}
+          </div>
         </div>
 
         {/* The front pocket: two side folds under a bottom fold, each casting a soft shadow. */}
@@ -189,6 +207,14 @@ function Envelope({ initials }: { initials: string }) {
             <path d="M0 100 L68 50 Q77.5 43.5 87 50 L155 100Z" fill="url(#env-bottom)" />
           </g>
         </svg>
+        {guest && (
+          <p
+            className="pointer-events-none absolute inset-x-[20%] bottom-[11%] z-[3] truncate text-center text-ink/80"
+            style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: "clamp(16px, 3.6vw, 26px)" }}
+          >
+            {guest}
+          </p>
+        )}
 
         <div className="site-envelope-flap absolute inset-x-0 top-0 z-[4] h-[60%] origin-top [transform-style:preserve-3d]">
           {/* Outside: the paper, lit from above, with a crisp folded edge. */}
@@ -213,41 +239,50 @@ function Envelope({ initials }: { initials: string }) {
             />
             <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_0_0_/_0.12),transparent_60%)]" />
           </div>
-          <svg
-            viewBox="0 0 64 64"
-            className="site-envelope-seal absolute bottom-0 left-1/2 h-[42%] max-h-[124px] min-h-[68px] w-auto -translate-x-1/2 translate-y-1/2 drop-shadow-[0_3px_4px_rgb(0_0_0_/_0.25)] [backface-visibility:hidden]"
+          {/* The wax seal, which cracks in two and falls away before the flap lifts. */}
+          <div
+            className="absolute bottom-0 left-1/2 aspect-square h-[42%] max-h-[124px] min-h-[68px] -translate-x-1/2 translate-y-1/2 drop-shadow-[0_3px_4px_rgb(0_0_0_/_0.25)] [backface-visibility:hidden]"
             aria-hidden="true"
           >
-            <defs>
-              <radialGradient id="seal-shine" cx="38%" cy="32%" r="70%">
-                <stop offset="0" stopColor="#ffffff" stopOpacity={0.35} />
-                <stop offset="0.55" stopColor="#ffffff" stopOpacity={0} />
-                <stop offset="1" stopColor="#000000" stopOpacity={0.25} />
-              </radialGradient>
-            </defs>
-            <path d={SEAL_EDGE} fill={wax} />
-            <path d={SEAL_EDGE} fill="url(#seal-shine)" />
-            <circle cx="32" cy="32" r="21" fill="none" stroke="#000" strokeOpacity={0.22} strokeWidth={1.4} />
-            <circle cx="32" cy="32.6" r="21" fill="none" stroke="#fff" strokeOpacity={0.18} strokeWidth={0.8} />
-            {/* Pressed into the wax: a shadow under, a highlight over. */}
-            {[
-              { dy: 0.7, fill: "#000", opacity: 0.35 },
-              { dy: 0, fill: "#fff", opacity: 0.6 },
-            ].map((t) => (
-              <text
-                key={t.fill}
-                x="32"
-                y={32.5 + t.dy}
-                textAnchor="middle"
-                dominantBaseline="central"
-                fill={t.fill}
-                fillOpacity={t.opacity}
-                style={{ fontFamily: "var(--font-monogram, var(--font-names, var(--font-display)))", fontSize: initials.length > 3 ? 13 : 17 }}
+            {(["l", "r"] as const).map((side) => (
+              <svg
+                key={side}
+                viewBox="0 0 64 64"
+                className={`site-envelope-seal-${side} absolute inset-0 h-full w-full overflow-visible`}
+                style={{ clipPath: side === "l" ? SEAL_CRACK_L : SEAL_CRACK_R }}
               >
-                {initials}
-              </text>
+                <defs>
+                  <radialGradient id="seal-shine" cx="38%" cy="32%" r="70%">
+                    <stop offset="0" stopColor="#ffffff" stopOpacity={0.35} />
+                    <stop offset="0.55" stopColor="#ffffff" stopOpacity={0} />
+                    <stop offset="1" stopColor="#000000" stopOpacity={0.25} />
+                  </radialGradient>
+                </defs>
+                <path d={SEAL_EDGE} fill={wax} />
+                <path d={SEAL_EDGE} fill="url(#seal-shine)" />
+                <circle cx="32" cy="32" r="21" fill="none" stroke="#000" strokeOpacity={0.22} strokeWidth={1.4} />
+                <circle cx="32" cy="32.6" r="21" fill="none" stroke="#fff" strokeOpacity={0.18} strokeWidth={0.8} />
+                {/* Pressed into the wax: a shadow under, a highlight over. */}
+                {[
+                  { dy: 0.7, fill: "#000", opacity: 0.35 },
+                  { dy: 0, fill: "#fff", opacity: 0.6 },
+                ].map((t) => (
+                  <text
+                    key={t.fill}
+                    x="32"
+                    y={32.5 + t.dy}
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    fill={t.fill}
+                    fillOpacity={t.opacity}
+                    style={{ fontFamily: "var(--font-monogram, var(--font-names, var(--font-display)))", fontSize: initials.length > 3 ? 13 : 17 }}
+                  >
+                    {initials}
+                  </text>
+                ))}
+              </svg>
             ))}
-          </svg>
+          </div>
         </div>
       </div>
       {!open && <p className="site-envelope-hint text-[13px] uppercase tracking-[0.24em] text-ink/60">Tap to open</p>}
