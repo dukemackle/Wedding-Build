@@ -134,7 +134,7 @@ function Gallery({ view }: { view: string }) {
 }
 
 
-const BATCH_A = ["highland-lake", "heirloom-peony", "wildflower-meadow", "black-tie", "coastal-sunset", "bougainvillea", "joshua-tree", "sonoran", "garden-arch", "postmark", "french-riviera", "regatta", "palm-shore", "evergreen-ridge", "meadow-vista", "golden-barn", "starlit-terrace", "golden-hills", "blush-garden", "pressed-botanicals", "greenery-arch", "golden-magnolia", "tuscan-engraving", "vineyard-etching", "deco-fan", "portico", "iris-garden", "gold-flourish", "misty-ridge", "boho-sunset", "rose-ribbon", "papel-courtyard", "canopy", "jharokha", "plum-lattice", "adire", "capiz", "hibiscus"];
+const BATCH_A = ["highland-lake", "heirloom-peony", "wildflower-meadow", "black-tie", "coastal-sunset", "bougainvillea", "joshua-tree", "sonoran", "garden-arch", "postmark", "french-riviera", "regatta", "palm-shore", "evergreen-ridge", "meadow-vista", "golden-barn", "starlit-terrace", "golden-hills", "blush-garden", "pressed-botanicals", "greenery-arch", "golden-magnolia", "tuscan-engraving", "vineyard-etching", "deco-fan", "portico", "iris-garden", "gold-flourish", "misty-ridge", "boho-sunset", "rose-ribbon", "papel-courtyard", "canopy", "jharokha", "plum-lattice", "adire", "capiz", "hibiscus", "autumn-orchard"];
 
 /** The reference couple from the Batch A mockups, and a stress couple with accents and long names. */
 const AVERY: CardContent = { ...SAMPLE_INVITATION, nameA: "Avery", nameB: "Jordan", date: "2027-06-12", place: "Aspen, Colorado", venue: "The Lake House", time: "at five o'clock in the evening", note: "Reception to follow", request: "request the pleasure of your company" };
