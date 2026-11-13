@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import type { DesignFavoriteRow } from "@/lib/supabase/types";
 import { PageShell } from "@/components/page-shell";
 import { MAX_DESIGNS } from "@/lib/site-designs";
 import { templateById } from "@/lib/site-templates";
@@ -15,6 +17,14 @@ export default async function GuestSiteTemplatesPage({ searchParams }: { searchP
   const site = await loadSiteDesigns();
   if (!site.wedding) redirect("/guests/site");
 
+  const supabase = await createClient();
+  const { data: hearts } = await supabase
+    .from("design_favorites")
+    .select("template_id, palette")
+    .eq("wedding_id", site.wedding.id)
+    .eq("kind", "site")
+    .returns<Pick<DesignFavoriteRow, "template_id" | "palette">[]>();
+
   return (
     <PageShell email={site.user.email ?? ""} width="wide">
       <TemplatesGallery
@@ -22,6 +32,9 @@ export default async function GuestSiteTemplatesPage({ searchParams }: { searchP
         samplePhotos={!site.photoUrl}
         initialOpen={templateById(t)?.id ?? null}
         full={site.designs.length >= MAX_DESIGNS}
+        favorites={Object.fromEntries(
+          (hearts ?? []).filter((h) => templateById(h.template_id)).map((h) => [h.template_id, h.palette]),
+        )}
       />
     </PageShell>
   );

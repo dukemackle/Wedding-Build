@@ -237,3 +237,36 @@ export async function setSharedWording(designId: string, on: boolean): Promise<{
   revalidatePath("/guests/site", "layout");
   return {};
 }
+
+/**
+ * Hearts or un-hearts a guest-site template. Hearting again with another
+ * colourway keeps the heart and remembers the new colours.
+ */
+export async function setFavorite(input: {
+  template: string;
+  palette: string | null;
+  on: boolean;
+}): Promise<{ error?: string }> {
+  const access = await requireEditableWedding();
+  if (!access.wedding) return { error: access.noWedding };
+  const template = templateById(input.template);
+  if (!template) return { error: "That template couldn't be found." };
+  const palette = PALETTES.some((p) => p.id === input.palette) ? input.palette : null;
+
+  const { error } = input.on
+    ? await access.supabase
+        .from("design_favorites")
+        .upsert(
+          { wedding_id: access.wedding.id, kind: "site", template_id: template.id, palette },
+          { onConflict: "wedding_id,kind,template_id" },
+        )
+    : await access.supabase
+        .from("design_favorites")
+        .delete()
+        .eq("wedding_id", access.wedding.id)
+        .eq("kind", "site")
+        .eq("template_id", template.id);
+  if (error) return { error: "Your favourite wasn't saved. Try again." };
+  revalidatePath("/guests/site/templates");
+  return {};
+}
