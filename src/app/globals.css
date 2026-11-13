@@ -1232,21 +1232,32 @@ body:has(.search-shell-root) .site-footer {
     visibility: hidden;
   }
 }
+/* Opening: the flap lifts and, once upright, tucks behind the card; the card
+   rises out of the pocket; then the whole overlay fades. */
 .site-envelope {
-  animation: site-overlay-out calc(0.6s * var(--motion-speed, 1)) ease calc(1.3s * var(--motion-speed, 1)) both;
+  animation: site-overlay-out calc(0.7s * var(--motion-speed, 1)) ease calc(2.1s * var(--motion-speed, 1)) both;
 }
 .site-envelope-flap {
-  animation: site-flap calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1)
-    calc(0.3s * var(--motion-speed, 1)) both;
+  animation:
+    site-flap calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) calc(0.3s * var(--motion-speed, 1)) both,
+    site-flap-tuck calc(0.8s * var(--motion-speed, 1)) linear calc(0.3s * var(--motion-speed, 1)) both;
+}
+.site-envelope-card {
+  animation: site-card-rise calc(0.9s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1) calc(1s * var(--motion-speed, 1)) both;
 }
 /* "Wait for a tap": the same opening, ten seconds later, until the guest taps.
    Its own names, so a tap (dropping data-wait) starts the usual timing afresh. */
 .site-envelope[data-wait] {
   cursor: pointer;
-  animation: site-overlay-wait calc(0.6s * var(--motion-speed, 1)) ease 11s both;
+  animation: site-overlay-wait calc(0.7s * var(--motion-speed, 1)) ease calc(10s + 1.8s * var(--motion-speed, 1)) both;
 }
 .site-envelope[data-wait] .site-envelope-flap {
-  animation: site-flap-wait calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) 10s both;
+  animation:
+    site-flap-wait calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) 10s both,
+    site-flap-tuck-wait calc(0.8s * var(--motion-speed, 1)) linear 10s both;
+}
+.site-envelope[data-wait] .site-envelope-card {
+  animation: site-card-rise-wait calc(0.9s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1) calc(10s + 0.7s * var(--motion-speed, 1)) both;
 }
 @keyframes site-overlay-wait {
   from { opacity: 1; visibility: visible; }
@@ -1255,6 +1266,22 @@ body:has(.search-shell-root) .site-footer {
 @keyframes site-flap-wait {
   from { transform: rotateX(0deg); }
   to { transform: rotateX(180deg); }
+}
+@keyframes site-flap-tuck {
+  0%, 49% { z-index: 4; }
+  50%, 100% { z-index: 0; }
+}
+@keyframes site-flap-tuck-wait {
+  0%, 49% { z-index: 4; }
+  50%, 100% { z-index: 0; }
+}
+@keyframes site-card-rise {
+  from { transform: translateY(0); }
+  to { transform: translateY(-48%); }
+}
+@keyframes site-card-rise-wait {
+  from { transform: translateY(0); }
+  to { transform: translateY(-48%); }
 }
 /* Drawn on the server before the script knows the guest's setting. */
 @media (prefers-reduced-motion: reduce) {

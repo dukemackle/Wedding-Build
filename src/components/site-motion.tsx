@@ -111,7 +111,7 @@ function Envelope({ initials }: { initials: string }) {
   if (done) return null;
   const wax = SEALS.find((x) => x.id === envelope.seal)?.hex ?? resolved.accent;
   const liner = backgroundLayers({ ...NO_BACKGROUND, pattern: envelope.liner });
-  const flap = "polygon(0 0, 100% 0, 50% 100%)";
+  const flap = "polygon(0 0, 100% 0, 53% 94%, 51.5% 98.5%, 50% 100%, 48.5% 98.5%, 47% 94%)";
   return (
     <div
       className="site-envelope fixed inset-0 z-50 flex flex-col items-center justify-center gap-5 bg-parchment"
@@ -130,30 +130,89 @@ function Envelope({ initials }: { initials: string }) {
         setOpen(true);
       }}
     >
+      {/* Room above for the opened flap and the card it lets out. */}
       <div
-        className="relative aspect-[1.55] w-[min(86vw,580px)] rounded-[3px] bg-card shadow-[0_18px_40px_rgb(0_0_0_/_0.16)]"
-        style={{ perspective: 900 }}
+        className="relative mt-[min(26vw,170px)] aspect-[1.55] w-[min(86vw,580px)]"
+        style={{ perspective: 1100 }}
       >
-        {/* The back folds: two side flaps and the bottom, as faint creases. */}
-        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 155 100" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 100 L66 52 M155 100 L89 52" stroke="var(--color-ink)" strokeOpacity={0.12} strokeWidth={0.6} fill="none" vectorEffect="non-scaling-stroke" />
+        {/* Inside the back: lined, and shadowed towards the top fold. */}
+        <div
+          className="absolute inset-0 z-[1] overflow-hidden rounded-[4px] shadow-[0_24px_50px_-12px_rgb(0_0_0_/_0.28),0_2px_6px_rgb(0_0_0_/_0.08)]"
+          style={{
+            backgroundColor: "color-mix(in srgb, var(--site-accent) 18%, var(--color-card))",
+            backgroundImage: liner.image,
+            backgroundSize: liner.size,
+          }}
+        >
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0_/_0.16),rgb(0_0_0_/_0.04)_55%,transparent)]" />
+        </div>
+
+        {/* The card, tucked in until the flap is up. */}
+        <div className="site-envelope-card absolute inset-x-[5%] bottom-[4%] top-[5%] z-[2] flex flex-col items-center justify-center gap-[6%] rounded-[2px] bg-card shadow-[0_-1px_0_rgb(0_0_0_/_0.04),0_4px_14px_rgb(0_0_0_/_0.12)]">
+          <span className="block h-px w-[18%] bg-[var(--site-accent)] opacity-60" />
+          <span
+            className="text-ink"
+            style={{ fontFamily: "var(--font-monogram, var(--font-names, var(--font-display)))", fontSize: "clamp(26px, 7vw, 46px)" }}
+          >
+            {initials}
+          </span>
+          <span className="block h-px w-[18%] bg-[var(--site-accent)] opacity-60" />
+        </div>
+
+        {/* The front pocket: two side folds under a bottom fold, each casting a soft shadow. */}
+        <svg className="absolute inset-0 z-[3] h-full w-full overflow-visible" viewBox="0 0 155 100" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <filter id="env-fold" x="-10%" y="-20%" width="120%" height="140%">
+              <feDropShadow dx="0" dy="-0.4" stdDeviation="0.9" floodColor="#000" floodOpacity="0.13" />
+            </filter>
+            <linearGradient id="env-side-l" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stopColor="#000" stopOpacity="0.05" />
+              <stop offset="1" stopColor="#000" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="env-side-r" x1="1" y1="0" x2="0" y2="0">
+              <stop offset="0" stopColor="#000" stopOpacity="0.07" />
+              <stop offset="1" stopColor="#000" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="env-bottom" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#fff" stopOpacity="0.35" />
+              <stop offset="1" stopColor="#fff" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <g filter="url(#env-fold)">
+            <path d="M0 0 L70 56 L0 100Z" style={{ fill: "var(--color-card)" }} />
+            <path d="M0 0 L70 56 L0 100Z" fill="url(#env-side-l)" />
+            <path d="M155 0 L85 56 L155 100Z" style={{ fill: "var(--color-card)" }} />
+            <path d="M155 0 L85 56 L155 100Z" fill="url(#env-side-r)" />
+          </g>
+          <g filter="url(#env-fold)">
+            <path d="M0 100 L68 50 Q77.5 43.5 87 50 L155 100Z" style={{ fill: "var(--color-card)" }} />
+            <path d="M0 100 L68 50 Q77.5 43.5 87 50 L155 100Z" fill="url(#env-bottom)" />
+          </g>
         </svg>
-        <div className="site-envelope-flap absolute inset-x-0 top-0 h-[62%] origin-top [transform-style:preserve-3d]">
-          {/* Outside: the card colour with an edge line. Inside: the liner. */}
-          <div className="absolute inset-0 bg-card [backface-visibility:hidden]" style={{ clipPath: flap, backgroundImage: "linear-gradient(to bottom, transparent 40%, rgb(0 0 0 / 0.05))" }}>
+
+        <div className="site-envelope-flap absolute inset-x-0 top-0 z-[4] h-[60%] origin-top [transform-style:preserve-3d]">
+          {/* Outside: the paper, lit from above, with a crisp folded edge. */}
+          <div
+            className="absolute inset-0 bg-card [backface-visibility:hidden]"
+            style={{ clipPath: flap, backgroundImage: "linear-gradient(to bottom, rgb(255 255 255 / 0.3), transparent 45%, rgb(0 0 0 / 0.06))" }}
+          >
             <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M0 0 L50 100 L100 0" stroke="var(--color-ink)" strokeOpacity={0.28} strokeWidth={1} fill="none" vectorEffect="non-scaling-stroke" />
+              <path d="M0 0 L47 94 Q50 100 53 94 L100 0" stroke="var(--color-ink)" strokeOpacity={0.16} strokeWidth={1} fill="none" vectorEffect="non-scaling-stroke" />
             </svg>
           </div>
-          <div
-            className="absolute inset-0 [backface-visibility:hidden] [transform:rotateX(180deg)]"
-            style={{
-              clipPath: flap,
-              backgroundColor: "color-mix(in srgb, var(--site-accent) 14%, var(--color-card))",
-              backgroundImage: liner.image,
-              backgroundSize: liner.size,
-            }}
-          />
+          {/* Inside: the liner, edged with a margin of plain paper. */}
+          <div className="absolute inset-0 bg-card [backface-visibility:hidden] [transform:rotateX(180deg)]" style={{ clipPath: flap }}>
+            <div
+              className="absolute inset-[5%_6%_9%]"
+              style={{
+                clipPath: flap,
+                backgroundColor: "color-mix(in srgb, var(--site-accent) 22%, var(--color-card))",
+                backgroundImage: liner.image,
+                backgroundSize: liner.size,
+              }}
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_0_0_/_0.12),transparent_60%)]" />
+          </div>
           <svg
             viewBox="0 0 64 64"
             className="site-envelope-seal absolute bottom-0 left-1/2 h-[42%] max-h-[124px] min-h-[68px] w-auto -translate-x-1/2 translate-y-1/2 drop-shadow-[0_3px_4px_rgb(0_0_0_/_0.25)] [backface-visibility:hidden]"
