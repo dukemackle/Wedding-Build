@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { FALLING, artById, fontById, fontsHrefFor, type SiteDesign } from "@/lib/site-design";
+import { FALLING, artById, fontById, fontsHrefFor, sceneById, type SiteDesign } from "@/lib/site-design";
 import { TEMPLATES, applyTemplate, hasExtras, templateById, withExtras, type SiteTemplate } from "@/lib/site-templates";
 import { CardSvg } from "@/components/save-the-date/card-svg";
 import { templateById as cardTemplateById } from "@/lib/save-the-date/templates";
@@ -118,7 +118,7 @@ function Extras({
     (template.falling ? design.motion.falling === template.falling : true);
   const what = [
     template.art && artById(template.art.id)?.name.toLowerCase(),
-    template.scene && "a night sky",
+    template.scene && sceneById(template.scene).label.toLowerCase(),
     template.falling && `falling ${FALLING.find((f) => f.id === template.falling)?.label.toLowerCase()}`,
   ].filter(Boolean);
   return (

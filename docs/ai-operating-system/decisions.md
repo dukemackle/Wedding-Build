@@ -429,3 +429,6 @@ Owner asked to put the new suites live (PR from `claude/modest-turing-7ws8qs`), 
   toast photo (Al Elmes, Unsplash); the per-visit rotation is gone.
 - Why: the owner prefers it. It now renders on the server, so the band no
   longer sits navy before the photo swaps in.
+
+## 2026-11-13: Painted suites show their painting by default
+Picking a painted (Batch A) template now turns its painting at the foot of the page on, instead of leaving it as an optional "Add them" extra. This changes the 2026-10-21 rule (extras off by default) for foot paintings only; art and falling extras stay optional. The template-card pictures for painted suites join the top of the page to its painting (`scripts/template-pictures.mjs`). Reason: the owner reported the new templates showing blank cards after #1595, and the painting is the design.
