@@ -169,3 +169,33 @@ bottom of the tall background (`ev-foot.webp`) on the page's own paper colour, s
 takes the painting's own background (sky colour, wall, paper), so they read as one picture. Sample the
 top-edge colour from the file for `PAINTED_SKY`; use `PAINTED_TEXTURE` for walls. Check the join at
 1440 and 375 before sending a preview.
+
+## How to build one (for a new chat; owner, 2026-11-13)
+
+Branch `claude/modest-turing-7ws8qs`. The owner sends a zip (save-the-date-artwork 1500x2100,
+website-panorama 2400x1000, website-background 1600x3200) or the same three as images, and may send
+several at once: build them all, one preview each, one commit for the batch.
+
+1. **Check the art first.** Decline (with a one-paragraph redo prompt for ChatGPT) anything flat or
+   digital-looking, made of small motifs or sprigs, with ghosting/smears or hard pasted-panel edges,
+   or a recolour of an existing suite. The owner can still say "build it".
+2. **Name.** Check the id isn't a live template, scene, palette or pattern id (the script asserts
+   this). If the owner's name is taken, pick a close one and say so.
+3. **Files** to `public/site-art/batch-a/<code>-std.webp` (card resized to 1000x1400) and
+   `<code>-panorama.webp` (or `<code>-foot.webp` cut from the tall background when the panorama has a
+   flaw). Sample the panorama's top-row colour for `bg`.
+4. **Register:** write a spec JSON (see a recent one: id, name, label, art, file, bg, family, mood,
+   scene, pw, ph, x, blurb, palettes, optional whole/lift) and run
+   `python3 scripts/batch-a/add-suite.py spec.json` from the repo root. It clones Golden Hills into
+   templates.ts, invitations.ts, back.ts, art.tsx, site-scene.tsx, site-design.ts,
+   site-templates.ts, suites.ts and the studio list. Then bump the count in `landing-features.tsx`.
+5. **Preview:** dev server
+   `STD_PROTOTYPE=1 NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321 NEXT_PUBLIC_SUPABASE_ANON_KEY=dummy npx next dev -p 3100`
+   (if prototype pages 404 after a container restart, delete `.next/dev` and restart), then
+   `node scripts/batch-a/preview-cards.js <id> batch-a out.png` (and `batch-a-long` for long names)
+   and `TPLS=<id> node scripts/batch-a/preview-site.js p` / `... a '&photo=0'` (1440 and 375).
+   Fix overlaps by moving type (`y`) in templates.ts / invitations.ts, `BACK_LIFT` or the back art's
+   `y` in back.ts; if the card's paper differs from the site colour, set the card palettes' `paper`
+   to the card art's own colour (or the QR shows a tinted square).
+6. Add a row to the table above and the file count in `docs/site-art-sources.md`, typecheck, commit,
+   push. Never deploy; the merge is the owner's.

@@ -393,3 +393,6 @@ rules, batch self-merge, 50-state coverage, page widths) and
   painting's sampled top colour, `PAINTED_SKY`); a wall or texture goes in
   `PAINTED_TEXTURE`. A painting cut off at the top gets repainted with sky
   above it, not cropped.
+
+## 2026-11-13: Batch A suites ship in batches
+Owner asked to put the new suites live (PR from `claude/modest-turing-7ws8qs`), to continue in a fresh chat using `docs/batch-a-suites.md` ("How to build one") and `scripts/batch-a/`, and to send several suites per message. One chat per branch at a time. Flat/clip-art or recoloured duplicates are declined with a redo prompt unless the owner says build it. Small (~1000-1900px) sets are fine on screen; larger masters needed before print.
