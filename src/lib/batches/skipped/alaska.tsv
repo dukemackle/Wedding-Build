@@ -1,9 +1,7 @@
 Kind	Name	Category	City	State	Reason	Link	Date
-Venue	The Plant Kingdom Greenhouse		Fairbanks	Alaska	Site back up	https://theplantkingdom.com/venue	2026-10-08
 Vendor	Alaska Flower Mill	Florals	Homer	Alaska	Site back up	https://www.alaskaflowermill.com/	2026-10-08
 Vendor	Flaurel Photography	Photography	Homer	Alaska	Site back up	https://flaurelphotography.com/	2026-10-08
 Vendor	Outland Events	Officiant	Anchorage	Alaska	Site back up	https://outlandevents.com/anchorage-wedding-officiant/	2026-10-13
-Vendor	Wild Iris Studios	Photography	Juneau	Alaska	Site back up	https://wildirisphoto.com/	2026-10-13
 Vendor	Vivid Sound & Lighting	Music	Wasilla	Alaska	No website	https://www.thebash.com/mobiledj/vividsoundlighting	2026-10-13
 Vendor	Expedition BBQ	Catering	Wasilla	Alaska	No website	https://www.weddingwire.com/biz/expedition-bbq/d46856101097ed53.html	2026-10-13
 Vendor	Women Warriors Event Planning	Planning	Wasilla	Alaska	No website	https://www.theknot.com/marketplace/women-warriors-event-planning-wasilla-ak-2025450	2026-10-13
@@ -24,7 +22,6 @@ Vendor	Sorril Media	Videography	Juneau	Alaska	Site dead	https://sorrilmedia.com/
 Vendor	Catered by V	Catering	Juneau	Alaska	Site dead	https://cateredbyvs.com/	2026-10-13
 Vendor	Alaskan Floral & Wedding	Florals	Fairbanks	Alaska	Closed	https://www.facebook.com/AlaskanFloralAndWedding/	2026-10-13
 Vendor	Caroline Rose Events	Planning	Haines	Alaska	Site dead	https://carolineroseevents.com/	2026-10-13
-Venue	Mat-Su Resort		Wasilla	Alaska	No website	https://www.theknot.com/marketplace/matsu-resort-wasilla-ak-2039167	2026-10-13
 Venue	Bear Lodge		Fairbanks	Alaska	No website	https://bridebook.com/us-en/wedding-venues/bear-lodge-fairbanks-alaska-usR8BZp48a	2026-10-13
 Venue	Orca Point Lodge		Juneau	Alaska	Site dead	https://allenmarinetours.com/charters/occasions/orca-point-lodge/	2026-10-13
 Venue	Westmark Fairbanks Hotel		Fairbanks	Alaska	Franchise	https://hollandamericahotels.com/	2026-10-13
@@ -51,7 +48,7 @@ Vendor	Lorna Tyson Photography	Photography	Fairbanks	Alaska	No website	https://m
 Vendor	Gabriel King Photography	Photography	Fairbanks	Alaska	No website	https://loverly.com/vendors/gabriel-king-photography	2026-10-23
 Vendor	Makenzie Leigh Photography	Photography	Fairbanks	Alaska	No website	https://zola.com/wedding-vendors/wedding-photographers/makenzie-leigh-photography	2026-10-23
 Vendor	Studio x Sarah	Photography	Fairbanks	Alaska	Site dead	https://studioxsarah.com	2026-10-23
-Vendor	Callie's Cakery	Cake	Fairbanks	Alaska	Site back up	https://calliescakery.com	2026-10-23
+Vendor	Callie's Cakery	Cake	Fairbanks	Alaska	Site dead	https://calliescakery.com	2026-10-23
 Vendor	Sinfully Sweet Treats	Cake	Fairbanks	Alaska	No website	https://www.yelp.com/biz/sinfully-sweet-treats-fairbanks	2026-10-23
 Vendor	Kelly Cakes AK	Cake	Fairbanks	Alaska	Social only	https://www.instagram.com/kellycakesbakes/	2026-10-23
 Vendor	Carrick Family Farms	Cake	Fairbanks	Alaska	Closed	https://carrickfamilyfarms.carrd.co/	2026-10-23
@@ -114,3 +111,133 @@ Venue	Lazy Mountain Acres		Palmer	Alaska	Site back up	https://www.herecomesthegu
 Venue	Hilton Anchorage		Anchorage	Alaska	Franchise	https://www.hilton.com/en/hotels/ancancc-hilton-anchorage/	2026-11-03
 Venue	Fox Hollow Chalet		Anchorage	Alaska	No website	https://www.theknot.com/marketplace/wedding-reception-venues-anchorage-ak	2026-11-03
 Venue	Gateway to the Arctic		Talkeetna	Alaska	Site dead	https://www.weddingwire.com/biz/gateway-to-the-arctic/2ac5a95b31a3a8e9.html	2026-11-03
+Venue	The Megan Room		Anchorage	Alaska	No website	https://eventective.com/anchorage-ak/the-megan-room-678040.html	2026-11-14
+Venue	Pioneer School House		Anchorage	Alaska	No wedding page	https://pioneerschoolhouse.com/	2026-11-14
+Venue	Dimond Center Hotel		Anchorage	Alaska	No wedding page	https://www.dimondcenterhotel.com/meetings-events/	2026-11-14
+Venue	Dena'ina Civic & Convention Center		Anchorage	Alaska	No wedding page	https://denaina.anchorageconventioncenters.com/	2026-11-14
+Venue	Egan Center		Anchorage	Alaska	No wedding page	https://egan.anchorageconventioncenters.com/	2026-11-14
+Venue	Williwaw Social		Anchorage	Alaska	Closed	https://www.williwawsocial.com/	2026-11-14
+Venue	Coast Inn at Lake Hood		Anchorage	Alaska	Franchise	https://www.coasthotels.com/coast-inn-at-lake-hood/coast-inn-at-lake-hood/plan-an-event/weddings	2026-11-14
+Venue	The Wildbirch Hotel		Anchorage	Alaska	Franchise	https://www.hyatt.com/jdv-by-hyatt/en-US/ancjd-the-wildbirch-hotel/weddings	2026-11-14
+Venue	Sullivan's Steakhouse Anchorage		Anchorage	Alaska	Franchise	https://www.sullivanssteakhouse.com/anchorage-private-dining/	2026-11-14
+Venue	Alaska Mountain Rugby Grounds		Anchorage	Alaska	No wedding page	https://www.alaskarugby.org/	2026-11-14
+Venue	Anchorage Senior Activity Center Ballroom		Anchorage	Alaska	No wedding page	https://anchorageseniorcenter.org/	2026-11-14
+Venue	The Dirty Apron		Anchorage	Alaska	No wedding page	https://thedirtyapron-alaska.squarespace.com/faqs	2026-11-14
+Venue	Alaskan Spirits Distillery		Anchorage	Alaska	unconfirmed	https://eventective.com/anchorage-ak/alaskan-spirits-distillery-and-event-space-778952.html	2026-11-14
+Venue	Loussac Event Center (Anchorage Public Library)		Anchorage	Alaska	No wedding page	https://anchoragelibrary.org/services/in-the-library/meeting-rooms/meeting-and-event-spaces/loussac-event-center/	2026-11-14
+Venue	Alaska Center for the Performing Arts		Anchorage	Alaska	No wedding page	https://alaskapac.org/rentals	2026-11-14
+Venue	Lidia Selkregg Chalet (Russian Jack Springs Park)		Anchorage	Alaska	Site dead	https://www.muni.org/Departments/parks/Pages/Russian_Jack_Springs_Park.aspx	2026-11-14
+Venue	Beach Lake Park Chalet		Chugiak	Alaska	Site dead	https://erparks.muni.org/Beach_Lake_Park_Chalet.htm	2026-11-14
+Venue	Palmer Community Center (Depot)		Palmer	Alaska	Site blocks automated visits, unconfirmed	https://www.palmerak.org/palmer-community-center-depot-information	2026-11-14
+Venue	Hatcher Pass Bed & Breakfast		Palmer	Alaska	Site blocks automated visits, unconfirmed	https://www.hatcherpassbb.com/	2026-11-14
+Venue	Alaska Glacier Lodge (formerly Knik River Lodge)		Palmer	Alaska	Site dead	https://www.alaskaglacierlodge.com/	2026-11-14
+Venue	Matanuska Glacier Retreat		Glacier View	Alaska	unconfirmed	https://matanuskaglacier.com/glacier-weddings/	2026-11-14
+Venue	Chop House at Lake Lucille		Wasilla	Alaska	unconfirmed	https://www.chophouseak.com/banquets-events	2026-11-14
+Venue	Agate Inn		Wasilla	Alaska	Site dead	https://www.agateinn.com	2026-11-14
+Venue	Alaska Sunset View Resort		Big Lake	Alaska	No website	https://www.wedding-spot.com/venue/12021/alaska-sunset-view-resort/	2026-11-14
+Venue	Creekside Lodge		Houston	Alaska	No website	https://www.wedding-spot.com/venue/12180/Creekside-Lodge-In-Houston-Alaska	2026-11-14
+Venue	Weddings by Shulin (Shulin Lake Lodge)		Trapper Creek	Alaska	Site dead	https://weddingsbyshulin.com	2026-11-14
+Venue	Captain Jax		Kasilof	Alaska	No website	https://www.weddingwire.com/biz/captain-jax/6555bae7df6400b7.html	2026-11-14
+Venue	Majestic View Bed & Breakfast		Homer	Alaska	No website	https://www.wedding-spot.com/venue/14741/majestic-view-bed-breakfast	2026-11-14
+Venue	Across The Bay Tent & Breakfast Adventure Co.		Seldovia	Alaska	Site dead	https://www.wedding-spot.com/venue/11886/Across-The-Bay-Tent--Breakfast-Adventure-Co	2026-11-14
+Venue	Wrangell Mountain Homestead		Copper Center	Alaska	No website	https://www.weddingwire.com/biz/wrangell-mountain-homestead/210c4e821aa0f701.html	2026-11-14
+Venue	Alaska Lighthouse Weddings and Events		Ninilchik	Alaska	No website	https://greenbowtie.com/venues/alaska/alaska-lighthouse-weddings-and-events-ninilchik	2026-11-14
+Venue	The Great St. Elias Station		McCarthy	Alaska	No website	https://www.alaska.org/detail/the-great-st-elias-station	2026-11-14
+Venue	Ultima Thule Lodge		Chitina	Alaska	Site never names its town	https://www.ultimathulelodge.com/events/166645	2026-11-14
+Venue	Alaska Homestead Lodge		Homer	Alaska	Site dead	https://worldclassweddingvenues.com/venue-display/vid/11838	2026-11-14
+Venue	Sterling Community Center		Sterling	Alaska	unconfirmed	http://www.sterlingcommunitycenter.com	2026-11-14
+Venue	Robe Lake Lodge		Valdez	Alaska	No wedding page	https://www.robelakelodge.com/	2026-11-14
+Venue	Tsaina Lodge		Valdez	Alaska	No wedding page	https://www.tsainalodge.com/	2026-11-14
+Venue	Alaska SeaLife Center		Seward	Alaska	No wedding page	https://www.alaskasealife.org/groups_tour_wholesalers	2026-11-14
+Venue	Kenai Princess Wilderness Lodge		Cooper Landing	Alaska	No wedding page	https://princesslodges.com/?p=8728	2026-11-14
+Venue	Copper River Princess Wilderness Lodge		Copper Center	Alaska	No wedding page	https://www.princesslodges.com/?p=8774	2026-11-14
+Venue	Kodiak Lodge		Larsen Bay	Alaska	No wedding page	http://www.kodiaklodge.com	2026-11-14
+Venue	Birch Ridge Golf Course		Soldotna	Alaska	No wedding page	https://www.birchridgegolf.com/	2026-11-14
+Venue	Seward Brewing Company		Seward	Alaska	Site blocks automated visits, unconfirmed	https://www.sewardbrewing.com/	2026-11-14
+Venue	Birch Leaf Chapel		Ester	Alaska	No website	https://www.explorefairbanks.com/listing/birch-leaf-chapel/17896/	2026-11-14
+Venue	Calypso Farm & Ecology Center		Fairbanks	Alaska	No wedding page	https://calypsofarm.org/	2026-11-14
+Venue	JP Jones Center		Fairbanks	Alaska	No website	https://www.weddingwire.com/biz/jp-jones-community-development-center-fairbanks/5831e0b8fcff7caf.html	2026-11-14
+Venue	River's Edge Resort		Fairbanks	Alaska	No wedding page	https://www.riversedge.net	2026-11-14
+Venue	Fountainhead Antique Auto Museum		Fairbanks	Alaska	No wedding page	https://www.fountainheadmuseum.com/book-an-event-1	2026-11-14
+Venue	Alaska Salmon Bake		Fairbanks	Alaska	No wedding page	https://www.akvisit.com/private-events	2026-11-14
+Venue	Borealis Basecamp		Fairbanks	Alaska	No wedding page	https://borealisbasecamp.net/	2026-11-14
+Venue	Gold Dredge 8		Fairbanks	Alaska	No wedding page	https://www.golddredge8.com	2026-11-14
+Venue	Riverboat Discovery		Fairbanks	Alaska	No wedding page	https://www.riverboatdiscovery.com	2026-11-14
+Venue	University of Alaska Museum of the North		Fairbanks	Alaska	Site blocks automated visits, unconfirmed	https://uaf.edu/museum/plan-your-visit/events/book-an-event/index.php	2026-11-14
+Venue	Georgeson Botanical Garden		Fairbanks	Alaska	Site blocks automated visits, unconfirmed	https://uaf.edu/afes/places/gbg/visit/book-your-event.php	2026-11-14
+Venue	Tanana Valley State Fairgrounds		Fairbanks	Alaska	Site blocks automated visits, unconfirmed	https://www.tananavalleyfair.org	2026-11-14
+Venue	North Star Golf Club		Fairbanks	Alaska	Site blocks automated visits, unconfirmed	https://www.northstargolf.com	2026-11-14
+Venue	Lavelle's Bistro		Fairbanks	Alaska	Site blocks automated visits, unconfirmed	https://www.lavellesbistro.com	2026-11-14
+Venue	Delta Lodge		Delta Junction	Alaska	No website	https://greenbowtie.com/venues/alaska/the-delta-lodge-delta-junction	2026-11-14
+Venue	Nenana Civic Center		Nenana	Alaska	No website	https://www.wedding-spot.com/venue/14747/nenana-civic-center	2026-11-14
+Venue	49th State Brewing Denali		Healy	Alaska	No wedding page	https://www.49thstatebrewing.com/denali/	2026-11-14
+Venue	Denali Grizzly Bear Resort		Healy	Alaska	No wedding page	https://www.denaligrizzlybear.com	2026-11-14
+Venue	Juneau Yacht Club		Juneau	Alaska	Site dead	https://eventective.com/juneau-ak/juneau-yacht-club-682458.html	2026-11-14
+Venue	Alaska Wolf Lodge		Juneau	Alaska	Site blocks automated visits, unconfirmed	https://www.alaskawolflodge.com	2026-11-14
+Venue	Pearson's Pond Luxury Suites		Juneau	Alaska	Site dead	https://www.theknot.com/marketplace/pearsons-pond-luxury-suites-and-vacation-rentals-juneau-ak-262930	2026-11-14
+Venue	Alaska State Museum (APK Building)		Juneau	Alaska	No wedding page	https://lam.alaska.gov/rental	2026-11-14
+Venue	Silverbow Inn		Juneau	Alaska	No wedding page	https://silverbowinn.com/	2026-11-14
+Venue	Hangar on the Wharf		Juneau	Alaska	No wedding page	https://www.hangaronthewharf.com	2026-11-14
+Venue	Sitka Sound Science Center		Sitka	Alaska	No wedding page	https://sitkascience.org/rentals/	2026-11-14
+Venue	Miner Music Center at Stevenson Hall		Sitka	Alaska	No wedding page	https://www.sitkamusicfestival.org/rentals	2026-11-14
+Venue	Waterfall Resort		Ketchikan	Alaska	No wedding page	https://www.waterfallresort.com/corporate-events/	2026-11-14
+Venue	Jewell Gardens		Skagway	Alaska	Site dead	https://www.frommers.com/destinations/skagway/attractions/jewell-gardens	2026-11-14
+Venue	AB Hall		Skagway	Alaska	Site blocks automated visits, unconfirmed	https://skagway.org/svd/page/ab-hall-reception-room-rental-information	2026-11-14
+Venue	Hotel Halsingland		Haines	Alaska	No wedding page	https://www.hotelhalsingland.com	2026-11-14
+Venue	Fort Seward Lodge		Haines	Alaska	Site dead	https://www.visithaines.com/weddings/	2026-11-14
+Venue	Sons of Norway Hall		Petersburg	Alaska	No website	https://en.wikipedia.org/wiki/Sons_of_Norway_Hall	2026-11-14
+Venue	Scandia House		Petersburg	Alaska	Site dead	https://www.travelweekly-asia.com/Hotels/Petersburg-AK/Scandia-House/Meetings-Events-p54314818	2026-11-14
+Venue	Nolan Center		Wrangell	Alaska	Site blocks automated visits, unconfirmed	https://www.wrangell.com/cc/nolan-center	2026-11-14
+Venue	Glacier Bay Lodge		Gustavus	Alaska	No wedding page	https://www.visitglacierbay.com	2026-11-14
+Venue	Gustavus Inn		Gustavus	Alaska	No wedding page	https://gustavusinn.com	2026-11-14
+Venue	Bear Track Inn		Gustavus	Alaska	No wedding page	https://beartrackinn.com/	2026-11-14
+Venue	Shelter Cove Lodge		Craig	Alaska	No wedding page	https://sheltercovefishinglodge.com/	2026-11-14
+Vendor	Alaska Peony Flowers	Florals	Fairbanks	Alaska	unconfirmed	https://www.alaskapeonyflowers.com/	2026-11-14
+Vendor	Northern Lights Peonies	Florals	Fairbanks	Alaska	unconfirmed	https://www.nlpeonies.com/local-services	2026-11-14
+Vendor	North Pole Peonies	Florals	North Pole	Alaska	No wedding page	https://www.northpolepeonies.com/	2026-11-14
+Vendor	Far North Flowers	Florals	Fairbanks	Alaska	No wedding page	https://www.farnorthflowers.com/	2026-11-14
+Vendor	Team Cutters	Hair & Makeup	Fairbanks	Alaska	unconfirmed	https://www.teamcutters.com/services/hairservices.html	2026-11-14
+Vendor	Beauty Mama's Glam	Hair & Makeup	Fairbanks	Alaska	Site dead	https://beautymamasglam.glossgenius.com/about	2026-11-14
+Vendor	Velvet Avenue Hair Co.	Hair & Makeup	Fairbanks	Alaska	Social only	https://www.instagram.com/velvetavehair/	2026-11-14
+Vendor	Kaden Creates	Hair & Makeup	Fairbanks	Alaska	Social only	https://www.instagram.com/kadencreates_/	2026-11-14
+Vendor	Donna Rouse Photography	Photography	Fairbanks	Alaska	Site blocks automated visits, unconfirmed	https://donnarousephotography.mypixieset.com/	2026-11-14
+Vendor	Aliyahscanon Photography	Photography	Fairbanks	Alaska	unconfirmed	https://akorovnik2.photobiz.com	2026-11-14
+Vendor	Missy Moore Photography	Photography	Fairbanks	Alaska	Inactive	https://www.missymoorephotos.com/	2026-11-14
+Vendor	Hazel & Elle Photography	Photography	Fairbanks	Alaska	No website	https://www.zola.com/wedding-vendors/wedding-photographers/hazel-elle-photography	2026-11-14
+Vendor	Dori Elizabeth Photography	Photography	Fairbanks	Alaska	No website	https://www.weddingwire.com/biz/dori-elizabeth-photography-fairbanks/92f1a55192beb3b5.html	2026-11-14
+Vendor	Michelle Photography	Photography	Fairbanks	Alaska	No website	https://www.weddingwire.com/biz/michelle-photography/534a06d646717cdf.html	2026-11-14
+Vendor	Alaska Film Images	Photography	Fairbanks	Alaska	No website	https://www.weddingwire.com/biz/alaska-film-images-fairbanks/dea8c49749411587.html	2026-11-14
+Vendor	Dominique's Photography	Photography	Fairbanks	Alaska	No website	https://www.weddingwire.com/biz/dominiques-photography-fairbanks-alaska/7f690ec15d99176a.html	2026-11-14
+Vendor	Vapor Entertainment	Music	Fairbanks	Alaska	No website	https://www.weddingwire.com/biz/vapor-entertainment-two-rivers/a429a23715200413.html	2026-11-14
+Vendor	DJ Cutter	Music	Fairbanks	Alaska	No website	https://wedj.com/djs/dj_cutter_ak/	2026-11-14
+Vendor	Christmann Event Planning	Planning	North Pole	Alaska	No website	https://www.theknot.com/marketplace/christmann-event-planning-north-pole-ak-2015890	2026-11-14
+Vendor	Revel Event Services	Planning	Fairbanks	Alaska	No website	https://www.explorefairbanks.com/listing/revel-event-services/13465/	2026-11-14
+Vendor	Sky's The Limit Catering	Catering	Fairbanks	Alaska	No website	https://www.bbb.org/us/ak/fairbanks/category/caterer	2026-11-14
+Vendor	Big Daddy's BBQ Catering	Catering	Fairbanks	Alaska	No website	https://www.mapquest.com/us/alaska/big-daddys-barb-q-12805450	2026-11-14
+Vendor	Batter and Crumb	Cake	Fairbanks	Alaska	No website	https://www.mapquest.com/us/alaska/batter-and-crumb-430553385	2026-11-14
+Vendor	Marlo's Bakery	Cake	Fairbanks	Alaska	No website	https://www.mapquest.com/us/alaska/marlos-bakery-378432348	2026-11-14
+Vendor	Fairbanks Cakes and Cupcakes	Cake	North Pole	Alaska	Social only	https://www.facebook.com/p/Fairbanks-Cakes-and-Cupcakes-61557660385743/	2026-11-14
+Vendor	Sean Neilson Photography	Photography	Juneau	Alaska	unconfirmed	https://www.seanneilson.com/weddings	2026-11-14
+Vendor	Fera Photography	Photography	Juneau	Alaska	No website	https://www.weddingwire.com/biz/fera-photography/61289c90a1d92ab6.html	2026-11-14
+Vendor	LaNora Ann Photography	Photography	Juneau	Alaska	No website	https://www.theknot.com/marketplace/lanora-ann-photography-juneau-ak-2040178	2026-11-14
+Vendor	Leah Serena Photography	Photography	Juneau	Alaska	No website	https://junebugweddings.com/vendors/wedding-photographers/alaska/Leah-Serena-Photography	2026-11-14
+Vendor	The Adams Co. (Grace Adams)	Photography	Juneau	Alaska	unconfirmed	https://itstheadamsco.com/	2026-11-14
+Vendor	Havalah Praise Photography	Photography	Ketchikan	Alaska	No website	https://zola.com/wedding-vendors/wedding-photographers/havalah-praise-photography	2026-11-14
+Vendor	AK Event Design	Planning	Juneau	Alaska	Site dead	https://alaskaweddings.org/	2026-11-14
+Vendor	Alaska Wedding Adventures	Planning	Juneau	Alaska	No website	https://www.weddingwire.com/biz/alaska-wedding-adventures-in-juneau-alaska-juneau/c5e12a7176b91448.html	2026-11-14
+Vendor	Azure Alaskan Weddings	Planning	Skagway	Alaska	Inactive	https://www.weddingwire.com/biz/azure-alaskan-weddings-skagway/f85ec013a5d9d232.html	2026-11-14
+Vendor	Charisma Salon and Esthetics	Hair & Makeup	Juneau	Alaska	No wedding page	https://www.charismasalonak.com/	2026-11-14
+Vendor	Forno Rosso Alaska	Catering	Juneau	Alaska	No wedding page	https://www.fornorossoalaska.com/	2026-11-14
+Vendor	Exredel (Delectable Catering)	Catering	Juneau	Alaska	unconfirmed	https://www.exredelcreations.com/catering-juneau-alaska.html	2026-11-14
+Vendor	Abby's Kitchen Catering	Catering	Juneau	Alaska	No website	https://assets.punchbowl.com/vendors/ak-alaska/juneau/6784884/abby-s-kitchen-catering	2026-11-14
+Vendor	Ludvig's Bistro	Catering	Sitka	Alaska	No wedding page	https://www.ludvigsbistro.com/	2026-11-14
+Vendor	Danomite Entertainment	Music	Juneau	Alaska	No website	https://wildirisphoto.com/alaska-wedding-vendors	2026-11-14
+Vendor	String Poets	Music	Juneau	Alaska	Franchise	https://www.stringpoets.com/juneau-AK-string-quartet.html	2026-11-14
+Vendor	iSky Films	Videography	Juneau	Alaska	Franchise	https://iskyfilms.com/juneau	2026-11-14
+Vendor	Night Moods	Decor & Lighting	Juneau	Alaska	Site dead	https://www.juneausbestballoons.com/	2026-11-14
+Vendor	Cerealsly Milky	Desserts	Juneau	Alaska	Site dead	https://www.cerealslymilky.com/	2026-11-14
+Vendor	Brujeria Cookiery	Desserts	Juneau	Alaska	Site dead	https://www.brujeriasweetry.com/	2026-11-14
+Vendor	Sam's Custom Cookies	Desserts	Juneau	Alaska	No wedding page	https://samscustomcookies.square.site/	2026-11-14
+Vendor	Sitka Wild Flour (Graceful Pastries)	Cake	Sitka	Alaska	No wedding page	https://www.sitkawildflour.com/	2026-11-14
+Vendor	Pie in the Sky	Cake	Juneau	Alaska	Closed	https://www.juneauempire.com/news/pie-in-the-sky-closes-but-new-venture-awaits/	2026-11-14
+Vendor	Jayleen's Alaska	Other	Juneau	Alaska	Site blocks automated visits, unconfirmed	https://www.jayleensalaska.com/	2026-11-14
