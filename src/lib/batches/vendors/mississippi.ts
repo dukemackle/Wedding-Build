@@ -337,6 +337,71 @@ Harold Lyle Films	Videography		Pearl	Mississippi	Central Mississippi and travell
 Aa'Keela & The Beats	Music		Jackson	Mississippi	Mississippi	Jackson party band playing Motown, pop, funk, R&B and jazz for wedding receptions, with setlists shaped around the couple.	aakeelaandthebeats@gmail.com		https://www.aakeelaandthebeats.com/	https://www.instagram.com/aakeelaandthebeats/		
 `,
   },
+  {
+    name: "Gulf Coast: videography, music, photography, catering, photo booth, florals, cake, hair & makeup, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Savvy Snapshots Photo + Films	Videography		Biloxi	Mississippi		Biloxi photo and film studio offering a five-hour wedding videography package that produces a one-off film of the whole day.	savvysnapshotsphotography@gmail.com		https://savvysnapshots.com/wedding-videography	https://www.instagram.com/savvysnapshotsphoto/		
+BigbySound	Music		Gulfport	Mississippi	Gulfport and within one hour	Gulfport wedding DJ company where every event is staffed by a DJ and an assistant, with reception-only and full-day packages.			https://bigbysound.com/wedding-packages/	https://www.instagram.com/dj_bigby/	1200	package
+Saltwater Harmony Entertainment	Music		Ocean Springs	Mississippi	Ocean Springs, Biloxi, Gulfport, Pascagoula, Mobile, Pensacola	Ocean Springs DJ outfit with three coast-named wedding packages covering ceremony and reception, with lighting in the top tier.	GulfCoastDJPro@gmail.com	228-273-7399	https://www.saltwaterharmonygc.com/wedding-packages	https://www.instagram.com/saltwaterharmonyentertainment/	950	package
+Chef Mike Newhall	Catering		Biloxi	Mississippi	Available nationwide	Biloxi-based touring and private chef offering classic, signature and luxury wedding menus, each priced by quote.	chefmikenewhall1@gmail.com	985-363-0546	https://chefmikenewhall.com/menus	https://www.instagram.com/chefmikenewhall/		
+High Tide Celebrations	Photo Booth		Biloxi	Mississippi	Biloxi, Gulfport, Ocean Springs and Southern Mississippi	Biloxi events business hiring out photo booths, flower walls, arches and drapery, with free delivery and set-up near Biloxi.		601-385-5545	https://www.hightidecelebrations.com/photostationrentals	https://www.instagram.com/hightidecreations/		
+Grayfish Photography	Photography		Pass Christian	Mississippi	Mississippi, Louisiana, Alabama; travels	Pass Christian studio photographing editorial-style coastal weddings from Pass Christian to New Orleans, with a regularly updated blog.		901-481-9792	https://www.grayfishphotography.com/luxury-weddings	https://www.instagram.com/grayfishphotographyllc/		
+Piper Barney Creative	Photography		Ocean Springs	Mississippi	Mississippi Gulf Coast and surrounding areas	Ocean Springs photographer with tiered wedding packages and an hourly option aimed at vow renewals and courthouse elopements.	littleindiangirlpiper@gmail.com		https://www.piperbarneycreative.com/weddingpackages	https://www.instagram.com/piperbarneycreative/	650	per hour
+Gulfport Photo	Photography		Waveland	Mississippi		Portrait studio with a Bay St. Louis and Waveland base, offering wedding packages and storybook album packages for couples.		228-220-4833	https://gulfportphoto.com/couples-photography/		1895	package
+Flower Basket Florist	Florals	999 Howard Avenue Suite 3	Biloxi	Mississippi		Downtown Biloxi flower shop designing bridal bouquets, buttonholes, centrepieces, ceremony arches and cake-table flowers.	flowerbasketflorist@live.com	228-432-2546	https://www.flowerbasketfloristbiloxi.com/wedding-flowers			
+Flower Patch Florist & Bakery	Cake	3204 Ladnier Road #1	Gautier	Mississippi	Biloxi, Escatawpa, Gautier, Moss Point, Ocean Springs, Pascagoula, Vancleave	Gautier florist and bakery making traditional and custom wedding cakes, alongside ceremony flowers and arch or candelabra hire.	flowerpatch@bellsouth.net	228-497-6210	https://www.flowerpatchflorist-bakeryandgifts.com/bakery	https://www.instagram.com/flower.patch/		
+The Opal Salon & Boutique	Hair & Makeup	114 E Third St., Unit B	Long Beach	Mississippi		Long Beach salon with published bridal and attendee hair and make-up prices, an airbrush option and a travel fee for on-site work.		228-206-4359	https://theopalsalon.com/wedding-hair-%26-make-up		95	per person
+Biloxi Bounce House & Water Slides	Rentals	106 Industrial Park Cir	Ocean Springs	Mississippi	Biloxi, Gulfport, Pascagoula, Gautier, Mobile	Ocean Springs party-hire firm that also rents gold chiavari chairs, tables and tents for wedding ceremonies and receptions.		228-243-7493	https://www.biloxibouncehouse.com/items/gold-chivari-chair/	https://www.instagram.com/biloxibouncehouse/		
+`,
+  },
+  {
+    name: "Jackson: cake, bridal & formalwear, stationery, photography, planning, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sweet N' Savi	Cake	316 Old Jackson Rd.	Madison	Mississippi	Madison, MS	Madison bakery on Old Jackson Road making custom wedding cakes and running a cake bar; 2026 wedding dates are full and 2027 is now booking.	orders.sweetnsavicakes@gmail.com	(601) 832-2731	https://www.sweetnsavicakes.com/	https://www.instagram.com/sweetnsavicakes/		
+Kinkade's Fine Clothing	Bridal & Formalwear	120 West Jackson Street	Ridgeland	Mississippi	Jackson area	Olde Towne Ridgeland menswear shop that fits grooms and groomsmen, with custom Coppley suits usually ready in seven to ten days.	info@kinkades.com	601-898-0513	https://kinkades.com/weddings	https://www.instagram.com/kinkadesfc/		
+The Petal + Plume	Stationery & Invitations		Brandon	Mississippi	Brandon, MS	Brandon designer creating wedding invitations, welcome signs and seating charts, and also making bouquets, buttonholes and ceremony arches.	thepetalandplume@gmail.com	601-410-5014	https://www.thepetalandplume.com/			
+Fresh Ink	Stationery & Invitations	4465 Interstate 55 North, Suite 102	Jackson	Mississippi	Jackson; ships nationally	Banner Hall stationery and gift shop in Jackson offering custom and value wedding invitations, save-the-dates and a wedding registry.			https://fresh-ink.com/	https://www.instagram.com/freshinkstyle/		
+Erica Burleson Photography	Photography		Florence	Mississippi	Jackson, Mississippi and beyond	Husband-and-wife team photographing Mississippi weddings in a light, bright style, with bridal and engagement sessions and timeline help.	erica@eburlesonphotography.com	601-891-0607	https://eburlesonphotography.com/weddings	https://www.instagram.com/ericaburlesonphotography/	4400	package
+Lindsay Ott Photography	Photography		Flowood	Mississippi	Central Mississippi; travels worldwide	Central Mississippi wedding photographer with an associate team, covering engagements, bridals and wedding days around Jackson and beyond.			https://lindsayottphoto.com/	https://www.instagram.com/lindsayottphoto/	4500	package
+Karla Pound Photography	Photography		Madison	Mississippi	Madison, MS; local and destination	Madison photographer covering local and destination weddings, from bride-and-groom and bridal party portraits to ceremony and reception.	poundphoto@gmail.com		https://www.poundphoto.com/weddings	https://www.instagram.com/poundphoto/	2600	package
+LGM Weddings	Planning		Jackson	Mississippi	Central Mississippi and beyond	Central Mississippi planner offering full planning with budgeting, vendor booking, design boards, rehearsal and wedding-day coordination.	laurengmessina@gmail.com	601-316-4685	https://www.lgmweddings.com/	https://www.instagram.com/lgmweddingsllc/		
+Golden Girls Glam	Hair & Makeup		Jackson	Mississippi	Mississippi; artists in Jackson, Oxford and Starkville	Mississippi bridal hair and makeup team with Jackson-based artists, offering on-location wedding glam, bridal trials and spray tans.	gldngirlsglam@gmail.com		https://gldngirlsglam.com/	https://www.instagram.com/goldengirls.glam/		
+`,
+  },
+  {
+    name: "Hattiesburg: photography, catering, bridal & formalwear, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Mimi's Bridal & Formalwear	Bridal & Formalwear	515 N. 16th Ave.	Laurel	Mississippi	Laurel, MS	Family-run Laurel bridal shop stocking wedding gowns, bridesmaid and mother-of-the-bride dresses, tuxedos and accessories by appointment.	info@mimisbridal.com	(601) 649-6006	https://www.mimisbridal.com/	https://www.instagram.com/mimis_bridal/		
+Courtney Anderson Photography	Photography		Hattiesburg	Mississippi	Hattiesburg and the Gulf Coast	Hattiesburg photographer offering four-, six- and eight-hour wedding packages alongside portrait, birth and family sessions.	Cd.anderson921@gmail.com	601-695-0999	https://www.courtneyandersonphotography.com/		1250	package
+Flathau's Fine Catering	Catering	209 W 2nd Ave Suite 1	Petal	Mississippi	Petal, Hattiesburg and the Pine Belt	Petal caterer cooking since 1994, with per-person wedding buffet packages, rehearsal dinner menus and full setup and clean-up.	Flathausfinecatering@gmail.com	(601) 582-9629	https://flathausfinecatering.com/wedding-cocktail-party/		25	per person
+Rustic Hawk Catering Co.	Catering		Taylorsville	Mississippi	Laurel and the Pine Belt	Taylorsville caterer near Laurel handling wedding and event menus, party bites and sweet treats, with recent Knot Best of Weddings awards.	therustichawk@yahoo.com	601-616-4600	https://www.rustichawkcatering.com/			
+Blooms Company	Rentals	301 McLeod Street	Hattiesburg	Mississippi	Hattiesburg, MS	Hattiesburg florist and rental boutique near downtown pairing event flowers with farm tables, linens, draping and chandeliers.	hello@bloomscompany.com	601-584-9200	https://bloomscompany.com/blooms-party-rentals/	https://www.instagram.com/bloomscompany/		
+`,
+  },
+  {
+    name: "Meridian: florals, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Saxon's Flowers & Gifts	Florals	7480 State Blvd Ext	Meridian	Mississippi	Meridian, MS	Meridian florist and gift shop taking wedding consultations for bouquets, wedding party flowers, ceremony pieces and reception decor.	saxonsflowers@yahoo.com	601-693-6734	https://www.saxonsflowers.com/wedding-planner-form/index	https://www.instagram.com/saxonsflowers/		
+Pose On 3	Photo Booth		Meridian	Mississippi	Meridian and surrounding areas	Meridian 360 photo booth company with an attendant, custom logos or messages on videos and a three-hour minimum for weddings.			https://poseon3.com/	https://www.instagram.com/pose.on.3/		
+`,
+  },
+  {
+    name: "Oxford: photography, catering, decor & lighting",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+TallulahMade	Photography	1723 University Avenue, Suite B	Oxford	Mississippi		Oxford studio photographing weddings, elopements and courthouse ceremonies, blending candid coverage with editorial-style portraits.	tallulahshoots@gmail.com		https://tallulahmade.com/weddingsandevents	https://www.instagram.com/tallulahmade_weddings/	1500	package
+Party Waitin' to Happen	Catering		Oxford	Mississippi		Oxford caterer led by chef Wiley Morris, shaping wedding menus around each couple's plans and budget, from formal dinners to barbecue.	partywaitintohap@bellsouth.net	(662) 801-6900	https://partywth.com/weddings/	https://www.instagram.com/partywth/		
+Vault Entertainment	Decor & Lighting		Oxford	Mississippi		Oxford production company supplying sound systems, intelligent lighting, staging and LED video walls for weddings and other large events.	Michael@vaultentertainment.com	601-421-0255	https://www.vaultentertainment.com/our-services	https://www.instagram.com/vaultentertainment/		
+`,
+  },
+  {
+    name: "Tupelo: florals, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Flower Company	Florals	401 East Lampkin Street	Starkville	Mississippi	Starkville	Family-run Starkville florist offering bridal bouquets, wedding party, ceremony and reception flowers, priced through a bridal consultation.		(662) 320-9040	https://www.theflowercompanystarkvegas.com/wedding-flowers	https://www.instagram.com/theflowercompany.starkvegas/		
+State Floral	Florals	401 University Drive, Suite 3	Starkville	Mississippi	Starkville, Mississippi State, Columbus, West Point	Starkville florist and gift shop with a wedding gallery, delivering flowers around Starkville, Mississippi State, Columbus and West Point.		(662) 268-8177	https://shopstatefloral.com/galleries/weddings.html	https://www.instagram.com/statefloral/		
+Tupelo Event Rentals	Rentals		Tupelo	Mississippi	Tupelo, Starkville, Oxford, Corinth, Columbus, New Albany	Tupelo rental firm supplying high-peak tents, tables, chairs, dance floors, restroom trailers, lighting and wedding arches for smaller events.		601-408-0002	https://www.tupeloeventrentals.com/			
+Noweta's Flowers and Gifts	Florals	1325 Main St	Columbus	Mississippi	Columbus	Family-owned Columbus florist on Main Street since 1948, offering wedding designs alongside everyday arrangements and local delivery.	nowetasflorist@yahoo.com	(662) 328-6181	https://nowetasgreenthumb.com/columbus-florist-flower-delivery/wedding-flowers/	https://www.instagram.com/nowetasflowers/		
+`,
+  },
 ];
 
 export default batches;
