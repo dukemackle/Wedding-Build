@@ -103,6 +103,17 @@ Ed Oliver Golf Club	800 N. DuPont Rd	Wilmington	Delaware			Country Club & Golf	I
 Delaware Park	777 Delaware Park Blvd	Wilmington	Delaware			Ballroom	Indoor & Outdoor	500			Racetrack and casino complex with two ballrooms overlooking the track and paddock, plus a tented outdoor area at the paddock gardens.	Banquetmanagement@delawarepark.com	302-994-2521	https://delawarepark.com/private-events/
 Evergreen Farms	2826 Seven Hickories Road	Dover	Delaware			Barn & Farm	Indoor & Outdoor				Dover farm property that rents for single-day or full-weekend wedding packages and includes a residence on site.	events@evergreenfarmsde.com	(302) 386-8886	https://evergreenfarmsde.com/`,
   },
+  {
+    name: "Delaware venues: New Castle and Sussex additions",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Greenville Country Club	201 Owls Nest Rd	Wilmington	Delaware			Country Club & Golf	Indoor & Outdoor				A Tudor Revival clubhouse built in 1915 as Eugene du Pont's Owl's Nest home, with a tented event lawn above the golf course.			https://www.greenvillecountryclub.com/special-and-social-events
+Timothy's of Newark	100 Creek View Rd	Newark	Delaware			Restaurant & Brewery	Indoor				A family-run Newark restaurant with its own banquet room and set wedding packages for receptions large and small.		302-738-9915	https://timothysofnewark.com/weddings/
+Auburn Heights	3000 Creek Rd	Yorklyn	Delaware			Historic Mansion & Estate	Outdoor		720	Rental	An 1897 Queen Anne mansion in Auburn Valley State Park with a rose arbour for tented receptions and rides in vintage Stanley steam cars.			https://www.destateparks.com/park/auburn-valley/
+Mount Pleasant Meeting House	1009 Philadelphia Pike	Wilmington	Delaware			Chapel & Church	Indoor	75	500	Rental	A restored 19th-century meeting house in Bellevue State Park with amber windows, curved walnut pews and a Victorian parlour for dressing.			https://www.destateparks.com/park/bellevue-state-park/
+Tim Ross Memorial Music Garden	2671 Arts Center Rd	Wilmington	Delaware			Garden & Park	Outdoor	80	500	Rental	A stone patio garden on the old Bellevue du Pont estate, enclosed on three sides and shaded by a wisteria-hung veranda, for small weddings.		302-761-6952	https://www.destateparks.com/celebrations-and-meetings/
+Mango's Bethany Beach	97 Garfield Pkwy	Bethany Beach	Delaware			Beach & Coast	Indoor & Outdoor				An oceanfront boardwalk restaurant that pairs ceremonies on the Bethany sand with receptions inside, with full planning offered.		302-537-6621	https://mangosbethany.com/weddings-events/
+Harpoon Hanna's	39064 Harpoon Road	Fenwick Island	Delaware			Restaurant & Brewery	Indoor	250			A bayside restaurant on Assawoman Bay with three waterfront banquet rooms and Saturday in-season wedding packages.	info@harpoonhannasrestaurant.com	302-539-3095	https://harpoonhannasrestaurant.com/events/`,
+  },
 ];
 
 export default batches;
