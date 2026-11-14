@@ -166,6 +166,26 @@ ACE Forty-Nine Photography	Photography		Anchorage	Alaska		Anchorage partnership 
 Calypso Floral	Florals	4780 Old Nenana Hwy	Fairbanks	Alaska		Flower arm of a Fairbanks educational farm, arranging wedding work from blooms grown on site, fresh in summer and dried year-round.			https://calypsofarm.org/calypsofloral/	https://www.instagram.com/calypso_farm/		
 `,
   },
+  {
+    name: "Fairbanks: catering and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Midnight Sun Catering	Catering	95 10th Avenue	Fairbanks	Alaska	Fairbanks area	Fairbanks caterer running buffets and a fully staffed bar service, with menus for weddings, receptions and other private events.	midnightsuncatering@gmail.com	907-987-8793	https://www.midnightsuncatering.com/			
+65 North Catering + Events	Catering	813 Noble St	Fairbanks	Alaska		Catering and events arm of 65 North Hospitality in downtown Fairbanks, handling weddings on site and at outside venues.	events@65nhg.com	907-415-8971	https://www.65nhg.com/65-north-catering-events			
+Bliss Hair Studio	Hair & Makeup		Fairbanks	Alaska		Fairbanks hair studio offering special-occasion styling and updos for weddings, in the salon or on site at the couple's chosen location.			https://sharonbailey1.glossgenius.com/		80	per person`,
+  },
+  {
+    name: "Juneau: photography, music and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Wild Iris Studios	Photography		Juneau	Alaska	Juneau and across Alaska	Juneau-based photographer specialising in adventure weddings and elopements at glaciers, mountains and coastlines across Alaska.			https://wildirisphoto.com/	https://www.instagram.com/wildirisstudios/	4200	package
+Lerina Winter Photo	Photography		Juneau	Alaska	Juneau and across Alaska	Fine art wedding photographer based in Juneau, covering outdoor weddings, glacier elopements and engagement sessions across Alaska.			https://www.akweddingphoto.com/	https://www.instagram.com/alaskanaweddings/		
+Jen Wolfe Photography	Photography		Juneau	Alaska	Alaska elopements	Juneau photographer offering mini, half-day and full-day elopement coverage, alongside engagement, family and portrait sessions.	hello@jenwolfephotography.com	707-799-7607	https://www.jenwolfephotography.com/	https://www.instagram.com/jenwolfephoto/	1200	package
+Nicole Weston Photography	Photography		Juneau	Alaska	Alaska and the Pacific Northwest	Juneau-based wedding and elopement photographer working across Alaska and the Pacific Northwest, with film and Super 8 add-ons.	nwphotography.ak@gmail.com	907-957-4694	https://nicolewestonphotography.com/	https://www.instagram.com/nicolewestonphotographyak/		
+Jessica S. Photography	Photography		Juneau	Alaska	Alaska and destination weddings	Juneau-based wedding and elopement photographer with packages from two-hour elopements to full wedding days, travelling beyond Alaska.			https://jessicasphotography.online/	https://www.instagram.com/jessica_s.photography/	1200	package
+Clay Creative Photo Co.	Photography		Petersburg	Alaska	Southeast Alaska, including Juneau, Sitka and Ketchikan	Petersburg photographer and planner covering weddings and elopements across Southeast Alaska, with a bold flash-led editorial style.			https://claycreativephoto.com/	https://www.instagram.com/claycreativephotoco/	2799	package
+Aicardi Productions	Music		Juneau	Alaska	Juneau and across Alaska	Juneau DJ and event producer curating wedding soundtracks and dance parties, with a focus on inclusive, welcoming celebrations.	aicardiproductions@gmail.com	507-351-1883	https://www.aicardiproductions.com/	https://www.instagram.com/aicardi.productions/	1500	per event
+Smokehouse Catering	Catering	320 West Willoughby Avenue	Juneau	Alaska		Tlingit & Haida-owned Juneau caterer offering custom and family-style menus for weddings and receptions of 25 guests or more.	hospitality@tlingitandhaida.gov	907-463-7777	https://smokehousecateringak.com/			
+Breeze In	Catering	5711 Concrete Way	Juneau	Alaska		Juneau bakery and caterer serving since 1976, offering breakfast, lunch and dinner catering for social events and wedding brunches.	BreezeIn@MyersGroupLLC.com	907-789-7878	https://breezein.com/			`,
+  },
 ];
 
 export default batches;
